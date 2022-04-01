@@ -1,0 +1,234 @@
+<ng-container>
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">Invoice <{{invoice.invoiceNumber ? invoice.invoiceNumber : 'New' }}></span>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="invoiceForm">
+    <form [formGroup]="invoiceForm" (ngSubmit)="send()">
+      <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem>
+          <a ngbNavLink>Invoice Info</a>
+          <ng-template ngbNavContent>
+            <div class="mt-2">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="invoiceNumber">Invoice number</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="invoiceNumber" formControlName="invoiceNumber"
+                         placeholder="Invoice number" required="required">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="dateOfInvoice">Date of invoice</label>
+                <div class="col-sm-10">
+                  <input type="date" class="form-control" id="dateOfInvoice" formControlName="dateOfInvoice">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="taxRate">Tax Rate</label>
+                <div class="col-sm-10">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">%</div>
+                    </div>
+                    <input type="number" class="form-control" id="taxRate" formControlName="taxRate"
+                           placeholder="Tax Rate">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row" *ngIf="invoice.subTotal">
+                <label class="col-sm-2 col-form-label" for="subTotal">Subtotal</label>
+                <div class="col-sm-10">
+                  <input type="text" disabled class="form-control text-secondary bg-light" id="subTotal"
+                         [value]="invoice.subTotal | currency:'€'">
+                </div>
+              </div>
+              <div class="form-group row" *ngIf="invoice.taxes">
+                <label class="col-sm-2 col-form-label" for="taxes">VAT</label>
+                <div class="col-sm-10">
+                  <input type="text" disabled class="form-control text-danger bg-light" id="taxes"
+                         [value]="invoice.taxes | currency:'€'">
+                </div>
+              </div>
+              <div class="form-group row" *ngIf="invoice.total">
+                <label class="col-sm-2 col-form-label" for="total">Total</label>
+                <div class="col-sm-10">
+                  <input type="text" disabled class="form-control text-success bg-light" id="total"
+                         [value]="invoice.total | currency:'€'" placeholder="total">
+                </div>
+              </div>
+              <ng-container *ngIf="templates$ | async as templates">
+                <div class="form-group row" *ngIf="templates.length">
+                  <label class="col-sm-2 col-form-label" for="freemarkerTemplateId">Template</label>
+                  <div class="col-sm-10">
+                    <select class="form-control" id="freemarkerTemplateId" formControlName="freemarkerTemplateId">
+                      <option *ngFor="let template of templates" [value]="template.id">{{template.name}}</option>
+                    </select>
+                  </div>
+                </div>
+
+              </ng-container>
+
+
+              <hr>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="uploadedManually"
+                       formControlName="uploadedManually">
+                <label class="form-check-label" for="uploadedManually">
+                  Manual upload
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="locked" formControlName="locked">
+                <label class="form-check-label" for="locked">
+                  Locked
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="logicalDelete" formControlName="logicalDelete">
+                <label class="form-check-label" for="logicalDelete">
+                  Logical delete
+                </label>
+              </div>
+              <div class="form-group" *ngIf="uploadedManually && !locked && !logicalDelete">
+                <label for="dd">Drop invoice</label>
+                <ngx-file-drop dropZoneLabel="Drop invoice here" (onFileDrop)="drop($event)"
+                               dropZoneClassName="flat bg-light d-block" accept=".pdf" [multiple]="false">
+                  <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                    <button id="dd" class="btn btn-primary mr-1" type="button" (click)="openFileSelector()">
+                      <fa-icon [icon]="['fas','upload']"></fa-icon>
+                    </button>
+                  </ng-template>
+                </ngx-file-drop>
+                <p>{{file?.name}}</p>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+        <li ngbNavItem>
+          <a ngbNavLink>Bill To</a>
+          <ng-template ngbNavContent>
+            <div class="mt-2">
+              <button (click)="fillFromCurrentBillTo($event)" class="btn btn-primary"
+                      [disabled]="invoice?.locked || invoice?.archived">From CurrentBillTo
+              </button>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="billToClientName">Bill To Client Name</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="billToClientName" formControlName="billToClientName"
+                         placeholder="Bill To Client Name">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="billToVatNumber">Bill To VatNumber</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="billToVatNumber" formControlName="billToVatNumber"
+                         placeholder="Bill To VatNumber">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="billToAddress">Bill To Address</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="billToAddress" formControlName="billToAddress"
+                         placeholder="Bill To Address">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="billToCity">Bill To City</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="billToCity" formControlName="billToCity"
+                         placeholder="Bill To City">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="billToEmailAddress">Bill To Email</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="billToEmailAddress" formControlName="billToEmailAddress"
+                         placeholder="Bill To Email Address">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="maxDaysToPay">Max Days to pay</label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control" id="maxDaysToPay" formControlName="maxDaysToPay"
+                         placeholder="Max Days to pay">
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+        <li ngbNavItem>
+          <a ngbNavLink>Invoice Table</a>
+          <ng-template ngbNavContent>
+            <div class="mt-2">
+              <ng-container formArrayName="invoiceTableForm">
+                <div class="bg-light p-1 mb-1" *ngFor="let _ of invoiceTableForm.controls; index as i">
+                  <ng-container [formGroupName]="i">
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label" [for]="'projectName'+i">Project Name</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" [id]="'projectName'+i" formControlName="projectName">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label" [for]="'nature'+i">Nature</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" [id]="'nature'+i" formControlName="nature">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label" [for]="'period'+i">Period</label>
+                      <div class="col-sm-10">
+                        <input type="month" class="form-control" [id]="'period'+i" formControlName="period">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label" [for]="'amount'+i">Amount</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control" [id]="'amount'+i" formControlName="amount">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label" [for]="'amountType'+i">Amount Type</label>
+                      <div class="col-sm-10">
+                        <select class="form-control" formControlName="amountType" [id]="'amountType'+i">
+                          <option *ngFor="let type of getInvoiceType()" [selected]="type === _.get('amountType').value">
+                            {{type}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label" [for]="'rate'+i">Rate</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control" [id]="'rate'+i" formControlName="rate">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label" [for]="'rateType'+i">Rate Type</label>
+                      <div class="col-sm-10">
+                        <select class="form-control" formControlName="rateType" [id]="'rateType'+i">
+                          <option *ngFor="let type of getInvoiceType()" [selected]="type === _.get('rateType').value">
+                            {{type}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn  btn-primary"
+                [disabled]="!invoiceForm.valid || invoice?.locked || invoice?.archived">Submit
+        </button>
+      </div>
+    </form>
+
+  </div>
+</ng-container>

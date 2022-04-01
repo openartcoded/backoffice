@@ -1,0 +1,41 @@
+<ng-container>
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">
+      Hobbies
+    </span>
+    <button type="button" class="close" aria-label="Close"
+            (click)="activeModal?.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="form">
+    <form [formGroup]="form" (ngSubmit)="send()">
+      <ng-container formArrayName="hobbiesArray">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item list-group-item-action d-flex justify-content-end">
+            <button (click)="add($event)" class="btn btn-link">
+              <fa-icon class="text-primary" icon="plus"></fa-icon>
+            </button>
+          </li>
+          <li class="list-group-item d-flex justify-content-between"
+              *ngFor="let control of hobbiesArray.controls; index as i">
+            <input type="text" [autosize] class="form-control" [id]="'desc'+i"
+                   [formControl]="$any(control)">
+            <button (click)="delete($event,i)" class="btn btn-link">
+              <fa-icon class="text-danger" icon="trash"></fa-icon>
+            </button>
+          </li>
+        </ul>
+
+      </ng-container>
+
+
+      <div class="d-flex justify-content-end  mt-2">
+        <button type="submit" class="btn btn-primary"
+                [disabled]="!form.valid">Submit
+        </button>
+      </div>
+    </form>
+
+  </div>
+</ng-container>

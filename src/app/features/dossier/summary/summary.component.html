@@ -1,0 +1,9 @@
+
+<ng-container *ngIf="graphs">
+    <ng-container *ngFor="let g of graphs; let index=index;">
+        <plotly-plot (initialized)="resize()" [divId]="'gra'+index" [useResizeHandler]="true" [config]="g.config"
+            [data]="g.data" [layout]="g.layout"></plotly-plot>
+        <hr *ngIf="index+1 < graphs.length">
+    </ng-container>
+
+</ng-container>

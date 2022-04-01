@@ -1,0 +1,62 @@
+<app-title title="blog" [uppercase]="true"></app-title>
+
+<div class="row d-sm-flex">
+  <div class="mt-2 m-lg-0 col-lg-9 col-12 order-lg-0 order-1">
+    <ng-container *ngIf="posts && posts.size > 0">
+      <div *ngFor="let n of posts.content" class="border-primary card bg-transparent mb-2">
+        <div class="card-header   pl-1 pr-1 pt-0 pb-0  ">
+          <small class="d-inline">{{n.title | titlecase}}
+            - {{n.updatedDate | date: 'dd/MM/yyyy'}}{{n.draft ? ' (Draft)' : ''}}
+            &nbsp;<fa-icon [icon]="['fas','eye']"></fa-icon>&nbsp;{{n.countViews}}
+          </small>
+
+          <div ngbDropdown placement="bottom-right" class="d-inline float-right">
+            <button id="dropdownBasic2" class="btn btn-link text-dark p-0 m-0 " ngbDropdownToggle>
+              <fa-icon [icon]="['fas', 'cog']"></fa-icon>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+              <button ngbDropdownItem (click)="openFormModal(n)">
+                <fa-icon [icon]="['fas', 'edit']"></fa-icon>&nbsp;Edit
+              </button>
+              <button ngbDropdownItem (click)="delete(n)">
+                <fa-icon [icon]="['fas', 'trash']"></fa-icon>&nbsp;Delete
+              </button>
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body mt-0 pt-1 pl-2 ">
+          <p class="">{{n.description}}</p>
+          <a class="btn btn-outline-primary" [routerLink]="['post',slugify(n.title),n.id]">Read more</a>
+        </div>
+      </div>
+      <ngb-pagination
+        *ngIf="posts  && posts.totalPages > 1"
+        [page]="pageNumber"
+        [pageSize]="posts.size"
+        [maxSize]="5"
+        [collectionSize]="posts.totalElements"
+        (pageChange)="load($event)"
+      ></ngb-pagination>
+    </ng-container>
+    <ng-container *ngIf="!posts || posts.empty">
+      No content.
+    </ng-container>
+  </div>
+  <div class="col-lg-3 col-12 order-lg-1 order-0">
+    <button class="btn btn-outline-primary  btn-block mb-2" (click)="newPost()">
+      <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+      Add post
+    </button>
+    <input type="search" [(ngModel)]="searchInput" (ngModelChange)="search(null)" placeholder="Search"
+           aria-label="Search"
+           class="form-control mb-2">
+    <ng-container *ngIf="tags">
+      <span role="button" class="badge p-1 mr-1 mb-1" (click)="search(t)"
+            [class.badge-artcoded]="selectedTag !== t"
+            [class.badge-warning]="selectedTag === t"
+            *ngFor="let t of tags">#{{t}}</span>
+    </ng-container>
+  </div>
+</div>
+

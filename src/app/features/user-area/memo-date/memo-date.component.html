@@ -1,0 +1,48 @@
+<div class="card mb-2">
+  <div class="card-header  btn btn-click d-flex justify-content-between" (click)="detail()">
+    <strong>MEMO</strong>
+    <fa-icon *ngIf="isCollapsed" [icon]="['fas','eye']"></fa-icon>
+    <fa-icon *ngIf="!isCollapsed" [icon]="['fas','ellipsis-h']"></fa-icon>
+  </div>
+  <ul class="list-group flat" [ngbCollapse]="isCollapsed">
+    <li class="list-group-item border-top-0 border-left-0 border-right-0">
+      <div class="d-flex justify-content-end">
+        <button class="btn  btn-outline-primary" (click)="showAddForm()">
+          <fa-icon icon="plus"></fa-icon>&nbsp;New
+        </button>
+      </div>
+    </li>
+    <ng-container *ngIf="memoDates">
+      <li class="list-group-item border-top-0 border-left-0 border-right-0" *ngFor="let memo of memoDates | async">
+        <div class="d-flex justify-content-between">
+          <span *ngIf="memo.visible">{{memo.label }}</span>
+          <span *ngIf="!memo.visible">{{ '*'.repeat(memo.label.length)  }}</span>
+          <strong><span class="d-lg-inline d-none">{{memo.dateSince | date: 'dd/MM/yyyy'}}
+            - </span>{{memo.progresses.currentProgress.label | number}} days
+          </strong>
+          <div class="btn-group">
+            <button class="btn btn-sm btn-link p-0 mr-1" (click)="memo.visible = !memo.visible">
+              <fa-icon class="text-muted" icon="eye"></fa-icon>
+            </button>
+            <button class="btn btn-sm btn-link p-0" (click)="delete(memo)">
+              <fa-icon class="text-danger" [icon]="['fas','times']"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div class="progress" style="height: 20px;" *ngIf="memo.progresses.nextProgress">
+          <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated text-white"
+               role="progressbar"
+               [style]="'width:' + memo.progresses.currentProgress.computedWidth + '%'">{{memo.progresses.currentProgress.computedWidth}}
+            % - (Goal: {{memo.progresses.nextProgress.label}})
+          </div>
+          <div class="progress-bar bg-secondary text-white" role="progressbar"
+               [style]="'width:' + (100 - memo.progresses.currentProgress.computedWidth) + '%'"></div>
+        </div>
+        <div class="progress" style="height: 20px;" *ngIf="!memo.progresses.nextProgress">
+          <div class="progress-bar bg-success text-white" role="progressbar" [style]="'width:100%'">Success!</div>
+        </div>
+      </li>
+    </ng-container>
+  </ul>
+
+</div>

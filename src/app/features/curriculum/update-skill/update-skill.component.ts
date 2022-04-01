@@ -1,0 +1,40 @@
+import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Skill } from '@core/models/curriculum';
+
+@Component({
+  selector: 'app-update-skill',
+  templateUrl: './update-skill.component.html',
+  styleUrls: ['./update-skill.component.scss'],
+})
+export class UpdateSkillComponent implements OnInit {
+  form: FormGroup;
+
+  @Input()
+  skill: Skill;
+
+  @Output()
+  skillSubmitted: EventEmitter<Skill> = new EventEmitter<Skill>();
+
+  constructor(@Optional() public activeModal: NgbActiveModal, private fb: FormBuilder) {}
+
+  ngOnInit() {
+    this.form = this.fb.group({
+      name: new FormControl(this.skill?.name, [Validators.required]),
+      priority: new FormControl(this.skill?.priority, [Validators.required]),
+      tags: new FormControl(this.skill?.tags || [], [Validators.minLength(1)]),
+      softSkill: new FormControl(this.skill?.softSkill || false, [Validators.required]),
+    });
+  }
+
+  send() {
+    this.skillSubmitted.emit({
+      name: this.form.get('name').value,
+      tags: this.form.get('tags').value,
+      priority: this.form.get('priority').value,
+      softSkill: this.form.get('softSkill').value,
+      hardSkill: !this.form.get('softSkill').value,
+    });
+  }
+}

@@ -1,0 +1,57 @@
+<ng-container>
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">Cron Expression Helper</span>
+    <button type="button" class="close" aria-label="Close"
+            (click)="activeModal?.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    The string has six single space-separated time and date fields:
+    <pre> ┌───────────── second (0-59)
+ │ ┌───────────── minute (0 - 59)
+ │ │ ┌───────────── hour (0 - 23)
+ │ │ │ ┌───────────── day of the month (1 - 31)
+ │ │ │ │ ┌───────────── month (1 - 12) (or JAN-DEC)
+ │ │ │ │ │ ┌───────────── day of the week (0 - 7)
+ │ │ │ │ │ │          (0 or 7 is Sunday, or MON-SUN)
+ │ │ │ │ │ │
+ * * * * * *
+ </pre>
+    <p>The following rules apply:
+    </p>
+    <ul>
+      <li>
+        A field may be an asterisk (<code>*</code>), which always stands for
+        "first-last". For the "day of the month" or "day of the week" fields, a
+        question mark (<code>?</code>) may be used instead of an asterisk.
+      </li>
+      <li>
+        Ranges of numbers are expressed by two numbers separated with a hyphen
+        (<code>-</code>). The specified range is inclusive.
+      </li>
+      <li>Following a range (or <code>*</code>) with <code>/n</code> specifies
+        the interval of the number's value through the range.
+      </li>
+      <li>
+        English names can also be used for the "month" and "day of week" fields.
+        Use the first three letters of the particular day or month (case does not
+        matter).
+      </li>
+
+
+    </ul>
+    <p>Example expressions:
+    </p>
+    <ul>
+      <li><code>"0 0 * * * *"</code> = the top of every hour of every day.</li>
+      <li><code>"*/10 * * * * *"</code> = every ten seconds.</li>
+      <li><code>"0 0 8-10 * * *"</code> = 8, 9 and 10 o'clock of every day.</li>
+      <li><code>"0 0 6,19 * * *"</code> = 6:00 AM and 7:00 PM every day.</li>
+      <li><code>"0 0/30 8-10 * * *"</code> = 8:00, 8:30, 9:00, 9:30, 10:00 and 10:30 every day.</li>
+      <li><code>"0 0 9-17 * * MON-FRI"</code> = on the hour nine-to-five weekdays</li>
+      <li><code>"0 0 0 25 12 ?"</code> = every Christmas Day at midnight</li>
+    </ul>
+  </div>
+</ng-container>
+

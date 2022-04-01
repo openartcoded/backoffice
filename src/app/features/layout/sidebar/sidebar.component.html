@@ -1,0 +1,21 @@
+<ul *ngIf="links" class="list-group list-group-flush responsive overflow-y mt-2" tabindex="-1">
+  <!-- <li class=" list-group-item list-group-item-action  d-xl-inline-block d-none">
+     <input #search autofocus type="search" class="form-control flat  bg-transparent border-0 text-white pb-0"
+            placeholder="Filter..."
+            (search)="filter($event)" (keyup)="filter($event)" (keydown.enter)="navigate()">
+   </li>-->
+  <li *ngFor="let link of links;let index=index" routerLinkActive="active"
+      class="list-group-item focusable list-group-item-action "
+      [routerLinkActiveOptions]="link.routerLinkActiveOptions">
+    <a class="nav-link p-0 m-0 text-uppercase text-strong" [routerLink]="link.routerLink">
+      <fa-icon [icon]="link.icon"></fa-icon>
+      <span class="d-xl-inline-block d-none ">&nbsp;{{link.title}}</span>
+    </a>
+  </li>
+  <li class=" list-group-item list-group-item-action focusable">
+    <a role="button" class="nav-link p-0 m-0 text-warning" (click)="openSettings()">
+      <fa-icon icon="toolbox"></fa-icon>
+      <span class="d-xl-inline-block d-none">&nbsp;Settings</span>
+    </a>
+  </li>
+</ul>

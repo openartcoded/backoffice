@@ -1,0 +1,22 @@
+
+
+<form class="form" [formGroup]="inputForm" (ngSubmit)="submit()" *ngIf="inputForm">
+  <div class="row">
+    <div class="form-group col-6">
+      <input class="form-control" formControlName="expression" id="expression">
+    </div>
+    <div class="col-6">
+      <button type="submit" class="btn btn-primary mb-1" [disabled]="!inputForm.valid">Submit</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-6">
+      <textarea id="data" class="form-control" rows="29" formControlName="data"></textarea>
+    </div>
+    <ng-container *ngIf="result">
+      <div class="form-group col-6 ">
+        {{result | json}}
+      </div>
+    </ng-container>
+  </div>
+</form>

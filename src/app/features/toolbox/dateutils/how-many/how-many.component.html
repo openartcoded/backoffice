@@ -1,0 +1,21 @@
+<form [formGroup]="howManyForm" (ngSubmit)="submit()" *ngIf="howManyForm">
+  <div class="form-group">
+    <label for="sinceType">Type</label>
+    <select class="form-control" formControlName="sinceType" id="sinceType">
+      <option *ngFor="let op of typeOptions" [selected]="op === sinceType" [value]="op">{{op | titlecase}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="sinceDate">Date</label>
+    <input type="date" id="sinceDate" formControlName="sinceDate" class="form-control">
+  </div>
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn  btn-primary" [disabled]="!howManyForm.valid">Submit</button>
+  </div>
+</form>
+<div class="jumbotron jumbotron-fluid mt-2 mb-2" *ngIf="result && resultStmt">
+  <p class="text-danger d-inline display-3">
+    {{floor(result) | number:'1.0-0'}}
+  </p>
+  <span class="display-4">{{resultStmt}}</span>
+</div>

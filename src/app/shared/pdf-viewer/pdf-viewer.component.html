@@ -1,0 +1,19 @@
+<ng-container>
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">{{title}}</span>
+    <button type="button" class="close" aria-label="Close"
+            (click)="activeModal?.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="pdfSrc">
+      <pdf-viewer [src]="pdfSrc"
+                  [render-text]="true"
+                  style="display: block;"
+      ></pdf-viewer>
+    </ng-container>
+
+  </div>
+</ng-container>
+

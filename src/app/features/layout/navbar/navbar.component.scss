@@ -1,0 +1,19 @@
+.navbar .navbar-toggler {
+  top: .25rem;
+  background-color: transparent;
+  border: none;
+  right: 1rem;
+}
+
+.navbar .form-control {
+  border-width: 0;
+  border-radius: 0;
+}
+
+::ng-deep .dropdown-menu {
+  left: -2em;
+}
+
+.artcoded-navbar-color {
+  background-color: #4a2d78;
+}

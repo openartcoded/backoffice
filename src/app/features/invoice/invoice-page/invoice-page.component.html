@@ -1,0 +1,55 @@
+<ng-template #fullScreenTemplate let-title="title">
+  <div class="d-flex justify-content-between mb-2">
+    <h4 [class.pt-3]="!fullScreen">{{ title }}</h4>
+    <a class="btn btn-link m-0" [class.pt-3]="!fullScreen" (click)="$event.stopPropagation(); fullScreen = !fullScreen">
+      <fa-icon class="text-dark" [icon]="['fas', 'expand-arrows-alt']"></fa-icon>
+    </a>
+  </div>
+  <hr>
+</ng-template>
+<app-title title="INVOICES"></app-title>
+<ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
+  <li ngbNavItem="unprocessed">
+    <a ngbNavLink routerLink="/invoice/unprocessed">Unprocessed</a>
+    <ng-template ngbNavContent>
+      <div [class.full-screen]="fullScreen" [class.p-3]="fullScreen">
+        <ng-component
+          [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Unprocessed' }"
+        ></ng-component>
+        <div class="d-block">
+          <app-invoice-table-result [archived]="false"></app-invoice-table-result>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+  <li ngbNavItem="processed">
+    <a ngbNavLink routerLink="/invoice/processed">Processed</a>
+    <ng-template ngbNavContent>
+      <div [class.full-screen]="fullScreen" [class.p-3]="fullScreen">
+        <ng-component
+          [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Processed' }"
+        ></ng-component>
+        <div class="d-block">
+          <app-invoice-table-result [archived]="true"></app-invoice-table-result>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+  <li ngbNavItem="deleted-logically">
+    <a ngbNavLink routerLink="/invoice/deleted-logically">Deleted</a>
+    <ng-template ngbNavContent>
+      <div [class.full-screen]="fullScreen" [class.p-3]="fullScreen">
+        <ng-component
+          [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Deleted Logically' }"
+        ></ng-component>
+        <div class="d-block">
+          <app-invoice-table-result [logicalDelete]="true"></app-invoice-table-result>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div>

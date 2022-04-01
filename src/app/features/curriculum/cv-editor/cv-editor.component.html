@@ -1,0 +1,19 @@
+<app-title title="IMPORT/EXPORT"></app-title>
+<div *ngIf="editedCv">
+  <div class="input-group mb-3">
+    <div class="custom-file">
+      <input type="file" class="custom-file-input" id="inputGroupFile02" (change)="load($event)"
+             accept="application/json">
+      <label class="custom-file-label" for="inputGroupFile02">{{file?.name || 'Choose file'}}</label>
+    </div>
+    <div class="input-group-append">
+      <button class="input-group-text" id="" (click)="import()" [disabled]="!file">Import</button>
+    </div>
+  </div>
+  <div class="text-right">
+    <a class="btn btn-link text-dark" (click)="download()">
+      <fa-icon icon="download"></fa-icon>
+    </a>
+  </div>
+  <pre><code [highlight]="editedCv"></code></pre>
+</div>

@@ -1,0 +1,4 @@
+<ng-container *ngIf="isBrowser()">
+  <plotly-plot (initialized)="resize()" [useResizeHandler]="true" [data]="data" [layout]="layout"
+               [config]="config"></plotly-plot>
+</ng-container>

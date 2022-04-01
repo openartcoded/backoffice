@@ -1,0 +1,99 @@
+<app-title title="CURRICULUM"></app-title>
+<div ngbDropdown class="d-flex justify-content-end" container="body">
+  <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Actions</button>
+  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+    <button (click)="downloadCv()" ngbDropdownItem>
+      <fa-icon [icon]="['fas', 'download']"></fa-icon>&nbsp;Download
+    </button>
+    <button routerLink="/cv/download-requests" ngbDropdownItem>
+      <fa-icon [icon]="['fas', 'eye']"></fa-icon>&nbsp;Requests
+    </button>
+    <button routerLink="/cv/editor" ngbDropdownItem>
+      <fa-icon [icon]="['fas', 'edit']"></fa-icon>&nbsp;Import/Export
+    </button>
+    <button (click)="templateModal()" ngbDropdownItem>
+      <fa-icon [icon]="['fas', 'envelope']"></fa-icon>&nbsp;Templates
+    </button>
+  </div>
+</div>
+<ul ngbNav #nav="ngbNav" class="nav-tabs mt-3">
+  <li ngbNavItem>
+    <a ngbNavLink>About</a>
+    <ng-template ngbNavContent>
+      <div class="d-block">
+        <app-title [uppercase]="true" titleClass="h3" title="about"></app-title>
+        <div class="p-2 mb-0 bg-light">
+          <a target="_blank" [href]="person?.linkedinUrl" class="mr-1">
+            <span class="text-primary"><fa-icon [icon]="['fab', 'linkedin']"></fa-icon></span>
+          </a>
+          <a target="_blank" [href]="person?.githubUrl" class="m-0">
+            <span class="text-dark"><fa-icon [icon]="['fab', 'github']"></fa-icon></span>
+          </a>
+          <app-introduction
+            (onIntroductionUpdated)="updateIntroduction($event)"
+            [introduction]="introduction"
+          ></app-introduction>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+  <li ngbNavItem>
+    <a ngbNavLink>Personal Info</a>
+    <ng-template ngbNavContent>
+      <div class="d-block mb-2">
+        <ng-container *ngIf="person">
+          <app-cv-person [person]="person" (personUpdated)="updatePerson($event)"></app-cv-person>
+        </ng-container>
+      </div>
+    </ng-template>
+  </li>
+  <li ngbNavItem>
+    <a ngbNavLink>Projects</a>
+    <ng-template ngbNavContent>
+      <div class="d-block mb-2">
+        <ng-container *ngIf="personalProjects">
+          <app-cv-personal-project
+            [personalProjects]="personalProjects"
+            (personalProjectsUpdated)="updatePersonalProjects($event)"
+          ></app-cv-personal-project>
+        </ng-container>
+      </div>
+    </ng-template>
+  </li>
+  <li ngbNavItem>
+    <a ngbNavLink>Experiences</a>
+    <ng-template ngbNavContent>
+      <ng-container *ngIf="experiences">
+        <app-experience [experiences]="experiences" (experiencesUpdated)="updateExperiences($event)"></app-experience>
+      </ng-container>
+    </ng-template>
+  </li>
+  <li ngbNavItem>
+    <a ngbNavLink>Skills</a>
+    <ng-template ngbNavContent>
+      <ng-container *ngIf="skills">
+        <app-skill [skills]="skills" (skillsUpdated)="updateSkills($event)"></app-skill>
+      </ng-container>
+    </ng-template>
+  </li>
+  <li ngbNavItem>
+    <a ngbNavLink>Education</a>
+    <ng-template ngbNavContent>
+      <ng-container *ngIf="scholarHistories">
+        <app-education
+          [scholarHistories]="scholarHistories"
+          (scholarHistoriesUpdated)="updateScholarHistories($event)"
+        ></app-education>
+      </ng-container>
+    </ng-template>
+  </li>
+  <li ngbNavItem>
+    <a ngbNavLink>Hobbies</a>
+    <ng-template ngbNavContent>
+      <ng-container *ngIf="hobbies">
+        <app-hobby [hobbies]="hobbies" (hobbiesUpdated)="updateHobbies($event)"></app-hobby>
+      </ng-container>
+    </ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div>

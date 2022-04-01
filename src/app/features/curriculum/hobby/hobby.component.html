@@ -1,0 +1,9 @@
+<div class="pt-3 pl-2 d-flex justify-content-between ">
+  <h3>HOBBIES</h3>
+  <button class="btn btn-link text-dark" (click)="edit()">
+    <fa-icon icon="edit"></fa-icon>
+  </button>
+</div>
+<ul class="p-2 list-group">
+  <li class="list-group-item" *ngFor="let hob of hobbies">{{hob.title}}</li>
+</ul>

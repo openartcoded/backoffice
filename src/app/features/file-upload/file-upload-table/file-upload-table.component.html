@@ -1,0 +1,67 @@
+<app-title title="Uploads" [uppercase]="true"></app-title>
+<app-file-upload-search-form [searchCriteria]="searchCriteria"
+                             (formSubmitted)="search($event)"></app-file-upload-search-form>
+<ng-container *ngIf="fileUploads">
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>creationDate</th>
+        <th>name</th>
+        <th class="d-md-table-cell d-none">correlationId</th>
+        <th class="d-md-table-cell d-none">isPublic</th>
+        <th>actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let upl of fileUploads.content">
+        <tr>
+          <td class="text-break">{{upl?.metadata?.creationDate}}</td>
+          <td class="text-break">{{upl?.metadata?.name}}</td>
+          <td class="text-break d-md-table-cell d-none">{{upl?.metadata?.correlationId}}</td>
+          <td class="d-md-table-cell d-none text-break">{{upl?.metadata?.publicResource}}</td>
+          <td class="text-center">
+            <div ngbDropdown class="d-inline-block" container="body">
+              <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle></button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button (click)="download(upl)" ngbDropdownItem>
+                  <fa-icon [icon]="['fas','download']"></fa-icon>
+                  Download
+
+                </button>
+                <button (click)="delete(upl)" ngbDropdownItem>
+                  <fa-icon [icon]="['fas','trash']"></fa-icon>
+                  Delete
+                </button>
+                <button (click)="openPdfViewer(upl)" *ngIf="isPdf(upl)" ngbDropdownItem>
+                  <fa-icon [icon]="['fas','file-pdf']"></fa-icon>
+                  Open
+                </button>
+                <button (click)="openImageViewer(upl)" *ngIf="isImage(upl)" ngbDropdownItem>
+                  <fa-icon [icon]="['fas','file-image']"></fa-icon>
+                  Open
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-lg-flex justify-content-lg-between mb-2">
+    <ngb-pagination
+      *ngIf="fileUploads.totalPages > 1"
+      [page]="pageNumber"
+      [pageSize]="fileUploads.size"
+      [maxSize]="5"
+      [collectionSize]="fileUploads.totalElements"
+      (pageChange)="load($event)">
+    </ngb-pagination>
+    <select id="pageSize" class=" form-control-sm" [(ngModel)]="pageSize"
+          *ngIf="fileUploads?.content?.length"
+            (ngModelChange)="load()">
+      <option *ngFor="let op of [5,10,20,50,100]" [selected]="op === pageSize">{{op}}</option>
+    </select>
+  </div>
+</ng-container>

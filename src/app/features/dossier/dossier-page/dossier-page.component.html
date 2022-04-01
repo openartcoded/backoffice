@@ -1,0 +1,27 @@
+<app-title title="Dossier" [uppercase]="true"></app-title>
+<ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
+  <li ngbNavItem="open">
+    <a ngbNavLink routerLink="/dossier/open">Open</a>
+    <ng-template ngbNavContent>
+      <div class="d-block">
+        <app-title title="Open" titleClass="h4" [uppercase]="true"></app-title>
+      </div>
+      <div class="d-block">
+        <app-dossier-table-result [closed]="false"></app-dossier-table-result>
+      </div>
+    </ng-template>
+  </li>
+  <li ngbNavItem="closed">
+    <a ngbNavLink routerLink="/dossier/closed">Closed</a>
+    <ng-template ngbNavContent>
+      <div class="d-block">
+        <app-title title="Closed" titleClass="h4" [uppercase]="true"></app-title>
+      </div>
+      <div class="d-block">
+        <app-dossier-table-result [closed]="true"></app-dossier-table-result>
+      </div>
+    </ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div>
+

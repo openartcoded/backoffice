@@ -1,0 +1,17 @@
+<form [formGroup]="form" (submit)="submit()">
+  <div class="form-group ">
+    <label for="priceHVat">Price HVAT</label>
+    <input type="number" class="form-control" formControlName="priceHVat" id="priceHVat" name="priceHVat">
+  </div>
+  <div class="form-group ">
+    <label for="vat">VAT</label>
+    <input type="number" class="form-control" formControlName="vat" id="vat" name="vat">
+  </div>
+  <div class="d-flex justify-content-end">
+    <p class="text-danger">Total VAT incl.: {{priceHVat + vat | currency:'€'}}</p>
+  </div>
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
+    <span class="text-success my-auto" *ngIf="saved">&nbsp;Saved!</span>
+  </div>
+</form>

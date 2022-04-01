@@ -1,0 +1,83 @@
+<ng-container *ngIf="dossiers">
+  <div class="d-flex justify-content-end pb-2 pt-1" *ngIf="!closed">
+
+      <button class="btn btn-outline-success mr-1" (click)="toggleGraphs()">{{showGraphs ? 'Hide' : 'Show'}}
+        graphs
+      </button>
+    <div ngbDropdown class="d-inline-block" container="body">
+      <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+        <fa-icon icon="exclamation"></fa-icon>
+        Actions
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button ngbDropdownItem (click)="newDossier()" [disabled]="dossiers?.length > 0">
+          <fa-icon [icon]="['fas','plus']"></fa-icon>
+          New dossier
+        </button>
+        <button ngbDropdownItem (click)="deleteDossier()"
+          [disabled]="closed || !dossiers?.length || dossiers[0]?.feeIds?.length > 0 || dossiers[0]?.invoiceIds?.length > 0">
+          <fa-icon [icon]="['fas','times']"></fa-icon>
+          Delete dossier
+        </button>
+        <button ngbDropdownItem (click)="closeActiveDossier()"
+          [disabled]="closed || !dossiers?.length || !dossiers[0]?.invoiceIds?.length">
+          <fa-icon [icon]="['fas','check']"></fa-icon>
+          Close dossier
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Date updated</th>
+          <th class="d-md-table-cell  d-none">Nb. Expenses</th>
+          <th class="d-md-table-cell  d-none">Nb. Invoices</th>
+          <th class="d-md-table-cell  d-none">Description</th>
+          <th class="d-md-table-cell  d-none" *ngIf="!closed">Tva Delta</th>
+          <th class="d-md-table-cell  d-none" *ngIf="closed">Tva Due</th>
+          <th class="fit" *ngIf="closed">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-light">
+          <td *ngIf="!dossiers.length" [attr.colspan]="closed ? '7':'6'">No entries</td>
+        </tr>
+        <ng-container *ngFor="let d of dossiers">
+          <tr role="button" (click)="openDossier(d)">
+            <td>{{d.name}}</td>
+            <td>{{d?.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
+            <td class="d-md-table-cell  d-none">{{d.feeIds?.length}}</td>
+            <td class="d-md-table-cell  d-none">{{d.invoiceIds?.length}}</td>
+            <td class="d-md-table-cell  d-none">{{d.description}}</td>
+            <td class="d-md-table-cell  d-none" *ngIf="closed">{{(d?.tvaDue || 0)| currency: '€'}}</td>
+            <td *ngIf="!closed" [class.bg-danger]="d?.tvaToBePaid <0" [class.text-warning]="d?.tvaToBePaid <0"
+              [class.bg-artcoded]="d?.tvaToBePaid > 0" [class.bg-secondary]="d?.tvaToBePaid === 0"
+              [class.text-white]="d?.tvaToBePaid >= 0" class="d-md-table-cell  d-none">{{d?.tvaToBePaid | currency:
+              '€'}}
+            </td>
+            <td *ngIf="closed" class="text-center">
+              <div ngbDropdown class="d-inline-block" container="body">
+                <button class="btn btn-outline-secondary" id="dropdownBasic2" ngbDropdownToggle
+                  (click)="$event.stopPropagation();"></button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                  <button ngbDropdownItem (click)="downloadArchive(d.dossierUploadId)">
+                    <fa-icon [icon]="['fas','download']"></fa-icon>&nbsp;Download
+                  </button>
+                  <button ngbDropdownItem (click)="modify(d)">
+                    <fa-icon [icon]="['fas','edit']"></fa-icon>&nbsp;Edit
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <ng-container *ngIf="!closed && showGraphs">
+    <app-summary></app-summary>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,29 @@
+<ng-container *ngIf="activeId">
+  <app-title title="Finance" [uppercase]="true"></app-title>
+  <ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
+    <li ngbNavItem="portfolio">
+      <a ngbNavLink routerLink="/finance/portfolio">Portfolio</a>
+      <ng-template ngbNavContent>
+        <div class="d-block">
+          <app-title title="Portfolio" titleClass="h4" [uppercase]="true"></app-title>
+        </div>
+        <div class="d-block">
+          <app-portfolio></app-portfolio>
+        </div>
+      </ng-template>
+    </li>
+    <li ngbNavItem="ticks">
+      <a ngbNavLink routerLink="/finance/ticks">Ticks</a>
+      <ng-template ngbNavContent>
+        <div class="d-block">
+          <app-title title="Ticks" titleClass="h4" [uppercase]="true"></app-title>
+        </div>
+        <div class="d-block">
+          <app-ticks></app-ticks>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
+
+</ng-container>

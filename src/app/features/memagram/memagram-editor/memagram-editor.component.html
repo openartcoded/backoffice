@@ -1,0 +1,56 @@
+<ng-container *ngIf="meme">
+  <div class="modal-header" *ngIf="meme.title && activeModal">
+    <span class="modal-title text-break">{{meme.title | titlecase}} ({{meme.viewsCount}} views)</span>
+    <button type="button" class="close" aria-label="Close"
+            (click)="activeModal?.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="mt-2" [formGroup]="editorForm" (ngSubmit)="send()" *ngIf="editorForm">
+      <div class="form-group">
+        <label class="col-form-label" for="title">Title</label>
+        <input type="text" class="form-control" id="title" formControlName="title"
+               placeholder="Title">
+      </div>
+      <div class="form-group">
+        <label class="col-form-label" for="description">Description</label>
+        <textarea class="form-control" id="description" formControlName="description"
+                  placeholder="Description"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="sd">Image</label>
+        <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event)"
+                       dropZoneClassName="flat bg-light d-block"
+                       [accept]="'image/*'"
+                       [multiple]="false">
+          <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+            <button id="sd" class="btn btn-primary mr-1" type="button" (click)="openFileSelector()" *ngIf="!url">
+              <fa-icon [icon]="['fas','upload']"></fa-icon>
+            </button>
+            <a *ngIf="url" (click)="openFileSelector()" class="border-0">
+              <img [src]="url" class="img-fluid" width="100px" height="100px">
+            </a>
+          </ng-template>
+        </ngx-file-drop>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="visible" formControlName="visible">
+        <label class="form-check-label" for="visible">
+          Visible
+        </label>
+      </div>
+      <div class="form-group" *ngIf="!visible">
+        <label class="col-form-label" for="title">Date to set visible</label>
+        <input type="datetime-local" class="form-control" id="dateOfVisibility" formControlName="dateOfVisibility">
+      </div>
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn  btn-primary"
+                [disabled]="!editorForm.valid || loading">Submit
+        </button>
+      </div>
+    </form>
+
+  </div>
+</ng-container>
+

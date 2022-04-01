@@ -1,0 +1,65 @@
+<ng-container>
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">
+      Settings
+    </span>
+    <button type="button" class="close" aria-label="Close"
+            (click)="activeModal?.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+      <li ngbNavItem>
+        <a ngbNavLink>Menu</a>
+        <ng-template ngbNavContent>
+          <ul class="list-group  flat" *ngIf="menuLinks$ | async as menuLinks">
+            <li class="list-group-item list-group-item-action border-top-0 p-0 pl-1">
+              <div class="input-group mb-1 pr-1  mt-1">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile02" (change)="loadFile($event)">
+                  <label class="custom-file-label" for="inputGroupFile02">{{file?.name || 'Choose file'}}</label>
+                </div>
+                <div class="input-group-append">
+                  <button class="input-group-text" id="" (click)="import()" [disabled]="!file">Import</button>
+                </div>
+              </div>
+              <div class="text-right">
+                <a class="btn btn-link text-dark" (click)="download(menuLinks)">
+                  <fa-icon icon="download"></fa-icon>&nbsp;Export
+                </a>
+              </div>
+            </li>
+            <li class="list-group-item list-group-item-action  border-top-0 p-0 pl-1"
+                *ngFor="let menuLink of menuLinks | sort: sortByOrder; let index = index;">
+              <div class="d-flex justify-content-between">
+                  <span class="my-auto">
+                    <fa-icon [icon]="menuLink.icon"></fa-icon>&nbsp;{{menuLink.title}}
+                  </span>
+                <div>
+                  <div class="btn-group">
+                    <button class="btn btn-link text-secondary" *ngIf="index > 0"
+                            (click)="flipPosition(menuLink, menuLinks[index-1])">
+                      <fa-icon icon="arrow-up"></fa-icon>
+                    </button>
+                    <button class="btn btn-link text-secondary" *ngIf="index < menuLinks.length - 1"
+                            (click)="flipPosition(menuLinks[index+1],menuLink)">
+                      <fa-icon icon="arrow-down"></fa-icon>
+                    </button>
+                    <button class="btn btn-link" [class.text-light]="!menuLink.show"
+                            [class.text-success]="menuLink.show"
+                            (click)="toggleMenuLinkVisibility(menuLink)">
+                      <fa-icon icon="eye"></fa-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </ng-template>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
+
+  </div>
+</ng-container>

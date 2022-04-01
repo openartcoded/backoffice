@@ -1,0 +1,56 @@
+<ng-container *ngIf="manualSubmitForm">
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">
+      Manual Submit
+    </span>
+    <button type="button" class="close" aria-label="Close"
+            (click)="activeModal?.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="manualSubmitForm" (ngSubmit)="submit()">
+      <div class="form-group ">
+        <label for="subject">Subject</label>
+        <input type="text" class="form-control" id="subject" formControlName="subject">
+      </div>
+
+      <div class="form-group ">
+        <label for="body">Body</label>
+        <textarea [autosize] class="form-control" id="body" formControlName="body"></textarea>
+      </div>
+
+      <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event)"
+                     dropZoneClassName="flat bg-light d-block"
+                     [multiple]="true">
+        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+          <button id="dd" class="btn btn-primary mr-1" type="button" (click)="openFileSelector()">
+            <fa-icon [icon]="['fas','upload']"></fa-icon>
+          </button>
+        </ng-template>
+      </ngx-file-drop>
+
+      <div class="form-group " *ngIf="files?.length">
+        <label for="attachments">Attachments</label>
+        <ul class="list-group" id="attachments">
+          <li class="list-group-item" *ngFor="let a of files">
+            <div class="d-flex justify-content-between">
+              {{a.name}}
+              <button class="btn btn-link"
+                      [disabled]="files.length <= 1"
+                      (click)="removeAttachment($event, a)">
+                <fa-icon [icon]="['fas','times']" class="text-danger"></fa-icon>
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn mt-2 btn-primary"
+                [disabled]="!manualSubmitForm.valid || files?.length < 1">Submit
+        </button>
+      </div>
+    </form>
+
+  </div>
+</ng-container>

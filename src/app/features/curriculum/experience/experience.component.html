@@ -1,0 +1,40 @@
+<div class="pt-3 pl-2 d-flex justify-content-between ">
+  <h3>EXPERIENCES</h3>
+  <button class="btn btn-link text-dark" (click)="add()">
+    <fa-icon icon="plus"></fa-icon>
+  </button>
+</div>
+<div class="d-block  pl-2 pr-2">
+  <input class="form-control" placeholder="search..." (input)="filter()" [(ngModel)]="filterExperience">
+  <hr>
+  <div *ngFor="let exp of filteredExperiences" class="card  mb-2">
+    <div class="card-header">
+
+      <div class="d-flex  justify-content-between">
+        <strong
+          [class.text-primary]="filterExperience?.length > 2 && exp.company.toUpperCase().includes(filterExperience.toUpperCase())">{{exp.title}}
+          @ {{exp.company}}</strong>
+
+        <div class="btn-group">
+          <button class="btn btn-link text-dark pt-0 pb-0 pl-0 pr-1" (click)="delete(exp)">
+            <fa-icon icon="trash"></fa-icon>
+          </button>
+          <button class="btn btn-link text-dark pt-0 pb-0 pl-0 pr-0" (click)="edit(exp)">
+            <fa-icon icon="edit"></fa-icon>
+          </button>
+        </div>
+      </div>
+
+      <p class="card-subtitle text-muted">{{exp.from | date: 'dd/MM/yyyy'}}
+        - {{exp.current ? 'Now' : exp.to | date: 'dd/MM/yyyy'}}</p>
+    </div>
+
+    <ul class="list-group flat">
+      <li *ngFor="let desc of exp.description"
+          class="list-group-item border-left-0 border-top-0 border-right-0 "
+          [class.bg-warning]="filterExperience?.length > 2 && desc.toUpperCase().includes(filterExperience.toUpperCase())">
+        {{desc}}
+      </li>
+    </ul>
+  </div>
+</div>

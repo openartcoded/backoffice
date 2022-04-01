@@ -1,0 +1,31 @@
+<div class="pt-3 pl-2 d-flex justify-content-between ">
+  <h3>PROJECTS</h3>
+  <button class="btn btn-link text-dark" (click)="add()">
+    <fa-icon icon="plus"></fa-icon>
+  </button>
+</div>
+<div class="d-block pl-2 pr-2">
+  <div *ngFor="let proj of personalProjects;let index=index;" class="card  mb-2">
+    <div class="card-header">
+
+      <div class="d-flex  justify-content-between">
+        <strong>{{proj.name}}</strong>
+
+        <div class="btn-group">
+          <button class="btn btn-link text-dark pt-0 pb-0 pl-0 pr-1" (click)="delete(index)">
+            <fa-icon icon="trash"></fa-icon>
+          </button>
+          <button class="btn btn-link text-dark pt-0 pb-0 pl-0 pr-0" (click)="edit(proj,index)">
+            <fa-icon icon="edit"></fa-icon>
+          </button>
+        </div>
+      </div>
+
+      <a [href]="proj.url" class="card-subtitle text-muted">{{proj.url}}</a>
+    </div>
+    <div class="card-body" *ngIf="proj.description">
+      {{proj.description}}
+
+    </div>
+  </div>
+</div>

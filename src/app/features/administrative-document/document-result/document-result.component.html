@@ -1,0 +1,71 @@
+<app-title title="Documents" [uppercase]="true"></app-title>
+<div class="d-flex justify-content-end mb-2">
+  <button class="btn btn-outline-primary" (click)="addOrEdit()">
+    <fa-icon icon="plus"></fa-icon>
+    Add
+  </button>
+</div>
+<app-document-search-form [searchCriteria]="searchCriteria"
+                          (formSubmitted)="search($event)"></app-document-search-form>
+<ng-container *ngIf="adminDocuments">
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered">
+      <thead>
+      <tr>
+        <th>title</th>
+        <th>creationDate</th>
+        <th class="fit">actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let ad of adminDocuments.content">
+        <tr>
+          <td class="text-break">{{ad.title}}</td>
+          <td class="text-break">{{ad.dateCreation | date:'dd/MM/yyyy'}}</td>
+          <td class="text-center">
+            <div ngbDropdown class="d-inline-block" container="body"  >
+              <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle></button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button ngbDropdownItem (click)="addOrEdit(ad)">
+                  <fa-icon  [icon]="['fas','edit']"></fa-icon> Edit
+                </button>
+                <button (click)="delete(ad)" ngbDropdownItem>
+                  <fa-icon [icon]="['fas','trash']"></fa-icon> Delete
+                </button>
+                <ng-container *ngIf="ad.attachment">
+                  <button ngbDropdownItem (click)="download(ad.attachment)">
+                    <fa-icon  [icon]="['fas','download']"></fa-icon> Download
+                  </button>
+                  <button ngbDropdownItem (click)="openPdfViewer(ad.attachment)"
+                          *ngIf="isPdf(ad.attachment)">
+                    <fa-icon [icon]="['fas','file-pdf']"></fa-icon> Open
+                  </button>
+                  <button ngbDropdownItem (click)="openImageViewer(ad.attachment)"
+                          *ngIf="isImage(ad.attachment)">
+                    <fa-icon [icon]="['fas','file-image']"></fa-icon> Open
+                  </button>
+                </ng-container>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-flex justify-content-between mb-2">
+    <ngb-pagination
+      *ngIf="adminDocuments.totalPages > 1"
+      [page]="pageNumber"
+      [pageSize]="adminDocuments.size"
+      [maxSize]="pageSize"
+      [collectionSize]="adminDocuments.totalElements"
+      (pageChange)="load($event)">
+    </ngb-pagination>
+    <select id="pageSize" class="form-control form-control-sm ml-2 col-1 " [(ngModel)]="pageSize"
+           *ngIf="adminDocuments?.content?.length" 
+            (ngModelChange)="load()">
+      <option *ngFor="let op of [5,10,20,50,100]" [selected]="op === pageSize">{{op}}</option>
+    </select>
+  </div>
+</ng-container>

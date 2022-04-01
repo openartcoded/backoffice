@@ -1,0 +1,90 @@
+<ng-container>
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">
+      {{ experience?.title || 'New Experience' }}
+    </span>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="form">
+    <form [formGroup]="form" (ngSubmit)="send()">
+      <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem>
+          <a ngbNavLink>Header</a>
+          <ng-template ngbNavContent>
+            <div class="mt-1">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="title">Title</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="title" formControlName="title">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="company">Company</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="company" formControlName="company">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="from">From</label>
+                <div class="col-sm-10">
+                  <input type="date" class="form-control" id="from" formControlName="from">
+                </div>
+              </div>
+              <div class="form-group row" *ngIf="!current">
+                <label class="col-sm-2 col-form-label" for="to">To</label>
+                <div class="col-sm-10">
+                  <input type="date" class="form-control" id="to" formControlName="to">
+                </div>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="current" formControlName="current">
+                <label class="form-check-label" for="current"> Current </label>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+        <li ngbNavItem>
+          <a ngbNavLink>Descriptions</a>
+          <ng-template ngbNavContent>
+            <div class="mt-1">
+              <ng-container formArrayName="description">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item list-group-item-action d-flex justify-content-end">
+                    <button (click)="add($event)" class="btn btn-link">
+                      <fa-icon class="text-primary" icon="plus"></fa-icon>
+                    </button>
+                  </li>
+                  <li class="list-group-item text-right" *ngFor="let control of description.controls; index as i">
+                    <textarea [autosize] class="form-control" [id]="'desc' + i" [formControl]="$any(control)"></textarea>
+                    <div class="btn-group">
+                      <button (click)="delete($event, i)" class="btn btn-link">
+                        <fa-icon class="text-danger" icon="trash"></fa-icon>
+                      </button>
+                      <button [disabled]="i === 0" class="btn btn-link text-secondary" (click)="moveUp($event, i)">
+                        <fa-icon icon="arrow-up"></fa-icon>
+                      </button>
+                      <button
+                        [disabled]="i === description.length - 1"
+                        class="btn btn-link text-secondary"
+                        (click)="moveDown($event, i)"
+                      >
+                        <fa-icon icon="arrow-down"></fa-icon>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </ng-container>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
+
+      <div class="d-flex justify-content-end mt-2">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+      </div>
+    </form>
+  </div>
+</ng-container>

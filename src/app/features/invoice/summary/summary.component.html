@@ -1,0 +1,63 @@
+<ng-container *ngIf="isBrowser() && summary$ | async as summary">
+  <!--<div class="d-flex justify-content-end">
+    <button class="btn btn-success mt-1 mb-1" (click)="toggleGraphs()">
+      {{ showGraphs ? 'Hide' : 'Show' }}
+      graphs
+    </button>
+  </div>-->
+  <div class="row p-2">
+    <ng-container *ngIf="showGraphs">
+      <div class="col-lg-9 col-12">
+        <ng-container *ngFor="let g of summary.graphs; let index = index">
+          <plotly-plot [divId]="'gra' + index" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
+          <hr *ngIf="index + 1 < summary.graphs.length">
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <ul class="col-lg-3 col-12 list-group list-group-flush pt-lg-5">
+      <li class="list-group-item bg-light">
+        <strong class="text-uppercase text-secondary">This year</strong>
+      </li>
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between">
+          <strong class="text-uppercase">Number of Invoices</strong>
+          <strong>{{ summary.numberOfInvoicesThisYear }}</strong>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between">
+          <strong class="text-uppercase">Total worked</strong>
+          <strong class="text-uppercase">{{ summary.totalAmountOfWorkThisYear | number: '1.2-2' }}&nbsp;days</strong>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between">
+          <strong class="text-uppercase">Total excl. VAT</strong>
+          <strong class="text-uppercase">{{ summary.totalExclVatThisYear | currency: '€' }}</strong>
+        </div>
+      </li>
+      <li class="list-group-item bg-light">
+        <strong class="text-uppercase text-secondary">All time</strong>
+      </li>
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between">
+          <strong class="text-uppercase">Number of Invoices</strong>
+          <strong>{{ summary.totalInvoicesThisYear }}</strong>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between">
+          <strong class="text-uppercase">Total worked</strong>
+          <strong class="text-uppercase">{{ summary.totalAmountOfWork | number: '1.2-2' }}&nbsp;days</strong>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between">
+          <strong class="text-uppercase">Total excl. VAT</strong>
+          <strong class="text-uppercase">{{ summary.totalExclVat | currency: '€' }}</strong>
+        </div>
+      </li>
+    </ul>
+  </div>
+</ng-container>

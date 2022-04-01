@@ -1,0 +1,19 @@
+pre,
+code {
+  white-space: pre-line;
+}
+.vh-50 {
+  max-height: 75vh;
+}
+
+::ng-deep .no-margin {
+  .card-body {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+  .list-group-item {
+    border-left: none;
+    border-right: none;
+  }
+}

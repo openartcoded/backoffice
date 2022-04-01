@@ -1,0 +1,26 @@
+<div class="pt-3 pl-2 d-flex justify-content-between ">
+  <h3>EDUCATIONS</h3>
+  <button class="btn btn-link text-dark" (click)="add()">
+    <fa-icon icon="plus"></fa-icon>
+  </button>
+</div>
+<ng-container>
+  <div *ngFor="let hist of scholarHistories" class="card border-0 m-2 p-0">
+    <div class="card-body  bg-light">
+      <div class="d-flex justify-content-between">
+        <strong class="card-title">{{hist.title}} @ {{hist.school}}</strong>
+        <div class="btn-group">
+          <button class="btn btn-link text-dark pt-0 pb-0 pl-0 pr-0" (click)="delete(hist)">
+            <fa-icon icon="trash"></fa-icon>
+          </button>
+          <button class="btn btn-link text-dark pt-0 pb-0 pl-0 pr-0" (click)="edit(hist)">
+            <fa-icon icon="edit"></fa-icon>
+          </button>
+        </div>
+      </div>
+
+      <p class="card-subtitle text-muted">{{hist.from | date: 'dd/MM/yyyy'}}
+        - {{hist.current ? 'Now' : hist.to | date: 'dd/MM/yyyy'}}</p>
+    </div>
+  </div>
+</ng-container>

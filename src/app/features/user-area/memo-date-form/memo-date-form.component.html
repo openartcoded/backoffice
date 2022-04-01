@@ -1,0 +1,28 @@
+<ng-container>
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">Add Memo Date</span>
+    <button type="button" class="close" aria-label="Close"
+            (click)="activeModal?.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ng-container>
+      <form class="mt-2" [formGroup]="addDateMemoForm" (submit)="add()">
+        <div class="form-group">
+          <label for="dateSince">Date Since</label>
+          <input type="date" class="form-control" id="dateSince" formControlName="dateSince">
+        </div>
+        <div class="form-group">
+          <label for="memoLabel">Label</label>
+          <input type="text" class="form-control" id="memoLabel" formControlName="memoLabel">
+        </div>
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-primary" [disabled]="!addDateMemoForm.valid">Submit</button>
+        </div>
+      </form>
+    </ng-container>
+
+  </div>
+</ng-container>
+

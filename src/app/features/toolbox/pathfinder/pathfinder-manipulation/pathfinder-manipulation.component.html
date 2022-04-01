@@ -1,0 +1,29 @@
+<app-title title="XPath / JSONPath" [uppercase]="true"></app-title>
+<ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
+  <li ngbNavItem="json-path">
+    <a ngbNavLink routerLink="../json-path">JSONPath</a>
+    <ng-template ngbNavContent>
+      <div class="d-block">
+        <app-title title="JSONPath" titleClass="h4" [uppercase]="true"></app-title>
+      </div>
+      <div class="d-block">
+        <app-pathfinder-utils [pathType]="'application/json'"></app-pathfinder-utils>
+      </div>
+    </ng-template>
+  </li>
+  <li ngbNavItem="x-path">
+    <a ngbNavLink routerLink="../x-path">XPath</a>
+    <ng-template ngbNavContent>
+      <div class="d-block">
+        <app-title title="XPath" titleClass="h4" [uppercase]="true"></app-title>
+      </div>
+      <div class="d-block">
+        <!--        <app-pathfinder-xpath-utils></app-pathfinder-xpath-utils>-->
+        <app-pathfinder-utils [pathType]="'text/xml'"></app-pathfinder-utils>
+
+      </div>
+    </ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div>
+

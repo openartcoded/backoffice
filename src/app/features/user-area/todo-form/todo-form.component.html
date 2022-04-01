@@ -1,0 +1,66 @@
+<ng-container>
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">Manage Todos</span>
+    <button type="button" class="close" aria-label="Close"
+            (click)="activeModal?.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="form">
+      <form [formGroup]="form">
+        <ng-container formArrayName="todos">
+          <div class="table-responsive">
+            <table class="table  table-sm table-bordered ">
+              <thead>
+              <tr>
+                <th class="d-md-table-cell d-none">Date</th>
+                <th>Todo</th>
+                <th class="fit">Done</th>
+                <th class="fit text-center">
+                  <button (click)="add($event)" class="btn btn-link">
+                    <fa-icon class="text-primary" icon="plus"></fa-icon>
+                  </button>
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let _ of todos.controls; index as i">
+                <ng-container [formGroupName]="i">
+                  <td class="d-md-table-cell d-none">
+                    <input type="text" class="form-control" [id]="'updatedDate'+i"
+                           [value]="_.get('updatedDate').value | date: 'dd/MM/yyyy HH:mm'" [disabled]="true">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" [id]="'title'+i" formControlName="title"
+                           placeholder="Title">
+                  </td>
+                  <td class="fit text-center">
+                    <input type="checkbox" class="form-check-input position-static" [id]="'done'+i"
+                           formControlName="done">
+                  </td>
+                  <td class="fit text-center">
+                    <button (click)="save(i)" class="btn btn-link" [disabled]="!_.valid" *ngIf="_.get('editing').value">
+                      <fa-icon class="text-primary" icon="save"></fa-icon>
+                    </button>
+                    <button (click)="edit(i)" class="btn btn-link" *ngIf="!_.get('editing').value">
+                      <fa-icon class="text-primary" icon="edit"></fa-icon>
+                    </button>
+                    <button (click)="delete(i)" class="btn btn-link">
+                      <fa-icon class="text-danger" icon="trash"></fa-icon>
+                    </button>
+                  </td>
+                </ng-container>
+              </tr>
+              <tr *ngIf="!todos?.controls?.length">
+                <td colspan="4">No Content</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+      </form>
+    </ng-container>
+  </div>
+</ng-container>
+

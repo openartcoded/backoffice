@@ -1,0 +1,50 @@
+<app-title title="Date Utils" [uppercase]="true"></app-title>
+<ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
+  <li ngbNavItem="business-days" routerLink="../business-days">
+    <a ngbNavLink>Business</a>
+    <ng-template ngbNavContent>
+      <div class="d-block">
+        <app-title title="Business Days" titleClass="h4" [uppercase]="true"></app-title>
+      </div>
+      <div class="d-block">
+        <app-business-days></app-business-days>
+      </div>
+    </ng-template>
+  </li>
+  <li ngbNavItem="how-many-since" routerLink="../how-many-since">
+    <a ngbNavLink>Since</a>
+    <ng-template ngbNavContent>
+      <div class="d-block">
+        <app-title title="How Many Since" titleClass="h4" [uppercase]="true"></app-title>
+      </div>
+      <div class="d-block">
+        <app-how-many></app-how-many>
+      </div>
+    </ng-template>
+  </li>
+  <li ngbNavItem="how-many-before" routerLink="../how-many-before">
+    <a ngbNavLink>Before</a>
+    <ng-template ngbNavContent>
+      <div class="d-block">
+        <app-title title="How Many Before" titleClass="h4" [uppercase]="true"></app-title>
+      </div>
+      <div class="d-block">
+        <app-how-many [beforeType]="true"></app-how-many>
+
+      </div>
+    </ng-template>
+    </li>
+  <li ngbNavItem="date-between" routerLink="../date-between">
+    <a ngbNavLink>Between</a>
+    <ng-template ngbNavContent>
+      <div class="d-block">
+        <app-title title="Date Between" titleClass="h4" [uppercase]="true"></app-title>
+      </div>
+      <div class="d-block">
+        <app-date-between></app-date-between>
+      </div>
+    </ng-template>
+  </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
+

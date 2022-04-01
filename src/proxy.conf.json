@@ -1,0 +1,15 @@
+{
+  "/api": {
+    "target": "http://localhost:9000",
+    "secure": false
+  },
+  "/sparql": {
+    "target": "http://localhost:8888",
+    "secure": false
+  },
+  "/proxy": {
+    "target": "http://localhost",
+    "secure": false
+  }
+} 
+ 

@@ -1,0 +1,23 @@
+<form [formGroup]="businessDaysForm" (ngSubmit)="submit()" *ngIf="businessDaysForm">
+  <div class="alert alert-warning">
+    <fa-icon [icon]="['fas','exclamation-triangle']"></fa-icon>&nbsp;This tool doesn't take holidays into consideration
+  </div>
+  <div class="form-group">
+    <label for="startDate">Start</label>
+    <input type="date" id="startDate" formControlName="startDate" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="endDate">End</label>
+    <input type="date" id="endDate" formControlName="endDate" class="form-control">
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-primary" [disabled]="!businessDaysForm.valid">Submit</button>
+  </div>
+</form>
+<div class="jumbotron jumbotron-fluid mt-2 mb-2" *ngIf="result && resultStmt">
+  <p class="text-danger d-inline display-3">
+    {{result | number:'1.0-0'}}
+  </p>
+  <span class="display-4">{{resultStmt}}</span>
+</div>

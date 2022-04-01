@@ -1,0 +1,73 @@
+<ng-container *ngIf="loaded">
+  <form autocomplete="off">
+    <input name="searchSymbol"
+           autocomplete="off"
+           type="search" aria-label="Search ticks" placeholder="Search ticks" class="form-control "
+           [(ngModel)]="searchInput"
+           (input)="search($event)">
+    <ng-container *ngIf="result">
+      <nav class="card border-top-0">
+        <ul class="list-group">
+          <ng-container *ngFor="let q of result.quotes;">
+            <li (click)="detail($event, q)"
+                class="list-group-item list-group-item-action border-0">
+              <span class="hover-none">{{q.longname || q.shortname}} ({{q.symbol}})</span>
+            </li>
+          </ng-container>
+        </ul>
+      </nav>
+    </ng-container>
+    <ng-container *ngIf="selectedQuote">
+      <div class="d-flex justify-content-between mb-2 mt-2">
+        <div class="w-100 mr-1" *ngIf="portfolios && portfolios?.length">
+          <app-select-portfolio [selectedPortfolio]="selectedPortfolio" [portfolios]="portfolios"
+                                (portfolioChanged)="selectedPortfolio = $event"></app-select-portfolio>
+        </div>
+        <div ngbDropdown class="d-inline-block" container="body">
+          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+            <fa-icon icon="exclamation"></fa-icon>&nbsp;Actions
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem (click)="refresh($event)">
+              <fa-icon [icon]="['fas','sync']"></fa-icon>&nbsp;Reload
+            </button>
+            <button ngbDropdownItem *ngIf="canAddToPortfolio()" (click)="addToPortfolio($event)">
+              <fa-icon [icon]="['fas','plus']"></fa-icon>&nbsp;Add to portfolio
+            </button>
+            <button ngbDropdownItem *ngIf="!canAddToPortfolio()" (click)="removeFromPortfolio($event)">
+              <fa-icon [icon]="['fas','check']"></fa-icon>&nbsp;Remove from portfolio
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-2 mb-2" *ngIf="selectedQuote">
+        <div class="card-header bg-light">
+          <h1 class="text-muted">{{selectedQuote.meta.symbol}}</h1>
+          <strong
+            class="d-block h2 font-weight-bold">{{selectedQuote.meta.regularMarketPrice | number: '1.2-2'}}&nbsp;{{selectedQuote.meta.currency}}&nbsp;<span
+            class="h4 font-weight-bold" [class.text-danger]="calcDelta().percentage < 0"
+            [class.text-success]="calcDelta().percentage > 0">{{calcDelta().delta| number: '1.2-2'}}
+            ({{calcDelta().percentage| number: '1.2-2'}}%)</span>
+          </strong>
+          <div class="card-subtitle">
+            <a target="_blank" [href]="detailUrl  + selectedQuoteBasicInfo.symbol">Details (Yahoo Finance)</a>
+          </div>
+        </div>
+        <div>
+          <app-tick-chart *ngIf="selectedQuote?.indicators?.quote?.length"
+                          [high]="selectedQuote.indicators.quote[0].high"
+                          [low]="selectedQuote.indicators.quote[0].low"
+                          [volume]="selectedQuote.indicators.quote[0].volume"
+                          [close]="selectedQuote.indicators.quote[0].close"
+                          [open]="selectedQuote.indicators.quote[0].open"
+                          [labels]="getLabels(selectedQuote.timestamp)">
+          </app-tick-chart>
+        </div>
+      </div>
+    </ng-container>
+  </form>
+</ng-container>
+
+<ng-container *ngIf="!loaded">
+  loading...
+</ng-container>

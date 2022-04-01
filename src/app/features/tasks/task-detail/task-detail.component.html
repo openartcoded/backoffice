@@ -1,0 +1,158 @@
+<ng-container>
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">{{task?.title || 'New Task'}}</span>
+    <button type="button" class="close" aria-label="Close"
+            (click)="activeModal?.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="form">
+    <form [formGroup]="form" (ngSubmit)="send()">
+      <div class="form-group row" *ngIf="!hasAction">
+        <label class="col-sm-2 col-form-label" for="title">Title</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="title" formControlName="title"
+                 placeholder="Title">
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="!hasAction">
+        <label class="col-sm-2 col-form-label" for="description">Description</label>
+        <div class="col-sm-10">
+          <textarea [autosize] class="form-control" id="description" formControlName="description"
+                    placeholder="Description"></textarea>
+        </div>
+      </div>
+
+      <ng-container *ngIf="allowedActions">
+        <div class="form-group row" *ngIf="hasAction">
+          <label class="col-sm-2 col-form-label" for="action">Action</label>
+          <div class="col-sm-10">
+            <select class="form-control" id="action" formControlName="action">
+              <option *ngFor="let allowedAction of allowedActions" [ngValue]="allowedAction"
+                      [selected]="allowedAction.key === task?.actionKey">{{allowedAction.title}}</option>
+            </select>
+            <div class="alert alert-info mt-2 mb-0" *ngIf="action">
+              <fa-icon icon="info"></fa-icon>&nbsp;{{action.description}}
+            </div>
+
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="actionParameters?.length && hasAction">
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label" for="action">Parameters</label>
+          <div class="col-sm-10">
+            <ng-container formArrayName="actionParameters">
+              <div class="bg-light p-1 mb-1" *ngFor="let _ of actionParameters.controls; index as i">
+
+                <ng-container [formGroupName]="i">
+                  <div class="form-group">
+                    <input type="text" class="form-control form-control-sm" [id]="'key'+i" formControlName="key">
+                  </div>
+                  <ng-container *ngIf="isOption(_) else second">
+                      <div class="form-group">
+                        <select class="form-control form-control-sm" [id]="'parameterValue'+i" formControlName="parameterValue">
+                          <option [ngValue]="null">--Select--</option>
+                          <option *ngFor="let o of getOptions(_)" [value]="o">{{o}}</option>
+                        </select>
+                      </div>
+                  </ng-container>
+                  <ng-template #second>
+                  <div class="form-group">
+                    <input type="text" class="form-control form-control-sm" [id]="'parameterValue'+i" formControlName="parameterValue">
+                  </div>
+                  </ng-template>
+
+                  <small class="form-text" *ngIf="action">
+                    <fa-icon icon="info"></fa-icon>&nbsp;{{getDescription(_)}}
+                  </small>
+
+                </ng-container>
+              </div>
+            </ng-container>
+
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="form-group row" *ngIf="hasSpecificDate">
+        <label class="col-sm-2 col-form-label" for="specificDate">Specific Time</label>
+        <div class="col-sm-10">
+          <input type="datetime-local" class="form-control" id="specificDate" formControlName="specificDate">
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="!hasSpecificDate">
+        <label class="col-sm-2 col-form-label" for="cronExpression">Cron</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="cronExpression" formControlName="cronExpression"
+                 placeholder="Cron Expression">
+        </div>
+      </div>
+
+      <div class="form-group row" *ngIf="task.nextDate">
+        <label class="col-sm-2 col-form-label" for="nextDate">Next Date</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="nextDate" formControlName="nextDate"
+                 placeholder="Next date">
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="task.lastExecutionDate">
+        <label class="col-sm-2 col-form-label" for="lastExecutionDate">Last Execution</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="lastExecutionDate" formControlName="lastExecutionDate"
+                 placeholder="Last Execution Date">
+        </div>
+      </div>
+
+
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="hasSpecificDate" formControlName="hasSpecificDate">
+        <label class="form-check-label" for="hasSpecificDate">
+          Specific Date
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="hasAction" formControlName="hasAction">
+        <label class="form-check-label" for="hasAction">
+          Has Action
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="disabled" formControlName="disabled">
+        <label class="form-check-label" for="disabled">
+          Disabled
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="sendMail" formControlName="sendMail">
+        <label class="form-check-label" for="sendMail">
+          Send Mail
+        </label>
+      </div>
+      <div class="form-check form-check-inline" *ngIf="hasAction">
+        <input class="form-check-input" type="checkbox" id="persistResult" formControlName="persistResult">
+        <label class="form-check-label" for="persistResult">
+          Persist result
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="inAppNotification" formControlName="inAppNotification">
+        <label class="form-check-label" for="inAppNotification">
+          In App Notification
+        </label>
+      </div>
+      <div class="d-block">
+
+      </div>
+      <div class="d-flex justify-content-end">
+        <button class="btn  btn-danger mr-1" (click)="delete($event)" [disabled]="!task?.id">Delete
+        </button>
+        <button type="submit" class="btn  btn-primary"
+                [disabled]="!form.valid || (!specificDate && !cronExpression)">Submit <!-- todo bug with !specificDate && !cronExpression -->
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</ng-container>

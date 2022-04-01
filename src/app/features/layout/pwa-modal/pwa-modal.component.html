@@ -1,0 +1,18 @@
+<ng-container>
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">PWA Update</span>
+    <button type="button" class="close" aria-label="Close"
+            (click)="activeModal?.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-muted d-block"></div>
+    <div class="alert alert-warning">
+      <fa-icon [icon]="['fas','exclamation-triangle']"></fa-icon>&nbsp; New version available!
+    </div>
+    <button class="btn btn-success" (click)="reloadApp()">Update</button>
+
+  </div>
+</ng-container>
+

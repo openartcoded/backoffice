@@ -1,0 +1,60 @@
+<ng-container *ngIf="timesheetsGroupedByYear">
+  <app-title [uppercase]="true" title="Timesheets"></app-title>
+  <div class="d-md-flex justify-content-end pb-2">
+    <div ngbDropdown class="d-inline-block  mt-0" container="body">
+      <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+        <fa-icon icon="exclamation"></fa-icon>&nbsp;Actions
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1" (click)="openSettings()">
+        <button ngbDropdownItem>
+          <fa-icon [icon]="['fas','dot-circle']"></fa-icon>&nbsp;Settings
+        </button>
+      </div>
+
+    </div>
+  </div>
+  <div class="alert alert-warning" *ngIf="!years?.length">
+    <fa-icon icon="info"></fa-icon>
+    No content.
+  </div>
+  <div class="row mb-2">
+    <div class="col-lg-3 d-md-inline-block col-12 mb-4">
+      <ul class="list-group">
+        <li role="button" class="list-group-item list-group-item-action" *ngFor="let year of years"
+            [class.active]="year === selectedYear" (click)="setTimesheetYear(year)">
+          {{year}}
+        </li>
+      </ul>
+    </div>
+    <div class="col-lg-9 col-12" *ngIf="selectedTimesheetYear">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead>
+          <tr>
+            <th class="bg-light">Period</th>
+            <th class="text-center">Closed</th>
+            <th class="text-center">Working Days</th>
+            <th class="text-center d-md-table-cell d-none">Hours Worked</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let timesheet of selectedTimesheetYear" role="button" [routerLink]="['timesheet',timesheet.id]">
+            <td>{{timesheet.name}}</td>
+            <td class="text-center">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input position-static" aria-label="select"
+                       [checked]="timesheet.closed"
+                       [disabled]="true">
+              </div>
+            </td>
+            <td class="text-center">{{timesheet.numberOfWorkingDays}}</td>
+            <td class="text-center d-md-table-cell d-none">{{timesheet.numberOfHoursWorked}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</ng-container>
+
