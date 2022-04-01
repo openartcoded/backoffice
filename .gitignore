@@ -1,0 +1,44 @@
+/.angular/cache
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+mvnw*
+bundle*
+mvnw.cmd
+.mvn
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+/logPath_IS_UNDEFINED
+/xls2rdf.log
+
+
+node/
+**/.DS_STORE
+
+.env
+dist
+node_modules
