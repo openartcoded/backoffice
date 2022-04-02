@@ -11,9 +11,9 @@ git push origin v$1
 
 echo "push docker image v$1..."
 
-docker build -t artcoded/back-office:v$1 .
-docker tag artcoded/back-office:v$1 artcoded:5000/artcoded/back-office:v$1
-docker push artcoded:5000/artcoded/back-office:v$1
+docker build -t nbittich/back-office:v$1 .
+docker tag nbittich/back-office:v$1 nbittich/back-office:v$1
+docker push nbittich/back-office:v$1
 
 git push
 

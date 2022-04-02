@@ -1,4 +1,4 @@
 set -e
-docker build -t artcoded/back-office .
-docker tag artcoded/back-office artcoded:5000/artcoded/back-office
-docker push artcoded:5000/artcoded/back-office
+docker build -t nbittich/back-office .
+docker tag nbittich/back-office nbittich/back-office
+docker push nbittich/back-office
