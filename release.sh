@@ -7,7 +7,7 @@ npm i
 git add .
 
 echo "push tag $1..."
-git push origin $1
+git push origin v$1
 
 git push
 
