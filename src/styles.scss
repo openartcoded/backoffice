@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans&display=swap');
-
 @import url('https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.0/build/styles/a11y-light.min.css');
 
 @import '~bootstrap/scss/bootstrap';
@@ -180,9 +178,7 @@ button:focus {
   margin-bottom: 2px;
 }
 
-.p-chips .p-chips-multiple-container:not(.p-disabled):hover {
-  //border-color: transparent !important;
-}
+
 
 .table td.fit,
 .table th.fit {

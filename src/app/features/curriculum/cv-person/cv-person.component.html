@@ -1,4 +1,4 @@
-<div class="d-block pt-3 pl-2 pr-2">
+<div class="d-block pt-3 ps-2 pe-2">
   <div class="d-flex justify-content-between">
     <h3>PERSONAL INFO</h3>
     <button class="btn btn-link text-dark" (click)="edit()">
@@ -7,24 +7,24 @@
   </div>
   <ul class="list-group">
     <li class="list-group-item">
-      <fa-icon class="mr-1 text-secondary" icon="id-card"></fa-icon>
+      <fa-icon class="me-1 text-secondary" icon="id-card"></fa-icon>
       {{person.lastname}} {{person.firstname}}</li>
     <li class="list-group-item">
-      <fa-icon class="mr-1 text-secondary" icon="dollar-sign"></fa-icon>
+      <fa-icon class="me-1 text-secondary" icon="dollar-sign"></fa-icon>
       {{person.title}}</li>
     <li class="list-group-item">
-      <fa-icon class="mr-1 text-secondary" icon="address-book"></fa-icon>
+      <fa-icon class="me-1 text-secondary" icon="address-book"></fa-icon>
       {{person.address}}</li>
     <li class="list-group-item">
-      <fa-icon class="mr-1 text-secondary" icon="phone"></fa-icon>
+      <fa-icon class="me-1 text-secondary" icon="phone"></fa-icon>
       {{person.phoneNumber}}
     </li>
     <li class="list-group-item">
-      <fa-icon class="mr-1 text-secondary" icon="mail-bulk"></fa-icon>
+      <fa-icon class="me-1 text-secondary" icon="mail-bulk"></fa-icon>
       {{person.emailAddress}}
     </li>
     <li class="list-group-item">
-      <fa-icon class="mr-1 text-secondary" icon="birthday-cake"></fa-icon>
+      <fa-icon class="me-1 text-secondary" icon="birthday-cake"></fa-icon>
       {{person.birthdate | date: 'dd/MM/yyyy'}}</li>
   </ul>
 </div>

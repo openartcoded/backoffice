@@ -1,4 +1,4 @@
-<select aria-label="Portfolio" class="form-control" name="selectPortfolio" id="selectPortfolio"
+<select aria-label="Portfolio" class="form-select" name="selectPortfolio" id="selectPortfolio"
         [(ngModel)]="selectedPortfolio" (ngModelChange)="onPortfolioChanged()">
   <ng-container *ngFor="let p of portfolios">
     <option [selected]="selectedPortfolio?.name === p.name" [ngValue]="p">{{p.name}}</option>

@@ -1,21 +1,21 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">{{task?.title || 'New Task'}}</span>
-    <button type="button" class="close" aria-label="Close"
+    <button type="button" class="btn-close" aria-label="Close"
             (click)="activeModal?.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
+      
     </button>
   </div>
   <div class="modal-body" *ngIf="form">
     <form [formGroup]="form" (ngSubmit)="send()">
-      <div class="form-group row" *ngIf="!hasAction">
+      <div class="mb-1 row" *ngIf="!hasAction">
         <label class="col-sm-2 col-form-label" for="title">Title</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="title" formControlName="title"
                  placeholder="Title">
         </div>
       </div>
-      <div class="form-group row" *ngIf="!hasAction">
+      <div class="mb-1 row" *ngIf="!hasAction">
         <label class="col-sm-2 col-form-label" for="description">Description</label>
         <div class="col-sm-10">
           <textarea [autosize] class="form-control" id="description" formControlName="description"
@@ -24,10 +24,10 @@
       </div>
 
       <ng-container *ngIf="allowedActions">
-        <div class="form-group row" *ngIf="hasAction">
+        <div class="mb-1 row" *ngIf="hasAction">
           <label class="col-sm-2 col-form-label" for="action">Action</label>
           <div class="col-sm-10">
-            <select class="form-control" id="action" formControlName="action">
+            <select class="form-select" id="action" formControlName="action">
               <option *ngFor="let allowedAction of allowedActions" [ngValue]="allowedAction"
                       [selected]="allowedAction.key === task?.actionKey">{{allowedAction.title}}</option>
             </select>
@@ -39,7 +39,7 @@
         </div>
       </ng-container>
       <ng-container *ngIf="actionParameters?.length && hasAction">
-        <div class="form-group row">
+        <div class="mb-1 row">
           <label class="col-sm-2 col-form-label" for="action">Parameters</label>
           <div class="col-sm-10">
             <ng-container formArrayName="actionParameters">
@@ -51,7 +51,7 @@
                   </div>
                   <ng-container *ngIf="isOption(_) else second">
                       <div class="form-group">
-                        <select class="form-control form-control-sm" [id]="'parameterValue'+i" formControlName="parameterValue">
+                        <select class="form-select form-control-sm" [id]="'parameterValue'+i" formControlName="parameterValue">
                           <option [ngValue]="null">--Select--</option>
                           <option *ngFor="let o of getOptions(_)" [value]="o">{{o}}</option>
                         </select>
@@ -75,13 +75,13 @@
         </div>
       </ng-container>
 
-      <div class="form-group row" *ngIf="hasSpecificDate">
+      <div class="mb-1 row" *ngIf="hasSpecificDate">
         <label class="col-sm-2 col-form-label" for="specificDate">Specific Time</label>
         <div class="col-sm-10">
           <input type="datetime-local" class="form-control" id="specificDate" formControlName="specificDate">
         </div>
       </div>
-      <div class="form-group row" *ngIf="!hasSpecificDate">
+      <div class="mb-1 row" *ngIf="!hasSpecificDate">
         <label class="col-sm-2 col-form-label" for="cronExpression">Cron</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="cronExpression" formControlName="cronExpression"
@@ -89,14 +89,14 @@
         </div>
       </div>
 
-      <div class="form-group row" *ngIf="task.nextDate">
+      <div class="mb-1 row" *ngIf="task.nextDate">
         <label class="col-sm-2 col-form-label" for="nextDate">Next Date</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="nextDate" formControlName="nextDate"
                  placeholder="Next date">
         </div>
       </div>
-      <div class="form-group row" *ngIf="task.lastExecutionDate">
+      <div class="mb-1 row" *ngIf="task.lastExecutionDate">
         <label class="col-sm-2 col-form-label" for="lastExecutionDate">Last Execution</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="lastExecutionDate" formControlName="lastExecutionDate"
@@ -145,7 +145,7 @@
 
       </div>
       <div class="d-flex justify-content-end">
-        <button class="btn  btn-danger mr-1" (click)="delete($event)" [disabled]="!task?.id">Delete
+        <button class="btn  btn-danger me-1" (click)="delete($event)" [disabled]="!task?.id">Delete
         </button>
         <button type="submit" class="btn  btn-primary"
                 [disabled]="!form.valid || (!specificDate && !cronExpression)">Submit <!-- todo bug with !specificDate && !cronExpression -->

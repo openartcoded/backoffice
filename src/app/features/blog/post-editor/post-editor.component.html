@@ -1,9 +1,9 @@
 <ng-container *ngIf="post">
   <div class="modal-header" *ngIf="post.title && activeModal">
     <span class="modal-title text-break">{{post.title | titlecase}}</span>
-    <button type="button" class="close" aria-label="Close"
+    <button type="button" class="btn-close" aria-label="Close"
             (click)="activeModal?.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
+      
     </button>
   </div>
   <div class="modal-body">
@@ -23,7 +23,7 @@
               <textarea class="form-control" id="description" formControlName="description"
                         placeholder="Description"></textarea>
             </div>
-            <div class="form-group ">
+            <div class="mb-1">
               <label for="tags">Tags</label>
               <p-chips id="tags" formControlName="tags" separator=","></p-chips>
             </div>
@@ -34,7 +34,7 @@
                              [accept]="'image/*'"
                              [multiple]="false">
                 <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                  <button id="sd" class="btn btn-primary mr-1" type="button" (click)="openFileSelector()" *ngIf="!url">
+                  <button id="sd" class="btn btn-primary me-1" type="button" (click)="openFileSelector()" *ngIf="!url">
                     <fa-icon [icon]="['fas','upload']"></fa-icon>
                   </button>
                   <a *ngIf="url" (click)="openFileSelector()" class="border-0">

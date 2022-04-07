@@ -86,9 +86,9 @@
         <tr class="d-none d-md-table-row bg-light">
           <td colspan="6">
             <ng-container *ngFor="let t of tags">
-              <a class="btn btn-link pr-1" (click)="filterByTag(t)">
+              <a class="btn btn-link pe-1" (click)="filterByTag(t)">
                 <fa-icon [icon]="['fas','circle']" [ngClass]="t.color"></fa-icon>
-                <span class="ml-1">{{t.label | lowercase}}</span>
+                <span class="ms-1">{{t.label | lowercase}}</span>
               </a>
           </ng-container>
           </td>
@@ -100,10 +100,6 @@
     <ngb-pagination *ngIf="fees && fees.totalPages > 1" [page]="pageNumber" [pageSize]="fees.size" [maxSize]="5"
       [collectionSize]="fees.totalElements" (pageChange)="load($event)">
     </ngb-pagination>
-    <select id="pageSize" class="form-control form-control-sm ml-2 col-1 " [(ngModel)]="pageSize"
-      *ngIf="fees?.content?.length" (ngModelChange)="load()">
-      <option *ngFor="let op of [5,10,20,50,100]" [selected]="op === pageSize">{{op}}</option>
-    </select>
   </div>
 
 </ng-container>

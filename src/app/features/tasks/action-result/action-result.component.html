@@ -1,8 +1,8 @@
 <ng-container>
     <div class="modal-header" *ngIf="activeModal">
         <span class="modal-title text-break">{{actionKey}}</span>
-        <button type="button" class="close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
+        <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
+            
         </button>
     </div>
     <div class="modal-body"*ngIf="actionResults$ |async as actionResults" >
@@ -47,10 +47,6 @@
                 [pageSize]="actionResults?.size" [maxSize]="5" [collectionSize]="actionResults?.totalElements"
                 (pageChange)="load($event)">
             </ngb-pagination>
-            <select *ngIf="actionResults?.content?.length" id="pageSize" class="form-control form-control-sm ml-2 col-1 "
-                [(ngModel)]="pageSize" (ngModelChange)="load()">
-                <option *ngFor="let op of [5,10,20,50,100]" [selected]="op === pageSize">{{op}}</option>
-            </select>
         </div>
 
         </ng-container>

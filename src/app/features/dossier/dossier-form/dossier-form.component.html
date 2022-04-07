@@ -1,8 +1,8 @@
 <ng-container *ngIf="dossier">
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">Dossier <{{dossier.name ? dossier.name : 'New Dossier' }}></span>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
+      
     </button>
   </div>
   <div class="modal-body" *ngIf="dossierForm">
@@ -12,58 +12,58 @@
           <a ngbNavLink>Metadata</a>
           <ng-template ngbNavContent>
             <div class="mt-2">
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="dossierId">Id</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="dossierId" formControlName="dossierId" placeholder="Id">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="dossierName">Name</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="dossierName" formControlName="dossierName"
                          placeholder="Name (Minimum 5 characters)" min="5" required="required">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="dossierDescription">Description</label>
                 <div class="col-sm-10">
                   <textarea class="form-control" id="dossierDescription" formControlName="dossierDescription" [autosize]
                             placeholder="Description"></textarea>
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="tvaDue">VAT Due</label>
                 <div class="col-sm-10">
                   <input type="number" class="form-control" id="tvaDue" formControlName="tvaDue"
                          placeholder="VAT Due (in €)">
                 </div>
               </div>
-              <div class="form-group row" *ngIf="expenses || dossier.invoices">
+              <div class="mb-1 row" *ngIf="expenses || dossier.invoices">
                 <label class="col-sm-2 col-form-label" for="totalAttachments">Total Attachments</label>
                 <div class="col-sm-10">
                   <input type="number" class="form-control" id="totalAttachments" [value]="totalAttachments()" disabled>
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="creationDate">Creation Date</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="creationDate" formControlName="creationDate">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="updatedDate">Updated Date</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="updatedDate" formControlName="updatedDate">
                 </div>
               </div>
-              <div class="form-group row" *ngIf="dossier.closedDate">
+              <div class="mb-1 row" *ngIf="dossier.closedDate">
                 <label class="col-sm-2 col-form-label" for="closedDate">Closed Date</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="closedDate" formControlName="closedDate">
                 </div>
               </div>
-              <div class="form-group row" *ngIf="dossier.recalledForModificationDate">
+              <div class="mb-1 row" *ngIf="dossier.recalledForModificationDate">
                 <label class="col-sm-2 col-form-label" for="dossierRecalledForModificationDate">Recalled Date</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="dossierRecalledForModificationDate"
@@ -71,7 +71,7 @@
                 </div>
               </div>
               <div class="d-flex justify-content-end mt-2">
-                <button (click)="downloadSummary($event)" class="btn  btn-outline-success mb-2 mr-2"
+                <button (click)="downloadSummary($event)" class="btn  btn-outline-success mb-2 me-2"
                         [disabled]="!dossier.invoiceIds?.length && !dossier.feeIds?.length">
                   Download Summary
                 </button>
@@ -105,13 +105,13 @@
 
                 <div class="bg-light p-1 mb-1" *ngFor="let _ of advancePayments.controls; index as i">
                   <ng-container [formGroupName]="i">
-                    <div class="form-group row">
+                    <div class="mb-1 row">
                       <label class="col-sm-2 col-form-label" [for]="'datePaid'+i">Date Paid</label>
                       <div class="col-sm-10">
                         <input type="date" class="form-control" [id]="'datePaid'+i" formControlName="datePaid">
                       </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="mb-1 row">
                       <label class="col-sm-2 col-form-label" [for]="'advance'+i">Advance</label>
                       <div class="col-sm-10">
                         <input type="number" class="form-control" [id]="'advance'+i" formControlName="advance"
@@ -173,7 +173,7 @@
               <li class="list-group-item" *ngFor="let i of dossier.invoices">
                 <div class="d-flex justify-content-between">
                   <div>
-                    <a class="btn btn-link pr-0 pl-0" (click)="openInvoiceDetail(i)">{{i.invoiceNumber}}</a>
+                    <a class="btn btn-link pe-0 ps-0" (click)="openInvoiceDetail(i)">{{i.invoiceNumber}}</a>
                     <span class="text-danger">({{i.subTotal | currency:'€'}})</span>
                   </div>
                   <a class="btn btn-link" *ngIf="!dossier.closed" (click)="removeInvoice($event, i)">

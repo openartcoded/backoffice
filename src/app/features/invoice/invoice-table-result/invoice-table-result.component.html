@@ -92,10 +92,6 @@
     <ngb-pagination *ngIf="invoices?.totalPages > 1" [page]="invoices?.pageable?.pageNumber + 1"
       [pageSize]="invoices?.size" [maxSize]="5" [collectionSize]="invoices?.totalElements" (pageChange)="load($event)">
     </ngb-pagination>
-    <select *ngIf="invoices?.content?.length" id="pageSize" class="form-control form-control-sm ml-2 col-1 "
-      [(ngModel)]="pageSize" (ngModelChange)="load()">
-      <option *ngFor="let op of [5,10,20,50,100]" [selected]="op === pageSize">{{op}}</option>
-    </select>
   </div>
 </ng-container>
 <ng-container *ngIf="!reloadSummary && !archived && !logicalDelete">

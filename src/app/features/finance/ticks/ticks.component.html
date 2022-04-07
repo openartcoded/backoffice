@@ -19,7 +19,7 @@
     </ng-container>
     <ng-container *ngIf="selectedQuote">
       <div class="d-flex justify-content-between mb-2 mt-2">
-        <div class="w-100 mr-1" *ngIf="portfolios && portfolios?.length">
+        <div class="w-100 me-1" *ngIf="portfolios && portfolios?.length">
           <app-select-portfolio [selectedPortfolio]="selectedPortfolio" [portfolios]="portfolios"
                                 (portfolioChanged)="selectedPortfolio = $event"></app-select-portfolio>
         </div>

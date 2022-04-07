@@ -1,9 +1,9 @@
 <ng-container *ngIf="meme">
   <div class="modal-header" *ngIf="meme.title && activeModal">
     <span class="modal-title text-break">{{meme.title | titlecase}} ({{meme.viewsCount}} views)</span>
-    <button type="button" class="close" aria-label="Close"
+    <button type="button" class="btn-close" aria-label="Close"
             (click)="activeModal?.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
+      
     </button>
   </div>
   <div class="modal-body">
@@ -25,7 +25,7 @@
                        [accept]="'image/*'"
                        [multiple]="false">
           <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-            <button id="sd" class="btn btn-primary mr-1" type="button" (click)="openFileSelector()" *ngIf="!url">
+            <button id="sd" class="btn btn-primary me-1" type="button" (click)="openFileSelector()" *ngIf="!url">
               <fa-icon [icon]="['fas','upload']"></fa-icon>
             </button>
             <a *ngIf="url" (click)="openFileSelector()" class="border-0">
@@ -45,7 +45,7 @@
         <input type="datetime-local" class="form-control" id="dateOfVisibility" formControlName="dateOfVisibility">
       </div>
       <div class="d-flex justify-content-end">
-        <button type="submit" class="btn  btn-primary"
+        <button type="submit" class="btn  btn-primary mt-1"
                 [disabled]="!editorForm.valid || loading">Submit
         </button>
       </div>

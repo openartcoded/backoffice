@@ -4,8 +4,8 @@
       <fa-icon *ngIf="fee.tag" [icon]="['fas','circle']" [ngClass]="getClassForTag(fee)"></fa-icon>&nbsp;{{fee.subject |
       titlecase}}
     </span>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
+      
     </button>
   </div>
   <div class="modal-body">
@@ -15,21 +15,21 @@
           <a ngbNavLink>Metadata</a>
           <ng-template ngbNavContent>
             <div class="mt-2">
-              <div class="form-group ">
+              <div class="mb-1">
                 <label for="feeId">Id</label>
                 <input [disabled]="true" type="text" class="form-control" id="feeId" [value]="fee.id">
               </div>
-              <div class="form-group ">
+              <div class="mb-1">
                 <label for="receivedDate">Date received</label>
                 <input [disabled]="true" type="text" class="form-control" id="receivedDate"
                   [value]="fee.date | date:'dd/MM/yyyy HH:mm'">
               </div>
-              <div class="form-group ">
+              <div class="mb-1">
                 <label for="updatedDate">Updated Date</label>
                 <input [disabled]="true" type="text" class="form-control" id="updatedDate"
                   [value]="fee.updatedDate | date:'dd/MM/yyyy HH:mm'">
               </div>
-              <div class="form-group " *ngIf="fee.archivedDate">
+              <div class="mb-1" *ngIf="fee.archivedDate">
                 <label for="archivedDate">Archived Date</label>
                 <input type="text" class="form-control" disabled id="archivedDate"
                   [value]="fee.archivedDate | date:'dd/MM/yyyy HH:mm'">
@@ -41,11 +41,8 @@
           <a ngbNavLink>Body</a>
           <ng-template ngbNavContent>
             <div class="mt-2">
-              <div class="form-group ">
-                <label for="body">Body</label>
                 <textarea [autosize] [disabled]="true" class="form-control" id="body" [value]="fee.body">
           </textarea>
-              </div>
             </div>
           </ng-template>
         </li>

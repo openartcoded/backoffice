@@ -3,17 +3,17 @@
   <div class="card-body">
     <div class="form-group">
       <label for="tagSelect">Select a tag &nbsp;</label>
-      <select class="form-control" id="tagSelect" [(ngModel)]="selectedTag" name="tagSelect"
+      <select class="form-select" id="tagSelect" [(ngModel)]="selectedTag" name="tagSelect"
               required="required" [disabled]="isDisabled">
         <option *ngFor="let t of tags" [value]="t.tag">{{t.label | titlecase}}</option>
       </select>
     </div>
     <div class="d-flex justify-content-end">
-      <button (click)="submit()" class="btn btn-primary mr-1" [disabled]="!selectedTag || isDisabled">
+      <button (click)="submit()" class="btn btn-primary mt-1" [disabled]="!selectedTag || isDisabled">
         <fa-icon [icon]="['fas','check']"></fa-icon>
         Set
       </button>
-      <button (click)="reset()" class="btn btn-outline-danger" [disabled]="isDisabled" *ngIf="!hideCancelButton">
+      <button (click)="reset()" class="btn btn-outline-danger mt-1" [disabled]="isDisabled" *ngIf="!hideCancelButton">
         <fa-icon [icon]="['fas','times']"></fa-icon>
         Cancel
       </button>

@@ -3,19 +3,19 @@
     <span class="modal-title text-break">
       Manual Submit
     </span>
-    <button type="button" class="close" aria-label="Close"
+    <button type="button" class="btn-close" aria-label="Close"
             (click)="activeModal?.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
+      
     </button>
   </div>
   <div class="modal-body">
     <form [formGroup]="manualSubmitForm" (ngSubmit)="submit()">
-      <div class="form-group ">
+      <div class="mb-1">
         <label for="subject">Subject</label>
         <input type="text" class="form-control" id="subject" formControlName="subject">
       </div>
 
-      <div class="form-group ">
+      <div class="mb-1">
         <label for="body">Body</label>
         <textarea [autosize] class="form-control" id="body" formControlName="body"></textarea>
       </div>
@@ -24,13 +24,13 @@
                      dropZoneClassName="flat bg-light d-block"
                      [multiple]="true">
         <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-          <button id="dd" class="btn btn-primary mr-1" type="button" (click)="openFileSelector()">
+          <button id="dd" class="btn btn-primary me-1" type="button" (click)="openFileSelector()">
             <fa-icon [icon]="['fas','upload']"></fa-icon>
           </button>
         </ng-template>
       </ngx-file-drop>
 
-      <div class="form-group " *ngIf="files?.length">
+      <div class="mb-1" *ngIf="files?.length">
         <label for="attachments">Attachments</label>
         <ul class="list-group" id="attachments">
           <li class="list-group-item" *ngFor="let a of files">

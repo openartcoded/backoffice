@@ -1,7 +1,7 @@
 <form [formGroup]="stringToLangForm" (ngSubmit)="submit()" *ngIf="stringToLangForm">
   <div class="form-group">
     <label for="modelLang">Choose an input format</label>
-    <select class="form-control" formControlName="modelLang" id="modelLang">
+    <select class="form-select" formControlName="modelLang" id="modelLang">
       <option *ngFor="let l of allowedLanguages$ | async" [selected]="l === modelLang" [value]="l">{{l}}</option>
     </select>
   </div>
@@ -12,7 +12,7 @@
   </div>
   <div class="form-group">
     <label for="selectedLanguage">Choose an output format</label>
-    <select class="form-control" formControlName="selectedLanguage" id="selectedLanguage">
+    <select class="form-select" formControlName="selectedLanguage" id="selectedLanguage">
       <option *ngFor="let l of allowedLanguages$ | async" [selected]="l === selectedLanguage" [value]="l">{{l}}</option>
     </select>
   </div>

@@ -3,20 +3,20 @@
     <span class="modal-title text-break">
       {{skill?.name || 'New Skill'}}
     </span>
-    <button type="button" class="close" aria-label="Close"
+    <button type="button" class="btn-close" aria-label="Close"
             (click)="activeModal?.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
+      
     </button>
   </div>
   <div class="modal-body" *ngIf="form">
     <form [formGroup]="form" (ngSubmit)="send()">
-      <div class="form-group row">
+      <div class="mb-1 row">
         <label class="col-sm-2 col-form-label" for="name">Name</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="name" formControlName="name">
         </div>
       </div>
-      <div class="form-group row">
+      <div class="mb-1 row">
         <label class="col-sm-2 col-form-label" for="priority">Priority</label>
         <div class="col-sm-10">
           <input type="number" class="form-control" id="priority" formControlName="priority">
@@ -29,7 +29,7 @@
           Soft Skill
         </label>
       </div>
-      <div class="form-group ">
+      <div class="mb-1">
         <label for="tags">Tags</label>
         <p-chips id="tags" formControlName="tags" separator=","></p-chips>
       </div>

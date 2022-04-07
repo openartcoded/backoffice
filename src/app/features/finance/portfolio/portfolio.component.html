@@ -1,6 +1,6 @@
 <ng-container *ngIf="portfolios  && loaded">
   <div class="d-flex justify-content-between mb-2">
-    <div class="w-100 mr-1">
+    <div class="w-100 me-1">
       <app-select-portfolio [selectedPortfolio]="selectedPortfolio" [portfolios]="portfolios"
                             (portfolioChanged)="onPortfolioChanged($event)"></app-select-portfolio>
     </div>

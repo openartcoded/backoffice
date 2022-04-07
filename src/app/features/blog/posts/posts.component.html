@@ -4,7 +4,7 @@
   <div class="mt-2 m-lg-0 col-lg-9 col-12 order-lg-0 order-1">
     <ng-container *ngIf="posts && posts.size > 0">
       <div *ngFor="let n of posts.content" class="border-primary card bg-transparent mb-2">
-        <div class="card-header   pl-1 pr-1 pt-0 pb-0  ">
+        <div class="card-header   ps-1 pe-1 pt-0 pb-0  ">
           <small class="d-inline">{{n.title | titlecase}}
             - {{n.updatedDate | date: 'dd/MM/yyyy'}}{{n.draft ? ' (Draft)' : ''}}
             &nbsp;<fa-icon [icon]="['fas','eye']"></fa-icon>&nbsp;{{n.countViews}}
@@ -25,7 +25,7 @@
             </div>
           </div>
         </div>
-        <div class="card-body mt-0 pt-1 pl-2 ">
+        <div class="card-body mt-0 pt-1 ps-2 ">
           <p class="">{{n.description}}</p>
           <a class="btn btn-outline-primary" [routerLink]="['post',slugify(n.title),n.id]">Read more</a>
         </div>
@@ -52,7 +52,7 @@
            aria-label="Search"
            class="form-control mb-2">
     <ng-container *ngIf="tags">
-      <span role="button" class="badge p-1 mr-1 mb-1" (click)="search(t)"
+      <span role="button" class="badge p-1 me-1 mb-1" (click)="search(t)"
             [class.badge-artcoded]="selectedTag !== t"
             [class.badge-warning]="selectedTag === t"
             *ngFor="let t of tags">#{{t}}</span>
