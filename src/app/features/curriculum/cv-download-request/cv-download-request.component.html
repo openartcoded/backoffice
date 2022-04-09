@@ -1,5 +1,5 @@
 <app-title title="CV DOWNLOAD REQUESTS"></app-title>
-<div class="table-responsive" *ngIf="cvDownloadRequests$">
+<div class="table-responsive" *ngIf="cvDownloadRequests">
   <table class="table table-bordered">
     <thead>
     <tr>
@@ -12,7 +12,7 @@
     </tr>
     </thead>
     <tbody>
-    <ng-container *ngFor="let cvDr of cvDownloadRequests$ | async;">
+    <ng-container *ngFor="let cvDr of cvDownloadRequests">
       <tr>
         <td>{{cvDr.email}}</td>
         <td>{{cvDr.phoneNumber}}</td>
