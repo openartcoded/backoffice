@@ -46,11 +46,11 @@
               <div class="bg-light p-1 mb-1" *ngFor="let _ of actionParameters.controls; index as i">
 
                 <ng-container [formGroupName]="i">
-                  <div class="form-group">
+                  <div class="mb-1">
                     <input type="text" class="form-control form-control-sm" [id]="'key'+i" formControlName="key">
                   </div>
                   <ng-container *ngIf="isOption(_) else second">
-                      <div class="form-group">
+                      <div class="mb-1">
                         <select class="form-select form-control-sm" [id]="'parameterValue'+i" formControlName="parameterValue">
                           <option [ngValue]="null">--Select--</option>
                           <option *ngFor="let o of getOptions(_)" [value]="o">{{o}}</option>
@@ -58,7 +58,7 @@
                       </div>
                   </ng-container>
                   <ng-template #second>
-                  <div class="form-group">
+                  <div class="mb-1">
                     <input type="text" class="form-control form-control-sm" [id]="'parameterValue'+i" formControlName="parameterValue">
                   </div>
                   </ng-template>

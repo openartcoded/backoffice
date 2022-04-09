@@ -8,17 +8,17 @@
   </div>
   <div class="modal-body">
     <form class="mt-2" [formGroup]="editorForm" (ngSubmit)="send()" *ngIf="editorForm">
-      <div class="form-group">
+      <div class="mb-1">
         <label class="col-form-label" for="title">Title</label>
         <input type="text" class="form-control" id="title" formControlName="title"
                placeholder="Title">
       </div>
-      <div class="form-group">
+      <div class="mb-1">
         <label class="col-form-label" for="description">Description</label>
         <textarea class="form-control" id="description" formControlName="description"
                   placeholder="Description"></textarea>
       </div>
-      <div class="form-group">
+      <div class="mb-1">
         <label for="sd">Image</label>
         <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event)"
                        dropZoneClassName="flat bg-light d-block"
@@ -40,7 +40,7 @@
           Visible
         </label>
       </div>
-      <div class="form-group" *ngIf="!visible">
+      <div class="mb-1" *ngIf="!visible">
         <label class="col-form-label" for="title">Date to set visible</label>
         <input type="datetime-local" class="form-control" id="dateOfVisibility" formControlName="dateOfVisibility">
       </div>

@@ -1,5 +1,5 @@
 <form [formGroup]="shaclForm" (ngSubmit)="submit()" *ngIf="shaclForm">
-  <div class="form-group">
+  <div class="mb-1">
     <label for="sd">Model to validate</label>
     <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event,'modelFile')"
                    dropZoneClassName="flat bg-light d-block"
@@ -13,7 +13,7 @@
     </ngx-file-drop>
     <p>{{modelFile?.name}}</p>
   </div>
-  <div class="form-group">
+  <div class="mb-1">
     <label for="dd">Shacl shapes</label>
     <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event,'shaclFile')"
                    dropZoneClassName="flat bg-light d-block"

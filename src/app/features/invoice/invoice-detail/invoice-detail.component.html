@@ -91,7 +91,7 @@
                   Logical delete
                 </label>
               </div>
-              <div class="form-group" *ngIf="uploadedManually && !locked && !logicalDelete">
+              <div class="mb-1" *ngIf="uploadedManually && !locked && !logicalDelete">
                 <label for="dd">Drop invoice</label>
                 <ngx-file-drop dropZoneLabel="Drop invoice here" (onFileDrop)="drop($event)"
                                dropZoneClassName="flat bg-light d-block" accept=".pdf" [multiple]="false">

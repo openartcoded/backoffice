@@ -1,5 +1,5 @@
 <form [formGroup]="fileToFileForm" (ngSubmit)="submit()" *ngIf="fileToFileForm">
-  <div class="form-group">
+  <div class="mb-1">
     <label for="dd">Drop rdf File</label>
     <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event)"
                    dropZoneClassName="flat bg-light d-block"

@@ -1,11 +1,11 @@
 <form [formGroup]="howManyForm" (ngSubmit)="submit()" *ngIf="howManyForm">
-  <div class="form-group">
+  <div class="mb-1">
     <label for="sinceType">Type</label>
     <select class="form-select" formControlName="sinceType" id="sinceType">
       <option *ngFor="let op of typeOptions" [selected]="op === sinceType" [value]="op">{{op | titlecase}}</option>
     </select>
   </div>
-  <div class="form-group">
+  <div class="mb-1">
     <label for="sinceDate">Date</label>
     <input type="date" id="sinceDate" formControlName="sinceDate" class="form-control">
   </div>
