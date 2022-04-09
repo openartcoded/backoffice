@@ -10,6 +10,12 @@ import { SettingsService } from "@core/service/settings.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AppSettingsComponent } from "@feature/layout/app-settings/app-settings.component";
 
+import {Offcanvas} from "bootstrap";
+var offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'))
+var offcanvasList = offcanvasElementList.map(function (offcanvasEl) {
+  return new Offcanvas(offcanvasEl)
+})
+
 @Component({
   selector: "app-sidebar",
   templateUrl: "./sidebar.component.html",

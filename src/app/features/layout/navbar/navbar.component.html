@@ -2,7 +2,8 @@
   class="navbar position-fixed w-100 navbar-dark artcoded-navbar-color  p-0 z-index-1000 d-flex justify-content-between">
   <div>
     <button class="btn btn-sm  me-1"
-            (click)="toggle()">
+    data-bs-toggle="offcanvas" href="#offcanvasSideBar"
+            >
       <span class="text-white"><fa-icon [icon]="['fas','bars']"></fa-icon></span>
     </button>
     <a class="navbar-brand font-weight-bolder  border-0 d-lg-inline-block d-none" routerLink="/">

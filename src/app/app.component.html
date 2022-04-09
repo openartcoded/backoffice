@@ -2,23 +2,17 @@
 <ng-container>
   <div class="d-flex justify-content-start" 
   >
-    <nav [class.nav-padding]="true"
-         class=" p-0 bg-dark-nav nav-fixed collapse"
-         [class.position-fixed]="isDesktop"
-         [class.show]="toggle"
+    <nav 
     >
       <app-sidebar></app-sidebar>
     </nav>
     <main [class.nav-padding]="true" role="main"
-          [class.margin-navbar]="toggle"
-          [class.margin-navbar-big]="toggle"
-          class=" bg-white d-block container-fluid"
+          class="d-block container-fluid"
     >
       <router-outlet></router-outlet>
     </main>
 
   </div>
-  <app-gdpr></app-gdpr>
 
 </ng-container>
 

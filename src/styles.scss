@@ -7,7 +7,6 @@ html,
 body {
   overflow-x: hidden;
   height: 100%;
-  font-family: 'Kumbh Sans', sans-serif;
 }
 
 .flat {
@@ -29,9 +28,6 @@ body {
 }
 
 @media (min-width: 768px) {
-  body {
-    background-color: #343a40;
-  }
   .border-dotted {
     border-right-width: 1px;
     border-left-width: 1px;
