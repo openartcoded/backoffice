@@ -1,20 +1,19 @@
-<div class="card mb-2">
-  <div class="card-header  btn btn-click d-flex justify-content-between" (click)="isCollapsed=!isCollapsed">
-    <strong>TODO</strong>
-    <fa-icon *ngIf="isCollapsed" [icon]="['fas','eye']"></fa-icon>
-    <fa-icon *ngIf="!isCollapsed" [icon]="['fas','ellipsis-h']"></fa-icon>
-  </div>
-    <ng-container *ngIf="todos$ | async as todos">
-      <ul class="list-group flat" [ngbCollapse]="isCollapsed">
-        <li class="list-group-item border-top-0 border-left-0 border-right-0">
-          <div class="d-flex justify-content-end">
-            <button class="btn btn-outline-primary" (click)="openModal()">
-              <fa-icon icon="edit"></fa-icon>
-              Manage
-            </button>
-          </div>
-        </li>
-        <li class="list-group-item border-top-0 border-left-0 border-right-0 flat" *ngFor="let todo of todos">
+<div class="mb-2">
+ 
+<ngb-accordion #acc="ngbAccordion" activeIds="todo" >
+  <ngb-panel id="todo">
+    <ng-template ngbPanelTitle let-opened="opened">
+      <strong class="text-uppercase">TODO</strong>
+    </ng-template>
+    <ng-template ngbPanelContent>
+      <div class="d-flex justify-content-end mb-2">
+        <button class="btn btn-outline-primary" (click)="openModal()">
+          <fa-icon icon="edit"></fa-icon>
+          Manage
+        </button>
+      </div>
+      <ng-container  *ngIf="todos$ | async as todos">
+        <ng-container *ngFor="let todo of todos">
           <div class="d-flex justify-content-between">
             <span>{{todo.title}}</span>
             <span>
@@ -24,10 +23,13 @@
                 </button>
             </span>
           </div>
-        </li>
-          <li class="list-group-item" *ngIf="!todos.length">Nothing to do.</li>
-        </ul>
-    </ng-container>
-</div>
+          <hr>
+        </ng-container>
+        <p *ngIf="!todos.length">Nothing to do.</p>
+      </ng-container>
+    </ng-template>
+  </ngb-panel>
 
+</ngb-accordion>
+</div>
 

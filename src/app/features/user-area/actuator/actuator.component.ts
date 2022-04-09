@@ -12,12 +12,12 @@ import { Observable } from 'rxjs';
 export class ActuatorComponent implements OnInit {
   buildInfo$: Observable<BackendInfo>;
   healthIndicator$: Observable<HealthIndicator>;
-  logs$: Observable<any>;
+  // logs$: Observable<any>;
   constructor(private infoService: InfoService) {}
 
   ngOnInit(): void {
     this.buildInfo$ = this.infoService.getBuildInfo();
     this.healthIndicator$ = this.infoService.getHealth();
-    this.logs$ = this.infoService.getLogs();
+    // this.logs$ = this.infoService.getLogs();
   }
 }

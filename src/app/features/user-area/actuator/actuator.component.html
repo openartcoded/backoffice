@@ -1,182 +1,126 @@
-<div class="row">
-  <div class="overflow-auto col-lg-3 col-12">
-    <ng-container *ngIf="buildInfo$ | async as buildInfo">
-      <div class="mb-2">
-        <ngb-accordion [closeOthers]="true" activeIds="backend-info">
-          <ngb-panel id="backend-info" cardClass="no-margin">
-            <ng-template ngbPanelHeader let-opened="opened">
-              <div class="d-flex align-items-center justify-content-between">
-                <strong class="text-uppercase">Backend Info</strong>
-                <button ngbPanelToggle class="btn btn-link text-secondary p-0">
-                  <fa-icon [icon]="['fas', 'dot-circle']"></fa-icon>
-                </button>
+<div class="container">
+  <ng-container *ngIf="buildInfo$ | async as buildInfo">
+    <div class="mb-2">
+      <ngb-accordion [closeOthers]="true" activeIds="backend-info">
+        <ngb-panel id="backend-info" >
+          <ng-template ngbPanelTitle let-opened="opened">
+              <strong class="text-uppercase">Backend Info</strong>
+          </ng-template>
+          <ng-template ngbPanelContent>
+              <div class="d-flex justify-content-between">
+                <strong class="text-uppercase">Build Time</strong>
+                <strong>{{ buildInfo.build.time | date: 'dd/MM/yyyy @
+                          HH:mm:SS' }}</strong>
               </div>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              <li class="list-group-item">
-                <div class="d-flex justify-content-between">
-                  <strong class="text-uppercase">Build Time</strong>
-                  <strong>{{ buildInfo.build.time | date: 'dd/MM/yyyy @
-                            HH:mm:SS' }}</strong>
-                </div>
-              </li>
-
-              <li class="list-group-item">
-                <div class="d-flex justify-content-between">
-                  <strong class="text-uppercase">Version</strong>
-                  <strong>{{ buildInfo.build.version }}</strong>
-                </div>
-              </li>
-
-              <li class="list-group-item border-bottom-0">
-                <div class="d-flex justify-content-between">
-                  <strong class="text-uppercase">Uptime</strong>
-                  <strong>{{ buildInfo['camel.uptime'] }}</strong>
-                </div>
-              </li>
-            </ng-template>
-          </ngb-panel>
-          <ng-container *ngIf="healthIndicator$ | async as healthIndicator">
-            <ng-container *ngIf="healthIndicator.components?.diskSpace?.details as diskSpace">
-              <ngb-panel id="disk-space" cardClass="no-margin">
-                <ng-template ngbPanelHeader let-opened="opened">
-                  <div class="d-flex align-items-center justify-content-between">
-                    <strong class="text-uppercase">Disk Space</strong>
-                    <button ngbPanelToggle class="btn btn-link text-secondary p-0">
-                      <fa-icon [icon]="['fas', 'dot-circle']"></fa-icon>
-                    </button>
+              <div class="d-flex justify-content-between">
+                <strong class="text-uppercase">Version</strong>
+                <strong>{{ buildInfo.build.version }}</strong>
+              </div>
+              <div class="d-flex justify-content-between">
+                <strong class="text-uppercase">Uptime</strong>
+                <strong>{{ buildInfo['camel.uptime'] }}</strong>
+              </div>
+          </ng-template>
+        </ngb-panel>
+        <ng-container *ngIf="healthIndicator$ | async as healthIndicator">
+          <ng-container *ngIf="healthIndicator.components?.diskSpace?.details as diskSpace">
+            <ngb-panel id="disk-space" >
+              <ng-template ngbPanelTitle let-opened="opened">
+                  <strong class="text-uppercase">Disk Space</strong>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                  <div class="d-flex justify-content-between">
+                    <strong class="font-weight-bold text-uppercase">Total</strong>
+                    <strong>{{ diskSpace.total | bytesToHuman: true }}</strong>
                   </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                  <li class="list-group-item">
-                    <div class="d-flex justify-content-between">
-                      <strong class="font-weight-bold text-uppercase">Total</strong>
-                      <strong>{{ diskSpace.total | bytesToHuman: true }}</strong>
-                    </div>
-                  </li>
-                  <li class="list-group-item border-bottom-0">
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Free</strong>
-                      <strong>{{ diskSpace.free | bytesToHuman: true }}</strong>
-                    </div>
-                  </li>
-                </ng-template>
-              </ngb-panel>
-            </ng-container>
-            <ng-container *ngIf="healthIndicator.components?.jms as jms">
-              <ngb-panel id="jms" cardClass="no-margin">
-                <ng-template ngbPanelHeader let-opened="opened">
-                  <div class="d-flex align-items-center justify-content-between">
-                    <strong class="text-uppercase">JMS</strong>
-                    <button ngbPanelToggle class="btn btn-link text-secondary p-0">
-                      <fa-icon [icon]="['fas', 'dot-circle']"></fa-icon>
-                    </button>
+                  <div class="d-flex justify-content-between">
+                    <strong class="text-uppercase">Free</strong>
+                    <strong>{{ diskSpace.free | bytesToHuman: true }}</strong>
                   </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                  <li class="list-group-item border-bottom-0">
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Status</strong>
-                      <strong>{{ jms.status }}</strong>
-                    </div>
-                  </li>
-                </ng-template>
-              </ngb-panel>
-            </ng-container>
-            <ng-container *ngIf="healthIndicator.components?.mail as mail">
-              <ngb-panel id="mail" cardClass="no-margin">
-                <ng-template ngbPanelHeader let-opened="opened">
-                  <div class="d-flex align-items-center justify-content-between">
-                    <strong class="text-uppercase">Mail</strong>
-                    <button ngbPanelToggle class="btn btn-link text-secondary p-0">
-                      <fa-icon [icon]="['fas', 'dot-circle']"></fa-icon>
-                    </button>
-                  </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                  <li class="list-group-item border-bottom-0">
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Status</strong>
-                      <strong>{{ mail.status }}</strong>
-                    </div>
-                  </li>
-                </ng-template>
-              </ngb-panel>
-            </ng-container>
-            <ng-container *ngIf="healthIndicator.components?.mongo as mongo">
-              <ngb-panel id="mongo" cardClass="no-margin">
-                <ng-template ngbPanelHeader let-opened="opened">
-                  <div class="d-flex align-items-center justify-content-between">
-                    <strong class="text-uppercase">Mongo</strong>
-                    <button ngbPanelToggle class="btn btn-link text-secondary p-0">
-                      <fa-icon [icon]="['fas', 'dot-circle']"></fa-icon>
-                    </button>
-                  </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                  <li class="list-group-item border-bottom-0">
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Status</strong>
-                      <strong>{{ mongo.status }}</strong>
-                    </div>
-                  </li>
-                </ng-template>
-              </ngb-panel>
-            </ng-container>
-            <ng-container *ngIf="healthIndicator.components?.redis as redis">
-              <ngb-panel id="redis" cardClass="no-margin">
-                <ng-template ngbPanelHeader let-opened="opened">
-                  <div class="d-flex align-items-center justify-content-between">
-                    <strong class="text-uppercase">Redis</strong>
-                    <button ngbPanelToggle class="btn btn-link text-secondary p-0">
-                      <fa-icon [icon]="['fas', 'dot-circle']"></fa-icon>
-                    </button>
-                  </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                  <li class="list-group-item border-bottom-0">
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Status</strong>
-                      <strong>{{ redis.status }}</strong>
-                    </div>
-                  </li>
-                </ng-template>
-              </ngb-panel>
-            </ng-container>
-            <ng-container *ngIf="healthIndicator.components?.camelHealth as camelHealth">
-              <ngb-panel id="camel" cardClass="no-margin">
-                <ng-template ngbPanelHeader let-opened="opened">
-                  <div class="d-flex align-items-center justify-content-between">
-                    <strong class="text-uppercase">Camel</strong>
-                    <button ngbPanelToggle class="btn btn-link text-secondary p-0">
-                      <fa-icon [icon]="['fas', 'dot-circle']"></fa-icon>
-                    </button>
-                  </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                  <li class="list-group-item">
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Status</strong>
-                      <strong>{{ camelHealth.status }}</strong>
-                    </div>
-                  </li>
-                  <li class="list-group-item" *ngFor="let detail of camelHealth.details | keyvalue">
-                    <div class="d-flex justify-content-between">
-                      <strong class="font-weight-bold">{{ detail.key }}</strong>
-                      <strong>{{ detail.value }}</strong>
-                    </div>
-                  </li>
-                </ng-template>
-              </ngb-panel>
-            </ng-container>
+              </ng-template>
+            </ngb-panel>
           </ng-container>
-        </ngb-accordion>
-      </div>
-    </ng-container>
-    <app-todo-list></app-todo-list>
-  </div>
-  <div class="col-lg-9 col-12">
-    <app-memo-date></app-memo-date>
+          <ng-container *ngIf="healthIndicator.components?.jms as jms">
+            <ngb-panel id="jms" >
+              <ng-template ngbPanelTitle let-opened="opened">
+                  <strong class="text-uppercase">JMS</strong>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                  <div class="d-flex justify-content-between">
+                    <strong class="text-uppercase">Status</strong>
+                    <strong>{{ jms.status }}</strong>
+                  </div>
+              </ng-template>
+            </ngb-panel>
+          </ng-container>
+          <ng-container *ngIf="healthIndicator.components?.mail as mail">
+            <ngb-panel id="mail" >
+              <ng-template ngbPanelTitle let-opened="opened">
+                  <strong class="text-uppercase">Mail</strong>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                  <div class="d-flex justify-content-between">
+                    <strong class="text-uppercase">Status</strong>
+                    <strong>{{ mail.status }}</strong>
+                  </div>
+              </ng-template>
+            </ngb-panel>
+          </ng-container>
+          <ng-container *ngIf="healthIndicator.components?.mongo as mongo">
+            <ngb-panel id="mongo" >
+              <ng-template ngbPanelTitle let-opened="opened">
+                  <strong class="text-uppercase">Mongo</strong>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                  <div class="d-flex justify-content-between">
+                    <strong class="text-uppercase">Status</strong>
+                    <strong>{{ mongo.status }}</strong>
+                  </div>
+              </ng-template>
+            </ngb-panel>
+          </ng-container>
+          <ng-container *ngIf="healthIndicator.components?.redis as redis">
+            <ngb-panel id="redis" >
+              <ng-template ngbPanelTitle let-opened="opened">
+                  <strong class="text-uppercase">Redis</strong>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                
+                  <div class="d-flex justify-content-between">
+                    <strong class="text-uppercase">Status</strong>
+                    <strong>{{ redis.status }}</strong>
+                  </div>
+              </ng-template>
+            </ngb-panel>
+          </ng-container>
+          <ng-container *ngIf="healthIndicator.components?.camelHealth as camelHealth">
+            <ngb-panel id="camel" >
+              <ng-template ngbPanelTitle  let-opened="opened">
+                  <strong class="text-uppercase">Camel</strong>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                  <div class="d-flex justify-content-between">
+                    <strong class="text-uppercase">Status</strong>
+                    <strong>{{ camelHealth.status }}</strong>
+                  </div>
+                <ng-container *ngFor="let detail of camelHealth.details | keyvalue">
+                  <div class="d-flex justify-content-between">
+                    <strong class="font-weight-bold">{{ detail.key }}</strong>
+                    <strong>{{ detail.value }}</strong>
+                  </div>
+                </ng-container>
+              </ng-template>
+            </ngb-panel>
+          </ng-container>
+        </ng-container>
+      </ngb-accordion>
+    </div>
+  </ng-container>
+  <app-todo-list></app-todo-list>
+  <app-memo-date></app-memo-date>
+</div>
+
+  <!-- <div class="col-lg-9 col-12">
     <ng-container *ngIf="logs$ | async as logs">
       <pre class="bg-light text-secondary vh-50 overflow-auto">
             <code>
@@ -185,4 +129,4 @@
         </pre>
     </ng-container>
   </div>
-</div>
+</div> -->

@@ -16,7 +16,6 @@ import { MemoDateFormComponent } from '../memo-date-form/memo-date-form.componen
 })
 export class MemoDateComponent implements OnInit {
   memoDates: Observable<MemoDate[]>;
-  isCollapsed: boolean = true;
   progresses = [
     {
       label: '1d',
@@ -146,7 +145,4 @@ export class MemoDateComponent implements OnInit {
     });
   }
 
-  detail() {
-    this.isCollapsed = !this.isCollapsed;
-  }
 }
