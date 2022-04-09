@@ -1,18 +1,15 @@
-.image:hover .actions,
-.image:focus, .actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  width: 250px;
-  height: 250px;
-  opacity: 0.8;
-  background-color: #343a40;
+.image-carousel{
+  width: 50 vh;
+  height: 70vh;
+  max-width: 100%;
+  opacity: 0.4;
+
+  display: block;
+}
+.image-carousel-overlay {
+  background-color: black;
+  width: 50 vh;
+  height: 75vh;
+  max-width: 100%;
 
 }
-
-.actions {
-  display: none;
-}
-

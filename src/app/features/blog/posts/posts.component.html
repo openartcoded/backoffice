@@ -53,8 +53,8 @@
            class="form-control mb-2">
     <ng-container *ngIf="tags">
       <span role="button" class="badge p-1 me-1 mb-1" (click)="search(t)"
-            [class.badge-artcoded]="selectedTag !== t"
-            [class.badge-warning]="selectedTag === t"
+            [class.bg-success]="selectedTag !== t"
+            [class.bg-warning]="selectedTag === t"
             *ngFor="let t of tags">#{{t}}</span>
     </ng-container>
   </div>

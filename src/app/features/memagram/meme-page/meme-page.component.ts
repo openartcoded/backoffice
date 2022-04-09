@@ -12,7 +12,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { NotificationService } from '@core/service/notification.service';
 import { OnApplicationEvent, RegisteredEvent } from '@core/interface/on-application-event';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
-import { ImageLoaderComponent } from '@shared/image-loader/image-loader.component';
 
 @Component({
   selector: 'app-meme-page',
@@ -109,16 +108,6 @@ export class MemePageComponent implements OnInit, OnApplicationEvent {
 
   ngOnDestroy(): void {
     this.notificationService.unsubscribe(this);
-  }
-
-  view($event, meme: Memz) {
-    $event.stopPropagation();
-    const modal = this.modalService.open(ImageLoaderComponent, {
-      size: 'xl',
-      scrollable: true,
-    });
-    modal.componentInstance.cssClass = 'col-12 p-0 m-0';
-    modal.componentInstance.imageUrl = meme.imageLink;
   }
 
   shouldMarkEventAsSeenAfterConsumed(): boolean {

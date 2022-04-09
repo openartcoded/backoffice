@@ -54,7 +54,7 @@
             <td class="d-md-table-cell  d-none">{{d.description}}</td>
             <td class="d-md-table-cell  d-none" *ngIf="closed">{{(d?.tvaDue || 0)| currency: '€'}}</td>
             <td *ngIf="!closed" [class.bg-danger]="d?.tvaToBePaid <0" [class.text-warning]="d?.tvaToBePaid <0"
-              [class.bg-artcoded]="d?.tvaToBePaid > 0" [class.bg-secondary]="d?.tvaToBePaid === 0"
+              [class.bg-info]="d?.tvaToBePaid > 0" [class.bg-secondary]="d?.tvaToBePaid === 0"
               [class.text-white]="d?.tvaToBePaid >= 0" class="d-md-table-cell  d-none">{{d?.tvaToBePaid | currency:
               '€'}}
             </td>

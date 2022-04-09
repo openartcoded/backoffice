@@ -23,8 +23,8 @@
       </div>
       <h5 class="text-center mt-1">
         <span *ngFor="let tag of skill.tags"
-          [class.badge-success]="filterSkill?.length >= 2 && tag.toUpperCase().includes(filterSkill.toUpperCase())"
-          [class.badge-primary]="!(filterSkill?.length >= 2 && tag.toUpperCase().includes(filterSkill.toUpperCase()))"
+          [class.bg-success]="filterSkill?.length >= 2 && tag.toUpperCase().includes(filterSkill.toUpperCase())"
+          [class.bg-primary]="!(filterSkill?.length >= 2 && tag.toUpperCase().includes(filterSkill.toUpperCase()))"
           class="badge me-1 mb-1">{{tag}}</span>&nbsp;
       </h5>
     </div>
