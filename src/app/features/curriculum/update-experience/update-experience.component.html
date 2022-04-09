@@ -38,10 +38,12 @@
                   <input type="date" class="form-control" id="to" formControlName="to">
                 </div>
               </div>
-              <div class="form-check form-check-inline">
+            <div class="d-flex justify-content-end">
+              <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="current" formControlName="current">
                 <label class="form-check-label" for="current"> Current </label>
               </div>
+            </div>
             </div>
           </ng-template>
         </li>
@@ -57,8 +59,8 @@
                     </button>
                   </li>
                   <li class="list-group-item text-right" *ngFor="let control of description.controls; index as i">
-                    <textarea [autosize] class="form-control" [id]="'desc' + i" [formControl]="$any(control)"></textarea>
-                    <div class="btn-group">
+                    <input class="form-control" [id]="'desc' + i" [formControl]="$any(control)">
+                    <div class="d-flex justify-content-end">
                       <button (click)="delete($event, i)" class="btn btn-link">
                         <fa-icon class="text-danger" icon="trash"></fa-icon>
                       </button>

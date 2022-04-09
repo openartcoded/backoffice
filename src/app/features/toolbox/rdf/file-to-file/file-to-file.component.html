@@ -13,14 +13,14 @@
     </ngx-file-drop>
     <p>{{file?.name}}</p>
   </div>
-  <div class="form-group">
+  <div class="mb-1 ">
     <label for="selectedLanguage">Choose an output format</label>
     <select class="form-select" formControlName="selectedLanguage" id="selectedLanguage">
       <option *ngFor="let l of allowedLanguages$ | async" [selected]="l === selectedLanguage" [value]="l">{{l}}</option>
     </select>
   </div>
 
-  <div class="d-flex justify-content-end">
+  <div class="d-flex justify-content-end mt-1">
     <button type="submit" class="btn btn-primary" [disabled]="!fileToFileForm.valid">Convert</button>
   </div>
 </form>

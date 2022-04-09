@@ -26,6 +26,16 @@
     <li class="list-group-item">
       <fa-icon class="me-1 text-secondary" icon="birthday-cake"></fa-icon>
       {{person.birthdate | date: 'dd/MM/yyyy'}}</li>
+    <li class="list-group-item text-primary">
+      <fa-icon class="me-1 text-secondary" [icon]="['fab', 'linkedin']"></fa-icon>
+      {{person.linkedinUrl}}</li>
+    <li class="list-group-item text-primary">
+      <fa-icon class="me-1 text-secondary"  [icon]="['fab', 'github']"></fa-icon>
+      {{person.githubUrl}}</li>
+    <li class="list-group-item text-primary">
+      <fa-icon class="me-1 text-secondary" icon="book-open"></fa-icon>
+      {{person.website}}</li>
+
   </ul>
 </div>
 

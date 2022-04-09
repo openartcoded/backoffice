@@ -56,6 +56,7 @@ export class ExperienceComponent implements OnInit {
   edit(exp: Experience) {
     const modal = this.modalService.open(UpdateExperienceComponent, {
       size: 'xl',
+      scrollable: true,
     });
     modal.componentInstance.experience = exp;
     modal.componentInstance.experienceSubmitted.subscribe((newExp) => {

@@ -3,9 +3,8 @@
     <span class="modal-title text-break">
       {{skill?.name || 'New Skill'}}
     </span>
-    <button type="button" class="btn-close" aria-label="Close"
-            (click)="activeModal?.dismiss('Cross click')">
-      
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
+
     </button>
   </div>
   <div class="modal-body" *ngIf="form">
@@ -22,20 +21,22 @@
           <input type="number" class="form-control" id="priority" formControlName="priority">
         </div>
       </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="softSkill"
-               formControlName="softSkill">
-        <label class="form-check-label" for="softSkill">
-          Soft Skill
-        </label>
+      <div class="mb-1 d-flex justify-content-start">
+        <label class="col-sm-2 col-form-label" for="tags">Tags</label>
+        <div class="col-sm-10 ms-1">
+          <p-chips id="tags" formControlName="tags" placehholder="Tags" separator=","></p-chips>
+        </div>
       </div>
-      <div class="mb-1">
-        <label for="tags">Tags</label>
-        <p-chips id="tags" formControlName="tags" separator=","></p-chips>
+      <div class="d-flex justify-content-end">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="softSkill" formControlName="softSkill">
+          <label class="form-check-label" for="softSkill">
+            Soft Skill
+          </label>
+        </div>
       </div>
       <div class="d-flex justify-content-end  mt-2">
-        <button type="submit" class="btn btn-primary"
-                [disabled]="!form.valid">Submit
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit
         </button>
       </div>
     </form>

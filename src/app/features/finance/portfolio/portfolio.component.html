@@ -39,11 +39,13 @@
           <th class="d-md-table-cell d-none">Initial Price</th>
           <th>Current Price</th>
           <th>
-            Result
+            <div class="d-flex justify-content-between">
+              <span>Result</span>
             <a class="btn btn-link text-dark p-0" (click)="sortByDelta()">
               <fa-icon size="xs" [icon]="['fas','arrow-down']" *ngIf="!sortAsc"></fa-icon>
               <fa-icon size="xs" [icon]="['fas','arrow-up']" *ngIf="sortAsc"></fa-icon>
             </a>
+            </div>
           </th>
         </tr>
         </thead>
