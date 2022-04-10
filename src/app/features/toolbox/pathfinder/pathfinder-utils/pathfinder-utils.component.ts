@@ -2,9 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { XPathService } from '@core/service/xpath.service';
 import { Meta, Title } from '@angular/platform-browser';
-
-declare const jsonPath: any;
-
+import {JSONPath} from 'jsonpath-plus';
 @Component({
   selector: 'app-pathfinder-utils',
   templateUrl: './pathfinder-utils.component.html',
@@ -125,9 +123,12 @@ export class PathfinderUtilsComponent implements OnInit {
   submit() {
     try {
       if (this.pathType === 'application/json') {
-        this.result = jsonPath().JSONPath(
-          this.inputForm.controls.expression.value,
-          JSON.parse(this.inputForm.controls.data.value)
+        const json = JSON.parse(this.inputForm.controls.data.value);
+        this.result = JSONPath(
+          {
+           path: this.inputForm.controls.expression.value,
+           json
+          }
         );
       } else {
         this.xpathService

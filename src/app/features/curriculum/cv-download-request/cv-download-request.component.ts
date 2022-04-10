@@ -12,7 +12,7 @@ import { DownloadCvRequest } from '@core/models/curriculum';
   styleUrls: ['./cv-download-request.component.scss'],
 })
 export class CvDownloadRequestComponent implements OnInit {
-  cvDownloadRequests$: Observable<DownloadCvRequest[]>;
+  cvDownloadRequests: DownloadCvRequest[];
 
   constructor(
     private titleService: Title,
@@ -23,7 +23,11 @@ export class CvDownloadRequestComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('CV Requests');
-    this.cvDownloadRequests$ = this.cvService.getDownloadCvRequests();
+    this.load();
+  }
+
+  load() {
+    this.cvService.getDownloadCvRequests().subscribe(cvDownloadRequests=> this.cvDownloadRequests = cvDownloadRequests);
   }
 
   delete(cvDr: DownloadCvRequest) {
@@ -31,7 +35,7 @@ export class CvDownloadRequestComponent implements OnInit {
       let resp = this.windowRefService.nativeWindow.confirm('Are you sure you want to delete this row? ');
       if (resp) {
         this.cvService.deleteDownloadRequest(cvDr).subscribe((d) => {
-          this.cvDownloadRequests$ = this.cvService.getDownloadCvRequests();
+          this.load();
         });
       }
     }

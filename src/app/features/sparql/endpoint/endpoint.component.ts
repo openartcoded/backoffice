@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@core/service/auth.service';
-import { ConfigInitService } from '@init/config-init.service';
-import Yasgui from '@triply/yasgui';
+import { Component, OnInit } from "@angular/core";
+import { AuthService } from "@core/service/auth.service";
+import { ConfigInitService } from "@init/config-init.service";
 
 const DEFAULT_QUERY = `  PREFIX owl: <http://www.w3.org/2002/07/owl#>
   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -20,41 +19,49 @@ const DEFAULT_QUERY = `  PREFIX owl: <http://www.w3.org/2002/07/owl#>
 `;
 
 @Component({
-  selector: 'app-endpoint',
-  templateUrl: './endpoint.component.html',
-  styleUrls: ['./endpoint.component.scss'],
+  selector: "app-endpoint",
+  templateUrl: "./endpoint.component.html",
+  styleUrls: ["./endpoint.component.scss"],
 })
 export class EndpointComponent implements OnInit {
-  constructor(private configService: ConfigInitService, private authService: AuthService) {}
+  constructor(
+    private configService: ConfigInitService,
+    private authService: AuthService
+  ) {}
   token: string;
+
   async ngOnInit() {
-    const element = document?.getElementById('yasgui');
-    const endpointUrl = this.configService.getConfig()['SPARQL_ENDPOINT'];
-    const defaultQuery = this.configService.getConfig()['SPARQL_DEFAULT_QUERY'] || DEFAULT_QUERY;
-    Yasgui.Yasqe.defaults.value = defaultQuery;
-    this.authService.tokenRefreshed.subscribe(token => {
-      this.token = token;
-    });
-    this.token = this.authService.token;
-    const yasgui = new Yasgui(element, {
-      requestConfig: {
-        endpoint: endpointUrl,
-        defaultGraphs: [],
-        method: 'POST',
-        headers: () => ({
-          Authorization: this.token,
-        }),
-      },
-      autofocus: true,
-    });
-    yasgui.on('query', (y, tab) => {
-      tab.getYasr().on('drawn', async (yasr) => {
-        if (yasr.results?.hasError()) {
-          const err = yasr.results.getError();
-          if (err.status === 403 || err.status === 401) {
-            console.error('something went wrong');
+    import("@triply/yasgui").then((m: any) => {
+      const Yasgui: any = m.default;
+      const element = document?.getElementById("yasgui");
+      const endpointUrl = this.configService.getConfig()["SPARQL_ENDPOINT"];
+      const defaultQuery =
+        this.configService.getConfig()["SPARQL_DEFAULT_QUERY"] || DEFAULT_QUERY;
+      Yasgui.Yasqe.defaults.value = defaultQuery;
+      this.authService.tokenRefreshed.subscribe((token) => {
+        this.token = token;
+      });
+      this.token = this.authService.token;
+      const yasgui = new Yasgui(element, {
+        requestConfig: {
+          endpoint: endpointUrl,
+          defaultGraphs: [],
+          method: "POST",
+          headers: () => ({
+            Authorization: this.token,
+          }),
+        },
+        autofocus: true,
+      });
+      yasgui.on("query", (y, tab) => {
+        tab.getYasr().on("drawn", async (yasr) => {
+          if (yasr.results?.hasError()) {
+            const err = yasr.results.getError();
+            if (err.status === 403 || err.status === 401) {
+              console.error("something went wrong");
+            }
           }
-        }
+        });
       });
     });
   }

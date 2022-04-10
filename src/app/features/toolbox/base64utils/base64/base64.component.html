@@ -1,5 +1,5 @@
 <form [formGroup]="base64Form" (ngSubmit)="submit()" *ngIf="base64Form">
-  <div class="form-group">
+  <div class="mb-1">
     <label for="inputText">{{decode ? 'Text to decode' : 'Text to encode'}}</label>
     <textarea class="form-control" rows="10" [autosize] formControlName="inputText" id="inputText"></textarea>
   </div>

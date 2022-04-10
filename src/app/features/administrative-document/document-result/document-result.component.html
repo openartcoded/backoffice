@@ -62,10 +62,5 @@
       [collectionSize]="adminDocuments.totalElements"
       (pageChange)="load($event)">
     </ngb-pagination>
-    <select id="pageSize" class="form-control form-control-sm ml-2 col-1 " [(ngModel)]="pageSize"
-           *ngIf="adminDocuments?.content?.length" 
-            (ngModelChange)="load()">
-      <option *ngFor="let op of [5,10,20,50,100]" [selected]="op === pageSize">{{op}}</option>
-    </select>
   </div>
 </ng-container>

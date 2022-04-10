@@ -8,6 +8,7 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
+    "allowSyntheticDefaultImports": true, // TODO REMOVE THIS WHEN BUMP KEYCLOAK 18: https://github.com/keycloak/keycloak/issues/9045
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,

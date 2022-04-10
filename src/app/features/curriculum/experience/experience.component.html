@@ -1,10 +1,10 @@
-<div class="pt-3 pl-2 d-flex justify-content-between ">
+<div class="pt-3 ps-2 d-flex justify-content-between ">
   <h3>EXPERIENCES</h3>
   <button class="btn btn-link text-dark" (click)="add()">
     <fa-icon icon="plus"></fa-icon>
   </button>
 </div>
-<div class="d-block  pl-2 pr-2">
+<div class="d-block  ps-2 pe-2">
   <input class="form-control" placeholder="search..." (input)="filter()" [(ngModel)]="filterExperience">
   <hr>
   <div *ngFor="let exp of filteredExperiences" class="card  mb-2">
@@ -16,10 +16,10 @@
           @ {{exp.company}}</strong>
 
         <div class="btn-group">
-          <button class="btn btn-link text-dark pt-0 pb-0 pl-0 pr-1" (click)="delete(exp)">
+          <button class="btn btn-link text-dark pt-0 pb-0 ps-0 pe-1" (click)="delete(exp)">
             <fa-icon icon="trash"></fa-icon>
           </button>
-          <button class="btn btn-link text-dark pt-0 pb-0 pl-0 pr-0" (click)="edit(exp)">
+          <button class="btn btn-link text-dark pt-0 pb-0 ps-0 pe-0" (click)="edit(exp)">
             <fa-icon icon="edit"></fa-icon>
           </button>
         </div>

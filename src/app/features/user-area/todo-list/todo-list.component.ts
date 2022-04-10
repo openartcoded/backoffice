@@ -11,7 +11,7 @@ import { TodoFormComponent } from '@feature/user-area/todo-form/todo-form.compon
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-  isCollapsed: boolean = true;
+  isCollapsed: boolean = false;
   todos$: Observable<Todo[]>;
 
   constructor(private todoService: TodoService, private modalService: NgbModal) {}

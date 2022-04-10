@@ -1,33 +1,23 @@
-<div class="card mb-2">
-  <div class="card-header  btn btn-click d-flex justify-content-between" (click)="isCollapsed=!isCollapsed">
-    <strong>TODO</strong>
-    <fa-icon *ngIf="isCollapsed" [icon]="['fas','eye']"></fa-icon>
-    <fa-icon *ngIf="!isCollapsed" [icon]="['fas','ellipsis-h']"></fa-icon>
+<ng-container   *ngIf="todos$ | async as todos">
+  <div class="d-flex justify-content-end mb-2">
+    <button class="btn btn-outline-primary" (click)="openModal()">
+      <fa-icon icon="edit"></fa-icon>
+      Manage
+    </button>
   </div>
-    <ng-container *ngIf="todos$ | async as todos">
-      <ul class="list-group flat" [ngbCollapse]="isCollapsed">
-        <li class="list-group-item border-top-0 border-left-0 border-right-0">
-          <div class="d-flex justify-content-end">
-            <button class="btn btn-outline-primary" (click)="openModal()">
-              <fa-icon icon="edit"></fa-icon>
-              Manage
+  <ng-container >
+    <ng-container *ngFor="let todo of todos">
+      <div class="d-flex justify-content-between">
+        <span>{{todo.title}}</span>
+        <span>
+            <button class="btn btn-link" (click)="toggleDone(todo)">
+              <fa-icon [class.text-success]="todo.done" [class.text-danger]="!todo.done"
+                       [icon]="['fas', todo.done ? 'check':'times']"></fa-icon>
             </button>
-          </div>
-        </li>
-        <li class="list-group-item border-top-0 border-left-0 border-right-0 flat" *ngFor="let todo of todos">
-          <div class="d-flex justify-content-between">
-            <span>{{todo.title}}</span>
-            <span>
-                <button class="btn btn-link" (click)="toggleDone(todo)">
-                  <fa-icon [class.text-success]="todo.done" [class.text-danger]="!todo.done"
-                           [icon]="['fas', todo.done ? 'check':'times']"></fa-icon>
-                </button>
-            </span>
-          </div>
-        </li>
-          <li class="list-group-item" *ngIf="!todos.length">Nothing to do.</li>
-        </ul>
+        </span>
+      </div>
+      <hr>
     </ng-container>
-</div>
-
-
+    <p *ngIf="!todos.length">Nothing to do.</p>
+  </ng-container>
+</ng-container>

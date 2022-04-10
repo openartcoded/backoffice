@@ -12,7 +12,7 @@ import { DateUtils } from '@core/utils/date-utils';
   styleUrls: ['./app-settings.component.scss'],
 })
 export class AppSettingsComponent implements OnInit {
-  menuLinks$: Observable<MenuLink[]>;
+  menuLinks: MenuLink[];
   file: any;
 
   menuLinkUpdated: EventEmitter<MenuLink> = new EventEmitter<MenuLink>();
@@ -47,7 +47,9 @@ export class AppSettingsComponent implements OnInit {
   }
 
   private load() {
-    this.menuLinks$ = this.settingsService.getMenuLinks();
+    this.settingsService.getMenuLinks().subscribe(menuLinks => {
+      this.menuLinks =menuLinks;
+    });
   }
 
   loadFile($event) {

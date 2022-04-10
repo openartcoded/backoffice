@@ -39,9 +39,7 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/plotly.js/dist/plotly.min.js",
-              "node_modules/jsonpath-plus/dist/index-umd.js",
-              "src/assets/js/jsonpath.js"
+              "node_modules/plotly.js/dist/plotly.min.js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,

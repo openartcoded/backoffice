@@ -1,56 +1,43 @@
 <app-title title="GALLERY"></app-title>
-<div class=" d-flex justify-content-center ">
-  <a class="btn text-primary" (click)="openFormModal()">
-    <fa-icon [icon]="['fas','plus']"></fa-icon>
-  </a>
-  <a class="btn text-danger" (click)="load()">
-    <fa-icon [icon]="['fas','sync']"></fa-icon>
-  </a>
+<div class=" d-flex justify-content-between ">
+  <ngb-pagination *ngIf="memzPage?.totalPages > 1" [page]="pageNumber" [pageSize]="memzPage.size"
+    [maxSize]="defaultPageSize" [collectionSize]="memzPage.totalElements" (pageChange)="load($event)">
+  </ngb-pagination>
+  <div>
+    <a class="btn text-primary" (click)="openFormModal()">
+      <fa-icon [icon]="['fas','plus']"></fa-icon>
+    </a>
+    <a class="btn text-danger" (click)="load()">
+      <fa-icon [icon]="['fas','sync']"></fa-icon>
+    </a>
+  </div>
 </div>
 
 
-<ng-container *ngIf="memzPage && memzPage.size > 0">
-  <div class=" mt-2">
-    <div class="row">
-      <ng-component *ngFor="let memz of memzPage.content" [ngTemplateOutlet]="memzTpl"
-                    [ngTemplateOutletContext]="{memz:memz}"></ng-component>
+<ng-container *ngIf="memzPage?.size > 0">
+  <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="false">
+    <ng-template ngbSlide *ngFor="let memz of memzPage.content">
+      <div class="image-carousel-overlay">
+        <img [src]="memz.imageLink" class="image-carousel mx-auto" [attr.alt]="memz.title">
+      </div>
+      <div class="carousel-caption">
+        <h3>{{memz.title}}</h3>
+        <p *ngIf="memz.description != 'null' ">{{memz.description}}</p>
+
+      </div>
+      <div class="text-center bg-light">
+        <a class="btn text-primary me-1" (click)="edit($event, memz)">
+          <fa-icon [icon]="['fas','edit']"></fa-icon>
+        </a>
+        <a class="btn text-danger" (click)="delete($event, memz)">
+          <fa-icon [icon]="['fas','trash']"></fa-icon>
+        </a>
+      </div>
+    </ng-template>
+  </ngb-carousel>
 
 
-    </div>
-
-  </div>
-  <div class="d-flex justify-content-center mb-1">
-    <ngb-pagination
-      *ngIf="memzPage.totalPages > 1"
-      [page]="pageNumber"
-      [pageSize]="memzPage.size"
-      [maxSize]="defaultPageSize"
-      [collectionSize]="memzPage.totalElements"
-      (pageChange)="load($event)"
-    ></ngb-pagination>
-  </div>
 </ng-container>
 <ng-container *ngIf="!memzPage || memzPage.empty">
   No content.
 </ng-container>
-
-
-<ng-template #memzTpl let-memz="memz">
-  <div class="col-xl-3 col-lg-3 col-md-3 col-12 mb-3">
-    <div class="d-flex justify-content-center">
-      <div class="image" role="button" (click)="view($event, memz)">
-        <div class="actions">
-          <a class="btn  text-white" (click)="edit($event, memz)">
-            <fa-icon [icon]="['fas','edit']"></fa-icon>
-          </a>
-          <a class="btn  text-white " (click)="delete($event, memz)">
-            <fa-icon [icon]="['fas','trash']"></fa-icon>
-
-          </a>
-        </div>
-        <app-image-loader cssClass="gallery-image" [imageUrl]="memz.thumbnailLink"></app-image-loader>
-
-      </div>
-    </div>
-  </div>
-</ng-template>

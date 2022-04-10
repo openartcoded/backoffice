@@ -45,7 +45,7 @@
       <tr class="d-none d-md-table-row bg-secondary text-white">
         <td colspan="7">
           <div class="d-flex justify-content-center">
-            <span *ngFor="let t of tags" class="mr-1">
+            <span *ngFor="let t of tags" class="me-1">
             <fa-icon [icon]="['fas','circle']" [ngClass]="t.color"></fa-icon>&nbsp;{{t.label | lowercase}}
           </span>
           </div>
@@ -54,7 +54,7 @@
       <tr *ngFor="let period of timesheet.periods" [class.bg-light]="isWeekend(period)" role="button"
           (click)="openPeriod(period)">
         <td>
-           <span class="mr-1">
+           <span class="me-1">
             <fa-icon [icon]="['fas','circle']" [ngClass]="getTagForPeriodType(period.periodType).color"></fa-icon>
           </span>
           {{period.dayOfWeek?.toString() | trim:3}}

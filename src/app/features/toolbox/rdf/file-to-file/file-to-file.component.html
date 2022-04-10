@@ -1,26 +1,26 @@
 <form [formGroup]="fileToFileForm" (ngSubmit)="submit()" *ngIf="fileToFileForm">
-  <div class="form-group">
+  <div class="mb-1">
     <label for="dd">Drop rdf File</label>
     <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event)"
                    dropZoneClassName="flat bg-light d-block"
                    [accept]="allowedExtensions"
                    [multiple]="false">
       <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-        <button id="dd" class="btn btn-primary mr-1" type="button" (click)="openFileSelector()">
+        <button id="dd" class="btn btn-primary me-1" type="button" (click)="openFileSelector()">
           <fa-icon [icon]="['fas','upload']"></fa-icon>
         </button>
       </ng-template>
     </ngx-file-drop>
     <p>{{file?.name}}</p>
   </div>
-  <div class="form-group">
+  <div class="mb-1 ">
     <label for="selectedLanguage">Choose an output format</label>
-    <select class="form-control" formControlName="selectedLanguage" id="selectedLanguage">
+    <select class="form-select" formControlName="selectedLanguage" id="selectedLanguage">
       <option *ngFor="let l of allowedLanguages$ | async" [selected]="l === selectedLanguage" [value]="l">{{l}}</option>
     </select>
   </div>
 
-  <div class="d-flex justify-content-end">
+  <div class="d-flex justify-content-end mt-1">
     <button type="submit" class="btn btn-primary" [disabled]="!fileToFileForm.valid">Convert</button>
   </div>
 </form>

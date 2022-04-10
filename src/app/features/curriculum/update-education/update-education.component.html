@@ -3,32 +3,32 @@
     <span class="modal-title text-break">
       {{scholarHistory?.title || 'New Education'}}
     </span>
-    <button type="button" class="close" aria-label="Close"
+    <button type="button" class="btn-close" aria-label="Close"
             (click)="activeModal?.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
+      
     </button>
   </div>
   <div class="modal-body" *ngIf="form">
     <form [formGroup]="form" (ngSubmit)="send()">
-      <div class="form-group row">
+      <div class="mb-1 row">
         <label class="col-sm-2 col-form-label" for="title">Title</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="title" formControlName="title">
         </div>
       </div>
-      <div class="form-group row">
+      <div class="mb-1 row">
         <label class="col-sm-2 col-form-label" for="school">School</label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="school" formControlName="school">
         </div>
       </div>
-      <div class="form-group row">
+      <div class="mb-1 row">
         <label class="col-sm-2 col-form-label" for="from">From</label>
         <div class="col-sm-10">
           <input type="date" class="form-control" id="from" formControlName="from">
         </div>
       </div>
-      <div class="form-group row" *ngIf="!current">
+      <div class="mb-1 row" *ngIf="!current">
         <label class="col-sm-2 col-form-label" for="to">To</label>
         <div class="col-sm-10">
           <input type="date" class="form-control" id="to" formControlName="to">

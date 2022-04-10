@@ -1,14 +1,14 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">Edit email</span>
-    <button type="button" class="close" aria-label="Close"
+    <button type="button" class="btn-close" aria-label="Close"
             (click)="activeModal?.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
+      
     </button>
   </div>
   <div class="modal-body">
     <form class="mt-2" [formGroup]="editorForm" (ngSubmit)="send()" *ngIf="editorForm">
-      <div class="form-group">
+      <div class="mb-1">
         <input type="email" class="form-control mb-2" formControlName="email" placeholder="Email">
       </div>
       <div class="d-flex justify-content-end">

@@ -80,12 +80,15 @@ import {
   faUserCog,
   faUserSecret,
   faWindowClose,
+  faFileCode,
+  faBold,
+  faListOl,
+  faItalic,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '@env/environment';
 import { LayoutModule } from '@feature/layout/layout.module';
-import { GdprModule } from '@feature/gdpr/gdpr.module';
 import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializeKeycloak } from './init/keycloak-init.factory';
@@ -99,7 +102,6 @@ registerLocaleData(localeDe, 'de');
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     LayoutModule,
-    GdprModule,
     KeycloakAngularModule,
     HighlightModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
@@ -138,6 +140,10 @@ export class AppModule {
       faKey,
       faIdCard,
       faAddressBook,
+      faFileCode,
+      faBold,
+      faListOl,
+      faItalic,
       faPhone,
       faBirthdayCake,
       faMailBulk,

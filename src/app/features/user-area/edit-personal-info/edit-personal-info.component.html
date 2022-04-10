@@ -1,9 +1,9 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">Personal Info</span>
-    <button type="button" class="close" aria-label="Close"
+    <button type="button" class="btn-close" aria-label="Close"
             (click)="activeModal?.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
+      
     </button>
   </div>
   <div class="modal-body" *ngIf="form">
@@ -13,28 +13,28 @@
           <a ngbNavLink>Metadata</a>
           <ng-template ngbNavContent>
             <div class="mt-2">
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="ceoFullName">CEO FullName</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="ceoFullName" formControlName="ceoFullName"
                          placeholder="CEO FullName">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="vatNumber">VAT</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="vatNumber" formControlName="vatNumber"
                          placeholder="VAT Number">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="organizationName">Organization's Name</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="organizationName" formControlName="organizationName"
                          placeholder="Organization's Name">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
 
                 <label class="col-sm-2 col-form-label" for="logo">Logo</label>
                 <div class="col-sm-10">
@@ -43,7 +43,7 @@
                                  [accept]="'image/*'"
                                  [multiple]="false">
                     <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                      <button id="logo" class="btn btn-primary mr-1" type="button" (click)="openFileSelector()"
+                      <button id="logo" class="btn btn-primary me-1" type="button" (click)="openFileSelector()"
                               *ngIf="!logoUrl">
                         <fa-icon [icon]="['fas','upload']"></fa-icon>
                       </button>
@@ -55,7 +55,7 @@
                 </div>
               </div>
 
-              <div class="form-group row">
+              <div class="mb-1 row">
 
                 <label class="col-sm-2 col-form-label" for="signature">Signature</label>
                 <div class="col-sm-10">
@@ -64,7 +64,7 @@
                                  [accept]="'image/*'"
                                  [multiple]="false">
                     <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                      <button id="signature" class="btn btn-primary mr-1" type="button" (click)="openFileSelector()"
+                      <button id="signature" class="btn btn-primary me-1" type="button" (click)="openFileSelector()"
                               *ngIf="!signatureUrl">
                         <fa-icon [icon]="['fas','upload']"></fa-icon>
                       </button>
@@ -75,7 +75,7 @@
                   </ngx-file-drop>
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="note">Note</label>
                 <div class="col-sm-10">
           <textarea [autosize]="true" class="form-control" id="note" formControlName="note"
@@ -89,21 +89,21 @@
           <a ngbNavLink>Contact/Bank</a>
           <ng-template ngbNavContent>
             <div class="mt-2">
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="organizationAddress">Address</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="organizationAddress" formControlName="organizationAddress"
                          placeholder="Address">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="organizationCity">City</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="organizationCity" formControlName="organizationCity"
                          placeholder="City">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="organizationPostCode">Post Code</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="organizationPostCode"
@@ -111,21 +111,21 @@
                          placeholder="Post Code">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="organizationEmailAddress">Email</label>
                 <div class="col-sm-10">
                   <input type="email" class="form-control" id="organizationEmailAddress"
                          formControlName="organizationEmailAddress">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="organizationPhoneNumber">Phone Number</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="organizationPhoneNumber"
                          formControlName="organizationPhoneNumber">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="organizationBankAccount">Bank Account</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="organizationBankAccount"
@@ -133,14 +133,14 @@
                          placeholder="Bank Account">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="organizationBankBIC">Bank Account BIC</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="organizationBankBIC" formControlName="organizationBankBIC"
                          placeholder="BIC">
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="financeCharge">Finance Charge</label>
                 <div class="col-sm-10">
                   <input type="number" class="form-control" id="financeCharge" formControlName="financeCharge"

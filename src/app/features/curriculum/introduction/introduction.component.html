@@ -11,7 +11,7 @@
   <form [formGroup]="form" (ngSubmit)="submit()">
     <textarea [autosize] formControlName="intro" placeholder="intro here" class="form-control"></textarea>
     <div class="mt-2">
-      <button class="btn btn-outline-danger mr-1" [disabled]="!form.valid"
+      <button class="btn btn-outline-danger me-1" 
               (click)="$event.preventDefault(); toggleEditing()">Cancel
       </button>
       <button class="btn btn-outline-primary" [disabled]="!editing || !form.valid" type="submit">Submit</button>

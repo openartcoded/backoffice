@@ -1,7 +1,7 @@
 <ng-container *ngIf="dossiers">
   <div class="d-flex justify-content-end pb-2 pt-1" *ngIf="!closed">
 
-      <button class="btn btn-outline-success mr-1" (click)="toggleGraphs()">{{showGraphs ? 'Hide' : 'Show'}}
+      <button class="btn btn-outline-success me-1" (click)="toggleGraphs()">{{showGraphs ? 'Hide' : 'Show'}}
         graphs
       </button>
     <div ngbDropdown class="d-inline-block" container="body">
@@ -54,7 +54,7 @@
             <td class="d-md-table-cell  d-none">{{d.description}}</td>
             <td class="d-md-table-cell  d-none" *ngIf="closed">{{(d?.tvaDue || 0)| currency: '€'}}</td>
             <td *ngIf="!closed" [class.bg-danger]="d?.tvaToBePaid <0" [class.text-warning]="d?.tvaToBePaid <0"
-              [class.bg-artcoded]="d?.tvaToBePaid > 0" [class.bg-secondary]="d?.tvaToBePaid === 0"
+              [class.bg-info]="d?.tvaToBePaid > 0" [class.bg-secondary]="d?.tvaToBePaid === 0"
               [class.text-white]="d?.tvaToBePaid >= 0" class="d-md-table-cell  d-none">{{d?.tvaToBePaid | currency:
               '€'}}
             </td>

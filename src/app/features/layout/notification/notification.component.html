@@ -6,13 +6,13 @@
   triggers="manual"
   #p="ngbPopover"
   (click)="p.open()"
-  class="btn btn-lg btn-transparent pr-0"
+  class="btn btn-lg btn-transparent pe-0"
 >
   <ng-container>
     <span
-      class="badge badge-pill align-middle"
-      [class.badge-light]="unseenCount === 0"
-      [class.badge-danger]="unseenCount > 0"
+      class="badge rounded-circle align-middle"
+      [class.bg-light]="unseenCount === 0"
+      [class.bg-danger]="unseenCount > 0"
     >
       {{ unseenCount }}
     </span>

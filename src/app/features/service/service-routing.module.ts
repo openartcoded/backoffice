@@ -6,12 +6,6 @@ import { RoleGuard } from '@core/guards/role.guard';
 import { PolicyComponent } from './policy/policy.component';
 
 const routes: Routes = [
-  /*  {
-    path: '',
-    component: HomePageComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: {expectedRole: ['ADMIN']}
-  },*/
   {
     path: 'privacy-policy',
     component: PolicyComponent,
