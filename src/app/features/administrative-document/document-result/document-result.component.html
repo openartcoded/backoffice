@@ -14,7 +14,7 @@
       <tr>
         <th>title</th>
         <th>creationDate</th>
-        <th class="fit">actions</th>
+        <th>actions</th>
       </tr>
       </thead>
       <tbody>
@@ -22,7 +22,7 @@
         <tr>
           <td class="text-break">{{ad.title}}</td>
           <td class="text-break">{{ad.dateCreation | date:'dd/MM/yyyy'}}</td>
-          <td class="text-center">
+          <td>
             <div ngbDropdown class="d-inline-block" container="body"  >
               <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle></button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic1">

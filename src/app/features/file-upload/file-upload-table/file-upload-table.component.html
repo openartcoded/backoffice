@@ -9,7 +9,7 @@
         <th>creationDate</th>
         <th>name</th>
         <th class="d-md-table-cell d-none">correlationId</th>
-        <th class="d-md-table-cell d-none">isPublic</th>
+        <th class="d-md-table-cell d-none">public</th>
         <th>actions</th>
       </tr>
       </thead>
@@ -19,7 +19,7 @@
           <td class="text-break">{{upl?.metadata?.creationDate}}</td>
           <td class="text-break">{{upl?.metadata?.name}}</td>
           <td class="text-break d-md-table-cell d-none">{{upl?.metadata?.correlationId}}</td>
-          <td class="d-md-table-cell d-none text-break">{{upl?.metadata?.publicResource}}</td>
+          <td class="d-md-table-cell d-none text-break">{{upl?.metadata?.publicResource ? "Yes" : "No"}}</td>
           <td class="text-center">
             <div ngbDropdown class="d-inline-block" container="body">
               <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle></button>

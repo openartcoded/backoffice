@@ -12,6 +12,7 @@
     <span
       class="badge rounded-circle align-middle"
       [class.bg-light]="unseenCount === 0"
+      [class.text-muted]="unseenCount === 0"
       [class.bg-danger]="unseenCount > 0"
     >
       {{ unseenCount }}
