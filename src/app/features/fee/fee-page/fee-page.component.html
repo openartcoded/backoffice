@@ -13,7 +13,7 @@
   <li ngbNavItem="unprocessed">
     <a ngbNavLink routerLink="/fee/unprocessed">Unprocessed</a>
     <ng-template ngbNavContent>
-      <div [class.full-screen]="fullScreen" [class.p-3]="fullScreen">
+      <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
         <ng-component [ngTemplateOutlet]="fullScreenTemplate"
                       [ngTemplateOutletContext]="{title:'Unprocessed'}"></ng-component>
         <div class="d-block">
@@ -25,7 +25,7 @@
   <li ngbNavItem="processed">
     <a ngbNavLink routerLink="/fee/processed">Processed</a>
     <ng-template ngbNavContent>
-      <div [class.full-screen]="fullScreen" [class.p-3]="fullScreen">
+      <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
         <ng-component [ngTemplateOutlet]="fullScreenTemplate"
                       [ngTemplateOutletContext]="{title:'Processed'}"></ng-component>
 

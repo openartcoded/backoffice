@@ -1,3 +1,0 @@
-function jsonPath() {
-  return JSONPath;
-}

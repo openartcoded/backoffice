@@ -11,9 +11,11 @@ import { BlogRoutingModule } from './blog-routing.module';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { ChipsModule } from 'primeng/chips';
-
-import 'brace';
-import 'brace/mode/markdown';
+import 'ace-builds/src-min-noconflict/ace';
+import 'ace-builds/src-min-noconflict/mode-markdown';
+import("marked").then(m=> {
+    (window as any).marked = m.marked;
+});
 
 @NgModule({
   declarations: [PostsComponent, PostEditorComponent, PostDetailComponent],
