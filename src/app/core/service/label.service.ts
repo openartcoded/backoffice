@@ -22,6 +22,6 @@ export class LabelService {
     return this.http.post<Label[]>(`${this.backendUrl}/api/label/find-all`, {});
   }
   findByName(name: string): Observable<Label> {
-    return this.http.get<Label>(`${this.backendUrl}/api/label/find-by-name?name=${name}`);
+    return this.http.post<Label>(`${this.backendUrl}/api/label/find-by-name?name=${name}`, {});
   }
 }
