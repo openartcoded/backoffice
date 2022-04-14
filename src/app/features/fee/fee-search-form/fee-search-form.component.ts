@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { FeeSearchCriteria, FeeTagColor } from '@core/models/fee';
+import { FeeSearchCriteria, Label } from '@core/models/fee';
 import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
@@ -12,7 +12,7 @@ export class FeeSearchFormComponent implements OnInit {
   searchForm: FormGroup;
 
   @Input()
-  tags: FeeTagColor[];
+  tags: Label[];
 
   @Input()
   searchCriteria: FeeSearchCriteria;
@@ -52,9 +52,9 @@ export class FeeSearchFormComponent implements OnInit {
       this.searchCriteria.body = null;
     }
     if (this.searchForm.controls.feeDateBefore.value) {
-      this.searchCriteria.datebefore = DateUtils.getDateFromInput(this.searchForm.controls.feeDateBefore.value);
+      this.searchCriteria.dateBefore = DateUtils.getDateFromInput(this.searchForm.controls.feeDateBefore.value);
     } else {
-      this.searchCriteria.datebefore = null;
+      this.searchCriteria.dateBefore = null;
     }
     if (this.searchForm.controls.feeDateAfter.value) {
       this.searchCriteria.dateAfter = DateUtils.getDateFromInput(this.searchForm.controls.feeDateAfter.value);
@@ -79,7 +79,7 @@ export class FeeSearchFormComponent implements OnInit {
     this.searchCriteria.subject = null;
     this.searchCriteria.subject = null;
     this.searchCriteria.body = null;
-    this.searchCriteria.datebefore = null;
+    this.searchCriteria.dateBefore = null;
     this.searchCriteria.dateAfter = null;
     this.searchCriteria.id = null;
     this.searchCriteria.tag = null;

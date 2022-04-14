@@ -1,11 +1,11 @@
 <ng-template #fullScreenTemplate let-title="title">
-  <div class="d-flex justify-content-between   mb-2">
-    <h4 [class.pt-3]="!fullScreen">{{title}}</h4>
-    <a class="btn btn-link m-0" [class.pt-3]="!fullScreen" (click)="$event.stopPropagation();fullScreen=!fullScreen">
-      <fa-icon class="text-dark" [icon]="['fas','expand-arrows-alt']"></fa-icon>
+  <div class="d-flex justify-content-between mb-2">
+    <h4 [class.pt-3]="!fullScreen">{{ title }}</h4>
+    <a class="btn btn-link m-0" [class.pt-3]="!fullScreen" (click)="$event.stopPropagation(); fullScreen = !fullScreen">
+      <fa-icon class="text-dark" [icon]="['fas', 'expand-arrows-alt']"></fa-icon>
     </a>
   </div>
-  <hr>
+  <hr />
 </ng-template>
 
 <app-title title="Expenses" [uppercase]="true"></app-title>
@@ -14,8 +14,10 @@
     <a ngbNavLink routerLink="/fee/unprocessed">Unprocessed</a>
     <ng-template ngbNavContent>
       <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-        <ng-component [ngTemplateOutlet]="fullScreenTemplate"
-                      [ngTemplateOutletContext]="{title:'Unprocessed'}"></ng-component>
+        <ng-component
+          [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Unprocessed' }"
+        ></ng-component>
         <div class="d-block">
           <app-fee-table-result [archived]="false"></app-fee-table-result>
         </div>
@@ -26,8 +28,10 @@
     <a ngbNavLink routerLink="/fee/processed">Processed</a>
     <ng-template ngbNavContent>
       <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-        <ng-component [ngTemplateOutlet]="fullScreenTemplate"
-                      [ngTemplateOutletContext]="{title:'Processed'}"></ng-component>
+        <ng-component
+          [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Processed' }"
+        ></ng-component>
 
         <div class="d-block">
           <app-fee-table-result [archived]="true"></app-fee-table-result>
@@ -35,6 +39,20 @@
       </div>
     </ng-template>
   </li>
+  <li ngbNavItem="labels">
+    <a ngbNavLink routerLink="/fee/labels">Labels</a>
+    <ng-template ngbNavContent>
+      <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+        <ng-component
+          [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Labels' }"
+        ></ng-component>
+
+        <div class="d-block">
+          <app-default-price></app-default-price>
+        </div>
+      </div>
+    </ng-template>
+  </li>
 </ul>
 <div [ngbNavOutlet]="nav"></div>
-

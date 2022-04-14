@@ -16,7 +16,7 @@ import { ManualSubmitComponent } from './manual-submit/manual-submit.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { UpdatePriceComponent } from './update-price/update-price.component';
 import { DefaultPriceComponent } from './default-price/default-price.component';
-
+import { ColorPickerModule } from 'primeng/colorpicker';
 @NgModule({
   declarations: [
     FeePageComponent,
@@ -33,6 +33,7 @@ import { DefaultPriceComponent } from './default-price/default-price.component';
     CommonModule,
     SharedModule,
     FeeRoutingModule,
+    ColorPickerModule,
     NgbNavModule,
     NgbCollapseModule,
     FontAwesomeModule,

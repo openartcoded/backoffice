@@ -1,17 +1,25 @@
-import { EventEmitter, Inject, Injectable, OnInit, PLATFORM_ID } from '@angular/core';
+import { ApplicationInitStatus, EventEmitter, Inject, Injectable, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { User } from '@core/models/user';
 import { KeycloakEventType, KeycloakService } from 'keycloak-angular';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
   private _token: string;
   loggedOut: EventEmitter<any> = new EventEmitter<any>();
+  keycloakSubscription: Subscription;
   loggedIn: EventEmitter<any> = new EventEmitter<any>();
   tokenRefreshed: EventEmitter<string> = new EventEmitter<any>();
-  constructor(private keycloakService: KeycloakService) {
-    this.keycloakService.keycloakEvents$.subscribe(async (e) => {
+  constructor(private keycloakService: KeycloakService, private appInit: ApplicationInitStatus) {
+    this.appInit.donePromise.then(() => this.onInit());
+  }
+  ngOnDestroy(): void {
+    this.keycloakSubscription.unsubscribe();
+  }
+  onInit(): any {
+    this.keycloakSubscription = this.keycloakService.keycloakEvents$.subscribe(async (e) => {
       if (
         e.type == KeycloakEventType.OnAuthError ||
         e.type == KeycloakEventType.OnAuthLogout ||
@@ -19,20 +27,17 @@ export class AuthService {
       ) {
         this.loggedOut.emit();
       }
-      if (e.type == KeycloakEventType.OnAuthSuccess) {
-        await this.refreshToken();
-      }
-      if (e.type == KeycloakEventType.OnAuthRefreshSuccess) {
+      if (e.type == KeycloakEventType.OnAuthSuccess || e.type == KeycloakEventType.OnAuthRefreshSuccess) {
         await this.refreshToken();
       }
       if (e.type == KeycloakEventType.OnTokenExpired) {
-        this.keycloakService.updateToken(20);
+        this.keycloakService.updateToken(180);
       }
     });
   }
 
   get token() {
-    if(!this._token){
+    if (!this._token) {
       this.refreshToken();
     }
     return this._token;

@@ -1,12 +1,11 @@
-<ng-container *ngIf="fee">
+<ng-container *ngIf="fee && tags">
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">
-      <fa-icon *ngIf="fee.tag" [icon]="['fas','circle']" [ngClass]="getClassForTag(fee)"></fa-icon>&nbsp;{{fee.subject |
-      titlecase}}
+      <fa-icon *ngIf="fee.tag" [icon]="['fas', 'circle']" [ngStyle]="getStyleForTag(fee)"></fa-icon>&nbsp;{{
+        fee.subject | titlecase
+      }}
     </span>
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
-      
-    </button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
     <form>
@@ -17,22 +16,37 @@
             <div class="mt-2">
               <div class="mb-1">
                 <label for="feeId">Id</label>
-                <input [disabled]="true" type="text" class="form-control" id="feeId" [value]="fee.id">
+                <input [disabled]="true" type="text" class="form-control" id="feeId" [value]="fee.id" />
               </div>
               <div class="mb-1">
                 <label for="receivedDate">Date received</label>
-                <input [disabled]="true" type="text" class="form-control" id="receivedDate"
-                  [value]="fee.date | date:'dd/MM/yyyy HH:mm'">
+                <input
+                  [disabled]="true"
+                  type="text"
+                  class="form-control"
+                  id="receivedDate"
+                  [value]="fee.date | date: 'dd/MM/yyyy HH:mm'"
+                />
               </div>
               <div class="mb-1">
                 <label for="updatedDate">Updated Date</label>
-                <input [disabled]="true" type="text" class="form-control" id="updatedDate"
-                  [value]="fee.updatedDate | date:'dd/MM/yyyy HH:mm'">
+                <input
+                  [disabled]="true"
+                  type="text"
+                  class="form-control"
+                  id="updatedDate"
+                  [value]="fee.updatedDate | date: 'dd/MM/yyyy HH:mm'"
+                />
               </div>
               <div class="mb-1" *ngIf="fee.archivedDate">
                 <label for="archivedDate">Archived Date</label>
-                <input type="text" class="form-control" disabled id="archivedDate"
-                  [value]="fee.archivedDate | date:'dd/MM/yyyy HH:mm'">
+                <input
+                  type="text"
+                  class="form-control"
+                  disabled
+                  id="archivedDate"
+                  [value]="fee.archivedDate | date: 'dd/MM/yyyy HH:mm'"
+                />
               </div>
             </div>
           </ng-template>
@@ -41,8 +55,7 @@
           <a ngbNavLink>Body</a>
           <ng-template ngbNavContent>
             <div class="mt-2">
-                <textarea [autosize] [disabled]="true" class="form-control" id="body" [value]="fee.body">
-          </textarea>
+              <textarea [autosize] [disabled]="true" class="form-control" id="body" [value]="fee.body"> </textarea>
             </div>
           </ng-template>
         </li>
@@ -50,25 +63,26 @@
           <a ngbNavLink>Attachments</a>
           <ng-template ngbNavContent>
             <div class="mt-2">
-              <div class="bg-light p-2 " *ngIf="!fee.attachmentIds?.length">
-                No Content.
-              </div>
+              <div class="bg-light p-2" *ngIf="!fee.attachmentIds?.length">No Content.</div>
               <ul class="list-group" id="attachments" *ngIf="fee.attachmentIds.length">
                 <li class="list-group-item" *ngFor="let a of fee.attachments">
                   <div class="d-flex justify-content-between">
                     <button class="btn btn-link text-break" (click)="downloadAttachment($event, a)">
-                      {{a.metadata.name}}
+                      {{ a.metadata.name }}
                     </button>
                     <div class="btn-group">
-                      <button class="btn btn-link" [disabled]="fee.attachmentIds.length <= 1 || fee.archived"
-                        (click)="removeAttachment($event, a)">
-                        <fa-icon [icon]="['fas','times']" class="text-danger"></fa-icon>
+                      <button
+                        class="btn btn-link"
+                        [disabled]="fee.attachmentIds.length <= 1 || fee.archived"
+                        (click)="removeAttachment($event, a)"
+                      >
+                        <fa-icon [icon]="['fas', 'times']" class="text-danger"></fa-icon>
                       </button>
                       <button class="btn btn-link" *ngIf="isPdf(a)" (click)="openPdfViewer(a)">
-                        <fa-icon [icon]="['fas','file-pdf']" class="text-secondary"></fa-icon>
+                        <fa-icon [icon]="['fas', 'file-pdf']" class="text-secondary"></fa-icon>
                       </button>
                       <button class="btn btn-link" *ngIf="isImage(a)" (click)="openImageViewer(a)">
-                        <fa-icon [icon]="['fas','file-image']" class="text-secondary"></fa-icon>
+                        <fa-icon [icon]="['fas', 'file-image']" class="text-secondary"></fa-icon>
                       </button>
                     </div>
                   </div>
@@ -89,14 +103,18 @@
           <a ngbNavLink>Tag</a>
           <ng-template ngbNavContent>
             <div class="mt-2">
-              <app-tag-form [hideCancelButton]="true" [selectedTag]="fee.tag" [tags]="tags"
-                (tagSubmitted)="updateTag(fee, $event)" [isDisabled]="fee.archived"></app-tag-form>
+              <app-tag-form
+                [hideCancelButton]="true"
+                [selectedTag]="fee.tagId"
+                [tags]="tags"
+                (tagSubmitted)="updateTag(fee, $event)"
+                [isDisabled]="fee.archived"
+              ></app-tag-form>
             </div>
           </ng-template>
         </li>
       </ul>
       <div [ngbNavOutlet]="nav"></div>
     </form>
-
   </div>
 </ng-container>

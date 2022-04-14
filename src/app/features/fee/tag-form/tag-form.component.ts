@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FeeTag, FeeTagColor } from '@core/models/fee';
+import { Label } from '@core/models/fee';
 
 @Component({
   selector: 'app-tag-form',
@@ -8,13 +8,13 @@ import { FeeTag, FeeTagColor } from '@core/models/fee';
 })
 export class TagFormComponent implements OnInit {
   @Input()
-  tags: FeeTagColor[];
+  tags: Label[];
 
   @Output()
-  tagSubmitted: EventEmitter<FeeTag> = new EventEmitter<FeeTag>();
+  tagSubmitted: EventEmitter<Label> = new EventEmitter<Label>();
 
   @Input()
-  selectedTag: FeeTag;
+  selectedTag: string;
 
   @Input()
   isDisabled: boolean;
@@ -26,7 +26,12 @@ export class TagFormComponent implements OnInit {
   ngOnInit(): void {}
 
   submit() {
-    this.tagSubmitted.emit(this.selectedTag);
+    if (this.selectedTag) {
+      const tag = this.tags.find((l) => l.id === this.selectedTag);
+      this.tagSubmitted.emit(tag);
+    } else {
+      this.reset();
+    }
   }
 
   reset() {

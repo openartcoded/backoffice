@@ -6,7 +6,8 @@ import { DossierFormComponent } from '../dossier-form/dossier-form.component';
 import { FileService } from '@core/service/file.service';
 import { WindowRefService } from '@core/service/window.service';
 import { isPlatformBrowser } from '@angular/common';
-import { timeout } from 'rxjs/operators';
+import { LabelService } from '@core/service/label.service';
+import { Label } from '@core/models/fee';
 
 @Component({
   selector: 'app-dossier-table-result',
@@ -19,28 +20,28 @@ export class DossierTableResultComponent implements OnInit {
   dossiers: Dossier[];
   showGraphs = false;
 
+  labels: Label[];
   constructor(
     private dossierService: DossierService,
+    private labelService: LabelService,
     private fileService: FileService,
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
     private modalService: NgbModal
-  ) {
-  }
-
-
+  ) {}
 
   toggleGraphs() {
     this.showGraphs = !this.showGraphs;
   }
-  
+
   ngOnInit(): void {
     this.load();
-    setTimeout(()=> this.showGraphs = true, 200);
+    setTimeout(() => (this.showGraphs = true), 200);
   }
 
   load(): void {
     this.dossierService.findAll(this.closed).subscribe((d) => (this.dossiers = d));
+    this.labelService.findAll().subscribe((labels) => (this.labels = labels));
   }
 
   newDossier() {
@@ -56,10 +57,11 @@ export class DossierTableResultComponent implements OnInit {
       scrollable: true,
     });
     modalRef.componentInstance.dossier = doss;
+    modalRef.componentInstance.labels = this.labels;
     modalRef.componentInstance.recallForModification = recallForModification;
     modalRef.componentInstance.onDownloadSummary.subscribe((dossier) => {
       if (dossier.id) {
-        modalRef.close();
+        // modalRef.close();
         this.dossierService.generateSummary(dossier.id);
       }
     });
@@ -68,18 +70,18 @@ export class DossierTableResultComponent implements OnInit {
         if (!dossier.closed) {
           this.dossierService.updateDossier(dossier).subscribe((dossier) => {
             this.load();
-            modalRef.close();
+            // modalRef.close();
           });
         } else if (modalRef.componentInstance.recallForModification) {
           this.dossierService.recallForModification(dossier).subscribe((dossier) => {
             this.load();
-            modalRef.close();
+            //  modalRef.close();
           });
         }
       } else {
         this.dossierService.newDossier(dossier).subscribe((dossier) => {
           this.load();
-          modalRef.close();
+          //  modalRef.close();
         });
       }
     });

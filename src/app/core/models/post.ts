@@ -13,7 +13,7 @@ export interface Post {
 
 export interface PostSearchCriteria {
   id?: string;
-  datebefore?: Date;
+  dateBefore?: Date;
   dateAfter?: Date;
   title?: string;
   content?: string;

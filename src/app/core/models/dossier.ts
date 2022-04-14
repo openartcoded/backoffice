@@ -1,4 +1,4 @@
-import { Fee, FeeTag } from '@core/models/fee';
+import { Fee } from '@core/models/fee';
 import { Invoice } from '@core/models/invoice';
 
 export interface Dossier {
@@ -28,8 +28,8 @@ export interface TvaAdvancePayment {
 
 export interface DossierSummary {
   dossier?: Dossier;
-  name?:string;
-  totalExpenses?:number;
-  computedTotalExpensesPerTag?:Map<FeeTag, number>;
-  totalEarnings?:number;
+  name?: string;
+  totalExpenses?: number;
+  computedTotalExpensesPerTag?: Map<string, number>;
+  totalEarnings?: number;
 }

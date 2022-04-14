@@ -91,7 +91,7 @@ import { environment } from '@env/environment';
 import { LayoutModule } from '@feature/layout/layout.module';
 import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
-import { initializeKeycloak } from './init/keycloak-init.factory';
+import { initialize } from './init/app-init.factory';
 import { ConfigInitService } from './init/config-init.service';
 
 registerLocaleData(localeDe, 'de');
@@ -112,10 +112,11 @@ registerLocaleData(localeDe, 'de');
     ConfigInitService,
     {
       provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
+      useFactory: initialize,
       multi: true,
       deps: [KeycloakService, ConfigInitService],
     },
+
     {
       provide: HIGHLIGHT_OPTIONS,
       useValue: {

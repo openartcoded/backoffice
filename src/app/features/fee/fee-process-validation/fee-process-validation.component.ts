@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Fee, FeeTagColorUtils } from '@core/models/fee';
+import { Fee, Label } from '@core/models/fee';
 import { Dossier } from '@core/models/dossier';
+import { LabelService } from '@core/service/label.service';
 
 @Component({
   selector: 'app-fee-process-validation',
@@ -14,17 +15,25 @@ export class FeeProcessValidationComponent implements OnInit {
   @Input()
   activeDossier: Dossier;
 
+  @Input()
+  labels: Label[];
+
   @Output()
   selectedFeeRemoved: EventEmitter<Fee> = new EventEmitter<Fee>();
   @Output()
   processValidated: EventEmitter<Fee[]> = new EventEmitter<Fee[]>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal) {}
+  constructor(@Optional() public activeModal: NgbActiveModal, private labelService: LabelService) {}
 
   ngOnInit(): void {}
 
-  getClassForTag(f: Fee) {
-    return FeeTagColorUtils.getClassForTag(f);
+  getStyleForTag(f: Fee) {
+    const label = this.labels.find((l) => l.name === f.tag);
+    if (!label) {
+      console.log('no label found! weird...');
+      return { color: '#FFFFFF' };
+    }
+    return { color: label.colorHex };
   }
 
   removeFee($event: MouseEvent, fee: Fee) {

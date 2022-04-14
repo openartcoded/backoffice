@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angul
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Dossier, TvaAdvancePayment } from '@core/models/dossier';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Fee, FeeTagColorUtils } from '@core/models/fee';
+import { Fee, Label } from '@core/models/fee';
 import { FeeService } from '@core/service/fee.service';
 import { formatDate } from '@angular/common';
 import { Invoice } from '@core/models/invoice';
@@ -10,6 +10,7 @@ import { InvoiceService } from '@core/service/invoice.service';
 import { FeeDetailComponent } from '@feature/fee/fee-detail/fee-detail.component';
 import { InvoiceDetailComponent } from '@feature/invoice/invoice-detail/invoice-detail.component';
 import { DateUtils } from '@core/utils/date-utils';
+import { LabelService } from '@core/service/label.service';
 
 @Component({
   selector: 'app-dossier-form',
@@ -21,6 +22,8 @@ export class DossierFormComponent implements OnInit {
   dossier: Dossier;
   @Input()
   recallForModification: boolean = false;
+  @Input()
+  labels: Label[];
   searchExpense: string;
 
   vatTotal: number = 0;
@@ -173,8 +176,8 @@ export class DossierFormComponent implements OnInit {
       name: this.dossierForm.controls.dossierName.value,
       description: this.dossierForm.controls.dossierDescription.value,
     });
-    this.dossierForm.reset();
-    this.advancePayments.reset();
+    //this.dossierForm.reset();
+    //this.advancePayments.reset();
   }
 
   removeFee($event: MouseEvent, f: Fee) {
@@ -183,8 +186,13 @@ export class DossierFormComponent implements OnInit {
     this.feeRemoved.emit(f);
   }
 
-  getClassForTag(f: Fee) {
-    return FeeTagColorUtils.getClassForTag(f);
+  getStyleForTag(f: Fee) {
+    const label = this.labels.find((l) => l.name === f.tag);
+    if (!label) {
+      console.log('no label found! weird...');
+      return { color: '#FFFFFF' };
+    }
+    return { color: label.colorHex };
   }
 
   removeInvoice($event: MouseEvent, i: Invoice) {

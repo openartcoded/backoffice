@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { FeeService } from '@core/service/fee.service';
-import { Fee, FeeSearchCriteria, FeeTag, FeeTagColorUtils } from '@core/models/fee';
+import { Fee, FeeSearchCriteria, Label } from '@core/models/fee';
 import { Page } from '@core/models/page';
 import { DossierService } from '@core/service/dossier.service';
 import { Dossier } from '@core/models/dossier';
@@ -13,7 +13,7 @@ import { ManualSubmitComponent } from '../manual-submit/manual-submit.component'
 import { OnApplicationEvent, RegisteredEvent } from '@core/interface/on-application-event';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { NotificationService } from '@core/service/notification.service';
-import { DefaultPriceComponent } from '@feature/fee/default-price/default-price.component';
+import { LabelService } from '@core/service/label.service';
 
 @Component({
   selector: 'app-fee-table-result',
@@ -27,11 +27,12 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
   fees: Page<Fee>;
   pageSize: number = 5;
 
+  tags: Label[];
+
   selectedRows: Fee[] = [];
 
   showTagForm: boolean;
   activeDossier: Dossier;
-  tags = FeeTagColorUtils.tags();
 
   constructor(
     private dossierService: DossierService,
@@ -39,6 +40,7 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
     private notificationService: NotificationService,
+    private labelService: LabelService,
     private feeService: FeeService
   ) {}
 
@@ -50,6 +52,7 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     this.search({
       archived: this.archived,
     });
+    this.labelService.findAll().subscribe((labels) => (this.tags = labels));
   }
 
   search(criteria: FeeSearchCriteria) {
@@ -93,11 +96,19 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     return content.every((r) => this.selectedRows.some((x) => x.id === r.id));
   }
 
-  getClassForTag(f: Fee) {
-    return FeeTagColorUtils.getClassForTag(f);
+  getStyleForTag(f: Fee) {
+    const label = this.tags.find((l) => l.name === f.tag);
+    if (!label) {
+      return { color: '#FFFFFF' };
+    }
+    return { color: label.colorHex };
   }
 
-  saveTag($event: FeeTag) {
+  getStyleForLabel(label: Label) {
+    return { color: label.colorHex };
+  }
+
+  saveTag($event: Label) {
     this.showTagForm = false;
     if (!$event) {
       return;
@@ -120,10 +131,10 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     });
   }
 
-  filterByTag(t){
+  filterByTag(t: Label) {
     const criteria = {
-      tag: t.tag,
-      archived: this.archived
+      tag: t.name,
+      archived: this.archived,
     } as FeeSearchCriteria;
     this.search(criteria);
   }
@@ -131,6 +142,7 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
   openProcessValidation() {
     const modalRef = this.modalService.open(FeeProcessValidationComponent);
     modalRef.componentInstance.selectedFees = this.selectedRows;
+    modalRef.componentInstance.labels = this.tags;
     modalRef.componentInstance.activeDossier = this.activeDossier;
     modalRef.componentInstance.selectedFeeRemoved.subscribe((f) => {
       this.toggleSelectedRow(f, true);
@@ -186,14 +198,5 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
 
   shouldMarkEventAsSeenAfterConsumed(): boolean {
     return true;
-  }
-
-  defaultPrice() {
-    const modal = this.modalService.open(DefaultPriceComponent, { size: 'xl' });
-    modal.componentInstance.defaultPricesForTag$ = this.feeService.findAllDefaultPriceForTag();
-    modal.componentInstance.onSubmit.subscribe(async (prices) => {
-      await this.feeService.updateDefaultPriceForTags(prices).toPromise();
-      modal.close();
-    });
   }
 }

@@ -31,16 +31,16 @@ export class DossierService {
     );
   }
 
-  getSummary(id:string): Observable<DossierSummary> {
-     return this.http.post<DossierSummary>(
+  getSummary(id: string): Observable<DossierSummary> {
+    return this.http.post<DossierSummary>(
       `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/summary?id=${id}`,
       {}
     );
   }
 
-  generateSummary(id: string): void {
+  async generateSummary(id: string) {
     if (isPlatformBrowser(this.platformId)) {
-      this.http
+      const downloadLink = await this.http
         .get(`${this.configService.getConfig()['BACKEND_URL']}/api/dossier/generate-summary?id=${id}`, {
           observe: 'response',
           responseType: 'blob' as 'json',
@@ -59,10 +59,9 @@ export class DossierService {
             return downloadLink;
           })
         )
-        .subscribe((downloadLink) => {
-          this.document.body.appendChild(downloadLink);
-          downloadLink.click();
-        });
+        .toPromise();
+      this.document.body.appendChild(downloadLink);
+      downloadLink.click();
     }
   }
 

@@ -1,44 +1,64 @@
-<ng-container *ngIf="form">
-  <div class="modal-header" *ngIf="activeModal">
-    <span class="modal-title text-break">Default Prices</span>
-    <button type="button" class="btn-close" aria-label="Close"
-            (click)="activeModal?.dismiss('Cross click')">
-      
-    </button>
+<ng-container *ngIf="form && tags">
+  <div class="alert alert-warning">
+    <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>&nbsp;Only alphanumeric & no duplicates are allowed for
+    label name. Duplicates label will be simply overriden
   </div>
-  <div class="modal-body">
-    <form [formGroup]="form" (submit)="submit()">
-      <ng-container formArrayName="defaultPrices">
-        <div class="table-responsive"></div>
-        <table class="table table-bordered">
-          <thead>
+  <form [formGroup]="form" (submit)="submit()">
+    <div class="d-flex justify-content-end me-1 mb-1">
+      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+    </div>
+    <ng-container formArrayName="defaultPrices">
+      <table class="table table-sm table-bordered">
+        <thead>
           <tr>
-            <th>Tag</th>
+            <th>Color</th>
+            <th>Label</th>
             <th>Price HVAT</th>
             <th>VAT</th>
+            <th class="text-center">
+              <button (click)="add($event)" class="btn btn-link me-1">
+                <fa-icon class="text-primary" icon="plus"></fa-icon>
+              </button>
+            </th>
           </tr>
-          </thead>
-          <tbody>
+        </thead>
+        <tbody>
           <tr *ngFor="let _ of defaultPrices.controls; index as i">
             <ng-container [formGroupName]="i">
               <td>
-                <input type="text" class="form-control" [id]="'tag'+i" formControlName="tag">
+                <p-colorPicker [baseZIndex]="2000" [id]="'colorHex' + i" formControlName="colorHex"></p-colorPicker>
               </td>
               <td>
-                <input type="number" class="form-control" [id]="'priceHVAT'+i" formControlName="priceHVAT">
+                <input
+                  type="text"
+                  (input)="changeTextToUppercase(i)"
+                  pattern="[a-zA-Z0-9]+"
+                  class="form-control"
+                  [id]="'tag' + i"
+                  formControlName="tag"
+                />
               </td>
               <td>
-                <input type="number" class="form-control" [id]="'vat'+i" formControlName="vat">
+                <div class="input-group input-group-sm mb-3">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">€</span>
+                  <input type="number" class="form-control" [id]="'priceHVAT' + i" formControlName="priceHVAT" />
+                </div>
+              </td>
+              <td>
+                <div class="input-group input-group-sm mb-3">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">€</span>
+                  <input type="number" class="form-control" [id]="'vat' + i" formControlName="vat" />
+                </div>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-link text-danger" (click)="remove($event, i)" [disabled]="canRemove(i)">
+                  <fa-icon [icon]="['fas', 'times']"></fa-icon>
+                </button>
               </td>
             </ng-container>
           </tr>
-          </tbody>
-        </table>
-      </ng-container>
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
-      </div>
-    </form>
-  </div>
+        </tbody>
+      </table>
+    </ng-container>
+  </form>
 </ng-container>
-
