@@ -5,51 +5,53 @@
     Add
   </button>
 </div>
-<app-document-search-form [searchCriteria]="searchCriteria"
-                          (formSubmitted)="search($event)"></app-document-search-form>
+<app-document-search-form [searchCriteria]="searchCriteria" (formSubmitted)="search($event)"></app-document-search-form>
 <ng-container *ngIf="adminDocuments">
   <div class="table-responsive">
-    <table class="table table-sm table-bordered">
+    <table class="table table-sm table-bordered table-hover">
       <thead>
-      <tr>
-        <th>title</th>
-        <th>creationDate</th>
-        <th>actions</th>
-      </tr>
+        <tr>
+          <th>title</th>
+          <th>creationDate</th>
+          <th>actions</th>
+        </tr>
       </thead>
       <tbody>
-      <ng-container *ngFor="let ad of adminDocuments.content">
-        <tr>
-          <td class="text-break">{{ad.title}}</td>
-          <td class="text-break">{{ad.dateCreation | date:'dd/MM/yyyy'}}</td>
-          <td>
-            <div ngbDropdown class="d-inline-block" container="body"  >
-              <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle></button>
-              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <button ngbDropdownItem (click)="addOrEdit(ad)">
-                  <fa-icon  [icon]="['fas','edit']"></fa-icon> Edit
-                </button>
-                <button (click)="delete(ad)" ngbDropdownItem>
-                  <fa-icon [icon]="['fas','trash']"></fa-icon> Delete
-                </button>
-                <ng-container *ngIf="ad.attachment">
-                  <button ngbDropdownItem (click)="download(ad.attachment)">
-                    <fa-icon  [icon]="['fas','download']"></fa-icon> Download
+        <ng-container *ngFor="let ad of adminDocuments.content">
+          <tr role="button" (click)="openPdfViewer(ad.attachment)">
+            <td class="text-break">{{ ad.title }}</td>
+            <td class="text-break">{{ ad.dateCreation | date: 'dd/MM/yyyy' }}</td>
+            <td>
+              <div ngbDropdown class="d-inline-block" container="body">
+                <button
+                  class="btn btn-outline-secondary"
+                  id="dropdownBasic1"
+                  ngbDropdownToggle
+                  stopPropagation
+                ></button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <button ngbDropdownItem (click)="addOrEdit(ad)">
+                    <fa-icon [icon]="['fas', 'edit']"></fa-icon> Edit
                   </button>
-                  <button ngbDropdownItem (click)="openPdfViewer(ad.attachment)"
-                          *ngIf="isPdf(ad.attachment)">
-                    <fa-icon [icon]="['fas','file-pdf']"></fa-icon> Open
+                  <button (click)="delete(ad)" ngbDropdownItem>
+                    <fa-icon [icon]="['fas', 'trash']"></fa-icon> Delete
                   </button>
-                  <button ngbDropdownItem (click)="openImageViewer(ad.attachment)"
-                          *ngIf="isImage(ad.attachment)">
-                    <fa-icon [icon]="['fas','file-image']"></fa-icon> Open
-                  </button>
-                </ng-container>
+                  <ng-container *ngIf="ad.attachment">
+                    <button ngbDropdownItem (click)="download(ad.attachment)">
+                      <fa-icon [icon]="['fas', 'download']"></fa-icon> Download
+                    </button>
+                    <button ngbDropdownItem (click)="openPdfViewer(ad.attachment)" *ngIf="isPdf(ad.attachment)">
+                      <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon> Open
+                    </button>
+                    <button ngbDropdownItem (click)="openImageViewer(ad.attachment)" *ngIf="isImage(ad.attachment)">
+                      <fa-icon [icon]="['fas', 'file-image']"></fa-icon> Open
+                    </button>
+                  </ng-container>
+                </div>
               </div>
-            </div>
-          </td>
-        </tr>
-      </ng-container>
+            </td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
   </div>
@@ -60,7 +62,8 @@
       [pageSize]="adminDocuments.size"
       [maxSize]="pageSize"
       [collectionSize]="adminDocuments.totalElements"
-      (pageChange)="load($event)">
+      (pageChange)="load($event)"
+    >
     </ngb-pagination>
   </div>
 </ng-container>

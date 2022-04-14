@@ -15,6 +15,7 @@ import { TrimPipe } from './pipes/trim.pipe';
 import { EditEmailComponent } from './edit-email/edit-email.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { BytesToHumanPipe } from './pipes/bytes-to-human.pipe';
+import { StopPropagationDirective } from './directives/stop.propagation.directive';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { BytesToHumanPipe } from './pipes/bytes-to-human.pipe';
     ImageViewerComponent,
     ImageLoaderComponent,
     TrimPipe,
+    StopPropagationDirective,
     EditEmailComponent,
     BytesToHumanPipe,
   ],
@@ -36,8 +38,9 @@ import { BytesToHumanPipe } from './pipes/bytes-to-human.pipe';
     ImageViewerComponent,
     SlugifyPipe,
     ImageLoaderComponent,
+    StopPropagationDirective,
     TrimPipe,
-    BytesToHumanPipe
+    BytesToHumanPipe,
   ],
   imports: [CommonModule, NgbToastModule, FontAwesomeModule, NgbDropdownModule, ReactiveFormsModule, PdfViewerModule],
   providers: [SlugifyPipe, SortPipe],

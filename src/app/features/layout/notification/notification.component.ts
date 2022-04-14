@@ -58,7 +58,7 @@ export class NotificationComponent implements OnInit, OnApplicationEvent {
     this.update(n);
     switch (n.type) {
       case RegisteredEvent.NEW_PROSPECT:
-        this.router.navigateByUrl('/services/prospects');
+        this.router.navigateByUrl('/services');
         break;
       case RegisteredEvent.TICK_THRESHOLD:
         this.router.navigateByUrl('/finance');

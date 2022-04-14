@@ -9,7 +9,6 @@ import { EducationComponent } from './education/education.component';
 import { SharedModule } from '@shared/shared.module';
 import { CurriculumRoutingModule } from './curriculum-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CvDownloadComponent } from './cv-download/cv-download.component';
 import { AutosizeModule } from 'ngx-autosize';
 import { CvDownloadRequestComponent } from './cv-download-request/cv-download-request.component';
 import { CvEditorComponent } from './cv-editor/cv-editor.component';
@@ -35,7 +34,6 @@ import { TemplateComponent } from './template/template.component';
     ExperienceComponent,
     HobbyComponent,
     EducationComponent,
-    CvDownloadComponent,
     CvDownloadRequestComponent,
     CvEditorComponent,
     IntroductionComponent,

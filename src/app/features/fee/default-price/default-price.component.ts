@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DefaultPriceForTag } from '@core/models/fee';
+import { Label } from '@core/models/fee';
 import { Observable } from 'rxjs';
+import { LabelService } from '@core/service/label.service';
 
 @Component({
   selector: 'app-default-price',
@@ -10,18 +11,22 @@ import { Observable } from 'rxjs';
   styleUrls: ['./default-price.component.scss'],
 })
 export class DefaultPriceComponent implements OnInit {
-  @Input()
-  defaultPricesForTag$: Observable<DefaultPriceForTag[]>;
   form: FormGroup;
-  @Output()
-  onSubmit: EventEmitter<DefaultPriceForTag[]> = new EventEmitter<DefaultPriceForTag[]>();
-
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: FormBuilder) {}
+  tags: Label[];
+  constructor(
+    @Optional() public activeModal: NgbActiveModal,
+    private labelService: LabelService,
+    private fb: FormBuilder
+  ) {}
 
   async ngOnInit() {
-    const prices = await this.defaultPricesForTag$.toPromise();
+    this.tags = await this.labelService.findAll().toPromise();
+    this.loadForm();
+  }
+
+  loadForm() {
     this.form = this.fb.group({
-      defaultPrices: this.fb.array(prices.map(this.convertPrice)),
+      defaultPrices: this.fb.array(this.tags.sort((a, b) => a.name.localeCompare(b.name)).map(this.convertPrice)),
     });
   }
 
@@ -29,50 +34,77 @@ export class DefaultPriceComponent implements OnInit {
     return this.form.get('defaultPrices') as FormArray;
   }
 
-  convertPrice(price: DefaultPriceForTag): FormGroup {
+  add($event: MouseEvent) {
+    $event.preventDefault();
+    this.defaultPrices.push(
+      this.convertPrice({
+        id: null,
+      })
+    );
+  }
+  remove($event: MouseEvent, idx: number) {
+    $event.preventDefault();
+    this.defaultPrices.removeAt(idx);
+  }
+  canRemove(idx: number) {
+    const group = this.defaultPrices.at(idx);
+    return group.get('id').value?.length;
+  }
+
+  convertPrice(price: Label): FormGroup {
     return new FormGroup({
-      id: new FormControl(
+      id: new FormControl({
+        value: price.id,
+        disabled: true,
+      }),
+      colorHex: new FormControl(
         {
-          value: price.id,
-          disabled: true,
+          value: price.colorHex,
+          disabled: false,
         },
         [Validators.required]
       ),
       tag: new FormControl(
         {
-          value: price.tag,
-          disabled: true,
+          value: price.name,
+          disabled: price.name?.length,
         },
         [Validators.required]
       ),
       priceHVAT: new FormControl(
         {
           value: price.priceHVAT,
-          disabled: false,
+          disabled: price.noDefaultPrice,
         },
         [Validators.required]
       ),
       vat: new FormControl(
         {
           value: price.vat,
-          disabled: false,
+          disabled: price.noDefaultPrice,
         },
         [Validators.required]
       ),
     });
   }
+  changeTextToUppercase(idx) {
+    const field = this.defaultPrices.at(idx).get('tag');
+    field.patchValue(field.value?.toUpperCase());
+  }
 
-  submit() {
-    this.onSubmit.emit(
-      this.defaultPrices.controls?.map((p) => {
-        return {
-          id: p.get('id').value,
-          tag: p.get('tag').value,
-          priceHVAT: p.get('priceHVAT').value,
-          vat: p.get('vat').value,
-        };
-      })
-    );
+  async submit() {
+    const labels = this.defaultPrices.controls?.map((p) => {
+      return {
+        id: p.get('id').value,
+        name: p.get('tag').value,
+        colorHex: p.get('colorHex').value,
+        priceHVAT: p.get('priceHVAT').value,
+        vat: p.get('vat').value,
+      };
+    });
+    this.tags = await this.labelService.updateAll(labels).toPromise();
+
     this.form.reset();
+    this.loadForm();
   }
 }

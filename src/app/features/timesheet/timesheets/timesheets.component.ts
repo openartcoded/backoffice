@@ -4,6 +4,7 @@ import { Timesheet } from '@core/models/timesheet';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TimesheetSettingsComponent } from '@feature/timesheet/timesheet-settings/timesheet-settings.component';
 import { DateUtils } from '@core/utils/date-utils';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-timesheets',
@@ -15,9 +16,15 @@ export class TimesheetsComponent implements OnInit {
   selectedTimesheetYear: Timesheet[];
   selectedYear: number;
 
-  constructor(private timesheetService: TimesheetService, private modalService: NgbModal) {}
+  constructor(
+    private timesheetService: TimesheetService,
+    private titleService: Title,
+
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Timesheets');
     this.timesheetService.findAllGroupedByYear().subscribe((data) => {
       this.timesheetsGroupedByYear = data;
       this.setTimesheetYear(this.currentYear);
