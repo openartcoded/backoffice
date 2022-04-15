@@ -1,72 +1,76 @@
 <ng-container *ngIf="timesheet && timesheetSettings">
-  <app-title [uppercase]="true"
-             [title]="'Timesheet ' + (timesheet.monthEnum?.toString() |trim:3) + '/' + timesheet.year"></app-title>
-  <div class="d-md-flex justify-content-between pb-2">
-    <strong class="d-lg-inline-block d-none">{{timesheet.numberOfWorkingDays}} working
-      days, {{timesheet.numberOfHoursWorked}}h</strong>
-    <div ngbDropdown class="d-inline-block  mt-0" container="body">
+  <app-title
+    [uppercase]="true"
+    [title]="'Timesheet ' + (timesheet.monthEnum?.toString() | trim: 3) + '/' + timesheet.year"
+  ></app-title>
+  <div class="d-md-flex justify-content-end pb-2">
+    <div ngbDropdown class="d-inline-block mt-0" container="body">
       <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
         <fa-icon icon="exclamation"></fa-icon>&nbsp;Actions
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
         <button ngbDropdownItem [disabled]="timesheet.closed" (click)="release()">
-          <fa-icon [icon]="['fas','door-closed']"></fa-icon>&nbsp;Release
+          <fa-icon [icon]="['fas', 'door-closed']"></fa-icon>&nbsp;Release
         </button>
         <button ngbDropdownItem [disabled]="!timesheet.closed" (click)="reopen()">
-          <fa-icon [icon]="['fas','book-open']"></fa-icon>&nbsp;Reopen
+          <fa-icon [icon]="['fas', 'book-open']"></fa-icon>&nbsp;Reopen
         </button>
-        <button ngbDropdownItem
-                [disabled]="!timesheet.closed"
-                (click)="openPdfViewer()">
-          <fa-icon [icon]="['fas','file-pdf']"></fa-icon>
+        <button ngbDropdownItem [disabled]="!timesheet.closed" (click)="openPdfViewer()">
+          <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon>
           View as PDF
         </button>
         <button ngbDropdownItem [disabled]="!timesheet.closed" (click)="download()">
-          <fa-icon [icon]="['fas','download']"></fa-icon>&nbsp;Download
+          <fa-icon [icon]="['fas', 'download']"></fa-icon>&nbsp;Download
         </button>
       </div>
-
     </div>
   </div>
   <div class="table-responsive">
-    <table class="table table-bordered table-sm table-hover">
+    <table class="table table-bordered table-sm table-hover caption-top">
+      <caption>
+        <div class="d-flex justify-content-between">
+          <div class="d-lg-inline-block d-none">
+            <span *ngFor="let t of tags" class="me-1">
+              <fa-icon [icon]="['fas', 'circle']" [ngClass]="t.color"></fa-icon>&nbsp;{{ t.label | lowercase }}
+            </span>
+          </div>
+          <strong>{{ timesheet.numberOfWorkingDays }} working days, {{ timesheet.numberOfHoursWorked }}h</strong>
+        </div>
+      </caption>
       <thead>
-      <tr>
-        <th>Day</th>
-        <th>Date</th>
-        <th class="d-md-table-cell d-none">Morning Start</th>
-        <th class="d-md-table-cell d-none">Morning End</th>
-        <th class="d-md-table-cell d-none">Afternoon Start</th>
-        <th class="d-md-table-cell d-none">Afternoon End</th>
-        <th>Duration</th>
-      </tr>
+        <tr>
+          <th>Day</th>
+          <th>Date</th>
+          <th class="fit d-md-table-cell d-none">Morning Start</th>
+          <th class="fit d-md-table-cell d-none">Morning End</th>
+          <th class="fit d-md-table-cell d-none">Afternoon Start</th>
+          <th class="fit d-md-table-cell d-none">Afternoon End</th>
+          <th class="fit">Duration</th>
+        </tr>
       </thead>
       <tbody>
-      <tr class="d-none d-md-table-row bg-secondary text-white">
-        <td colspan="7">
-          <div class="d-flex justify-content-center">
-            <span *ngFor="let t of tags" class="me-1">
-            <fa-icon [icon]="['fas','circle']" [ngClass]="t.color"></fa-icon>&nbsp;{{t.label | lowercase}}
-          </span>
-          </div>
-        </td>
-      </tr>
-      <tr *ngFor="let period of timesheet.periods" [class.bg-light]="isWeekend(period)" role="button"
-          (click)="openPeriod(period)">
-        <td>
-           <span class="me-1">
-            <fa-icon [icon]="['fas','circle']" [ngClass]="getTagForPeriodType(period.periodType).color"></fa-icon>
-          </span>
-          {{period.dayOfWeek?.toString() | trim:3}}
-        </td>
-        <td>{{period.date | date: 'dd/MM/yyyy'}}</td>
-        <td class="d-md-table-cell d-none">{{period.morningStartTime | date: 'HH:mm'}}</td>
-        <td class="d-md-table-cell d-none">{{period.morningEndTime | date: 'HH:mm'}}</td>
-        <td class="d-md-table-cell d-none">{{period.afternoonStartTime | date: 'HH:mm'}}</td>
-        <td class="d-md-table-cell d-none">{{period.afternoonEndTime | date: 'HH:mm'}}</td>
-        <td [ngClass]="validityColorDuration(period)" *ngIf="period.duration >=0">{{period.durationInHours}}h</td>
-        <td *ngIf="period.duration <0" class="bg-danger text-white">ERROR</td>
-      </tr>
+        <tr
+          *ngFor="let period of timesheet.periods"
+          [class.bg-light]="isWeekend(period)"
+          role="button"
+          (click)="openPeriod(period)"
+        >
+          <td>
+            <span class="me-1">
+              <fa-icon [icon]="['fas', 'circle']" [ngClass]="getTagForPeriodType(period.periodType).color"></fa-icon>
+            </span>
+            {{ period.dayOfWeek?.toString() | trim: 3 }}
+          </td>
+          <td>{{ period.date | date: 'dd/MM/yyyy' }}</td>
+          <td class="fit d-md-table-cell d-none">{{ period.morningStartTime | date: 'HH:mm' }}</td>
+          <td class="fit d-md-table-cell d-none">{{ period.morningEndTime | date: 'HH:mm' }}</td>
+          <td class="fit d-md-table-cell d-none">{{ period.afternoonStartTime | date: 'HH:mm' }}</td>
+          <td class="fit d-md-table-cell d-none">{{ period.afternoonEndTime | date: 'HH:mm' }}</td>
+          <td class="fit" [ngClass]="validityColorDuration(period)" *ngIf="period.duration >= 0">
+            {{ period.durationInHours }}h
+          </td>
+          <td *ngIf="period.duration < 0" class="fit bg-danger text-white">ERROR</td>
+        </tr>
       </tbody>
     </table>
   </div>

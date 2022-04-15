@@ -48,11 +48,11 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th></th>
+          <th class="fit"></th>
           <th>Subject</th>
           <th class="d-md-table-cell d-none">Date received</th>
-          <th>Files</th>
-          <th class="text-center" *ngIf="!archived">
+          <th class="fit">Files</th>
+          <th class="text-center fit" *ngIf="!archived">
             <input
               type="checkbox"
               class="form-check-input"
@@ -70,15 +70,15 @@
         </tr>
         <ng-container *ngFor="let f of fees.content">
           <tr role="button" (click)="openDetail(f)">
-            <td>
+            <td class="fit">
               <fa-icon [icon]="['fas', 'circle']" [ngStyle]="getStyleForTag(f)"></fa-icon>
             </td>
             <td>{{ f.subject }}</td>
             <td class="d-md-table-cell d-none">{{ f.date | date: 'dd/MM/yyyy HH:mm' }}</td>
-            <td class="text-center">
+            <td class="text-center fit">
               {{ f.attachmentIds.length }}
             </td>
-            <td class="text-center" (click)="toggleSelectedRow(f, false, $event)" *ngIf="!archived">
+            <td class="text-center fit" (click)="toggleSelectedRow(f, false, $event)" *ngIf="!archived">
               <input type="checkbox" class="form-check-input" aria-label="select" [checked]="isFeeSelected(f)" />
             </td>
           </tr>

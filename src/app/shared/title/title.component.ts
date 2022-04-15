@@ -10,7 +10,6 @@ export class TitleComponent implements OnInit {
   @Input('noPaddingTop') noPaddingTop: boolean;
   @Input('uppercase') uppercase: boolean;
   @Input('titleClass') titleClass: string = 'h2';
-  @Input() noHR: boolean;
 
   constructor() {}
 

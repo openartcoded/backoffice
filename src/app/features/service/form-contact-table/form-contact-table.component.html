@@ -2,40 +2,40 @@
   <app-title title="Prospects"></app-title>
   <table class="table table-bordered">
     <thead>
-    <tr>
-      <th class="text-capitalize d-md-table-cell d-none">full name</th>
-      <th class="text-capitalize">subject</th>
-      <th class="text-capitalize d-md-table-cell d-none ">email</th>
-      <th class="text-capitalize">phoneNumber</th>
-      <th class="text-capitalize d-md-table-cell d-none">date Received</th>
-      <th class="text-capitalize d-md-table-cell d-none">action</th>
-    </tr>
+      <tr>
+        <th class="text-capitalize d-md-table-cell d-none">full name</th>
+        <th class="text-capitalize">subject</th>
+        <th class="text-capitalize d-md-table-cell d-none">email</th>
+        <th class="text-capitalize">phoneNumber</th>
+        <th class="text-capitalize d-md-table-cell d-none">date Received</th>
+        <th class="fit text-capitalize d-md-table-cell d-none">action</th>
+      </tr>
     </thead>
     <tbody>
-    <ng-container *ngIf="formContacts$ | async as formContacts">
-      <ng-container *ngFor="let fc of formContacts">
-        <tr>
-          <td class="d-md-table-cell d-none">{{fc.fullName}}</td>
-          <td>{{fc.subject}}</td>
-          <td class="d-md-table-cell d-none">{{fc.email}}</td>
-          <td>{{fc.phoneNumber}}</td>
-          <td class="d-md-table-cell d-none">{{fc.creationDate | date: 'dd/MM/yyyy HH:mm'}}</td>
-          <td class="d-md-table-cell d-none">
-            <button (click)="delete(fc)" class="btn btn-sm">
-              <fa-icon class="text-danger" [icon]="['fas','trash']"></fa-icon>
-            </button>
-          </td>
-        </tr>
-        <tr *ngIf="fc?.body?.length">
-          <td colspan="7">
-            <textarea class="form-control border-0" disabled [autosize]>{{fc.body}}</textarea>
-          </td>
+      <ng-container *ngIf="formContacts$ | async as formContacts">
+        <ng-container *ngFor="let fc of formContacts">
+          <tr>
+            <td class="d-md-table-cell d-none">{{ fc.fullName }}</td>
+            <td>{{ fc.subject }}</td>
+            <td class="d-md-table-cell d-none">{{ fc.email }}</td>
+            <td>{{ fc.phoneNumber }}</td>
+            <td class="d-md-table-cell d-none">{{ fc.creationDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td class="fit d-md-table-cell d-none">
+              <button (click)="delete(fc)" class="btn btn-sm">
+                <fa-icon class="text-danger" [icon]="['fas', 'trash']"></fa-icon>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="fc?.body?.length">
+            <td colspan="7">
+              <textarea class="form-control border-0" disabled [autosize]>{{ fc.body }}</textarea>
+            </td>
+          </tr>
+        </ng-container>
+        <tr *ngIf="!formContacts.length">
+          <td colspan="7">No content</td>
         </tr>
       </ng-container>
-      <tr *ngIf="!formContacts.length">
-        <td colspan="7">No content</td>
-      </tr>
-    </ng-container>
     </tbody>
   </table>
 </div>

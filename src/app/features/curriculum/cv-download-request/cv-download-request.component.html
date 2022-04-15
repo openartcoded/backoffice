@@ -2,35 +2,35 @@
 <div class="table-responsive" *ngIf="cvDownloadRequests">
   <table class="table table-bordered">
     <thead>
-    <tr>
-      <th>email</th>
-      <th>phoneNumber</th>
-      <th>dailyRate</th>
-      <th>availability</th>
-      <th>dateReceived</th>
-      <th>action</th>
-    </tr>
+      <tr>
+        <th>email</th>
+        <th>phoneNumber</th>
+        <th>dailyRate</th>
+        <th>availability</th>
+        <th>dateReceived</th>
+        <th class="fit">action</th>
+      </tr>
     </thead>
     <tbody>
-    <ng-container *ngFor="let cvDr of cvDownloadRequests">
-      <tr>
-        <td>{{cvDr.email}}</td>
-        <td>{{cvDr.phoneNumber}}</td>
-        <td>{{cvDr.dailyRate}}</td>
-        <td>{{cvDr.availability}}</td>
-        <td>{{cvDr.dateReceived | date: 'dd/MM/yyyy HH:mm'}}</td>
-        <td>
-          <button (click)="delete(cvDr)" class="btn btn-sm">
-            <fa-icon class="text-danger" [icon]="['fas','trash']"></fa-icon>
-          </button>
-        </td>
-      </tr>
-      <tr *ngIf="cvDr?.htmlContent?.length">
-        <td colspan="7">
-          <div [innerHTML]="cvDr.htmlContent"></div>
-        </td>
-      </tr>
-    </ng-container>
+      <ng-container *ngFor="let cvDr of cvDownloadRequests">
+        <tr>
+          <td>{{ cvDr.email }}</td>
+          <td>{{ cvDr.phoneNumber }}</td>
+          <td>{{ cvDr.dailyRate }}</td>
+          <td>{{ cvDr.availability }}</td>
+          <td>{{ cvDr.dateReceived | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td class="text-center fit">
+            <button (click)="delete(cvDr)" class="btn btn-sm">
+              <fa-icon class="text-danger" [icon]="['fas', 'trash']"></fa-icon>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="cvDr?.htmlContent?.length">
+          <td colspan="7">
+            <div [innerHTML]="cvDr.htmlContent"></div>
+          </td>
+        </tr>
+      </ng-container>
     </tbody>
   </table>
 </div>

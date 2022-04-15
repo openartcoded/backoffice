@@ -35,7 +35,6 @@ body {
   box-shadow: none;
 }
 
-
 button.active.focus,
 button.active:focus,
 button.focus,
@@ -60,7 +59,6 @@ button:focus {
   overflow-y: scroll;
 }
 
-
 // PRIMENG
 .p-chips-multiple-container,
 .p-chips {
@@ -76,4 +74,8 @@ button:focus {
   margin-bottom: 2px;
 }
 
-
+.table td.fit,
+.table th.fit {
+  white-space: nowrap;
+  width: 1%;
+}

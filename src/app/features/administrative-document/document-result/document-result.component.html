@@ -13,7 +13,7 @@
         <tr>
           <th>title</th>
           <th>creationDate</th>
-          <th>actions</th>
+          <th class="fit">actions</th>
         </tr>
       </thead>
       <tbody>
@@ -21,7 +21,7 @@
           <tr role="button" (click)="openPdfViewer(ad.attachment)">
             <td class="text-break">{{ ad.title }}</td>
             <td class="text-break">{{ ad.dateCreation | date: 'dd/MM/yyyy' }}</td>
-            <td>
+            <td class="text-center fit">
               <div ngbDropdown class="d-inline-block" container="body">
                 <button
                   class="btn btn-outline-secondary"
