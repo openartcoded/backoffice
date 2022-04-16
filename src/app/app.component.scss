@@ -1,12 +1,3 @@
-
-.gdpr-padding {
-  margin-top: 40px !important;
-  padding-bottom: 128px !important;
-  min-height: calc(100vh - 40px) !important;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
-}
-
 .nav-padding {
   margin-top: 40px !important;
   min-height: calc(100vh - 40px) !important;
@@ -14,25 +5,6 @@
   overflow-x: hidden !important;
 }
 
-
-.nav-fixed {
-  position: fixed;
-  top: 0;
-  left: 0;
-  margin-left: 0;
-  background: #343a40;
-  height: 100%;
-  z-index: 1;
-  overflow-x: hidden;
-}
-
-@media (max-width: 1199.98px) {
-  .margin-navbar {
-    margin-left: 28px;
-  }
-}
-@media (min-width: 1199.98px) {
-  .margin-navbar-big {
-      margin-left: 180px;
-  }
+.zindex-1200 {
+  z-index: 1200;
 }

@@ -7,6 +7,7 @@ import {
   NgbDropdownModule,
   NgbNavModule,
   NgbPopoverModule,
+  NgbToastModule,
   NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
@@ -21,6 +22,7 @@ import { AppSettingsComponent } from './app-settings/app-settings.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { AutosizeModule } from 'ngx-autosize';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { ToastsContainer } from './toasts/toasts-container';
 
 @NgModule({
   declarations: [
@@ -29,9 +31,10 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     PwaModalComponent,
     NotificationComponent,
     AppSettingsComponent,
+    ToastsContainer,
     UserMenuComponent,
   ],
-  exports: [NavbarComponent, SidebarComponent],
+  exports: [NavbarComponent, SidebarComponent, ToastsContainer],
   imports: [
     CommonModule,
     NgbNavModule,
@@ -40,6 +43,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     NgbTypeaheadModule,
     AutosizeModule,
     NgbCollapseModule,
+    NgbToastModule,
     RouterModule,
     SharedModule,
     FontAwesomeModule,

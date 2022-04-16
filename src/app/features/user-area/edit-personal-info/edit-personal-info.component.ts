@@ -171,6 +171,6 @@ export class EditPersonalInfoComponent implements OnInit {
     formData.append('organizationName', this.form.get('organizationName').value);
     formData.append('organizationPhoneNumber', this.form.get('organizationPhoneNumber').value);
     this.onSavePersonalInfo.emit(formData);
-    this.form.reset();
+    // this.form.reset();
   }
 }

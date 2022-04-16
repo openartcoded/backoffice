@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfigInitService } from '@init/config-init.service';
 import { PersonalInfo } from '@core/models/personal.info';
 import { EditPersonalInfoComponent } from '@feature/user-area/edit-personal-info/edit-personal-info.component';
+import { ToastService } from '@core/service/toast.service';
 
 @Component({
   selector: 'app-user-menu',
@@ -17,6 +18,8 @@ export class UserMenuComponent implements OnInit {
   constructor(
     private personalInfoService: PersonalInfoService,
     private configService: ConfigInitService,
+    private toastService: ToastService,
+
     private modalService: NgbModal,
     private authenticationService: AuthService
   ) {}
@@ -36,8 +39,9 @@ export class UserMenuComponent implements OnInit {
     });
     modal.componentInstance.currentPersonalInfo = personalInfo;
     modal.componentInstance.onSavePersonalInfo.subscribe(async (formData) => {
-      modal.close();
+      //modal.close();
       await this.personalInfoService.save(formData).toPromise();
+      this.toastService.showSuccess('Personal Information updated');
     });
   }
 }
