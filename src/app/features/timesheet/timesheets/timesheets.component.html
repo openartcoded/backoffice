@@ -34,9 +34,9 @@
           <thead>
             <tr>
               <th class="bg-light">Period</th>
-              <th class="text-center">Closed</th>
-              <th class="text-center">Working Days</th>
-              <th class="text-center d-md-table-cell d-none">Hours Worked</th>
+              <th class="fit text-center">Closed</th>
+              <th class="fit text-center">Working Days</th>
+              <th class="fit text-center d-md-table-cell d-none">Hours Worked</th>
             </tr>
           </thead>
           <tbody>
@@ -46,7 +46,7 @@
               [routerLink]="['timesheet', timesheet.id]"
             >
               <td>{{ timesheet.name }}</td>
-              <td class="text-center">
+              <td class="fit text-center">
                 <input
                   type="checkbox"
                   class="form-check-input"
@@ -55,8 +55,8 @@
                   [disabled]="true"
                 />
               </td>
-              <td class="text-center">{{ timesheet.numberOfWorkingDays }}</td>
-              <td class="text-center d-md-table-cell d-none">{{ timesheet.numberOfHoursWorked }}</td>
+              <td class="fit text-center">{{ timesheet.numberOfWorkingDays }}</td>
+              <td class="fit text-center d-md-table-cell d-none">{{ timesheet.numberOfHoursWorked }}</td>
             </tr>
           </tbody>
         </table>

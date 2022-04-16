@@ -2,7 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { NgbCollapseModule, NgbDropdownModule, NgbNavModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCollapseModule,
+  NgbDropdownModule,
+  NgbNavModule,
+  NgbPopoverModule,
+  NgbTypeaheadModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '@shared/shared.module';
@@ -31,6 +37,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     NgbNavModule,
     HttpClientModule,
     ReactiveFormsModule,
+    NgbTypeaheadModule,
     AutosizeModule,
     NgbCollapseModule,
     RouterModule,

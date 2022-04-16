@@ -5,30 +5,30 @@
       graphs
     </button>
   </div>-->
-  <div class="row p-2">
+  <div class="d-lg-flex justify-content-lg-between">
     <ng-container *ngIf="showGraphs">
-      <div class="col-lg-9 col-12">
+      <div id="plot" class="w-100 border me-lg-1 mb-1">
         <ng-container *ngFor="let g of summary.graphs; let index = index">
-          <plotly-plot [divId]="'gra' + index" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
-          <hr *ngIf="index + 1 < summary.graphs.length">
+          <plotly-plot [divId]="'plot'" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
+          <hr *ngIf="index + 1 < summary.graphs.length" />
         </ng-container>
       </div>
     </ng-container>
 
-    <ul class="col-lg-3 col-12 list-group list-group-flush pt-lg-5">
+    <ul class="list-group mb-1">
       <li class="list-group-item bg-light">
         <strong class="text-uppercase text-secondary">This year</strong>
       </li>
       <li class="list-group-item">
         <div class="d-flex justify-content-between">
-          <strong class="text-uppercase">Number of Invoices</strong>
+          <strong class="text-uppercase text-break">Number of Invoices</strong>
           <strong>{{ summary.numberOfInvoicesThisYear }}</strong>
         </div>
       </li>
       <li class="list-group-item">
         <div class="d-flex justify-content-between">
-          <strong class="text-uppercase">Total worked</strong>
-          <strong class="text-uppercase">{{ summary.totalAmountOfWorkThisYear | number: '1.2-2' }}&nbsp;days</strong>
+          <strong class="text-uppercase">Total worked (days)</strong>
+          <strong class="text-uppercase">{{ summary.totalAmountOfWorkThisYear | number: '1.2-2' }}</strong>
         </div>
       </li>
       <li class="list-group-item">

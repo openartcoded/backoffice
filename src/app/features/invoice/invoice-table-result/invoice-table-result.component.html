@@ -1,81 +1,85 @@
-
 <div class="alert alert-danger" *ngIf="!archived && !activeDossier && !logicalDelete">
-  <fa-icon [icon]="['fas','times']"></fa-icon>&nbsp;No active dossier!
+  <fa-icon [icon]="['fas', 'times']"></fa-icon>&nbsp;No active dossier!
 </div>
 <div class="d-flex justify-content-between mb-2">
   <p class="" *ngIf="!logicalDelete">
-    <span class="text-secondary" *ngIf="activeDossier && !archived">Dossier: {{activeDossier?.name }} </span>
+    <span class="text-secondary" *ngIf="activeDossier && !archived">Dossier: {{ activeDossier?.name }} </span>
   </p>
-  <div *ngIf="!logicalDelete" ngbDropdown class="d-inline-block  mt-0" container="body">
+  <div *ngIf="!logicalDelete" ngbDropdown class="d-inline-block mt-0" container="body">
     <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
       <fa-icon icon="exclamation"></fa-icon>&nbsp;Actions
     </button>
     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
       <button [disabled]="archived" ngbDropdownItem (click)="newInvoice()">
-        <fa-icon [icon]="['fas','plus']"></fa-icon>&nbsp;New
+        <fa-icon [icon]="['fas', 'plus']"></fa-icon>&nbsp;New
       </button>
       <button (click)="load()" [disabled]="archived" ngbDropdownItem>
-        <fa-icon [icon]="['fas','sync']"></fa-icon>&nbsp;Reload
+        <fa-icon [icon]="['fas', 'sync']"></fa-icon>&nbsp;Reload
       </button>
       <button (click)="billToModal()" [disabled]="archived" ngbDropdownItem>
-        <fa-icon [icon]="['fas','money-bill']"></fa-icon>&nbsp;Bill To
+        <fa-icon [icon]="['fas', 'money-bill']"></fa-icon>&nbsp;Bill To
       </button>
       <button (click)="templateModal()" [disabled]="archived" ngbDropdownItem>
-        <fa-icon [icon]="['fas','envelope']"></fa-icon>&nbsp;Templates
+        <fa-icon [icon]="['fas', 'envelope']"></fa-icon>&nbsp;Templates
       </button>
     </div>
   </div>
 </div>
-<ng-container  *ngIf="invoices">
+<ng-container *ngIf="invoices">
   <div class="table-responsive">
-
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th class="d-md-table-cell d-none">N°</th>
+          <th class="fit d-md-table-cell d-none">N°</th>
           <th>Date</th>
-          <th class="d-md-table-cell  d-none">Due Date</th>
-          <th class="d-md-table-cell  d-none">SubTotal</th>
-          <th class="d-md-table-cell  d-none">Taxes</th>
-          <th class="d-md-table-cell  d-none">Total</th>
-          <th>Action</th>
+          <th class="d-md-table-cell d-none">Due Date</th>
+          <th class="d-md-table-cell d-none">SubTotal</th>
+          <th class="d-md-table-cell d-none">Taxes</th>
+          <th class="d-md-table-cell d-none">Total</th>
+          <th class="fit">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let invoice of invoices.content" role="button" (click)="openModal(invoice)">
-          <td class="d-md-table-cell d-none">{{invoice.invoiceNumber}}</td>
-          <td>{{invoice.dateOfInvoice | date: 'dd/MM/yyyy'}}</td>
-          <td class="d-md-table-cell text-primary  d-none">{{invoice.dueDate | date: 'dd/MM/yyyy'}}</td>
-          <td class="d-md-table-cell d-none">{{invoice.subTotal | currency: '€' }}</td>
-          <td class="d-md-table-cell d-none">{{invoice.taxes | currency:'€' }}</td>
-          <td class="d-md-table-cell d-none text-danger">{{invoice.total | currency:'€' }}</td>
-          <td class="text-center">
+          <td class="fit d-md-table-cell d-none">{{ invoice.invoiceNumber }}</td>
+          <td>{{ invoice.dateOfInvoice | date: 'dd/MM/yyyy' }}</td>
+          <td class="d-md-table-cell text-primary d-none">{{ invoice.dueDate | date: 'dd/MM/yyyy' }}</td>
+          <td class="d-md-table-cell d-none">{{ invoice.subTotal | currency: '€' }}</td>
+          <td class="d-md-table-cell d-none">{{ invoice.taxes | currency: '€' }}</td>
+          <td class="d-md-table-cell d-none text-danger">{{ invoice.total | currency: '€' }}</td>
+          <td class="text-center fit">
             <div ngbDropdown class="d-inline-block" container="body">
-              <button class="btn btn-outline-secondary" id="dropdownBasic2" ngbDropdownToggle
-                (click)="$event.stopPropagation();"></button>
+              <button
+                class="btn btn-outline-secondary"
+                id="dropdownBasic2"
+                ngbDropdownToggle
+                (click)="$event.stopPropagation()"
+              ></button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
                 <button [disabled]="!invoice.invoiceUploadId" ngbDropdownItem (click)="download(invoice)">
-                  <fa-icon [icon]="['fas','download']"></fa-icon>&nbsp;Download
+                  <fa-icon [icon]="['fas', 'download']"></fa-icon>&nbsp;Download
                 </button>
                 <button ngbDropdownItem (click)="openModal(invoice)">
-                  <fa-icon [icon]="['fas','eye']"></fa-icon>&nbsp;Open
+                  <fa-icon [icon]="['fas', 'eye']"></fa-icon>&nbsp;Open
                 </button>
-                <button *ngIf="activeDossier && !invoice.archived && !invoice.logicalDelete" ngbDropdownItem
-                        (click)="process(invoice)">
-                  <fa-icon [icon]="['fas','cog']"></fa-icon>&nbsp;Process
+                <button
+                  *ngIf="activeDossier && !invoice.archived && !invoice.logicalDelete"
+                  ngbDropdownItem
+                  (click)="process(invoice)"
+                >
+                  <fa-icon [icon]="['fas', 'cog']"></fa-icon>&nbsp;Process
                 </button>
-                <button ngbDropdownItem
-                        (click)="newInvoiceFromTemplate(invoice)">
-                  <fa-icon [icon]="['fas','plus']"></fa-icon>&nbsp;From Template
+                <button ngbDropdownItem (click)="newInvoiceFromTemplate(invoice)">
+                  <fa-icon [icon]="['fas', 'plus']"></fa-icon>&nbsp;From Template
                 </button>
                 <button *ngIf="!invoice.archived" ngbDropdownItem (click)="delete(invoice)">
-                  <fa-icon [icon]="['fas','trash']"></fa-icon>&nbsp;Delete
+                  <fa-icon [icon]="['fas', 'trash']"></fa-icon>&nbsp;Delete
                 </button>
                 <button *ngIf="invoice.logicalDelete" ngbDropdownItem (click)="restore(invoice)">
-                  <fa-icon [icon]="['fas','trash-restore']"></fa-icon>&nbsp;Restore
+                  <fa-icon [icon]="['fas', 'trash-restore']"></fa-icon>&nbsp;Restore
                 </button>
                 <button ngbDropdownItem [disabled]="!invoice.invoiceUploadId" (click)="openPdfViewer(invoice)">
-                  <fa-icon [icon]="['fas','file-pdf']"></fa-icon>
+                  <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon>
                   View as PDF
                 </button>
               </div>
@@ -89,8 +93,14 @@
     </table>
   </div>
   <div class="d-flex justify-content-between mb-2">
-    <ngb-pagination *ngIf="invoices?.totalPages > 1" [page]="invoices?.pageable?.pageNumber + 1"
-      [pageSize]="invoices?.size" [maxSize]="5" [collectionSize]="invoices?.totalElements" (pageChange)="load($event)">
+    <ngb-pagination
+      *ngIf="invoices?.totalPages > 1"
+      [page]="invoices?.pageable?.pageNumber + 1"
+      [pageSize]="invoices?.size"
+      [maxSize]="5"
+      [collectionSize]="invoices?.totalElements"
+      (pageChange)="load($event)"
+    >
     </ngb-pagination>
   </div>
 </ng-container>

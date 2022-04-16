@@ -1,25 +1,35 @@
 <nav
-  class="navbar position-fixed w-100 navbar-dark artcoded-navbar-color  p-0 z-index-1000 d-flex justify-content-between">
+  class="navbar position-fixed w-100 navbar-dark artcoded-navbar-color p-0 z-index-1000 d-flex justify-content-between"
+>
   <div>
-    <button class="btn btn-sm  me-1"
-    data-bs-toggle="offcanvas" href="#offcanvasSideBar"
-            >
-      <span class="text-white"><fa-icon [icon]="['fas','bars']"></fa-icon></span>
+    <button class="btn btn-sm me-1" data-bs-toggle="offcanvas" href="#offcanvasSideBar">
+      <span class="text-white">
+        <fa-icon [icon]="['fas', 'bars']"></fa-icon>
+      </span>
     </button>
-    <a class="navbar-brand font-weight-bolder  border-0 d-lg-inline-block d-none" routerLink="/">
+    <a class="navbar-brand font-weight-bolder border-0 d-lg-inline-block d-none" routerLink="/">
       <span class="text-white text-shadow ms-1">artcoded&nbsp;</span>
-      <span class="text-warning  text-shadow">({{env | lowercase}})</span>
+      <span class="text-warning text-shadow">({{ env | lowercase }})</span>
     </a>
   </div>
-  <ng-container>
-    <div class="d-lg-inline me-1">
-      <button class="btn btn-link text-white">
-        <fa-icon (click)="refreshPwa()" [icon]="['fas','sync']"></fa-icon>
-      </button>
-      <app-notification></app-notification>
-      <app-user-menu></app-user-menu>
-    </div>
-  </ng-container>
-
-
+  <div class="d-lg-inline col col-md-3" *ngIf="links">
+    <select
+      [(ngModel)]="link"
+      class="form-select form-control-sm bg-white-transparent"
+      [ngModelOptions]="{ standalone: true }"
+      (ngModelChange)="menuChange()"
+    >
+      <option [ngValue]="null">--Select--</option>
+      <option *ngFor="let link of links" [ngValue]="link">
+        {{ link.title | titlecase }}
+      </option>
+    </select>
+  </div>
+  <div class="d-lg-inline me-1">
+    <button class="btn btn-link text-white">
+      <fa-icon (click)="refreshPwa()" [icon]="['fas', 'sync']"></fa-icon>
+    </button>
+    <app-notification></app-notification>
+    <app-user-menu></app-user-menu>
+  </div>
 </nav>

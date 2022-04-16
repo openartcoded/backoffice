@@ -3,18 +3,24 @@
   <div class="d-flex justify-content-between pb-2 pt-1">
     <div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="toggleTask" [(ngModel)]="showTasks" (change)="toggleTask()">
-        <label class="form-check-label" for="toggleTask">
-          Show Actions&nbsp;
-        </label>
-  
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="toggleTask"
+          [(ngModel)]="showTasks"
+          (change)="toggleTask()"
+        />
+        <label class="form-check-label" for="toggleTask"> Show Actions&nbsp; </label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="toggleDisabled" [(ngModel)]="hideDisabled"
-          (change)="toggleDisabled()">
-        <label class="form-check-label" for="toggleDisabled">
-          Hide Disabled
-        </label>
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="toggleDisabled"
+          [(ngModel)]="hideDisabled"
+          (change)="toggleDisabled()"
+        />
+        <label class="form-check-label" for="toggleDisabled"> Hide Disabled </label>
       </div>
     </div>
     <div ngbDropdown class="d-inline-block" container="body">
@@ -24,11 +30,11 @@
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
         <button ngbDropdownItem (click)="openTask()">
-          <fa-icon [icon]="['fas','plus']"></fa-icon>
+          <fa-icon [icon]="['fas', 'plus']"></fa-icon>
           New Task
         </button>
         <button ngbDropdownItem (click)="openCronExpressionHelp()">
-          <fa-icon [icon]="['fas','question-circle']"></fa-icon>
+          <fa-icon [icon]="['fas', 'question-circle']"></fa-icon>
           Cron Expression
         </button>
       </div>
@@ -40,9 +46,9 @@
         <tr>
           <th>Title</th>
           <th>Next Date</th>
-          <th class="d-md-table-cell d-none">Disabled</th>
-          <th class="d-md-table-cell d-none">Has Action</th>
-          <th class="d-md-table-cell">Results</th>
+          <th class="fit d-md-table-cell d-none">Disabled</th>
+          <th class="fit d-md-table-cell d-none">Has Action</th>
+          <th class="fit d-md-table-cell">Results</th>
         </tr>
       </thead>
       <tbody>
@@ -51,16 +57,21 @@
         </tr>
         <ng-container *ngFor="let task of filteredReminderTasks">
           <tr role="button" (click)="openTask(task)">
-            <td>{{task.title}}</td>
-            <td>{{task?.nextDate | date: 'dd/MM/yyyy HH:mm'}}</td>
-            <td class="text-center d-md-table-cell d-none"><input aria-label="disabled" type="checkbox"
-                [checked]="task.disabled" [disabled]="true"></td>
-            <td class="text-center d-md-table-cell d-none"><input aria-label="disabled" type="checkbox"
-                [checked]="task.actionKey" [disabled]="true"></td>
-            <td class="text-center d-md-table-cell">
-              <button class="btn btn-link text-secondary" *ngIf="task.actionKey"
-                (click)="openActionResult(task, $event)">
-                <fa-icon [icon]="['fas','eye']"></fa-icon>
+            <td>{{ task.title }}</td>
+            <td>{{ task?.nextDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td class="fit text-center d-md-table-cell d-none">
+              <input aria-label="disabled" type="checkbox" [checked]="task.disabled" [disabled]="true" />
+            </td>
+            <td class="fit text-center d-md-table-cell d-none">
+              <input aria-label="disabled" type="checkbox" [checked]="task.actionKey" [disabled]="true" />
+            </td>
+            <td class="fit text-center d-md-table-cell">
+              <button
+                class="btn btn-link text-secondary"
+                *ngIf="task.actionKey"
+                (click)="openActionResult(task, $event)"
+              >
+                <fa-icon [icon]="['fas', 'eye']"></fa-icon>
               </button>
             </td>
           </tr>
@@ -68,5 +79,4 @@
       </tbody>
     </table>
   </div>
-
 </ng-container>

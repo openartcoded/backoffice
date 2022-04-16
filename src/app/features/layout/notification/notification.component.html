@@ -24,17 +24,19 @@
   <ng-container *ngIf="latests && latests.length">
     <div class="example-viewport list-group list-group-flush p-0 m-0">
       <div
-        class="list-group-item d-flex justify-content-startborder-left-0 border-right-0"
+        class="list-group-item border-left-0 border-right-0"
         [class.list-group-item-info]="!n.seen"
         *ngFor="let n of latests"
       >
-        <div class="d-flex flex-column">
-          <small class="text-muted font-weight-bold">{{ n.receivedDate | date: 'dd/MM/yyyy @ HH:mm' }}</small>
-          <span role="button" class="text-break" (click)="navigate(p, n)">{{ n.title }}</span>
+        <div class="d-flex justify-content-between">
+          <div class="d-flex flex-column" role="button" (click)="navigate(p, n)">
+            <small class="text-muted font-weight-bold">{{ n.receivedDate | date: 'dd/MM/yyyy @ HH:mm' }}</small>
+            <span class="text-break">{{ n.title }}</span>
+          </div>
+          <button class="btn btn-link" (click)="update(n)">
+            <fa-icon [icon]="['fas', 'eye']" [class.text-primary]="!n.seen" [class.text-muted]="n.seen"></fa-icon>
+          </button>
         </div>
-        <button class="btn btn-link" (click)="update(n)">
-          <fa-icon [icon]="['fas', 'eye']" [class.text-primary]="!n.seen" [class.text-muted]="n.seen"></fa-icon>
-        </button>
       </div>
     </div>
   </ng-container>
@@ -44,7 +46,7 @@
 <ng-template #popTitle>
   <div class="d-flex justify-content-between align-items-center">
     <b class="p-0 m-0">Notifications</b>
-    <a class="btn btn-link m-0 p-0 text-dark" (click)="toggleAllSeen()">
+    <a class="btn btn-link pt-0 pb-0 text-dark" (click)="toggleAllSeen()">
       <fa-icon [icon]="['fas', 'eye']"></fa-icon>
     </a>
   </div>

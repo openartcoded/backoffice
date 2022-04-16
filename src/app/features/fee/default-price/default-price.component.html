@@ -11,11 +11,11 @@
       <table class="table table-sm table-bordered">
         <thead>
           <tr>
-            <th>Color</th>
+            <th class="fit">Color</th>
             <th>Label</th>
             <th>Price HVAT</th>
             <th>VAT</th>
-            <th class="text-center">
+            <th class="text-center fit">
               <button (click)="add($event)" class="btn btn-link me-1">
                 <fa-icon class="text-primary" icon="plus"></fa-icon>
               </button>
@@ -25,7 +25,7 @@
         <tbody>
           <tr *ngFor="let _ of defaultPrices.controls; index as i">
             <ng-container [formGroupName]="i">
-              <td>
+              <td class="text-center fit">
                 <p-colorPicker [baseZIndex]="2000" [id]="'colorHex' + i" formControlName="colorHex"></p-colorPicker>
               </td>
               <td>
@@ -33,7 +33,7 @@
                   type="text"
                   (input)="changeTextToUppercase(i)"
                   pattern="[a-zA-Z0-9]+"
-                  class="form-control"
+                  class="form-control form-control-sm"
                   [id]="'tag' + i"
                   formControlName="tag"
                 />
@@ -50,7 +50,7 @@
                   <input type="number" class="form-control" [id]="'vat' + i" formControlName="vat" />
                 </div>
               </td>
-              <td class="text-center">
+              <td class="text-center fit">
                 <button class="btn btn-link text-danger" (click)="remove($event, i)" [disabled]="canRemove(i)">
                   <fa-icon [icon]="['fas', 'times']"></fa-icon>
                 </button>
