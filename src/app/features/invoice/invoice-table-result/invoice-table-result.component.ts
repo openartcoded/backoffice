@@ -16,6 +16,7 @@ import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { CurrentBilltoComponent } from '@feature/invoice/current-billto/current-billto.component';
 import { TemplateComponent } from '@feature/invoice/template/template.component';
 import { Page } from '@core/models/page';
+import { ToastService } from '@core/service/toast.service';
 
 @Component({
   selector: 'app-invoice-table-result',
@@ -27,7 +28,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   activeDossier: Dossier;
   pageSize: number = 5;
 
-  reloadSummary:boolean;
+  reloadSummary: boolean;
 
   @Input()
   logicalDelete: boolean;
@@ -39,6 +40,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
     private modalService: NgbModal,
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
+    private toastService: ToastService,
     private notificationService: NotificationService,
     private dossierService: DossierService,
     private fileService: FileService
@@ -51,7 +53,9 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   }
 
   load(event: number = 1) {
-    this.invoiceService.search(this.archived, this.logicalDelete, event, this.pageSize).subscribe(invoices=> this.invoices =invoices);
+    this.invoiceService
+      .search(this.archived, this.logicalDelete, event, this.pageSize)
+      .subscribe((invoices) => (this.invoices = invoices));
   }
 
   download(invoice: Invoice): void {
@@ -74,6 +78,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
             //this.load();
           });
         }
+        this.toastService.showSuccess('Invoice created. Will be generated soon');
       });
     });
   }

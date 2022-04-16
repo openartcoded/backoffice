@@ -7,6 +7,7 @@ import { FeeService } from '@core/service/fee.service';
 import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 import { ImageViewerComponent } from '@shared/image-viewer/image-viewer.component';
 import { LabelService } from '@core/service/label.service';
+import { ToastService } from '@core/service/toast.service';
 
 @Component({
   selector: 'app-fee-detail',
@@ -25,6 +26,7 @@ export class FeeDetailComponent implements OnInit {
     private feeService: FeeService,
     private labelService: LabelService,
     private modalService: NgbModal,
+    private toastService: ToastService,
     private fileService: FileService
   ) {}
 
@@ -65,6 +67,7 @@ export class FeeDetailComponent implements OnInit {
       this.feeUpdated.emit(f);
       this.fee = f;
       this.load();
+      this.toastService.showSuccess(`Attachment ${a.id} removed`);
     });
   }
 
@@ -98,6 +101,7 @@ export class FeeDetailComponent implements OnInit {
       this.fee = f;
       this.load();
       this.feeUpdated.emit(this.fee);
+      this.toastService.showSuccess(`Price updated`);
     });
   }
 
@@ -110,6 +114,7 @@ export class FeeDetailComponent implements OnInit {
 
       this.load();
       this.feeUpdated.emit(this.fee);
+      this.toastService.showSuccess(`Tag updated`);
     });
   }
 }

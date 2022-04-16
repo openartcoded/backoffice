@@ -8,6 +8,7 @@ import { WindowRefService } from '@core/service/window.service';
 import { isPlatformBrowser } from '@angular/common';
 import { LabelService } from '@core/service/label.service';
 import { Label } from '@core/models/fee';
+import { ToastService } from '@core/service/toast.service';
 
 @Component({
   selector: 'app-dossier-table-result',
@@ -26,6 +27,7 @@ export class DossierTableResultComponent implements OnInit {
     private labelService: LabelService,
     private fileService: FileService,
     @Inject(PLATFORM_ID) private platformId: any,
+    private toastService: ToastService,
     private windowRefService: WindowRefService,
     private modalService: NgbModal
   ) {}
@@ -70,23 +72,27 @@ export class DossierTableResultComponent implements OnInit {
         if (!dossier.closed) {
           this.dossierService.updateDossier(dossier).subscribe((dossier) => {
             this.load();
+            this.toastService.showSuccess('Dossier updated');
             // modalRef.close();
           });
         } else if (modalRef.componentInstance.recallForModification) {
           this.dossierService.recallForModification(dossier).subscribe((dossier) => {
             this.load();
+            this.toastService.showSuccess('Dossier updated');
             //  modalRef.close();
           });
         }
       } else {
         this.dossierService.newDossier(dossier).subscribe((dossier) => {
           this.load();
+          this.toastService.showSuccess('Dossier created');
           //  modalRef.close();
         });
       }
     });
     modalRef.componentInstance.feeRemoved.subscribe((fee) => {
       this.dossierService.removeFee(fee.id).subscribe((dossier) => {
+        this.toastService.showSuccess('Expense removed');
         modalRef.componentInstance.dossier = dossier;
         modalRef.componentInstance.loadFees();
         modalRef.componentInstance.loadInvoices();
@@ -95,6 +101,7 @@ export class DossierTableResultComponent implements OnInit {
     });
     modalRef.componentInstance.invoiceRemoved.subscribe((invoice) => {
       this.dossierService.removeInvoice(invoice.id).subscribe((dossier) => {
+        this.toastService.showSuccess('Invoice removed');
         modalRef.componentInstance.dossier = dossier;
         modalRef.componentInstance.loadInvoices();
         modalRef.componentInstance.loadFees();
@@ -107,6 +114,7 @@ export class DossierTableResultComponent implements OnInit {
   closeActiveDossier() {
     if (isPlatformBrowser(this.platformId)) {
       if (this.windowRefService.nativeWindow.confirm('Are you sure you want to close the dossier?')) {
+        this.toastService.showSuccess('Dossier closed. Generating ZIP');
         this.dossierService.closeActiveDossier().subscribe((d) =>
           this.downloadArchive(d.dossierUploadId, () => {
             this.load();

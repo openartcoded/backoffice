@@ -1,20 +1,12 @@
-<app-navbar  (toggleExpand)="expand($event)"></app-navbar>
+<app-navbar (toggleExpand)="expand($event)"></app-navbar>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 <ng-container>
-  <div class="d-flex justify-content-start" 
-  >
-    <nav 
-    >
+  <div class="d-flex justify-content-start">
+    <nav>
       <app-sidebar></app-sidebar>
     </nav>
-    <main [class.nav-padding]="true" role="main"
-          class="d-block container-fluid"
-    >
+    <main [class.nav-padding]="true" role="main" class="d-block container-fluid">
       <router-outlet></router-outlet>
     </main>
-
   </div>
-
 </ng-container>
-
-
-

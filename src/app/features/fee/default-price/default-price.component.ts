@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Label } from '@core/models/fee';
 import { Observable } from 'rxjs';
 import { LabelService } from '@core/service/label.service';
+import { ToastService } from '@core/service/toast.service';
 
 @Component({
   selector: 'app-default-price',
@@ -16,6 +17,7 @@ export class DefaultPriceComponent implements OnInit {
   constructor(
     @Optional() public activeModal: NgbActiveModal,
     private labelService: LabelService,
+    private toastService: ToastService,
     private fb: FormBuilder
   ) {}
 
@@ -103,7 +105,7 @@ export class DefaultPriceComponent implements OnInit {
       };
     });
     this.tags = await this.labelService.updateAll(labels).toPromise();
-
+    this.toastService.showSuccess('Labels saved');
     this.form.reset();
     this.loadForm();
   }

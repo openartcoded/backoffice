@@ -3,6 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Todo } from '@core/models/todo';
 import { TodoService } from '@core/service/todo.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastService } from '@core/service/toast.service';
 
 @Component({
   selector: 'app-todo-form',
@@ -17,7 +18,12 @@ export class TodoFormComponent implements OnInit {
   @Output()
   onSaveTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
 
-  constructor(public activeModal: NgbActiveModal, private todoService: TodoService, private fb: FormBuilder) {}
+  constructor(
+    public activeModal: NgbActiveModal,
+    private todoService: TodoService,
+    private toastService: ToastService,
+    private fb: FormBuilder
+  ) {}
 
   async ngOnInit() {
     await this.load();
@@ -86,14 +92,16 @@ export class TodoFormComponent implements OnInit {
 
   async save(i: number) {
     const abstractControl = this.todos.at(i);
+    const title = abstractControl.get('title').value;
     await this.todoService
       .saveOrUpdate({
-        title: abstractControl.get('title').value,
+        title: title,
         done: abstractControl.get('done').value,
         id: abstractControl.get('id').value,
       })
       .toPromise();
     await this.load();
+    this.toastService.showSuccess(`Todo '${title}' saved`);
   }
 
   async delete(i: number) {
@@ -101,6 +109,8 @@ export class TodoFormComponent implements OnInit {
     let id = abstractControl.get('id');
     if (id.value) {
       await this.todoService.delete(id.value).toPromise();
+      const title = abstractControl.get('title').value;
+      this.toastService.showSuccess(`Todo '${title}' removed`);
     }
     this.todos.removeAt(i);
   }
