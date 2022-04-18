@@ -5,7 +5,7 @@
       <fa-icon class="text-dark" [icon]="['fas', 'expand-arrows-alt']"></fa-icon>
     </a>
   </div>
-  <hr>
+  <hr />
 </ng-template>
 <app-title title="INVOICES"></app-title>
 <ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
@@ -47,6 +47,20 @@
         ></ng-component>
         <div class="d-block">
           <app-invoice-table-result [logicalDelete]="true"></app-invoice-table-result>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+  <li ngbNavItem="summary">
+    <a ngbNavLink routerLink="/invoice/summary">Summary</a>
+    <ng-template ngbNavContent>
+      <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+        <ng-component
+          [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Summary' }"
+        ></ng-component>
+        <div class="d-block">
+          <app-summary></app-summary>
         </div>
       </div>
     </ng-template>

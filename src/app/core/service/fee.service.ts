@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Label, Fee, FeeManualForm, FeeSearchCriteria } from '../models/fee';
+import { Label, Fee, FeeManualForm, FeeSearchCriteria, FeeSummary } from '../models/fee';
 import { Page } from '@core/models/page';
 import { ConfigInitService } from '@init/config-init.service';
 
@@ -57,5 +57,9 @@ export class FeeService {
 
   findById(id: string): Observable<Fee> {
     return this.http.post<Fee>(`${this.backendUrl}/api/fee/find-by-id?id=${id}`, {});
+  }
+
+  summaries(): Observable<FeeSummary[]> {
+    return this.http.post<FeeSummary[]>(`${this.backendUrl}/api/fee/summaries`, {});
   }
 }

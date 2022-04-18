@@ -1,26 +1,29 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { Dossier, DossierSummary } from '@core/models/dossier';
+import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { DossierSummary } from '@core/models/dossier';
 import { DossierService } from '@core/service/dossier.service';
 import { WindowRefService } from '@core/service/window.service';
-import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.scss'],
 })
-export class SummaryComponent implements OnInit {
+export class SummaryComponent implements OnInit, OnDestroy {
   dossierSummaries: DossierSummary[];
   graphs: any;
-
+  showGraph: boolean;
   constructor(
     private dossierService: DossierService,
     private windowService: WindowRefService,
     @Inject(PLATFORM_ID) private platformId: any,
     private breakPointObserver: BreakpointObserver
   ) {}
+  ngOnDestroy(): void {
+    this.graphs = null;
+    this.dossierSummaries = null;
+  }
 
   async ngOnInit() {
     const summaries = [];
@@ -76,15 +79,13 @@ export class SummaryComponent implements OnInit {
     };
     const data = [earnings, expenses];
     this.graphs = [{ data: data, config: config, layout: layout('Earnings/Expenses') }];
+
+    setTimeout(() => {
+      this.showGraph = true;
+    }, 100);
   }
 
   isBrowser() {
     return isPlatformBrowser(this.platformId);
-  }
-  resize() {
-    const isDesktop = this.breakPointObserver.isMatched('(min-width: 768px)');
-    if (this.isBrowser() && !isDesktop) {
-      this.windowService.nativeWindow.dispatchEvent(new Event('resize'));
-    }
   }
 }

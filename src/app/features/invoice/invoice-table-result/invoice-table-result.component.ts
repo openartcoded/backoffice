@@ -1,5 +1,4 @@
 import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Invoice } from '@core/models/invoice';
 import { InvoiceService } from '@core/service/invoice.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -27,8 +26,6 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   invoices: Page<Invoice>;
   activeDossier: Dossier;
   pageSize: number = 5;
-
-  reloadSummary: boolean;
 
   @Input()
   logicalDelete: boolean;
@@ -122,10 +119,6 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
       if (this.windowRefService.nativeWindow.confirm('Process this invoice?')) {
         this.dossierService.processInvoice(invoice.id).subscribe((dt) => {
           this.load();
-          this.reloadSummary = true;
-          setTimeout(() => {
-            this.reloadSummary = false;
-          }, 100);
         });
       }
     }

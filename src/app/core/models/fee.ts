@@ -49,3 +49,9 @@ export interface FeeManualForm {
   body: string;
   files: File[];
 }
+
+export interface FeeSummary {
+  tag?: string;
+  totalHVAT?: number;
+  totalVAT?: number;
+}
