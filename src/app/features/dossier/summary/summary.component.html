@@ -1,9 +1,8 @@
-
-<ng-container *ngIf="graphs">
-    <ng-container *ngFor="let g of graphs; let index=index;">
-        <plotly-plot (initialized)="resize()" [divId]="'gra'+index" [useResizeHandler]="true" [config]="g.config"
-            [data]="g.data" [layout]="g.layout"></plotly-plot>
-        <hr *ngIf="index+1 < graphs.length">
+<ng-container *ngIf="isBrowser()">
+  <div id="plot-dossier" *ngIf="showGraph">
+    <ng-container *ngFor="let g of graphs; let index = index">
+      <plotly-plot [divId]="'plot-dossier'" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
+      <hr *ngIf="index + 1 < graphs.length" />
     </ng-container>
-
+  </div>
 </ng-container>

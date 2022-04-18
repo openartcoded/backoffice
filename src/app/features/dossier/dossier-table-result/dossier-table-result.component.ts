@@ -19,7 +19,6 @@ export class DossierTableResultComponent implements OnInit {
   @Input()
   closed: boolean;
   dossiers: Dossier[];
-  showGraphs = false;
 
   labels: Label[];
   constructor(
@@ -32,13 +31,8 @@ export class DossierTableResultComponent implements OnInit {
     private modalService: NgbModal
   ) {}
 
-  toggleGraphs() {
-    this.showGraphs = !this.showGraphs;
-  }
-
   ngOnInit(): void {
     this.load();
-    setTimeout(() => (this.showGraphs = true), 200);
   }
 
   load(): void {
@@ -118,10 +112,6 @@ export class DossierTableResultComponent implements OnInit {
         this.dossierService.closeActiveDossier().subscribe((d) =>
           this.downloadArchive(d.dossierUploadId, () => {
             this.load();
-            this.showGraphs = false;
-            setTimeout(() => {
-              this.showGraphs = true;
-            }, 100);
           })
         );
       }

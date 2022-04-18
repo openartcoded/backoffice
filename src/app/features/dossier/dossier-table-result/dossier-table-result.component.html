@@ -1,9 +1,5 @@
 <ng-container *ngIf="dossiers">
   <div class="d-flex justify-content-end pb-2 pt-1" *ngIf="!closed">
-    <button class="btn btn-outline-success me-1" (click)="toggleGraphs()">
-      {{ showGraphs ? 'Hide' : 'Show' }}
-      graphs
-    </button>
     <div ngbDropdown class="d-inline-block" container="body">
       <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
         <fa-icon icon="exclamation"></fa-icon>
@@ -95,7 +91,4 @@
       </tbody>
     </table>
   </div>
-  <ng-container *ngIf="!closed && showGraphs">
-    <app-summary></app-summary>
-  </ng-container>
 </ng-container>
