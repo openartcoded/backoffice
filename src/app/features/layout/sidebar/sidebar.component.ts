@@ -56,20 +56,13 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private loadMenu() {
-    this.links = FallbackMenu.getDefault().filter((l) => l.show);
-    this.settingsService.getMenuLinks().subscribe((links) => (this.links = links.filter((l) => l.show))),
-      (err) => {
-        console.log(err, 'error loading menu links. fallback to default');
-      };
+    this.settingsService._menuLinks.subscribe((menuLinks) => (this.links = menuLinks.filter((l) => l.show)));
   }
 
   openSettings() {
     const ref = this.modalService.open(AppSettingsComponent, {
       size: 'xl',
       scrollable: true,
-    });
-    ref.componentInstance.menuLinkUpdated.subscribe((m) => {
-      this.loadMenu();
     });
   }
 }

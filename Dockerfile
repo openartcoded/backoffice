@@ -13,4 +13,3 @@ EXPOSE 80
 ENTRYPOINT [ "sh", "/replace_placeholder.sh" ]
 CMD ["nginx",  "-g", "daemon off;"]
 
-## Todo too many issue with angular universal. It has to be removed somehow

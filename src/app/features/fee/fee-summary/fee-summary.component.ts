@@ -1,9 +1,7 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { FeeService } from '@core/service/fee.service';
-import { WindowRefService } from '@core/service/window.service';
-import { empty, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-fee-summary',

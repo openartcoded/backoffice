@@ -1,7 +1,6 @@
-import { Component, EventEmitter, OnInit, Optional } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Optional } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SettingsService } from '@core/service/settings.service';
-import { Observable } from 'rxjs';
 import { MenuLink } from '@core/models/settings';
 import { FileService } from '@core/service/file.service';
 import { DateUtils } from '@core/utils/date-utils';
@@ -12,10 +11,9 @@ import { DateUtils } from '@core/utils/date-utils';
   styleUrls: ['./app-settings.component.scss'],
 })
 export class AppSettingsComponent implements OnInit {
+  @Input()
   menuLinks: MenuLink[];
   file: any;
-
-  menuLinkUpdated: EventEmitter<MenuLink> = new EventEmitter<MenuLink>();
 
   constructor(
     @Optional() public activeModal: NgbActiveModal,
@@ -26,30 +24,21 @@ export class AppSettingsComponent implements OnInit {
   ngOnInit(): void {
     this.load();
   }
-
+  load() {
+    this.settingsService.getMenuLinks().subscribe((menuLinks) => (this.menuLinks = menuLinks));
+  }
   toggleMenuLinkVisibility(menuLink: MenuLink) {
     menuLink.show = !menuLink.show;
-    this.settingsService.updateMenuLinks(menuLink).subscribe((m) => {
-      this.menuLinkUpdated.emit(m);
-    });
+    this.settingsService.updateMenuLinks(menuLink).subscribe((m) => {});
   }
 
   import() {
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
       const json: any = fileReader.result;
-      this.settingsService.importAllMenuLinks(JSON.parse(json)).subscribe((value) => {
-        this.load();
-        this.menuLinkUpdated.emit(null);
-      });
+      this.settingsService.importAllMenuLinks(JSON.parse(json)).subscribe((value) => {});
     };
     fileReader.readAsText(this.file);
-  }
-
-  private load() {
-    this.settingsService.getMenuLinks().subscribe(menuLinks => {
-      this.menuLinks =menuLinks;
-    });
   }
 
   loadFile($event) {
@@ -64,13 +53,16 @@ export class AppSettingsComponent implements OnInit {
     );
   }
 
+  async delete(menuLink: MenuLink) {
+    await this.settingsService.deleteMenuLinkById(menuLink.id).toPromise();
+    this.load();
+  }
+
   async flipPosition(menuLink: MenuLink, menuLinkBefore: MenuLink) {
     menuLinkBefore.order = menuLinkBefore.order + 1;
     menuLink.order = menuLink.order - 1;
     menuLinkBefore = await this.settingsService.updateMenuLinks(menuLinkBefore).toPromise();
     menuLink = await this.settingsService.updateMenuLinks(menuLink).toPromise();
-    this.menuLinkUpdated.emit(null);
-    this.load();
   }
 
   sortByOrder() {
