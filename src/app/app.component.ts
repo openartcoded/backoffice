@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from './core/service/auth.service';
 import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { GdprService } from '@core/service/gdpr.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { ToggleSidebarService } from '@core/service/toggle-sidebar.service';
@@ -20,7 +19,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     protected authService: AuthService,
-    private gdprService: GdprService,
     private cdr: ChangeDetectorRef,
     private toggleSidebarService: ToggleSidebarService,
     private breakPointObserver: BreakpointObserver,
@@ -31,13 +29,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.toggleCheck();
-    this.appSubscriptions.push(
-      this.router.events
-        .pipe(filter((event) => event instanceof NavigationStart))
-        .subscribe((event: NavigationStart) => {
-          //this.toggleCheck();
-        })
-    );
     this.appSubscriptions.push(this.authService.loggedIn.subscribe(() => this.toggleCheck()));
     this.appSubscriptions.push(this.authService.loggedOut.subscribe(() => this.toggleCheck()));
     this.breakPointObserver.observe([Breakpoints.XSmall, Breakpoints.Tablet]).subscribe((state: BreakpointState) => {
@@ -48,10 +39,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   expand($event): void {
     this.toggle = this.toggleSidebarService.expand(this.toggle);
-  }
-
-  gdprConsent() {
-    return this.gdprService.gdprConsent();
   }
 
   private updateMetas() {

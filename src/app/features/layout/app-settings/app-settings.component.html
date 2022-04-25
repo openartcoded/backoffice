@@ -1,22 +1,17 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
-    <span class="modal-title text-break">
-      Settings
-    </span>
-    <button type="button" class="btn-close" aria-label="Close"
-            (click)="activeModal?.dismiss('Cross click')">
-      
-    </button>
+    <span class="modal-title text-break"> Settings </span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
     <ul ngbNav #nav="ngbNav" class="nav-tabs">
       <li ngbNavItem>
         <a ngbNavLink>Menu</a>
         <ng-template ngbNavContent>
-          <ul class="list-group  flat" *ngIf="menuLinks">
+          <ul class="list-group flat" *ngIf="menuLinks">
             <li class="list-group-item list-group-item-action border-top-0 p-0 ps-1">
-              <div class="input-group mb-1 pe-1  mt-1">
-                  <input type="file" class="form-control" id="inputGroupFile02" (change)="loadFile($event)">
+              <div class="input-group mb-1 pe-1 mt-1">
+                <input type="file" class="form-control" id="inputGroupFile02" (change)="loadFile($event)" />
                 <div class="input-group-append">
                   <button class="input-group-text" id="" (click)="import()" [disabled]="!file">Import</button>
                 </div>
@@ -27,26 +22,38 @@
                 </a>
               </div>
             </li>
-            <li class="list-group-item list-group-item-action  border-top-0 p-0 ps-1"
-                *ngFor="let menuLink of menuLinks | sort: sortByOrder; let index = index;">
+            <li
+              class="list-group-item list-group-item-action border-top-0 p-0 ps-1"
+              *ngFor="let menuLink of menuLinks | sort: sortByOrder; let index = index"
+            >
               <div class="d-flex justify-content-between">
-                  <span class="my-auto">
-                    <fa-icon [icon]="menuLink.icon"></fa-icon>&nbsp;{{menuLink.title}}
-                  </span>
+                <span class="my-auto"> <fa-icon [icon]="menuLink.icon"></fa-icon>&nbsp;{{ menuLink.title }} </span>
                 <div>
                   <div class="btn-group">
-                    <button class="btn btn-link text-secondary" *ngIf="index > 0"
-                            (click)="flipPosition(menuLink, menuLinks[index-1])">
+                    <button
+                      class="btn btn-link text-secondary"
+                      *ngIf="index > 0"
+                      (click)="flipPosition(menuLink, menuLinks[index - 1])"
+                    >
                       <fa-icon icon="arrow-up"></fa-icon>
                     </button>
-                    <button class="btn btn-link text-secondary" *ngIf="index < menuLinks.length - 1"
-                            (click)="flipPosition(menuLinks[index+1],menuLink)">
+                    <button
+                      class="btn btn-link text-secondary"
+                      *ngIf="index < menuLinks.length - 1"
+                      (click)="flipPosition(menuLinks[index + 1], menuLink)"
+                    >
                       <fa-icon icon="arrow-down"></fa-icon>
                     </button>
-                    <button class="btn btn-link" [class.text-light]="!menuLink.show"
-                            [class.text-success]="menuLink.show"
-                            (click)="toggleMenuLinkVisibility(menuLink)">
+                    <button
+                      class="btn btn-link"
+                      [class.text-light]="!menuLink.show"
+                      [class.text-success]="menuLink.show"
+                      (click)="toggleMenuLinkVisibility(menuLink)"
+                    >
                       <fa-icon icon="eye"></fa-icon>
+                    </button>
+                    <button class="btn btn-link text-danger" (click)="delete(menuLink)">
+                      <fa-icon icon="trash"></fa-icon>
                     </button>
                   </div>
                 </div>
@@ -57,6 +64,5 @@
       </li>
     </ul>
     <div [ngbNavOutlet]="nav"></div>
-
   </div>
 </ng-container>
