@@ -48,16 +48,22 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.env = this.configInitService.getConfig()['ENV_TYPE'];
     this.links = FallbackMenu.getDefault().filter((l) => l.show);
+
     this.navigationSubscriptions.push(
       this.settingsService._menuLinks.subscribe(
         (links) => {
           const filteredLinks = links.filter((l) => l.show);
-          this.link = filteredLinks.find((l) => l.routerLink.join('/') === this.router.url.substring(1));
-
+          const link = filteredLinks.find((l) => l.routerLink.join('/') === this.router.url.substring(1));
+          if (link) {
+            this.link = link;
+          }
           this.router.events
             .pipe(filter((event) => event instanceof NavigationEnd))
             .subscribe((event: NavigationStart) => {
-              this.link = filteredLinks.find((l) => l.routerLink.join('/') === event.url.substring(1));
+              const link = filteredLinks.find((l) => l.routerLink.join('/') === event.url.substring(1));
+              if (link) {
+                this.link = link;
+              }
             });
           this.links = filteredLinks;
         },
