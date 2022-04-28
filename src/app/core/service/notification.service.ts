@@ -3,7 +3,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable, of, Subscription, throwError, timer } from 'rxjs';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { OnApplicationEvent } from '@core/interface/on-application-event';
-import { catchError, finalize, mergeMap, retryWhen, switchMap, tap } from 'rxjs/operators';
+import { catchError, finalize, mergeMap, retryWhen, switchMap } from 'rxjs/operators';
 import { AuthService } from '@core/service/auth.service';
 import { Title } from '@angular/platform-browser';
 import { isPlatformBrowser } from '@angular/common';
