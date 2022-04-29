@@ -9,6 +9,7 @@ import { SlugifyPipe } from '@core/pipe/slugify-pipe';
 import { Meta, Title } from '@angular/platform-browser';
 import { WindowRefService } from '@core/service/window.service';
 import { isPlatformBrowser } from '@angular/common';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-posts',
@@ -56,7 +57,7 @@ export class PostsComponent implements OnInit {
   }
 
   async openFormModal(post: Post) {
-    let postWithDetails = await this.blogService.getPostById(post.id).toPromise();
+    let postWithDetails = await firstValueFrom(this.blogService.getPostById(post.id));
 
     const modalRef = this.modalService.open(PostEditorComponent, {
       size: 'xl',

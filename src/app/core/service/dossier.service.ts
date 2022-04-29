@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { Dossier, DossierSummary } from '../models/dossier';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
@@ -40,26 +40,27 @@ export class DossierService {
 
   async generateSummary(id: string) {
     if (isPlatformBrowser(this.platformId)) {
-      const downloadLink = await this.http
-        .get(`${this.configService.getConfig()['BACKEND_URL']}/api/dossier/generate-summary?id=${id}`, {
-          observe: 'response',
-          responseType: 'blob' as 'json',
-        })
-        .pipe(
-          map((response: any) => {
-            let body = response.body;
-            let dataType = body.type;
-            let headers = response.headers;
-            let filename = headers.get('content-disposition').split(';')[1].split('=')[1].replace(/"/g, '');
-            let binaryData = [];
-            binaryData.push(body);
-            let downloadLink = this.document.createElement('a');
-            downloadLink.href = URL.createObjectURL(new Blob(binaryData, { type: dataType }));
-            downloadLink.setAttribute('download', filename);
-            return downloadLink;
+      const downloadLink = await firstValueFrom(
+        this.http
+          .get(`${this.configService.getConfig()['BACKEND_URL']}/api/dossier/generate-summary?id=${id}`, {
+            observe: 'response',
+            responseType: 'blob' as 'json',
           })
-        )
-        .toPromise();
+          .pipe(
+            map((response: any) => {
+              let body = response.body;
+              let dataType = body.type;
+              let headers = response.headers;
+              let filename = headers.get('content-disposition').split(';')[1].split('=')[1].replace(/"/g, '');
+              let binaryData = [];
+              binaryData.push(body);
+              let downloadLink = this.document.createElement('a');
+              downloadLink.href = URL.createObjectURL(new Blob(binaryData, { type: dataType }));
+              downloadLink.setAttribute('download', filename);
+              return downloadLink;
+            })
+          )
+      );
       this.document.body.appendChild(downloadLink);
       downloadLink.click();
     }

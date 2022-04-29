@@ -1,40 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Observable, of, Subscription, throwError, timer } from 'rxjs';
+import { Observable, of, RetryConfig, Subscription, throwError, timer } from 'rxjs';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { OnApplicationEvent } from '@core/interface/on-application-event';
-import { catchError, finalize, mergeMap, retryWhen, switchMap } from 'rxjs/operators';
+import { catchError, retry, switchMap } from 'rxjs';
 import { AuthService } from '@core/service/auth.service';
 import { Title } from '@angular/platform-browser';
 import { isPlatformBrowser } from '@angular/common';
 import { ConfigInitService } from '@init/config-init.service';
 
-const GENERIC_RETRY_STRATEGY =
-  ({
-    maxRetryAttempts = 3,
-    scalingDuration = 5000,
-    excludedStatusCodes = [ 403, 401 ],
-  }: {
-    maxRetryAttempts?: number;
-    scalingDuration?: number;
-    excludedStatusCodes?: number[];
-  } = {}) =>
-  (attempts: Observable<any>) => {
-    return attempts.pipe(
-      mergeMap((error, i) => {
-        const retryAttempt = i + 1;
-        // if maximum number of retries have been met
-        // or response is a status code we don't wish to retry, throw error
-        if (retryAttempt > maxRetryAttempts || excludedStatusCodes.find((e) => e === error.status)) {
-          return throwError(error);
-        }
-        console.log(`Attempt ${retryAttempt}: retrying in ${retryAttempt * scalingDuration}ms`);
-        // retry after 1s, 2s, etc...
-        return timer(retryAttempt * scalingDuration);
-      }),
-      finalize(() => console.log('We are done!'))
-    );
-  };
+const GENERIC_RETRY_STRATEGY = () => {
+  return {
+    delay: (error, i) => {
+      const maxRetryAttempts = 3;
+      const scalingDuration = 5000;
+      const excludedStatusCodes = [403, 401];
+      const retryAttempt = i + 1;
+      // if maximum number of retries have been met
+      // or response is a status code we don't wish to retry, throw error
+      if (retryAttempt > maxRetryAttempts || excludedStatusCodes.find((e) => e === error.status)) {
+        return throwError(() => error);
+      }
+      console.log(`Attempt ${retryAttempt}: retrying in ${retryAttempt * scalingDuration}ms`);
+      // retry after 1s, 2s, etc...
+      return timer(retryAttempt * scalingDuration);
+    },
+  } as RetryConfig;
+};
 
 @Injectable({
   providedIn: 'root',
@@ -85,7 +77,7 @@ export class NotificationService {
           switchMap((counter) => {
             return this.latests();
           }),
-          retryWhen(GENERIC_RETRY_STRATEGY()),
+          retry(GENERIC_RETRY_STRATEGY()),
           catchError((error) => of(error))
         )
         .subscribe((notifications) => {
@@ -144,5 +136,4 @@ export class NotificationService {
       });
     });
   }
-  
 }

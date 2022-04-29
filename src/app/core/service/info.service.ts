@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
 import { BackendInfo } from '@core/models/backend.info';
 import { HealthIndicator } from '@core/models/health.indicator';
 import { ConfigInitService } from '@init/config-init.service';

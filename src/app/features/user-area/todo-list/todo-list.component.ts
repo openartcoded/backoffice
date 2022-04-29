@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoService } from '@core/service/todo.service';
 import { Todo } from '@core/models/todo';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TodoFormComponent } from '@feature/user-area/todo-form/todo-form.component';
 
@@ -36,6 +36,6 @@ export class TodoListComponent implements OnInit {
 
   async toggleDone(todo: Todo) {
     todo.done = !todo.done;
-    await this.todoService.saveOrUpdate(todo).toPromise();
+    await firstValueFrom(this.todoService.saveOrUpdate(todo));
   }
 }

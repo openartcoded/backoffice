@@ -9,6 +9,7 @@ import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { CronExpressionHelpComponent } from '@feature/tasks/cron-expression-help/cron-expression-help.component';
 import { ActionResultComponent } from '../action-result/action-result.component';
 import { Title } from '@angular/platform-browser';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-tasks-table',
@@ -43,16 +44,16 @@ export class TasksTableComponent implements OnInit, OnApplicationEvent {
     modal.componentInstance.allowedActions$ = this.reminderTaskService.allowedActions();
     modal.componentInstance.onSaveTask.subscribe(async (taskToSave) => {
       modal.close();
-      await this.reminderTaskService.save(taskToSave).toPromise();
+      await firstValueFrom(this.reminderTaskService.save(taskToSave));
     });
     modal.componentInstance.onDeleteTask.subscribe(async (taskToDelete) => {
       modal.close();
-      await this.reminderTaskService.delete(taskToDelete.id).toPromise();
+      await firstValueFrom(this.reminderTaskService.delete(taskToDelete.id));
     });
   }
 
   async load() {
-    this.reminderTasks = await this.reminderTaskService.findAll().toPromise();
+    this.reminderTasks = await firstValueFrom(this.reminderTaskService.findAll());
     this.filteredReminderTasks = this.reminderTasks;
     this.toggleTask();
     this.toggleDisabled();

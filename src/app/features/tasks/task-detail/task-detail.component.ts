@@ -12,7 +12,7 @@ import {
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionMetadata, ActionParameter, ReminderTask, ActionParameterType } from '@core/models/reminder-task';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { WindowRefService } from '@core/service/window.service';
 import { DateUtils } from '@core/utils/date-utils';
@@ -46,7 +46,7 @@ export class TaskDetailComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.allowedActions = await this.allowedActions$.toPromise();
+    this.allowedActions = await firstValueFrom(this.allowedActions$);
     const specificDate = DateUtils.toOptionalDate(this.task?.specificDate);
     const specificDateFormatted = specificDate ? DateUtils.formatInputDateTime(specificDate) : null;
     this.form = this.fb.group({

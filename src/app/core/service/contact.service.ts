@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
 import { FormContact } from '@core/models/form-contact';
 import { ConfigInitService } from '@init/config-init.service';
 

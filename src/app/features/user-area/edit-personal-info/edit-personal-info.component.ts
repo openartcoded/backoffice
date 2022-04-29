@@ -5,6 +5,7 @@ import { PersonalInfo } from '@core/models/personal.info';
 import { FileService } from '@core/service/file.service';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { DomSanitizer } from '@angular/platform-browser';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-edit-personal-info',
@@ -78,15 +79,15 @@ export class EditPersonalInfoComponent implements OnInit {
 
   async ngOnInit() {
     if (this?.currentPersonalInfo?.logoUploadId) {
-      const logo = await this.fileService
-        .toDownloadLink(this.fileService.getDownloadUrl(this.currentPersonalInfo.logoUploadId))
-        .toPromise();
+      const logo = await firstValueFrom(
+        this.fileService.toDownloadLink(this.fileService.getDownloadUrl(this.currentPersonalInfo.logoUploadId))
+      );
       this.logoUrl = this.domSanitizer.bypassSecurityTrustUrl(logo);
     }
     if (this?.currentPersonalInfo?.signatureUploadId) {
-      const signature = await this.fileService
-        .toDownloadLink(this.fileService.getDownloadUrl(this.currentPersonalInfo.signatureUploadId))
-        .toPromise();
+      const signature = await firstValueFrom(
+        this.fileService.toDownloadLink(this.fileService.getDownloadUrl(this.currentPersonalInfo.signatureUploadId))
+      );
       this.signatureUrl = this.domSanitizer.bypassSecurityTrustUrl(signature);
     }
     this.form = this.fb.group({

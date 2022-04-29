@@ -4,6 +4,7 @@ import { Todo } from '@core/models/todo';
 import { TodoService } from '@core/service/todo.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@core/service/toast.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-todo-form',
@@ -93,13 +94,13 @@ export class TodoFormComponent implements OnInit {
   async save(i: number) {
     const abstractControl = this.todos.at(i);
     const title = abstractControl.get('title').value;
-    await this.todoService
-      .saveOrUpdate({
+    await firstValueFrom(
+      this.todoService.saveOrUpdate({
         title: title,
         done: abstractControl.get('done').value,
         id: abstractControl.get('id').value,
       })
-      .toPromise();
+    );
     await this.load();
     this.toastService.showSuccess(`Todo '${title}' saved`);
   }
@@ -108,7 +109,7 @@ export class TodoFormComponent implements OnInit {
     const abstractControl = this.todos.at(i);
     let id = abstractControl.get('id');
     if (id.value) {
-      await this.todoService.delete(id.value).toPromise();
+      await firstValueFrom(this.todoService.delete(id.value));
       const title = abstractControl.get('title').value;
       this.toastService.showSuccess(`Todo '${title}' removed`);
     }
@@ -123,7 +124,7 @@ export class TodoFormComponent implements OnInit {
   }
 
   private async load() {
-    const data = await this.todoService.findAll().toPromise();
+    const data = await firstValueFrom(this.todoService.findAll());
     this.form = this.fb.group({
       todos: this.fb.array(data.map(this.convertTodo)),
     });

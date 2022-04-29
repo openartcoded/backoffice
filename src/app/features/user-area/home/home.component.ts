@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { InfoService } from '@core/service/info.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ export class HomeComponent implements OnInit {
   }
 
   async setTitle() {
-    const backendInfo = await this.infoService.getBuildInfo().toPromise();
+    const backendInfo = await firstValueFrom(this.infoService.getBuildInfo());
     this.titleService.setTitle('BackOffice - ' + backendInfo.build.version);
   }
 }

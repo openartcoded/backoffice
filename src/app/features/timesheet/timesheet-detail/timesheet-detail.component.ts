@@ -9,6 +9,7 @@ import { FileService } from '@core/service/file.service';
 import { OnApplicationEvent, RegisteredEvent } from '@core/interface/on-application-event';
 import { NotificationService } from '@core/service/notification.service';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-timesheet-detail',
@@ -102,11 +103,11 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   }
 
   async release() {
-    await this.timesheetService.closeTimesheet(this.timesheet.id).toPromise();
+    await firstValueFrom(this.timesheetService.closeTimesheet(this.timesheet.id));
   }
 
   async reopen() {
-    await this.timesheetService.reopenTimesheet(this.timesheet.id).toPromise();
+    await firstValueFrom(this.timesheetService.reopenTimesheet(this.timesheet.id));
   }
 
   download() {
@@ -128,7 +129,7 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
 
   private async load() {
     this.timesheetService.findById(this.id).subscribe((ts) => (this.timesheet = ts));
-    this.timesheetSettings = await this.timesheetService.getSettings().toPromise();
+    this.timesheetSettings = await firstValueFrom(this.timesheetService.getSettings());
   }
 
   handle(events: ArtcodedNotification[]) {

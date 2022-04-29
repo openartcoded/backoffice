@@ -8,6 +8,7 @@ import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 import { ImageViewerComponent } from '@shared/image-viewer/image-viewer.component';
 import { LabelService } from '@core/service/label.service';
 import { ToastService } from '@core/service/toast.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-fee-detail',
@@ -37,9 +38,9 @@ export class FeeDetailComponent implements OnInit {
   async load() {
     this.fee.attachments = [];
     const attachments = [];
-    const labels = await this.labelService.findAll().toPromise();
+    const labels = await firstValueFrom(this.labelService.findAll());
     for (const attachmentId of this.fee.attachmentIds) {
-      const attachment = await this.fileService.findById(attachmentId).toPromise();
+      const attachment = await firstValueFrom(this.fileService.findById(attachmentId));
       attachments.push(attachment);
     }
     this.fee.attachments = attachments;

@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ConfigInitService } from '@init/config-init.service';
 

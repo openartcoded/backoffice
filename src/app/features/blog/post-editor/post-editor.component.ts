@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { Post } from '@core/models/post';
 import { BlogService } from '@core/service/blog.service';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
-import { interval, Subscription } from 'rxjs';
+import { firstValueFrom, interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-post-editor',
@@ -34,9 +34,8 @@ export class PostEditorComponent implements OnInit, OnDestroy {
   }
 
   doUpload(files: FileList): Promise<Array<UploadResult>> {
-    return this.fileService
-      .uploadFileList(files, true, this.post.id)
-      .pipe(
+    return firstValueFrom(
+      this.fileService.uploadFileList(files, true, this.post.id).pipe(
         map((upload) => {
           let type = upload.metadata.contentType.split('/')[0];
           let isImg = type.toLowerCase().includes('image');
@@ -49,7 +48,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
           ];
         })
       )
-      .toPromise();
+    );
   }
 
   ngOnInit(): void {

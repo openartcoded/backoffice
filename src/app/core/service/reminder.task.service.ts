@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
 import { ActionMetadata, ActionResult, ReminderTask } from '@core/models/reminder-task';
 import { ConfigInitService } from '@init/config-init.service';
 import { Page } from '@core/models/page';

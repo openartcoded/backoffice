@@ -16,6 +16,7 @@ import { CurrentBilltoComponent } from '@feature/invoice/current-billto/current-
 import { TemplateComponent } from '@feature/invoice/template/template.component';
 import { Page } from '@core/models/page';
 import { ToastService } from '@core/service/toast.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-invoice-table-result',
@@ -60,7 +61,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   }
 
   async openModal(invoice: Invoice) {
-    const currentBillTo = await this.invoiceService.getCurrentBillTo().toPromise();
+    const currentBillTo = await firstValueFrom(this.invoiceService.getCurrentBillTo());
     const ngbModalRef = this.modalService.open(InvoiceDetailComponent, {
       size: 'xl',
     });
@@ -159,7 +160,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
       ngbModalRef.componentInstance.currentBillTo = currentBillTo;
       ngbModalRef.componentInstance.onSaveCurrentBillTo.subscribe(async (updatedCurrentBillTo) => {
         ngbModalRef.close();
-        await this.invoiceService.saveCurrentBillTo(updatedCurrentBillTo).toPromise();
+        await firstValueFrom(this.invoiceService.saveCurrentBillTo(updatedCurrentBillTo));
       });
     });
   }
@@ -171,11 +172,11 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
     ngbModalRef.componentInstance.templates$ = this.invoiceService.listTemplates();
     ngbModalRef.componentInstance.onSaveTemplate.subscribe(async (formData) => {
       ngbModalRef.close();
-      await this.invoiceService.addTemplate(formData).toPromise();
+      await firstValueFrom(this.invoiceService.addTemplate(formData));
     });
     ngbModalRef.componentInstance.onDeleteTemplate.subscribe(async (template) => {
       ngbModalRef.close();
-      await this.invoiceService.deleteTemplate(template).toPromise();
+      await firstValueFrom(this.invoiceService.deleteTemplate(template));
     });
   }
 }

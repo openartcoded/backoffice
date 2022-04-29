@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TimesheetSettingsComponent } from '@feature/timesheet/timesheet-settings/timesheet-settings.component';
 import { DateUtils } from '@core/utils/date-utils';
 import { Title } from '@angular/platform-browser';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-timesheets',
@@ -47,13 +48,13 @@ export class TimesheetsComponent implements OnInit {
   }
 
   async openSettings() {
-    const settings = await this.timesheetService.getSettings().toPromise();
+    const settings = await firstValueFrom(this.timesheetService.getSettings());
     const ref = this.modalService.open(TimesheetSettingsComponent, {
       size: 'lg',
     });
     ref.componentInstance.settings = settings;
     ref.componentInstance.onSubmitForm.subscribe(async (updated) => {
-      await this.timesheetService.updateSettings(updated).toPromise();
+      await firstValueFrom(this.timesheetService.updateSettings(updated));
       ref.close();
     });
   }

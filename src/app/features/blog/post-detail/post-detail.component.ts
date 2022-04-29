@@ -6,6 +6,7 @@ import { BlogService } from '@core/service/blog.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { DateUtils } from '@core/utils/date-utils';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-post-detail',
@@ -98,7 +99,7 @@ export class PostDetailComponent implements OnInit {
   }
 
   async resetCount() {
-    await this.blogService.resetPostCount(this.post.id).toPromise();
+    await firstValueFrom(this.blogService.resetPostCount(this.post.id));
     this.load();
   }
 }

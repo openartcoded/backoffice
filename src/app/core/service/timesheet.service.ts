@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
 import { Timesheet, TimesheetPeriod, TimesheetSettings } from '@core/models/timesheet';
 import { RawResponse } from '@core/models/raw-response';
 import { ConfigInitService } from '@init/config-init.service';

@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileService } from '@core/service/file.service';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { WindowRefService } from '@core/service/window.service';
 import { Curriculum, CurriculumFreemarkerTemplate } from '@core/models/curriculum';
@@ -94,7 +94,7 @@ export class TemplateComponent implements OnInit {
 
   async downloadTemplate($event: any, t: CurriculumFreemarkerTemplate) {
     $event.preventDefault();
-    let fileUpload = await this.fileService.findById(t.templateUploadId).toPromise();
+    let fileUpload = await firstValueFrom(this.fileService.findById(t.templateUploadId));
     this.fileService.download(fileUpload);
   }
   async setAsDefault($event: any, t: CurriculumFreemarkerTemplate) {

@@ -3,8 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { CvService } from '@core/service/cv.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Meta, Title } from '@angular/platform-browser';
-import { CurriculumFreemarkerTemplate, Experience, Hobby, Person, PersonalProject, ScholarHistory, Skill } from '@core/models/curriculum';
+import {
+  CurriculumFreemarkerTemplate,
+  Experience,
+  Hobby,
+  Person,
+  PersonalProject,
+  ScholarHistory,
+  Skill,
+} from '@core/models/curriculum';
 import { TemplateComponent } from '../template/template.component';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-cv-view',
@@ -43,28 +52,28 @@ export class CvViewComponent implements OnInit {
 
   async updateIntroduction(intro: string) {
     this.cv.introduction = intro;
-    await this.cvService.updateCurriculum(this.cv).toPromise();
+    await firstValueFrom(this.cvService.updateCurriculum(this.cv));
     this.loadCv();
   }
 
   async updateExperiences($event: Experience[]) {
     this.cv.experiences = $event;
     this.experiences = null;
-    await this.cvService.updateCurriculum(this.cv).toPromise();
+    await firstValueFrom(this.cvService.updateCurriculum(this.cv));
     this.loadCv();
   }
 
   async updatePersonalProjects($event: PersonalProject[]) {
     this.cv.personalProjects = $event;
     this.personalProjects = null;
-    await this.cvService.updateCurriculum(this.cv).toPromise();
+    await firstValueFrom(this.cvService.updateCurriculum(this.cv));
     this.loadCv();
   }
 
   async updateSkills($event: Skill[]) {
     this.cv.skills = $event;
     this.skills = null;
-    await this.cvService.updateCurriculum(this.cv).toPromise();
+    await firstValueFrom(this.cvService.updateCurriculum(this.cv));
     this.loadCv();
   }
 
@@ -84,26 +93,26 @@ export class CvViewComponent implements OnInit {
   async updateScholarHistories($event: ScholarHistory[]) {
     this.cv.scholarHistories = $event;
     this.scholarHistories = null;
-    await this.cvService.updateCurriculum(this.cv).toPromise();
+    await firstValueFrom(this.cvService.updateCurriculum(this.cv));
     this.loadCv();
   }
 
   async updateHobbies($event: Hobby[]) {
     this.cv.hobbies = $event;
     this.hobbies = null;
-    await this.cvService.updateCurriculum(this.cv).toPromise();
+    await firstValueFrom(this.cvService.updateCurriculum(this.cv));
     this.loadCv();
   }
 
   async updatePerson($event: Person) {
     this.cv.person = $event;
     this.person = null;
-    await this.cvService.updateCurriculum(this.cv).toPromise();
+    await firstValueFrom(this.cvService.updateCurriculum(this.cv));
     this.loadCv();
   }
   async updateDefaultTemplate($event: CurriculumFreemarkerTemplate) {
     this.cv.freemarkerTemplateId = $event.id;
-    await this.cvService.updateCurriculum(this.cv).toPromise();
+    await firstValueFrom(this.cvService.updateCurriculum(this.cv));
     this.loadCv();
   }
 
@@ -115,7 +124,7 @@ export class CvViewComponent implements OnInit {
     ngbModalRef.componentInstance.cv = this.cv;
     ngbModalRef.componentInstance.onSaveTemplate.subscribe(async (formData) => {
       ngbModalRef.close();
-      await this.cvService.addTemplate(formData).toPromise();
+      await firstValueFrom(this.cvService.addTemplate(formData));
     });
     ngbModalRef.componentInstance.onTemplateSetAsDefault.subscribe(async (templ) => {
       ngbModalRef.close();
@@ -123,7 +132,7 @@ export class CvViewComponent implements OnInit {
     });
     ngbModalRef.componentInstance.onDeleteTemplate.subscribe(async (template) => {
       ngbModalRef.close();
-      await this.cvService.deleteTemplate(template).toPromise();
+      await firstValueFrom(this.cvService.deleteTemplate(template));
     });
   }
 }

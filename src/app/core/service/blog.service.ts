@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
 import { Post, PostSearchCriteria } from '@core/models/post';
 import { Page } from '@core/models/page';
 import { DOCUMENT } from '@angular/common';

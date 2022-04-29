@@ -1,4 +1,4 @@
-import { EventEmitter, Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Injectable({

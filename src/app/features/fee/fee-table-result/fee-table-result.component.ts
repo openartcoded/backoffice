@@ -14,6 +14,7 @@ import { OnApplicationEvent, RegisteredEvent } from '@core/interface/on-applicat
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { NotificationService } from '@core/service/notification.service';
 import { LabelService } from '@core/service/label.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-fee-table-result',
@@ -163,7 +164,7 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     if (isPlatformBrowser(this.platformId)) {
       if (this.windowRefService.nativeWindow.confirm('Are you sure you want to delete the selected fees?')) {
         for (const fee of this.selectedRows) {
-          await this.feeService.delete(fee).toPromise();
+          await firstValueFrom(this.feeService.delete(fee));
         }
         this.search(this.searchCriteria);
       }

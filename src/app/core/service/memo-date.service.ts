@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
 import { MemoDate } from '@core/models/memo-date';
 import { ConfigInitService } from '@init/config-init.service';
 

@@ -12,6 +12,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { NotificationService } from '@core/service/notification.service';
 import { OnApplicationEvent, RegisteredEvent } from '@core/interface/on-application-event';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-meme-page',
@@ -74,13 +75,13 @@ export class MemePageComponent implements OnInit, OnApplicationEvent {
               memz.imageLink = this.fileService.getPublicDownloadUrl(memz.imageUploadId);
               memz.thumbnailLink = this.fileService.getPublicDownloadUrl(memz.thumbnailUploadId);
             } else {
-              let thumbnailLink = await this.fileService
-                .toDownloadLink(this.fileService.getDownloadUrl(memz.thumbnailUploadId))
-                .toPromise();
+              let thumbnailLink = await firstValueFrom(
+                this.fileService.toDownloadLink(this.fileService.getDownloadUrl(memz.thumbnailUploadId))
+              );
               memz.thumbnailLink = this.domSanitizer.bypassSecurityTrustUrl(thumbnailLink.href);
-              let imageLink = await this.fileService
-                .toDownloadLink(this.fileService.getDownloadUrl(memz.imageUploadId))
-                .toPromise();
+              let imageLink = await firstValueFrom(
+                this.fileService.toDownloadLink(this.fileService.getDownloadUrl(memz.imageUploadId))
+              );
               memz.imageLink = this.domSanitizer.bypassSecurityTrustUrl(imageLink.href);
             }
           });

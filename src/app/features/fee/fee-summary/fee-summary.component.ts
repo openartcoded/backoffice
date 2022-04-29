@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { FeeService } from '@core/service/fee.service';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-fee-summary',
@@ -21,7 +21,7 @@ export class FeeSummaryComponent implements OnInit, OnDestroy {
   }
 
   async load() {
-    let summaries = await this.feeService.summaries().toPromise();
+    let summaries = await firstValueFrom(this.feeService.summaries());
     summaries = summaries
       .filter((t) => t.tag.toLowerCase() !== 'other' && t.totalHVAT !== 0)
       .sort((a, b) => b.totalHVAT - a.totalHVAT);

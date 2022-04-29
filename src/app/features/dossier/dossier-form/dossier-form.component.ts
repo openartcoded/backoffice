@@ -11,6 +11,7 @@ import { FeeDetailComponent } from '@feature/fee/fee-detail/fee-detail.component
 import { InvoiceDetailComponent } from '@feature/invoice/invoice-detail/invoice-detail.component';
 import { DateUtils } from '@core/utils/date-utils';
 import { LabelService } from '@core/service/label.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-dossier-form',
@@ -67,7 +68,7 @@ export class DossierFormComponent implements OnInit {
     this.feeTotalExclVat = 0;
     if (this.dossier?.feeIds?.length) {
       for (let id of this.dossier.feeIds) {
-        const fee = await this.feeService.findById(id).toPromise();
+        const fee = await firstValueFrom(this.feeService.findById(id));
         this.feeTotalVat += fee.vat || 0;
         this.feeTotalExclVat += fee.priceHVAT || 0;
         this.expenses.push(fee);
@@ -82,7 +83,7 @@ export class DossierFormComponent implements OnInit {
     this.invoiceTotalExclVat = 0;
     if (this.dossier?.invoiceIds?.length) {
       for (let id of this.dossier.invoiceIds) {
-        const invoice = await this.invoiceService.findById(id).toPromise();
+        const invoice = await firstValueFrom(this.invoiceService.findById(id));
         this.vatTotal += invoice.taxes;
         this.invoiceTotalExclVat += invoice.subTotal;
         this.dossier.invoices.push(invoice);

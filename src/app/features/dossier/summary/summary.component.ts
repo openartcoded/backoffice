@@ -4,6 +4,7 @@ import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core
 import { DossierSummary } from '@core/models/dossier';
 import { DossierService } from '@core/service/dossier.service';
 import { WindowRefService } from '@core/service/window.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-summary',
@@ -27,9 +28,9 @@ export class SummaryComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     const summaries = [];
-    const dossiers = await this.dossierService.findAll(true).toPromise();
+    const dossiers = await firstValueFrom(this.dossierService.findAll(true));
     for (let d of dossiers) {
-      const summary = await this.dossierService.getSummary(d.id).toPromise();
+      const summary = await firstValueFrom(this.dossierService.getSummary(d.id));
       summary.dossier = d;
       summaries.push(summary);
     }

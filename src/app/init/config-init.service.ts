@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { map } from 'rxjs/operators';
@@ -12,7 +12,7 @@ export class ConfigInitService {
   constructor(private httpClient: HttpClient) {}
 
   async load() {
-    await this.loadConfig().toPromise();
+    await firstValueFrom(this.loadConfig());
     return this.config;
   }
 

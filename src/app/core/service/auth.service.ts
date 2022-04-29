@@ -1,4 +1,4 @@
-import { ApplicationInitStatus, EventEmitter, Inject, Injectable, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { ApplicationInitStatus, EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { User } from '@core/models/user';
 import { KeycloakEventType, KeycloakService } from 'keycloak-angular';
 import { Subscription } from 'rxjs';

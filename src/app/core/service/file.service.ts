@@ -1,12 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { environment } from '@env/environment';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FileUpload, FileUploadSearchCriteria } from '../models/file-upload';
 import { Page } from '../models/page';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { WindowRefService } from './window.service';
 import { map } from 'rxjs/operators';
 import { ConfigInitService } from '@init/config-init.service';
 

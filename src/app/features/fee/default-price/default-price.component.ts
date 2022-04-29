@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angul
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Label } from '@core/models/fee';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { LabelService } from '@core/service/label.service';
 import { ToastService } from '@core/service/toast.service';
 
@@ -22,7 +22,7 @@ export class DefaultPriceComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.tags = await this.labelService.findAll().toPromise();
+    this.tags = await firstValueFrom(this.labelService.findAll());
     this.loadForm();
   }
 
@@ -104,7 +104,7 @@ export class DefaultPriceComponent implements OnInit {
         vat: p.get('vat').value,
       };
     });
-    this.tags = await this.labelService.updateAll(labels).toPromise();
+    this.tags = await firstValueFrom(this.labelService.updateAll(labels));
     this.toastService.showSuccess('Labels saved');
     this.form.reset();
     this.loadForm();

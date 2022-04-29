@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
 import { FileService } from '@core/service/file.service';
 import { Curriculum, CurriculumFreemarkerTemplate, DownloadCvRequest } from '@core/models/curriculum';
 import { ConfigInitService } from '@init/config-init.service';
@@ -20,10 +19,7 @@ export class CvService {
   }
 
   public getDownloadCvRequests(): Observable<DownloadCvRequest[]> {
-    return this.http.post<DownloadCvRequest[]>(
-      `${this.basePath}/download-requests`,
-      {}
-    );
+    return this.http.post<DownloadCvRequest[]>(`${this.basePath}/download-requests`, {});
   }
 
   getFullCurriculum(): Observable<Curriculum> {
@@ -35,9 +31,7 @@ export class CvService {
   }
 
   deleteDownloadRequest(cdr: DownloadCvRequest): Observable<any> {
-    return this.http.delete<any>(
-      `${this.basePath}/download-requests?id=${cdr.id}`
-    );
+    return this.http.delete<any>(`${this.basePath}/download-requests?id=${cdr.id}`);
   }
 
   downloadAsAdmin() {

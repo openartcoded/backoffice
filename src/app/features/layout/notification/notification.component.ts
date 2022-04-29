@@ -5,6 +5,7 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { OnApplicationEvent, RegisteredEvent } from '@core/interface/on-application-event';
 import { DateUtils } from '@core/utils/date-utils';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-notification',
@@ -45,7 +46,7 @@ export class NotificationComponent implements OnInit, OnApplicationEvent {
     const notifications = this.latests || [];
     for (let n of notifications) {
       if (!n.seen) {
-        this.notificationService.update(n.id, true).toPromise();
+        firstValueFrom(this.notificationService.update(n.id, true));
       }
     }
     notifications.forEach((notif) => (notif.seen = true));

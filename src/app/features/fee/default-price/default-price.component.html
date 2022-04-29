@@ -26,7 +26,7 @@
           <tr *ngFor="let _ of defaultPrices.controls; index as i">
             <ng-container [formGroupName]="i">
               <td class="text-center fit">
-                <p-colorPicker [baseZIndex]="2000" [id]="'colorHex' + i" formControlName="colorHex"></p-colorPicker>
+                <p-colorPicker [autoZIndex]="true" [id]="'colorHex' + i" formControlName="colorHex"></p-colorPicker>
               </td>
               <td>
                 <input

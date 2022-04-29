@@ -4,6 +4,7 @@ import { SettingsService } from '@core/service/settings.service';
 import { MenuLink } from '@core/models/settings';
 import { FileService } from '@core/service/file.service';
 import { DateUtils } from '@core/utils/date-utils';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-app-settings',
@@ -54,15 +55,15 @@ export class AppSettingsComponent implements OnInit {
   }
 
   async delete(menuLink: MenuLink) {
-    await this.settingsService.deleteMenuLinkById(menuLink.id).toPromise();
+    await firstValueFrom(this.settingsService.deleteMenuLinkById(menuLink.id));
     this.load();
   }
 
   async flipPosition(menuLink: MenuLink, menuLinkBefore: MenuLink) {
     menuLinkBefore.order = menuLinkBefore.order + 1;
     menuLink.order = menuLink.order - 1;
-    menuLinkBefore = await this.settingsService.updateMenuLinks(menuLinkBefore).toPromise();
-    menuLink = await this.settingsService.updateMenuLinks(menuLink).toPromise();
+    menuLinkBefore = await firstValueFrom(this.settingsService.updateMenuLinks(menuLinkBefore));
+    menuLink = await firstValueFrom(this.settingsService.updateMenuLinks(menuLink));
   }
 
   sortByOrder() {

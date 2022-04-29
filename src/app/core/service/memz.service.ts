@@ -1,10 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
 import { Page } from '@core/models/page';
-import { DOCUMENT } from '@angular/common';
-import { FileService } from '@core/service/file.service';
 import { Memz } from '@core/models/memz';
 import { ConfigInitService } from '@init/config-init.service';
 
