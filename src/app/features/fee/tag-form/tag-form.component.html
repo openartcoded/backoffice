@@ -11,7 +11,7 @@
         required="required"
         [disabled]="isDisabled"
       >
-        <option *ngFor="let t of tags" [value]="t.id">{{ t.name | titlecase }}</option>
+        <option *ngFor="let t of tags" [ngValue]="t.id">{{ t.name | titlecase }}</option>
       </select>
     </div>
     <div class="d-flex justify-content-end">
