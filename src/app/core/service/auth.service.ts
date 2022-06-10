@@ -31,7 +31,7 @@ export class AuthService implements OnDestroy {
         await this.refreshToken();
       }
       if (e.type == KeycloakEventType.OnTokenExpired) {
-        this.keycloakService.updateToken(180);
+        this.keycloakService.updateToken();
       }
     });
   }
