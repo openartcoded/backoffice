@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { PeriodType, TimesheetPeriod } from '@core/models/timesheet';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TimesheetService } from '@core/service/timesheet.service';
 import { formatDate } from '@angular/common';
 import * as moment from 'moment-timezone';
@@ -24,13 +24,13 @@ export class PeriodFormComponent implements OnInit {
   @Input()
   timesheetClosed: boolean;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
     @Optional() public activeModal: NgbActiveModal,
     private timesheetService: TimesheetService,
     private cdr: ChangeDetectorRef,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -43,43 +43,43 @@ export class PeriodFormComponent implements OnInit {
 
   loadForm() {
     this.form = this.fb.group({
-      periodType: new FormControl(
+      periodType: new UntypedFormControl(
         {
           value: this.period.periodType,
           disabled: this.timesheetClosed,
         },
         [Validators.required]
       ),
-      morningStartTime: new FormControl(
+      morningStartTime: new UntypedFormControl(
         {
           value: this.convertDateForm(this.period.morningStartTime),
           disabled: this.timesheetClosed,
         },
         [Validators.required]
       ),
-      morningEndTime: new FormControl(
+      morningEndTime: new UntypedFormControl(
         {
           value: this.convertDateForm(this.period.morningEndTime),
           disabled: !this.period.morningStartTime || this.timesheetClosed,
         },
         this.period.morningStartTime ? [Validators.required] : []
       ),
-      afternoonStartTime: new FormControl(
+      afternoonStartTime: new UntypedFormControl(
         {
           value: this.convertDateForm(this.period.afternoonStartTime),
           disabled: !this.period.morningEndTime || this.timesheetClosed,
         },
         this.period.morningEndTime ? [Validators.required] : []
       ),
-      afternoonEndTime: new FormControl(
+      afternoonEndTime: new UntypedFormControl(
         {
           value: this.convertDateForm(this.period.afternoonEndTime),
           disabled: !this.period.afternoonStartTime || this.timesheetClosed,
         },
         this.period.afternoonStartTime ? [Validators.required] : []
       ),
-      shortDescription: new FormControl({ value: this.period.shortDescription, disabled: this.timesheetClosed }, []),
-      projectName: new FormControl({ value: this.period.projectName, disabled: this.timesheetClosed }, []),
+      shortDescription: new UntypedFormControl({ value: this.period.shortDescription, disabled: this.timesheetClosed }, []),
+      projectName: new UntypedFormControl({ value: this.period.projectName, disabled: this.timesheetClosed }, []),
     });
   }
 

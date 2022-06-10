@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { Memz } from '@core/models/memz';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { FileService } from '@core/service/file.service';
 import { MemzService } from '@core/service/memz.service';
@@ -15,7 +15,7 @@ import { DateUtils } from '@core/utils/date-utils';
 export class MemagramEditorComponent implements OnInit {
   @Input()
   meme: Memz;
-  public editorForm: FormGroup;
+  public editorForm: UntypedFormGroup;
   url: any;
   loading: boolean = false;
 
@@ -26,7 +26,7 @@ export class MemagramEditorComponent implements OnInit {
     @Optional() public activeModal: NgbActiveModal,
     private fileService: FileService,
     private memzService: MemzService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -82,19 +82,19 @@ export class MemagramEditorComponent implements OnInit {
     }
   }
 
-  createFormGroup(meme: Memz): FormGroup {
+  createFormGroup(meme: Memz): UntypedFormGroup {
     if (meme.imageUploadId && meme.imageLink) {
       this.url = meme.imageLink;
     }
     let dateOfVisibility = DateUtils.toDateOrNow(meme.dateOfVisibility);
     let formattedDateOfVisibility = DateUtils.formatInputDateTime(dateOfVisibility);
     return this.formBuilder.group({
-      title: new FormControl(meme.title, [Validators.required]),
-      description: new FormControl(meme.description, []),
-      id: new FormControl(meme.id, []),
-      dateOfVisibility: new FormControl(formattedDateOfVisibility, [Validators.required]),
-      visible: new FormControl(meme.visible === null || meme.visible === undefined ? false : meme.visible, []),
-      imageUpload: new FormControl(null, []),
+      title: new UntypedFormControl(meme.title, [Validators.required]),
+      description: new UntypedFormControl(meme.description, []),
+      id: new UntypedFormControl(meme.id, []),
+      dateOfVisibility: new UntypedFormControl(formattedDateOfVisibility, [Validators.required]),
+      visible: new UntypedFormControl(meme.visible === null || meme.visible === undefined ? false : meme.visible, []),
+      imageUpload: new UntypedFormControl(null, []),
     });
   }
 }

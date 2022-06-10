@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatchPasswordsValidator } from '@core/validators';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,11 +9,11 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./edit-password.component.scss'],
 })
 export class EditPasswordComponent implements OnInit {
-  public editorForm: FormGroup;
+  public editorForm: UntypedFormGroup;
   @Output()
   editPassword: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private fb: FormBuilder, public activeModal: NgbActiveModal) {}
+  constructor(private fb: UntypedFormBuilder, public activeModal: NgbActiveModal) {}
 
   ngOnInit(): void {
     this.editorForm = this.fb.group(

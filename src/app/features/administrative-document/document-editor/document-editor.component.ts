@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Optional } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { AdministrativeDocument, AdministrativeDocumentForm } from '@core/models/administrative-document';
@@ -10,21 +10,21 @@ import { AdministrativeDocument, AdministrativeDocumentForm } from '@core/models
   styleUrls: ['./document-editor.component.scss'],
 })
 export class DocumentEditorComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   @Input()
   adminDoc: AdministrativeDocument;
   formSubmitted: EventEmitter<AdministrativeDocumentForm> = new EventEmitter<AdministrativeDocumentForm>();
 
-  constructor(private fb: FormBuilder, @Optional() public activeModal: NgbActiveModal) {}
+  constructor(private fb: UntypedFormBuilder, @Optional() public activeModal: NgbActiveModal) {}
 
   ngOnInit(): void {
     this.form = this.fb.group(
       {
-        id: new FormControl(this.adminDoc.id, []),
-        title: new FormControl(this.adminDoc.title, [Validators.required]),
-        description: new FormControl(this.adminDoc.description, [Validators.required]),
-        tags: new FormControl(this.adminDoc.tags || [], []),
-        document: new FormControl(null, []),
+        id: new UntypedFormControl(this.adminDoc.id, []),
+        title: new UntypedFormControl(this.adminDoc.title, [Validators.required]),
+        description: new UntypedFormControl(this.adminDoc.description, [Validators.required]),
+        tags: new UntypedFormControl(this.adminDoc.tags || [], []),
+        document: new UntypedFormControl(null, []),
       },
       {}
     );

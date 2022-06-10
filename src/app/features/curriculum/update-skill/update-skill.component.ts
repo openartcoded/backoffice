@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Skill } from '@core/models/curriculum';
 
@@ -9,7 +9,7 @@ import { Skill } from '@core/models/curriculum';
   styleUrls: ['./update-skill.component.scss'],
 })
 export class UpdateSkillComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Input()
   skill: Skill;
@@ -17,14 +17,14 @@ export class UpdateSkillComponent implements OnInit {
   @Output()
   skillSubmitted: EventEmitter<Skill> = new EventEmitter<Skill>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: FormBuilder) {}
+  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
 
   ngOnInit() {
     this.form = this.fb.group({
-      name: new FormControl(this.skill?.name, [Validators.required]),
-      priority: new FormControl(this.skill?.priority, [Validators.required]),
-      tags: new FormControl(this.skill?.tags || [], [Validators.minLength(1)]),
-      softSkill: new FormControl(this.skill?.softSkill || false, [Validators.required]),
+      name: new UntypedFormControl(this.skill?.name, [Validators.required]),
+      priority: new UntypedFormControl(this.skill?.priority, [Validators.required]),
+      tags: new UntypedFormControl(this.skill?.tags || [], [Validators.minLength(1)]),
+      softSkill: new UntypedFormControl(this.skill?.softSkill || false, [Validators.required]),
     });
   }
 

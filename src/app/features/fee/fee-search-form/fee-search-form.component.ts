@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { FeeSearchCriteria, Label } from '@core/models/fee';
 import { DateUtils } from '@core/utils/date-utils';
 
@@ -9,7 +9,7 @@ import { DateUtils } from '@core/utils/date-utils';
   styleUrls: ['./fee-search-form.component.scss'],
 })
 export class FeeSearchFormComponent implements OnInit {
-  searchForm: FormGroup;
+  searchForm: UntypedFormGroup;
 
   @Input()
   tags: Label[];
@@ -22,16 +22,16 @@ export class FeeSearchFormComponent implements OnInit {
 
   isCollapsed: boolean = true;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
-      feeId: new FormControl(this.searchCriteria.id, []),
-      feeTag: new FormControl(this.searchCriteria.tag, []),
-      feeSubject: new FormControl(this.searchCriteria.subject, []),
-      feeBody: new FormControl(this.searchCriteria.body, []),
-      feeDateBefore: new FormControl('', []),
-      feeDateAfter: new FormControl('', []),
+      feeId: new UntypedFormControl(this.searchCriteria.id, []),
+      feeTag: new UntypedFormControl(this.searchCriteria.tag, []),
+      feeSubject: new UntypedFormControl(this.searchCriteria.subject, []),
+      feeBody: new UntypedFormControl(this.searchCriteria.body, []),
+      feeDateBefore: new UntypedFormControl('', []),
+      feeDateAfter: new UntypedFormControl('', []),
     });
   }
 

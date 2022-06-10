@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { WindowRefService } from '@core/service/window.service';
 import { isPlatformBrowser } from '@angular/common';
@@ -12,11 +12,11 @@ import { isPlatformBrowser } from '@angular/common';
 export class Base64Component implements OnInit {
   @Input()
   decode: boolean;
-  base64Form: FormGroup;
+  base64Form: UntypedFormGroup;
   result: string;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private titleService: Title,
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
@@ -33,7 +33,7 @@ export class Base64Component implements OnInit {
 
     this.base64Form = this.fb.group(
       {
-        inputText: new FormControl('', [Validators.required]),
+        inputText: new UntypedFormControl('', [Validators.required]),
       },
       {}
     );

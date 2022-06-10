@@ -9,7 +9,7 @@ import {
   Output,
   PLATFORM_ID,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionMetadata, ActionParameter, ReminderTask, ActionParameterType } from '@core/models/reminder-task';
 import { firstValueFrom, Observable } from 'rxjs';
@@ -35,14 +35,14 @@ export class TaskDetailComponent implements OnInit {
   @Output()
   onDeleteTask: EventEmitter<ReminderTask> = new EventEmitter<ReminderTask>();
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
     @Optional() public activeModal: NgbActiveModal,
     private cdr: ChangeDetectorRef,
     private windowService: WindowRefService,
     @Inject(PLATFORM_ID) private platformId: any,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   async ngOnInit() {
@@ -50,18 +50,18 @@ export class TaskDetailComponent implements OnInit {
     const specificDate = DateUtils.toOptionalDate(this.task?.specificDate);
     const specificDateFormatted = specificDate ? DateUtils.formatInputDateTime(specificDate) : null;
     this.form = this.fb.group({
-      hasSpecificDate: new FormControl({ value: !!this.task?.specificDate, disabled: false }, []),
-      hasAction: new FormControl({ value: !!this.task?.actionKey, disabled: false }, []),
-      specificDate: new FormControl(
+      hasSpecificDate: new UntypedFormControl({ value: !!this.task?.specificDate, disabled: false }, []),
+      hasAction: new UntypedFormControl({ value: !!this.task?.actionKey, disabled: false }, []),
+      specificDate: new UntypedFormControl(
         {
           value: specificDateFormatted,
           disabled: false,
         },
         []
       ),
-      cronExpression: new FormControl({ value: this.task?.cronExpression, disabled: false }, []),
-      actionKey: new FormControl({ value: this.task?.actionKey, disabled: false }, []),
-      action: new FormControl(
+      cronExpression: new UntypedFormControl({ value: this.task?.cronExpression, disabled: false }, []),
+      actionKey: new UntypedFormControl({ value: this.task?.actionKey, disabled: false }, []),
+      action: new UntypedFormControl(
         {
           value: this.task?.actionKey ? this.allowedActions.find((action) => action.key === this.task.actionKey) : null,
           disabled: false,
@@ -71,18 +71,18 @@ export class TaskDetailComponent implements OnInit {
       actionParameters: this.task?.actionParameters
         ? this.fb.array(this.task?.actionParameters?.map(this.convertParameter))
         : this.fb.array([]),
-      dateCreation: new FormControl({ value: this.task?.dateCreation, disabled: true }, []),
-      nextDate: new FormControl({ value: this.task?.nextDate, disabled: true }, []),
-      lastExecutionDate: new FormControl({ value: this.task?.lastExecutionDate, disabled: true }, []),
-      updatedDate: new FormControl({ value: this.task?.updatedDate, disabled: true }, []),
-      disabled: new FormControl({ value: this.task?.disabled || false, disabled: false }, [Validators.required]),
-      inAppNotification: new FormControl({ value: this.task?.inAppNotification || false, disabled: false }, [
+      dateCreation: new UntypedFormControl({ value: this.task?.dateCreation, disabled: true }, []),
+      nextDate: new UntypedFormControl({ value: this.task?.nextDate, disabled: true }, []),
+      lastExecutionDate: new UntypedFormControl({ value: this.task?.lastExecutionDate, disabled: true }, []),
+      updatedDate: new UntypedFormControl({ value: this.task?.updatedDate, disabled: true }, []),
+      disabled: new UntypedFormControl({ value: this.task?.disabled || false, disabled: false }, [Validators.required]),
+      inAppNotification: new UntypedFormControl({ value: this.task?.inAppNotification || false, disabled: false }, [
         Validators.required,
       ]),
-      sendMail: new FormControl({ value: this.task?.sendMail || false, disabled: false }, [Validators.required]),
-      persistResult: new FormControl({ value: this.task?.persistResult || false, disabled: false }, []),
-      title: new FormControl({ value: this.task?.title, disabled: false }, [Validators.required]),
-      description: new FormControl({ value: this.task?.description, disabled: false }, [Validators.required]),
+      sendMail: new UntypedFormControl({ value: this.task?.sendMail || false, disabled: false }, [Validators.required]),
+      persistResult: new UntypedFormControl({ value: this.task?.persistResult || false, disabled: false }, []),
+      title: new UntypedFormControl({ value: this.task?.title, disabled: false }, [Validators.required]),
+      description: new UntypedFormControl({ value: this.task?.description, disabled: false }, [Validators.required]),
     });
 
     this.form.controls.hasAction.valueChanges.subscribe((v) => {
@@ -119,27 +119,27 @@ export class TaskDetailComponent implements OnInit {
     return this.form?.controls?.action?.value;
   }
 
-  get actionParameters(): FormArray {
-    return this.form.get('actionParameters') as FormArray;
+  get actionParameters(): UntypedFormArray {
+    return this.form.get('actionParameters') as UntypedFormArray;
   }
 
-  convertParameter(parameter: ActionParameter): FormGroup {
-    return new FormGroup({
-      key: new FormControl(
+  convertParameter(parameter: ActionParameter): UntypedFormGroup {
+    return new UntypedFormGroup({
+      key: new UntypedFormControl(
         {
           value: parameter.key,
           disabled: true,
         },
         [Validators.required]
       ),
-      parameterValue: new FormControl(
+      parameterValue: new UntypedFormControl(
         {
           value: parameter.value,
           disabled: false,
         },
         parameter.required ? [Validators.required] : []
       ),
-      parameterType: new FormControl(
+      parameterType: new UntypedFormControl(
         {
           value: parameter.parameterType,
           disabled: true,

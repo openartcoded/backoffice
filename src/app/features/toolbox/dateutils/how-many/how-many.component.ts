@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { DateInFutureValidator } from '@core/validators/date-in-future.validator';
 import { DateInPastValidator } from '@core/validators/date-in-past.validator';
@@ -13,7 +13,7 @@ import { DateUtils } from '@core/utils/date-utils';
   styleUrls: ['./how-many.component.scss'],
 })
 export class HowManyComponent implements OnInit {
-  howManyForm: FormGroup;
+  howManyForm: UntypedFormGroup;
   result: number;
   resultStmt: string;
 
@@ -22,7 +22,7 @@ export class HowManyComponent implements OnInit {
 
   typeOptions: string[] = ['days', 'months', 'years'];
 
-  constructor(private fb: FormBuilder, private titleService: Title, private metaService: Meta) {}
+  constructor(private fb: UntypedFormBuilder, private titleService: Title, private metaService: Meta) {}
 
   ngOnInit(): void {
     let type = this.beforeType ? 'before' : 'since';
@@ -34,8 +34,8 @@ export class HowManyComponent implements OnInit {
 
     this.howManyForm = this.fb.group(
       {
-        sinceType: new FormControl('days', [Validators.required]),
-        sinceDate: new FormControl(DateUtils.formatInputDate(DateUtils.now()), [Validators.required]),
+        sinceType: new UntypedFormControl('days', [Validators.required]),
+        sinceDate: new UntypedFormControl(DateUtils.formatInputDate(DateUtils.now()), [Validators.required]),
       },
       {
         validators: this.beforeType ? DateInPastValidator('sinceDate') : DateInFutureValidator('sinceDate'),

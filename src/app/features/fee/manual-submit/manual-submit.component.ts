@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Optional } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { FeeManualForm } from '@core/models/fee';
 
@@ -10,17 +10,17 @@ import { FeeManualForm } from '@core/models/fee';
   styleUrls: ['./manual-submit.component.scss'],
 })
 export class ManualSubmitComponent implements OnInit {
-  manualSubmitForm: FormGroup;
+  manualSubmitForm: UntypedFormGroup;
   manualFormSubmitted: EventEmitter<FeeManualForm> = new EventEmitter<FeeManualForm>();
 
-  constructor(private fb: FormBuilder, @Optional() public activeModal: NgbActiveModal) {}
+  constructor(private fb: UntypedFormBuilder, @Optional() public activeModal: NgbActiveModal) {}
 
   ngOnInit(): void {
     this.manualSubmitForm = this.fb.group(
       {
-        subject: new FormControl('', [Validators.required]),
-        body: new FormControl('', [Validators.required]),
-        files: new FormControl(null, []),
+        subject: new UntypedFormControl('', [Validators.required]),
+        body: new UntypedFormControl('', [Validators.required]),
+        files: new UntypedFormControl(null, []),
       },
       {}
     );

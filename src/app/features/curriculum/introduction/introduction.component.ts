@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-introduction',
@@ -13,14 +13,14 @@ export class IntroductionComponent implements OnInit {
   @Output()
   onIntroductionUpdated: EventEmitter<string> = new EventEmitter<string>();
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      editing: new FormControl({ value: false, disabled: true }, []),
-      intro: new FormControl(
+      editing: new UntypedFormControl({ value: false, disabled: true }, []),
+      intro: new UntypedFormControl(
         {
           value: this.introduction,
           disabled: false,

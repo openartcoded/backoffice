@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { FileUploadSearchCriteria } from '@core/models/file-upload';
 import { DateUtils } from '@core/utils/date-utils';
 
@@ -9,7 +9,7 @@ import { DateUtils } from '@core/utils/date-utils';
   styleUrls: ['./file-upload-search-form.component.scss'],
 })
 export class FileUploadSearchFormComponent implements OnInit {
-  searchForm: FormGroup;
+  searchForm: UntypedFormGroup;
 
   @Input()
   searchCriteria: FileUploadSearchCriteria;
@@ -19,14 +19,14 @@ export class FileUploadSearchFormComponent implements OnInit {
 
   isCollapsed: boolean = true;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
-      correlationId: new FormControl('', []),
-      publicResource: new FormControl('', []),
-      dateBefore: new FormControl('', []),
-      dateAfter: new FormControl('', []),
+      correlationId: new UntypedFormControl('', []),
+      publicResource: new UntypedFormControl('', []),
+      dateBefore: new UntypedFormControl('', []),
+      dateAfter: new UntypedFormControl('', []),
     });
   }
 

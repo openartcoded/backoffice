@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Fee, FeeUpdatePriceRequest } from '@core/models/fee';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-update-price',
@@ -13,17 +13,17 @@ export class UpdatePriceComponent implements OnInit {
 
   @Output()
   updatePriceSubmitted: EventEmitter<FeeUpdatePriceRequest> = new EventEmitter<FeeUpdatePriceRequest>();
-  form: FormGroup;
+  form: UntypedFormGroup;
   saved: boolean;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      id: new FormControl({ value: this.fee.id, disabled: true }, [Validators.required]),
-      priceHVat: new FormControl({ value: this.fee.priceHVAT, disabled: this.fee?.archived }, [Validators.required]),
-      vat: new FormControl({ value: this.fee.vat, disabled: this.fee?.archived }, [Validators.required]),
-      priceTot: new FormControl({ value: this.fee.priceTot, disabled: true }, [Validators.required]),
+      id: new UntypedFormControl({ value: this.fee.id, disabled: true }, [Validators.required]),
+      priceHVat: new UntypedFormControl({ value: this.fee.priceHVAT, disabled: this.fee?.archived }, [Validators.required]),
+      vat: new UntypedFormControl({ value: this.fee.vat, disabled: this.fee?.archived }, [Validators.required]),
+      priceTot: new UntypedFormControl({ value: this.fee.priceTot, disabled: true }, [Validators.required]),
     });
   }
 

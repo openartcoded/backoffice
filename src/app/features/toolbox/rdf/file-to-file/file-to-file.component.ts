@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { RdfService } from '@core/service/rdf.service';
 import { map } from 'rxjs/operators';
@@ -12,12 +12,12 @@ import { Meta, Title } from '@angular/platform-browser';
   styleUrls: ['./file-to-file.component.scss'],
 })
 export class FileToFileComponent implements OnInit {
-  fileToFileForm: FormGroup;
+  fileToFileForm: UntypedFormGroup;
   allowedLanguages$: Observable<string[]>;
   allowedExtensions: string;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private titleService: Title,
     private metaService: Meta,
     private rdfService: RdfService
@@ -38,8 +38,8 @@ export class FileToFileComponent implements OnInit {
         this.allowedExtensions = ext;
         this.fileToFileForm = this.fb.group(
           {
-            selectedLanguage: new FormControl('', [Validators.required]),
-            file: new FormControl(null, [Validators.required]),
+            selectedLanguage: new UntypedFormControl('', [Validators.required]),
+            file: new UntypedFormControl(null, [Validators.required]),
           },
           {}
         );

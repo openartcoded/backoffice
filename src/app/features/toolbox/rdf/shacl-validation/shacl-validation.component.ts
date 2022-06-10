@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { RdfService } from '@core/service/rdf.service';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { map } from 'rxjs/operators';
@@ -12,12 +12,12 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class ShaclValidationComponent implements OnInit {
   allowedExtensions: string;
-  shaclForm: FormGroup;
+  shaclForm: UntypedFormGroup;
   valid: boolean;
   errorMessage: string;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private titleService: Title,
     private metaService: Meta,
     private rdfService: RdfService
@@ -37,8 +37,8 @@ export class ShaclValidationComponent implements OnInit {
         this.allowedExtensions = ext;
         this.shaclForm = this.fb.group(
           {
-            modelFile: new FormControl(null, [Validators.required]),
-            shaclFile: new FormControl(null, [Validators.required]),
+            modelFile: new UntypedFormControl(null, [Validators.required]),
+            shaclFile: new UntypedFormControl(null, [Validators.required]),
           },
           {}
         );

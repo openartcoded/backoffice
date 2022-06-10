@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonalInfo } from '@core/models/personal.info';
 import { FileService } from '@core/service/file.service';
@@ -19,7 +19,7 @@ export class EditPersonalInfoComponent implements OnInit {
   @Output()
   onSavePersonalInfo: EventEmitter<FormData> = new EventEmitter<FormData>();
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   logoUrl: any;
   signatureUrl: any;
 
@@ -27,7 +27,7 @@ export class EditPersonalInfoComponent implements OnInit {
     @Optional() public activeModal: NgbActiveModal,
     private fileService: FileService,
     private domSanitizer: DomSanitizer,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   drop($event: NgxFileDropEntry[], onListFile = (file) => {}, onReadFile = (event) => {}) {
@@ -91,67 +91,67 @@ export class EditPersonalInfoComponent implements OnInit {
       this.signatureUrl = this.domSanitizer.bypassSecurityTrustUrl(signature);
     }
     this.form = this.fb.group({
-      vatNumber: new FormControl({ value: this.currentPersonalInfo?.vatNumber, disabled: false }, [
+      vatNumber: new UntypedFormControl({ value: this.currentPersonalInfo?.vatNumber, disabled: false }, [
         Validators.required,
       ]),
-      financeCharge: new FormControl({ value: this.currentPersonalInfo?.financeCharge, disabled: false }, [
+      financeCharge: new UntypedFormControl({ value: this.currentPersonalInfo?.financeCharge, disabled: false }, [
         Validators.required,
         Validators.min(0),
       ]),
-      ceoFullName: new FormControl({ value: this.currentPersonalInfo?.ceoFullName, disabled: false }, [
+      ceoFullName: new UntypedFormControl({ value: this.currentPersonalInfo?.ceoFullName, disabled: false }, [
         Validators.required,
       ]),
-      note: new FormControl({ value: this.currentPersonalInfo?.note, disabled: false }, [Validators.required]),
-      organizationAddress: new FormControl(
+      note: new UntypedFormControl({ value: this.currentPersonalInfo?.note, disabled: false }, [Validators.required]),
+      organizationAddress: new UntypedFormControl(
         {
           value: this.currentPersonalInfo?.organizationAddress,
           disabled: false,
         },
         [Validators.required]
       ),
-      organizationBankAccount: new FormControl(
+      organizationBankAccount: new UntypedFormControl(
         {
           value: this.currentPersonalInfo?.organizationBankAccount,
           disabled: false,
         },
         [Validators.required]
       ),
-      organizationBankBIC: new FormControl(
+      organizationBankBIC: new UntypedFormControl(
         {
           value: this.currentPersonalInfo?.organizationBankBIC,
           disabled: false,
         },
         [Validators.required]
       ),
-      organizationCity: new FormControl({ value: this.currentPersonalInfo?.organizationCity, disabled: false }, [
+      organizationCity: new UntypedFormControl({ value: this.currentPersonalInfo?.organizationCity, disabled: false }, [
         Validators.required,
       ]),
-      organizationEmailAddress: new FormControl(
+      organizationEmailAddress: new UntypedFormControl(
         {
           value: this.currentPersonalInfo?.organizationEmailAddress,
           disabled: false,
         },
         [Validators.required]
       ),
-      organizationPostCode: new FormControl(
+      organizationPostCode: new UntypedFormControl(
         {
           value: this.currentPersonalInfo?.organizationPostCode,
           disabled: false,
         },
         [Validators.required]
       ),
-      organizationName: new FormControl({ value: this.currentPersonalInfo?.organizationName, disabled: false }, [
+      organizationName: new UntypedFormControl({ value: this.currentPersonalInfo?.organizationName, disabled: false }, [
         Validators.required,
       ]),
-      organizationPhoneNumber: new FormControl(
+      organizationPhoneNumber: new UntypedFormControl(
         {
           value: this.currentPersonalInfo?.organizationPhoneNumber,
           disabled: false,
         },
         [Validators.required]
       ),
-      logoUpload: new FormControl(null, []),
-      signatureUpload: new FormControl(null, []),
+      logoUpload: new UntypedFormControl(null, []),
+      signatureUpload: new UntypedFormControl(null, []),
     });
   }
 

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   BillTo,
   CurrentBillTo,
@@ -33,74 +33,74 @@ export class InvoiceDetailComponent implements OnInit {
   @Output()
   onSaveInvoice: EventEmitter<InvoiceForm> = new EventEmitter<InvoiceForm>();
 
-  invoiceForm: FormGroup;
+  invoiceForm: UntypedFormGroup;
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private formBuilder: FormBuilder) {}
+  constructor(@Optional() public activeModal: NgbActiveModal, private formBuilder: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.invoiceForm = this.createFormGroup();
   }
 
-  createFormGroup(): FormGroup {
+  createFormGroup(): UntypedFormGroup {
     return this.formBuilder.group({
-      invoiceNumber: new FormControl({ value: this.invoice.invoiceNumber, disabled: this.invoice.locked }, [
+      invoiceNumber: new UntypedFormControl({ value: this.invoice.invoiceNumber, disabled: this.invoice.locked }, [
         Validators.maxLength(9),
       ]),
-      freemarkerTemplateId: new FormControl(
+      freemarkerTemplateId: new UntypedFormControl(
         {
           value: this.invoice.freemarkerTemplateId,
           disabled: this.invoice.locked,
         },
         []
       ),
-      maxDaysToPay: new FormControl({ value: this.invoice.maxDaysToPay, disabled: this.invoice.locked }, [
+      maxDaysToPay: new UntypedFormControl({ value: this.invoice.maxDaysToPay, disabled: this.invoice.locked }, [
         Validators.min(1),
       ]),
-      file: new FormControl(null, []),
-      dateOfInvoice: new FormControl(
+      file: new UntypedFormControl(null, []),
+      dateOfInvoice: new UntypedFormControl(
         {
           value: DateUtils.formatInputDate(DateUtils.toDateOrNow(this.invoice.dateOfInvoice)),
           disabled: this.invoice.locked,
         },
         [Validators.required]
       ),
-      taxRate: new FormControl({ value: this.invoice.taxRate, disabled: this.invoice.locked }, [Validators.required]),
-      locked: new FormControl({ value: this.invoice.locked, disabled: true }, []),
-      uploadedManually: new FormControl({ value: this.invoice.uploadedManually, disabled: this.invoice.locked }, []),
-      logicalDelete: new FormControl({ value: this.invoice.logicalDelete, disabled: true }, []),
-      billToVatNumber: new FormControl(
+      taxRate: new UntypedFormControl({ value: this.invoice.taxRate, disabled: this.invoice.locked }, [Validators.required]),
+      locked: new UntypedFormControl({ value: this.invoice.locked, disabled: true }, []),
+      uploadedManually: new UntypedFormControl({ value: this.invoice.uploadedManually, disabled: this.invoice.locked }, []),
+      logicalDelete: new UntypedFormControl({ value: this.invoice.logicalDelete, disabled: true }, []),
+      billToVatNumber: new UntypedFormControl(
         {
           value: this.invoice?.billTo?.vatNumber,
           disabled: this.invoice.locked,
         },
         [Validators.required]
       ),
-      billToClientName: new FormControl(
+      billToClientName: new UntypedFormControl(
         {
           value: this.invoice?.billTo?.clientName,
           disabled: this.invoice.locked,
         },
         [Validators.required]
       ),
-      billToCity: new FormControl({ value: this.invoice?.billTo?.city, disabled: this.invoice.locked }, [
+      billToCity: new UntypedFormControl({ value: this.invoice?.billTo?.city, disabled: this.invoice.locked }, [
         Validators.required,
       ]),
-      billToAddress: new FormControl({ value: this.invoice?.billTo?.address, disabled: this.invoice.locked }, [
+      billToAddress: new UntypedFormControl({ value: this.invoice?.billTo?.address, disabled: this.invoice.locked }, [
         Validators.required,
       ]),
-      billToEmailAddress: new FormControl(
+      billToEmailAddress: new UntypedFormControl(
         {
           value: this.invoice?.billTo?.emailAddress,
           disabled: this.invoice.locked,
         },
         []
       ),
-      invoiceTableForm: new FormArray(this.createInvoiceTable()),
+      invoiceTableForm: new UntypedFormArray(this.createInvoiceTable()),
     });
   }
 
-  get invoiceTableForm(): FormArray {
-    return this.invoiceForm.get('invoiceTableForm') as FormArray;
+  get invoiceTableForm(): UntypedFormArray {
+    return this.invoiceForm.get('invoiceTableForm') as UntypedFormArray;
   }
 
   get uploadedManually(): boolean {
@@ -132,25 +132,25 @@ export class InvoiceDetailComponent implements OnInit {
     }
   }
 
-  createInvoiceTable(): FormGroup[] {
+  createInvoiceTable(): UntypedFormGroup[] {
     let convertInvoiceRowToForm = (table) => {
       const period = table.period
         ? moment(table.period, 'MM/yyyy').format('YYYY-MM')
         : moment(new Date()).format('YYYY-MM');
 
-      return new FormGroup({
-        nature: new FormControl({ value: table.nature, disabled: this.invoice.locked }, [Validators.required]),
-        period: new FormControl({ value: period, disabled: this.invoice.locked }, [Validators.required]),
-        projectName: new FormControl({ value: table.projectName, disabled: this.invoice.locked }, [
+      return new UntypedFormGroup({
+        nature: new UntypedFormControl({ value: table.nature, disabled: this.invoice.locked }, [Validators.required]),
+        period: new UntypedFormControl({ value: period, disabled: this.invoice.locked }, [Validators.required]),
+        projectName: new UntypedFormControl({ value: table.projectName, disabled: this.invoice.locked }, [
           Validators.required,
         ]),
-        rate: new FormControl({ value: table.rate, disabled: this.invoice.locked }, [Validators.required]),
-        rateType: new FormControl({ value: table.rateType, disabled: this.invoice.locked }, [Validators.required]),
-        amount: new FormControl({ value: table.amount, disabled: this.invoice.locked }, [
+        rate: new UntypedFormControl({ value: table.rate, disabled: this.invoice.locked }, [Validators.required]),
+        rateType: new UntypedFormControl({ value: table.rateType, disabled: this.invoice.locked }, [Validators.required]),
+        amount: new UntypedFormControl({ value: table.amount, disabled: this.invoice.locked }, [
           Validators.required,
           Validators.min(1),
         ]),
-        amountType: new FormControl({ value: table.amountType, disabled: this.invoice.locked }, [Validators.required]),
+        amountType: new UntypedFormControl({ value: table.amountType, disabled: this.invoice.locked }, [Validators.required]),
       });
     };
     let arr = this.invoice?.invoiceTable?.length
