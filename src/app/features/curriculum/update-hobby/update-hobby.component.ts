@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Hobby } from '@core/models/curriculum';
 
@@ -9,7 +9,7 @@ import { Hobby } from '@core/models/curriculum';
   styleUrls: ['./update-hobby.component.scss'],
 })
 export class UpdateHobbyComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Input()
   hobbies: Hobby[];
@@ -17,21 +17,21 @@ export class UpdateHobbyComponent implements OnInit {
   @Output()
   hobbiesSubmitted: EventEmitter<Hobby[]> = new EventEmitter<Hobby[]>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: FormBuilder) {}
+  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      hobbiesArray: this.fb.array((this.hobbies || []).map((d) => new FormControl(d.title, []))),
+      hobbiesArray: this.fb.array((this.hobbies || []).map((d) => new UntypedFormControl(d.title, []))),
     });
   }
 
-  get hobbiesArray(): FormArray {
-    return this.form.controls.hobbiesArray as FormArray;
+  get hobbiesArray(): UntypedFormArray {
+    return this.form.controls.hobbiesArray as UntypedFormArray;
   }
 
   add($event: MouseEvent) {
     $event.preventDefault();
-    this.hobbiesArray.push(new FormControl('', []));
+    this.hobbiesArray.push(new UntypedFormControl('', []));
   }
 
   async delete($event: MouseEvent, i: number) {

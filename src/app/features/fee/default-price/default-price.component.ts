@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Label } from '@core/models/fee';
 import { firstValueFrom, Observable } from 'rxjs';
 import { LabelService } from '@core/service/label.service';
@@ -12,13 +12,13 @@ import { ToastService } from '@core/service/toast.service';
   styleUrls: ['./default-price.component.scss'],
 })
 export class DefaultPriceComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   tags: Label[];
   constructor(
     @Optional() public activeModal: NgbActiveModal,
     private labelService: LabelService,
     private toastService: ToastService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   async ngOnInit() {
@@ -32,8 +32,8 @@ export class DefaultPriceComponent implements OnInit {
     });
   }
 
-  get defaultPrices(): FormArray {
-    return this.form.get('defaultPrices') as FormArray;
+  get defaultPrices(): UntypedFormArray {
+    return this.form.get('defaultPrices') as UntypedFormArray;
   }
 
   add($event: MouseEvent) {
@@ -53,34 +53,34 @@ export class DefaultPriceComponent implements OnInit {
     return group.get('id').value?.length;
   }
 
-  convertPrice(price: Label): FormGroup {
-    return new FormGroup({
-      id: new FormControl({
+  convertPrice(price: Label): UntypedFormGroup {
+    return new UntypedFormGroup({
+      id: new UntypedFormControl({
         value: price.id,
         disabled: true,
       }),
-      colorHex: new FormControl(
+      colorHex: new UntypedFormControl(
         {
           value: price.colorHex,
           disabled: false,
         },
         [Validators.required]
       ),
-      tag: new FormControl(
+      tag: new UntypedFormControl(
         {
           value: price.name,
           disabled: price.name?.length,
         },
         [Validators.required]
       ),
-      priceHVAT: new FormControl(
+      priceHVAT: new UntypedFormControl(
         {
           value: price.priceHVAT,
           disabled: price.noDefaultPrice,
         },
         [Validators.required]
       ),
-      vat: new FormControl(
+      vat: new UntypedFormControl(
         {
           value: price.vat,
           disabled: price.noDefaultPrice,

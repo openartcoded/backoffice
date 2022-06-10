@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Todo } from '@core/models/todo';
 import { TodoService } from '@core/service/todo.service';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@core/service/toast.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -12,7 +12,7 @@ import { firstValueFrom } from 'rxjs';
   styleUrls: ['./todo-form.component.scss'],
 })
 export class TodoFormComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Output()
   onDeleteTodo: EventEmitter<string> = new EventEmitter<string>();
@@ -23,55 +23,55 @@ export class TodoFormComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private todoService: TodoService,
     private toastService: ToastService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   async ngOnInit() {
     await this.load();
   }
 
-  get todos(): FormArray {
-    return this.form.get('todos') as FormArray;
+  get todos(): UntypedFormArray {
+    return this.form.get('todos') as UntypedFormArray;
   }
 
-  convertTodo(todo: Todo): FormGroup {
-    return new FormGroup({
-      id: new FormControl(
+  convertTodo(todo: Todo): UntypedFormGroup {
+    return new UntypedFormGroup({
+      id: new UntypedFormControl(
         {
           value: todo.id,
           disabled: true,
         },
         [Validators.required]
       ),
-      editing: new FormControl(
+      editing: new UntypedFormControl(
         {
           value: !todo.id,
           disabled: true,
         },
         []
       ),
-      title: new FormControl(
+      title: new UntypedFormControl(
         {
           value: todo.title,
           disabled: !!todo.id,
         },
         [Validators.required]
       ),
-      dateCreation: new FormControl(
+      dateCreation: new UntypedFormControl(
         {
           value: todo.dateCreation,
           disabled: true,
         },
         [Validators.required]
       ),
-      updatedDate: new FormControl(
+      updatedDate: new UntypedFormControl(
         {
           value: todo.updatedDate,
           disabled: true,
         },
         [Validators.required]
       ),
-      done: new FormControl(
+      done: new UntypedFormControl(
         {
           value: todo.done,
           disabled: !!todo.id,
