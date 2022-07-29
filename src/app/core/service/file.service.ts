@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { FileUpload, FileUploadSearchCriteria } from '../models/file-upload';
 import { Page } from '../models/page';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
@@ -19,7 +19,7 @@ export class FileService {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: any,
     private configService: ConfigInitService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {
     this.basePath = `${this.configService.getConfig()['BACKEND_URL']}/api/resource`;
   }
@@ -122,10 +122,10 @@ export class FileService {
     return this.http.delete<any>(url, {});
   }
 
-  createFormGroup(fileUpload: FileUpload): FormGroup {
+  createFormGroup(fileUpload: FileUpload): UntypedFormGroup {
     return this.formBuilder.group({
-      id: new FormControl(fileUpload.id, []),
-      file: new FormControl(null, [Validators.required]),
+      id: new UntypedFormControl(fileUpload.id, []),
+      file: new UntypedFormControl(null, [Validators.required]),
     });
   }
 

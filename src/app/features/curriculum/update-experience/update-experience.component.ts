@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Experience } from '@core/models/curriculum';
 import { DateUtils } from '@core/utils/date-utils';
 
@@ -10,7 +10,7 @@ import { DateUtils } from '@core/utils/date-utils';
   styleUrls: ['./update-experience.component.scss'],
 })
 export class UpdateExperienceComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Input()
   experience: Experience;
@@ -18,21 +18,21 @@ export class UpdateExperienceComponent implements OnInit {
   @Output()
   experienceSubmitted: EventEmitter<Experience> = new EventEmitter<Experience>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: FormBuilder) {}
+  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      title: new FormControl(this.experience?.title, [Validators.required]),
-      company: new FormControl(this.experience?.company, [Validators.required]),
-      current: new FormControl(this.experience?.current || false, [Validators.required]),
-      from: new FormControl(DateUtils.formatInputDate(DateUtils.toDateOrNow(this.experience.from)), [
+      title: new UntypedFormControl(this.experience?.title, [Validators.required]),
+      company: new UntypedFormControl(this.experience?.company, [Validators.required]),
+      current: new UntypedFormControl(this.experience?.current || false, [Validators.required]),
+      from: new UntypedFormControl(DateUtils.formatInputDate(DateUtils.toDateOrNow(this.experience.from)), [
         Validators.required,
       ]),
-      to: new FormControl(
+      to: new UntypedFormControl(
         this.experience.to ? DateUtils.formatInputDate(DateUtils.toOptionalDate(this.experience.to)) : null,
         []
       ),
-      description: this.fb.array((this.experience.description || []).map((d) => new FormControl(d, []))),
+      description: this.fb.array((this.experience.description || []).map((d) => new UntypedFormControl(d, []))),
     });
   }
 
@@ -40,13 +40,13 @@ export class UpdateExperienceComponent implements OnInit {
     return this.form.controls.current.value;
   }
 
-  get description(): FormArray {
-    return this.form.controls.description as FormArray;
+  get description(): UntypedFormArray {
+    return this.form.controls.description as UntypedFormArray;
   }
 
   add($event: MouseEvent) {
     $event.preventDefault();
-    this.description.push(new FormControl('', []));
+    this.description.push(new UntypedFormControl('', []));
   }
 
   async delete($event: MouseEvent, i: number) {
@@ -69,7 +69,7 @@ export class UpdateExperienceComponent implements OnInit {
   moveUp($event, index: number) {
     $event.preventDefault();
     if (index > 0) {
-      const descriptionFormArray = this.description as FormArray;
+      const descriptionFormArray = this.description as UntypedFormArray;
       const description = descriptionFormArray.value;
       const newDescription = this.swap(description, index - 1, index);
       descriptionFormArray.setValue(newDescription);
@@ -78,7 +78,7 @@ export class UpdateExperienceComponent implements OnInit {
 
   moveDown($event, index: number) {
     $event.preventDefault();
-    const descriptionFormArray = this.description as FormArray;
+    const descriptionFormArray = this.description as UntypedFormArray;
     const description = descriptionFormArray.value;
     if (index < description.length - 1) {
       const newDescription = this.swap(description, index, index + 1);

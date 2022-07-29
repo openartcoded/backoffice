@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -9,10 +9,10 @@ import { Meta, Title } from '@angular/platform-browser';
   styleUrls: ['./image-encoder.component.scss'],
 })
 export class ImageEncoderComponent implements OnInit {
-  base64Form: FormGroup;
+  base64Form: UntypedFormGroup;
   result: string;
 
-  constructor(private fb: FormBuilder, private titleService: Title, private metaService: Meta) {}
+  constructor(private fb: UntypedFormBuilder, private titleService: Title, private metaService: Meta) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('Image to BASE64 conversion');
@@ -23,7 +23,7 @@ export class ImageEncoderComponent implements OnInit {
 
     this.base64Form = this.fb.group(
       {
-        fileImage: new FormControl('', [Validators.required]),
+        fileImage: new UntypedFormControl('', [Validators.required]),
       },
       {}
     );

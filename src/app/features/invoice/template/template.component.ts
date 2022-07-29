@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Optional, Output, PLATFORM_ID } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileService } from '@core/service/file.service';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
@@ -22,13 +22,13 @@ export class TemplateComponent implements OnInit {
   @Output()
   onDeleteTemplate: EventEmitter<InvoiceFreemarkerTemplate> = new EventEmitter<InvoiceFreemarkerTemplate>();
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   url: any;
 
   constructor(
     @Optional() public activeModal: NgbActiveModal,
     private fileService: FileService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private windowService: WindowRefService,
     @Inject(PLATFORM_ID) private platformId: any
   ) {}
@@ -60,8 +60,8 @@ export class TemplateComponent implements OnInit {
 
   async ngOnInit() {
     this.form = this.fb.group({
-      name: new FormControl('', [Validators.required]),
-      template: new FormControl(null, []),
+      name: new UntypedFormControl('', [Validators.required]),
+      template: new UntypedFormControl(null, []),
     });
   }
 

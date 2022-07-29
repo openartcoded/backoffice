@@ -1,8 +1,8 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import * as moment from 'moment';
 
 export function DateInPastValidator(controlName: string) {
-  return (formGroup: FormGroup) => {
+  return (formGroup: UntypedFormGroup) => {
     let control = formGroup.controls[controlName];
 
     if (control.errors && !control.errors.dateInFuture) {

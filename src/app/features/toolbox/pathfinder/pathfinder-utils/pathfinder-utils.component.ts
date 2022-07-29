@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { XPathService } from '@core/service/xpath.service';
 import { Meta, Title } from '@angular/platform-browser';
 import {JSONPath} from 'jsonpath-plus';
@@ -11,7 +11,7 @@ import {JSONPath} from 'jsonpath-plus';
 export class PathfinderUtilsComponent implements OnInit {
   @Input()
   pathType: string;
-  inputForm: FormGroup;
+  inputForm: UntypedFormGroup;
   result: string;
   options: any;
   defaultJson: string = `
@@ -89,7 +89,7 @@ export class PathfinderUtilsComponent implements OnInit {
   defaultXmlPath: string = '/store/book/author';
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private titleService: Title,
     private metaService: Meta,
     private xpathService: XPathService
@@ -109,10 +109,10 @@ export class PathfinderUtilsComponent implements OnInit {
     };
     this.inputForm = this.fb.group(
       {
-        expression: new FormControl(this.pathType === 'application/json' ? this.defaultJsonPath : this.defaultXmlPath, [
+        expression: new UntypedFormControl(this.pathType === 'application/json' ? this.defaultJsonPath : this.defaultXmlPath, [
           Validators.required,
         ]),
-        data: new FormControl(this.pathType === 'application/json' ? this.defaultJson : this.defaultXml, [
+        data: new UntypedFormControl(this.pathType === 'application/json' ? this.defaultJson : this.defaultXml, [
           Validators.required,
         ]),
       },

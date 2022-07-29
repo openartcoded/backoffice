@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Optional } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { formatDate } from '@angular/common';
 import { Portfolio } from '@core/models/portfolio';
@@ -10,31 +10,31 @@ import { Portfolio } from '@core/models/portfolio';
   styleUrls: ['./portfolio-form.component.scss'],
 })
 export class PortfolioFormComponent implements OnInit {
-  portfolioForm: FormGroup;
+  portfolioForm: UntypedFormGroup;
   portfolio: Portfolio;
   submitted: EventEmitter<Portfolio> = new EventEmitter<Portfolio>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: FormBuilder) {}
+  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.portfolioForm = this.createFormGroup();
   }
 
-  createFormGroup(): FormGroup {
+  createFormGroup(): UntypedFormGroup {
     return this.fb.group({
-      portfolioId: new FormControl({ value: this.portfolio.id, disabled: true }, []),
-      portfolioName: new FormControl(this.portfolio.name, [Validators.minLength(4)]),
+      portfolioId: new UntypedFormControl({ value: this.portfolio.id, disabled: true }, []),
+      portfolioName: new UntypedFormControl(this.portfolio.name, [Validators.minLength(4)]),
 
-      updatedDate: new FormControl(
+      updatedDate: new UntypedFormControl(
         {
           value: this.portfolio.updatedDate ? formatDate(this.portfolio.updatedDate, 'dd/MM/yyyy HH:mm', 'de') : null,
           disabled: true,
         },
         []
       ),
-      current: new FormControl(this.portfolio.principal, []),
+      current: new UntypedFormControl(this.portfolio.principal, []),
 
-      dateCreation: new FormControl(
+      dateCreation: new UntypedFormControl(
         {
           value: this.portfolio.dateCreation ? formatDate(this.portfolio.dateCreation, 'dd/MM/yyyy HH:mm', 'de') : null,
           disabled: true,

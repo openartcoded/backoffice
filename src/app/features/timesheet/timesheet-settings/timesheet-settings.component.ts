@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { TimesheetSettings } from '@core/models/timesheet';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -15,27 +15,27 @@ export class TimesheetSettingsComponent implements OnInit {
   @Input()
   settings: TimesheetSettings;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: FormBuilder) {}
+  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      minHoursPerDay: new FormControl(
+      minHoursPerDay: new UntypedFormControl(
         {
           value: this.settings?.minHoursPerDay,
           disabled: false,
         },
         [Validators.required, Validators.min(0)]
       ),
-      maxHoursPerDay: new FormControl(
+      maxHoursPerDay: new UntypedFormControl(
         {
           value: this.settings?.maxHoursPerDay,
           disabled: false,
         },
         [Validators.required, Validators.min(0.5)]
       ),
-      defaultProjectName: new FormControl(
+      defaultProjectName: new UntypedFormControl(
         {
           value: this.settings?.defaultProjectName,
           disabled: false,

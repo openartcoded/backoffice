@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { CurrentBillTo, InvoicingType } from '@core/models/invoice';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -15,36 +15,36 @@ export class CurrentBilltoComponent implements OnInit {
   @Output()
   onSaveCurrentBillTo: EventEmitter<CurrentBillTo> = new EventEmitter<CurrentBillTo>();
 
-  currentBillToForm: FormGroup;
+  currentBillToForm: UntypedFormGroup;
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: FormBuilder) {}
+  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.currentBillToForm = this.fb.group({
-      billToVatNumber: new FormControl({ value: this.currentBillTo?.billTo?.vatNumber, disabled: false }, [
+      billToVatNumber: new UntypedFormControl({ value: this.currentBillTo?.billTo?.vatNumber, disabled: false }, [
         Validators.required,
       ]),
-      maxDaysToPay: new FormControl({ value: this.currentBillTo?.maxDaysToPay, disabled: false }, [
+      maxDaysToPay: new UntypedFormControl({ value: this.currentBillTo?.maxDaysToPay, disabled: false }, [
         Validators.required,
         Validators.min(0),
       ]),
-      billToClientName: new FormControl({ value: this.currentBillTo?.billTo?.clientName, disabled: false }, [
+      billToClientName: new UntypedFormControl({ value: this.currentBillTo?.billTo?.clientName, disabled: false }, [
         Validators.required,
       ]),
-      billToCity: new FormControl({ value: this.currentBillTo?.billTo?.city, disabled: false }, [Validators.required]),
-      billToAddress: new FormControl({ value: this.currentBillTo?.billTo?.address, disabled: false }, [
+      billToCity: new UntypedFormControl({ value: this.currentBillTo?.billTo?.city, disabled: false }, [Validators.required]),
+      billToAddress: new UntypedFormControl({ value: this.currentBillTo?.billTo?.address, disabled: false }, [
         Validators.required,
       ]),
-      billToEmailAddress: new FormControl(
+      billToEmailAddress: new UntypedFormControl(
         {
           value: this.currentBillTo?.billTo?.emailAddress,
           disabled: false,
         },
         []
       ),
-      projectName: new FormControl({ value: this.currentBillTo?.projectName, disabled: false }, [Validators.required]),
-      rate: new FormControl({ value: this.currentBillTo?.rate, disabled: false }, [Validators.required]),
-      rateType: new FormControl({ value: this.currentBillTo?.rateType, disabled: false }, [Validators.required]),
+      projectName: new UntypedFormControl({ value: this.currentBillTo?.projectName, disabled: false }, [Validators.required]),
+      rate: new UntypedFormControl({ value: this.currentBillTo?.rate, disabled: false }, [Validators.required]),
+      rateType: new UntypedFormControl({ value: this.currentBillTo?.rateType, disabled: false }, [Validators.required]),
     });
   }
 

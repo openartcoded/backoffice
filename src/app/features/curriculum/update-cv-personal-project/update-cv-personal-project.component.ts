@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { PersonalProject } from '@core/models/curriculum';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -9,7 +9,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./update-cv-personal-project.component.scss'],
 })
 export class UpdateCvPersonalProjectComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Input()
   personalProject: PersonalProject;
@@ -17,13 +17,13 @@ export class UpdateCvPersonalProjectComponent implements OnInit {
   @Output()
   personalProjectUpdated: EventEmitter<PersonalProject> = new EventEmitter<PersonalProject>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: FormBuilder) {}
+  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      name: new FormControl(this.personalProject?.name, [Validators.required]),
-      url: new FormControl(this.personalProject?.url, [Validators.required]),
-      description: new FormControl(this.personalProject?.description, []),
+      name: new UntypedFormControl(this.personalProject?.name, [Validators.required]),
+      url: new UntypedFormControl(this.personalProject?.url, [Validators.required]),
+      description: new UntypedFormControl(this.personalProject?.description, []),
     });
   }
 
