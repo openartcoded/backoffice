@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { AdministrativeDocumentSearchCriteria } from '@core/models/administrative-document';
 import { DateUtils } from '@core/utils/date-utils';
 
@@ -9,7 +9,7 @@ import { DateUtils } from '@core/utils/date-utils';
   styleUrls: ['./document-search-form.component.scss'],
 })
 export class DocumentSearchFormComponent implements OnInit {
-  searchForm: FormGroup;
+  searchForm: UntypedFormGroup;
 
   @Input()
   searchCriteria: AdministrativeDocumentSearchCriteria;
@@ -19,15 +19,15 @@ export class DocumentSearchFormComponent implements OnInit {
 
   isCollapsed: boolean = true;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
-      title: new FormControl('', []),
-      description: new FormControl('', []),
-      tags: new FormControl([], []),
-      dateBefore: new FormControl('', []),
-      dateAfter: new FormControl('', []),
+      title: new UntypedFormControl('', []),
+      description: new UntypedFormControl('', []),
+      tags: new UntypedFormControl([], []),
+      dateBefore: new UntypedFormControl('', []),
+      dateAfter: new UntypedFormControl('', []),
     });
   }
 

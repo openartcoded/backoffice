@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScholarHistory } from '@core/models/curriculum';
 import { DateUtils } from '@core/utils/date-utils';
@@ -10,7 +10,7 @@ import { DateUtils } from '@core/utils/date-utils';
   styleUrls: ['./update-education.component.scss'],
 })
 export class UpdateEducationComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Input()
   scholarHistory: ScholarHistory;
@@ -18,17 +18,17 @@ export class UpdateEducationComponent implements OnInit {
   @Output()
   scholarHistorySubmitted: EventEmitter<ScholarHistory> = new EventEmitter<ScholarHistory>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: FormBuilder) {}
+  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      title: new FormControl(this.scholarHistory?.title, [Validators.required]),
-      school: new FormControl(this.scholarHistory?.school, [Validators.required]),
-      current: new FormControl(this.scholarHistory?.current || false, [Validators.required]),
-      from: new FormControl(DateUtils.formatInputDate(DateUtils.toDateOrNow(this.scholarHistory.from)), [
+      title: new UntypedFormControl(this.scholarHistory?.title, [Validators.required]),
+      school: new UntypedFormControl(this.scholarHistory?.school, [Validators.required]),
+      current: new UntypedFormControl(this.scholarHistory?.current || false, [Validators.required]),
+      from: new UntypedFormControl(DateUtils.formatInputDate(DateUtils.toDateOrNow(this.scholarHistory.from)), [
         Validators.required,
       ]),
-      to: new FormControl(
+      to: new UntypedFormControl(
         this.scholarHistory.to ? DateUtils.formatInputDate(DateUtils.toOptionalDate(this.scholarHistory.to)) : null,
         []
       ),

@@ -1,8 +1,8 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import * as moment from 'moment';
 
 export function DateBetweenValidator(controlName: string, matchingControlName: string) {
-  return (formGroup: FormGroup) => {
+  return (formGroup: UntypedFormGroup) => {
     let control = formGroup.controls[controlName];
     let matchingControl = formGroup.controls[matchingControlName];
     let start = moment(control.value, 'YYYY-MM-DD');

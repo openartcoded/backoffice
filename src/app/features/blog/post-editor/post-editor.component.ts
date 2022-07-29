@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Optional, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UploadResult } from 'ngx-markdown-editor';
 import { FileService } from '@core/service/file.service';
@@ -21,11 +21,11 @@ export class PostEditorComponent implements OnInit, OnDestroy {
   saved: EventEmitter<Post> = new EventEmitter<Post>();
   autosave: Subscription;
 
-  public editorForm: FormGroup;
+  public editorForm: UntypedFormGroup;
   url: any;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private blogService: BlogService,
     private fileService: FileService,
     @Optional() public activeModal: NgbActiveModal
@@ -65,18 +65,18 @@ export class PostEditorComponent implements OnInit, OnDestroy {
     return this.editorForm.get('title');
   }
 
-  createFormGroup(post: Post): FormGroup {
+  createFormGroup(post: Post): UntypedFormGroup {
     if (post.coverId) {
       this.url = this.fileService.getPublicDownloadUrl(post.coverId);
     }
     return this.formBuilder.group({
-      htmlContent: new FormControl(post.content, [Validators.required]),
-      title: new FormControl(post.title, [Validators.required]),
-      description: new FormControl(post.description, [Validators.required]),
-      id: new FormControl(post.id, [Validators.required]),
-      tags: new FormControl(post.tags || [], []),
-      draft: new FormControl(true, []),
-      cover: new FormControl(null, []),
+      htmlContent: new UntypedFormControl(post.content, [Validators.required]),
+      title: new UntypedFormControl(post.title, [Validators.required]),
+      description: new UntypedFormControl(post.description, [Validators.required]),
+      id: new UntypedFormControl(post.id, [Validators.required]),
+      tags: new UntypedFormControl(post.tags || [], []),
+      draft: new UntypedFormControl(true, []),
+      cover: new UntypedFormControl(null, []),
     });
   }
 

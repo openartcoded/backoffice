@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DateBetweenValidator } from '@core/validators/date-between.validator';
 import * as moment from 'moment';
 import { Meta, Title } from '@angular/platform-browser';
@@ -11,12 +11,12 @@ import { DateUtils } from '@core/utils/date-utils';
   styleUrls: ['./business-days.component.scss'],
 })
 export class BusinessDaysComponent implements OnInit {
-  businessDaysForm: FormGroup;
+  businessDaysForm: UntypedFormGroup;
   result: number;
   resultStmt: string;
   typeOptions: string[] = ['days', 'months', 'years'];
 
-  constructor(private fb: FormBuilder, private titleService: Title, private metaService: Meta) {}
+  constructor(private fb: UntypedFormBuilder, private titleService: Title, private metaService: Meta) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('Business days calculation');
@@ -26,8 +26,8 @@ export class BusinessDaysComponent implements OnInit {
     });
     this.businessDaysForm = this.fb.group(
       {
-        startDate: new FormControl(DateUtils.formatInputDate(DateUtils.now()), [Validators.required]),
-        endDate: new FormControl(DateUtils.formatInputDate(DateUtils.now()), [Validators.required]),
+        startDate: new UntypedFormControl(DateUtils.formatInputDate(DateUtils.now()), [Validators.required]),
+        endDate: new UntypedFormControl(DateUtils.formatInputDate(DateUtils.now()), [Validators.required]),
       },
       {
         validators: DateBetweenValidator('startDate', 'endDate'),

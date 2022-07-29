@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Dossier, TvaAdvancePayment } from '@core/models/dossier';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Fee, Label } from '@core/models/fee';
@@ -42,7 +42,7 @@ export class DossierFormComponent implements OnInit {
   @Output()
   onDownloadSummary: EventEmitter<Dossier> = new EventEmitter<Dossier>();
 
-  dossierForm: FormGroup;
+  dossierForm: UntypedFormGroup;
 
   expenses: Fee[];
   filteredExpenses: Fee[];
@@ -52,7 +52,7 @@ export class DossierFormComponent implements OnInit {
     private feeService: FeeService,
     private modalService: NgbModal,
     private invoiceService: InvoiceService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   async ngOnInit() {
@@ -91,10 +91,10 @@ export class DossierFormComponent implements OnInit {
     }
   }
 
-  createFormGroup(): FormGroup {
+  createFormGroup(): UntypedFormGroup {
     return this.fb.group({
-      dossierId: new FormControl({ value: this.dossier.id, disabled: true }, []),
-      tvaDue: new FormControl(
+      dossierId: new UntypedFormControl({ value: this.dossier.id, disabled: true }, []),
+      tvaDue: new UntypedFormControl(
         {
           value: this.dossier.tvaDue,
           disabled: this.dossier.closed && !this.recallForModification,
@@ -102,37 +102,37 @@ export class DossierFormComponent implements OnInit {
         []
       ),
       advancePayments: this.fb.array(this.createAdvancePayments(this.dossier.advancePayments)),
-      dossierName: new FormControl({ value: this.dossier.name, disabled: this.dossier.closed }, [
+      dossierName: new UntypedFormControl({ value: this.dossier.name, disabled: this.dossier.closed }, [
         Validators.minLength(5),
         Validators.maxLength(20),
       ]),
-      dossierDescription: new FormControl({ value: this.dossier.description, disabled: this.dossier.closed }, [
+      dossierDescription: new UntypedFormControl({ value: this.dossier.description, disabled: this.dossier.closed }, [
         Validators.maxLength(1024),
       ]),
-      creationDate: new FormControl(
+      creationDate: new UntypedFormControl(
         {
           value: this.dossier.creationDate ? formatDate(this.dossier.creationDate, 'dd/MM/yyyy HH:mm', 'de') : null,
           disabled: true,
         },
         []
       ),
-      updatedDate: new FormControl(
+      updatedDate: new UntypedFormControl(
         {
           value: this.dossier.updatedDate ? formatDate(this.dossier.updatedDate, 'dd/MM/yyyy HH:mm', 'de') : null,
           disabled: true,
         },
         []
       ),
-      dossierClosed: new FormControl({ value: this.dossier.closed, disabled: true }, []),
+      dossierClosed: new UntypedFormControl({ value: this.dossier.closed, disabled: true }, []),
 
-      closedDate: new FormControl(
+      closedDate: new UntypedFormControl(
         {
           value: this.dossier.closedDate ? formatDate(this.dossier.closedDate, 'dd/MM/yyyy HH:mm', 'de') : null,
           disabled: true,
         },
         []
       ),
-      dossierRecalledForModification: new FormControl(
+      dossierRecalledForModification: new UntypedFormControl(
         {
           value: this.dossier.recalledForModification,
           disabled: true,
@@ -140,7 +140,7 @@ export class DossierFormComponent implements OnInit {
         []
       ),
 
-      dossierRecalledForModificationDate: new FormControl(
+      dossierRecalledForModificationDate: new UntypedFormControl(
         {
           value: this.dossier.closedDate
             ? formatDate(this.dossier.recalledForModificationDate, 'dd/MM/yyyy HH:mm', 'de')
@@ -152,8 +152,8 @@ export class DossierFormComponent implements OnInit {
     });
   }
 
-  get advancePayments(): FormArray {
-    return this.dossierForm.get('advancePayments') as FormArray;
+  get advancePayments(): UntypedFormArray {
+    return this.dossierForm.get('advancePayments') as UntypedFormArray;
   }
 
   totalAttachments() {
@@ -201,7 +201,7 @@ export class DossierFormComponent implements OnInit {
     this.invoiceRemoved.emit(i);
   }
 
-  private createAdvancePayments(payments: TvaAdvancePayment[]): FormGroup[] {
+  private createAdvancePayments(payments: TvaAdvancePayment[]): UntypedFormGroup[] {
     return payments?.map(this.convertAdvancePaymentToForm);
   }
 
@@ -209,16 +209,16 @@ export class DossierFormComponent implements OnInit {
     this.advancePayments.push(this.convertAdvancePaymentToForm({}));
   }
 
-  convertAdvancePaymentToForm = (tva: TvaAdvancePayment): FormGroup => {
-    return new FormGroup({
-      datePaid: new FormControl(
+  convertAdvancePaymentToForm = (tva: TvaAdvancePayment): UntypedFormGroup => {
+    return new UntypedFormGroup({
+      datePaid: new UntypedFormControl(
         {
           value: DateUtils.formatInputDate(DateUtils.toDateOrNow(tva.datePaid)),
           disabled: this.dossier.closed && !this.recallForModification,
         },
         [Validators.required]
       ),
-      advance: new FormControl(
+      advance: new UntypedFormControl(
         {
           value: tva.advance,
           disabled: this.dossier.closed && !this.recallForModification,
