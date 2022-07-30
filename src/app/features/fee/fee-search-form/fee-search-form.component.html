@@ -12,7 +12,7 @@
           <div class="col-sm-10">
             <select class="form-select" id="feeTag" formControlName="feeTag">
               <option [ngValue]="null">--Select--</option>
-              <option *ngFor="let t of tags" [value]="t">{{ t.name | titlecase }}</option>
+              <option *ngFor="let t of tags" [value]="t.name">{{ t.name | titlecase }}</option>
             </select>
           </div>
         </div>
