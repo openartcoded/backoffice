@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
-import { CurrentBillTo, InvoicingType } from '@core/models/invoice';
+import { CurrentBillTo } from '@core/models/invoice';
+import { RateType } from '@core/models/common';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -49,7 +50,7 @@ export class CurrentBilltoComponent implements OnInit {
   }
 
   getInvoiceType() {
-    return [InvoicingType[InvoicingType.DAYS], InvoicingType[InvoicingType.HOURS]];
+    return [RateType[RateType.DAYS], RateType[RateType.HOURS]];
   }
 
   send() {

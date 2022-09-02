@@ -1,5 +1,6 @@
 import { FileUpload } from '@core/models/file-upload';
 import { PlotlyGraph } from '@core/models/plotly-graph';
+import { RateType } from './common';
 
 export interface InvoiceSummary {
   graphs: PlotlyGraph[];
@@ -46,8 +47,8 @@ export interface InvoiceRow {
   nature?: string;
   total?: number;
   hoursPerDay?: number;
-  amountType?: InvoicingType;
-  rateType?: InvoicingType;
+  amountType?: RateType;
+  rateType?: RateType;
   amount?: number;
   rate?: number;
 }
@@ -63,16 +64,13 @@ export interface BillTo {
 export interface CurrentBillTo {
   billTo: BillTo;
   maxDaysToPay: number;
-  rateType?: InvoicingType;
+  rateType?: RateType;
   rate?: number;
   id?: string;
   projectName?: string;
 }
 
-export enum InvoicingType {
-  DAYS,
-  HOURS,
-}
+
 
 export interface InvoiceForm {
   invoice: Invoice;

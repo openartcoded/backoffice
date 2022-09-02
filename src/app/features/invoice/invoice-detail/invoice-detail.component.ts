@@ -8,12 +8,15 @@ import {
   InvoiceForm,
   InvoiceFreemarkerTemplate,
   InvoiceRow,
-  InvoicingType,
 } from '@core/models/invoice';
+import {
+  RateType
+} from '@core/models/common';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DateUtils } from '@core/utils/date-utils';
+import { BillableClient } from '@core/models/billable-client';
 
 @Component({
   selector: 'app-invoice-detail',
@@ -28,14 +31,15 @@ export class InvoiceDetailComponent implements OnInit {
   templates$: Observable<InvoiceFreemarkerTemplate[]>;
 
   @Input()
-  currentBillTo: CurrentBillTo;
+  clients: BillableClient[];
 
   @Output()
   onSaveInvoice: EventEmitter<InvoiceForm> = new EventEmitter<InvoiceForm>();
 
   invoiceForm: UntypedFormGroup;
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private formBuilder: UntypedFormBuilder) {}
+  constructor(@Optional() public activeModal: NgbActiveModal, 
+  private formBuilder: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.invoiceForm = this.createFormGroup();
@@ -49,6 +53,13 @@ export class InvoiceDetailComponent implements OnInit {
       freemarkerTemplateId: new UntypedFormControl(
         {
           value: this.invoice.freemarkerTemplateId,
+          disabled: this.invoice.locked,
+        },
+        []
+      ),
+      selectedClient: new UntypedFormControl(
+        {
+          value: this.clients.find(c => c.name === this.invoice.billTo?.clientName),
           disabled: this.invoice.locked,
         },
         []
@@ -157,8 +168,8 @@ export class InvoiceDetailComponent implements OnInit {
       ? this.invoice?.invoiceTable
       : [
           {
-            rateType: InvoicingType.HOURS,
-            amountType: InvoicingType.DAYS,
+            rateType: RateType.HOURS,
+            amountType: RateType.DAYS,
           },
         ];
     return arr.map(convertInvoiceRowToForm);
@@ -200,21 +211,21 @@ export class InvoiceDetailComponent implements OnInit {
   }
 
   getInvoiceType() {
-    return [InvoicingType[InvoicingType.DAYS], InvoicingType[InvoicingType.HOURS]];
+    return [RateType[RateType.DAYS], RateType[RateType.HOURS]];
   }
 
-  fillFromCurrentBillTo(event) {
-    event.preventDefault();
-    this.invoiceForm.get('billToVatNumber').patchValue(this.currentBillTo?.billTo?.vatNumber);
-    this.invoiceForm.get('billToClientName').patchValue(this.currentBillTo?.billTo?.clientName);
-    this.invoiceForm.get('billToCity').patchValue(this.currentBillTo?.billTo?.city);
-    this.invoiceForm.get('billToAddress').patchValue(this.currentBillTo?.billTo?.address);
-    this.invoiceForm.get('billToEmailAddress').patchValue(this.currentBillTo?.billTo?.emailAddress);
-    this.invoiceForm.get('maxDaysToPay').patchValue(this.currentBillTo?.maxDaysToPay);
+  fillFromCurrentBillTo() {
+    const client: BillableClient = this.invoiceForm.get('selectedClient').value;
+    this.invoiceForm.get('billToVatNumber').patchValue(client?.vatNumber);
+    this.invoiceForm.get('billToClientName').patchValue(client?.name);
+    this.invoiceForm.get('billToCity').patchValue(client?.city);
+    this.invoiceForm.get('billToAddress').patchValue(client?.address);
+    this.invoiceForm.get('billToEmailAddress').patchValue(client?.emailAddress);
+    this.invoiceForm.get('maxDaysToPay').patchValue(client?.maxDaysToPay);
     this.invoiceTableForm.controls.forEach((c) => {
-      c.get('projectName').patchValue(this.currentBillTo?.projectName);
-      c.get('rateType').patchValue(this.currentBillTo?.rateType);
-      c.get('rate').patchValue(this.currentBillTo?.rate);
+      c.get('projectName').patchValue(client?.projectName);
+      c.get('rateType').patchValue(client?.rateType);
+      c.get('rate').patchValue(client?.rate);
     });
   }
 }
