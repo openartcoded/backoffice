@@ -3,7 +3,10 @@
     [uppercase]="true"
     [title]="'Timesheet ' + (timesheet.monthEnum?.toString() | trim: 3) + '/' + timesheet.year"
   ></app-title>
-  <div class="d-md-flex justify-content-end pb-2">
+  <div class="d-md-flex justify-content-between pb-2">
+    <a routerLink="/timesheets" class="btn btn-outline-primary">
+      <fa-icon [icon]="['fas','arrow-left']"></fa-icon>
+      Back</a>
     <div ngbDropdown class="d-inline-block mt-0" container="body">
       <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
         <fa-icon icon="exclamation"></fa-icon>&nbsp;Actions
@@ -21,6 +24,10 @@
         </button>
         <button ngbDropdownItem [disabled]="!timesheet.closed" (click)="download()">
           <fa-icon [icon]="['fas', 'download']"></fa-icon>&nbsp;Download
+        </button>
+        <button ngbDropdownItem (click)="delete()">
+          <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+          Delete
         </button>
       </div>
     </div>

@@ -31,6 +31,7 @@
       <thead>
         <tr>
           <th class="fit d-md-table-cell d-none">N°</th>
+          <th class="fit d-md-table-cell d-none">Client</th>
           <th>Date</th>
           <th class="d-md-table-cell d-none">Due Date</th>
           <th class="d-md-table-cell d-none">SubTotal</th>
@@ -42,6 +43,7 @@
       <tbody>
         <tr *ngFor="let invoice of invoices.content" role="button" (click)="openModal(invoice)">
           <td class="fit d-md-table-cell d-none">{{ invoice.invoiceNumber }}</td>
+          <td class="fit d-md-table-cell d-none">{{ invoice.billTo.clientName }}</td>
           <td>{{ invoice.dateOfInvoice | date: 'dd/MM/yyyy' }}</td>
           <td class="d-md-table-cell text-primary d-none">{{ invoice.dueDate | date: 'dd/MM/yyyy' }}</td>
           <td class="d-md-table-cell d-none">{{ invoice.subTotal | currency: '€' }}</td>

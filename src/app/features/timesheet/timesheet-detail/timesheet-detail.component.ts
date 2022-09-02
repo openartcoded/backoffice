@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { PeriodType, Timesheet, TimesheetPeriod, TimesheetSettings } from '@core/models/timesheet';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TimesheetService } from '@core/service/timesheet.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PeriodFormComponent } from '@feature/timesheet/period-form/period-form.component';
@@ -10,6 +10,8 @@ import { OnApplicationEvent, RegisteredEvent } from '@core/interface/on-applicat
 import { NotificationService } from '@core/service/notification.service';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { firstValueFrom } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
+import { WindowRefService } from '@core/service/window.service';
 
 @Component({
   selector: 'app-timesheet-detail',
@@ -23,9 +25,11 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: any,
+    private windowRefService: WindowRefService,
     private modalService: NgbModal,
     private notificationService: NotificationService,
-    private cdr: ChangeDetectorRef,
     private fileService: FileService,
     private timesheetService: TimesheetService
   ) {}
@@ -148,6 +152,17 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
       !event.seen &&
       (event.type === RegisteredEvent.REOPENED_TIMESHEET || event.type === RegisteredEvent.CLOSED_TIMESHEET)
     );
+  }
+
+  delete() {
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.windowRefService.nativeWindow.confirm('Are you sure you want to delete this timesheet?')) {
+        this.timesheetService.delete(this.timesheet.id).subscribe(d => {
+          this.router.navigateByUrl('/timesheets');
+        });
+      }
+    }
+
   }
 
   shouldMarkEventAsSeenAfterConsumed(): boolean {

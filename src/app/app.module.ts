@@ -10,6 +10,7 @@ import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import {
   faAddressBook,
   faUser,
+  faArrowLeft,
   faArrowDown,
   faArrowUp,
   faAsterisk,
@@ -139,6 +140,7 @@ export class AppModule {
       faAsterisk,
       faUser,
       faKey,
+      faArrowLeft,
       faIdCard,
       faAddressBook,
       faFileCode,
