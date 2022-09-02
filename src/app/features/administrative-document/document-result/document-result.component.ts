@@ -79,6 +79,16 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
       .subscribe((data) => (this.adminDocuments = data));
   }
 
+  openRow(a: AdministrativeDocument) {
+    if(this.isPdf(a.attachment)){
+      this.openPdfViewer(a.attachment);
+    }else if(this.isImage(a.attachment)){
+      this.openImageViewer(a.attachment)
+    }else{
+      this.addOrEdit(a);
+    }
+
+  }
   openPdfViewer(a: FileUpload) {
     let ngbModalRef = this.modalService.open(PdfViewerComponent, {
       size: 'xl',

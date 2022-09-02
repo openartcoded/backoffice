@@ -18,7 +18,7 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let ad of adminDocuments.content">
-          <tr role="button" (click)="openPdfViewer(ad.attachment)">
+          <tr role="button" (click)="openRow(ad)">
             <td class="text-break">{{ ad.title }}</td>
             <td class="text-break">{{ ad.dateCreation | date: 'dd/MM/yyyy' }}</td>
             <td class="text-center fit">
