@@ -123,9 +123,17 @@ export class PeriodFormComponent implements OnInit {
       this.onSubmitForm.emit(this.period);
     });
   }
+  checkTypeAndAutoComplete() {
+    if(this.form.controls.periodType.value?.toString() !== PeriodType[PeriodType.WORKING_DAY]){
+      this.form.get("morningStartTime").patchValue("08:00");
+      this.form.get("morningEndTime").patchValue("12:00");
+      this.form.get("afternoonStartTime").patchValue("13:00");
+      this.form.get("afternoonEndTime").patchValue("17:00");
+    }
+  }
 
   setTimeNow(event: any, componentInstance: string) {
-    event.preventDefault();
+    event?.preventDefault();
     this.form.get(componentInstance).patchValue(moment().tz('Europe/Brussels').format('HH:mm'));
   }
 }
