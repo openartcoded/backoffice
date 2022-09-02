@@ -114,8 +114,10 @@
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="selectedClient">Saved Clients</label>
                 <div class="col-sm-10">
-                  <select id="selectedClient" class="form-select" (ngModelChange)="fillFromCurrentBillTo()"
+                  <select id="selectedClient" class="form-select" (ngModelChange)="fillFromClient()"
                     formControlName="selectedClient">
+                    <option [ngValue]="null">--Select--</option>
+
                     <option *ngFor="let client of clients" [ngValue]="client">{{client.name}}</option>
                   </select>
                 </div>

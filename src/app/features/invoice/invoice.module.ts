@@ -9,7 +9,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbDatepickerModule, NgbDropdownModule, NgbPaginationModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { InvoiceTableResultComponent } from './invoice-table-result/invoice-table-result.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
-import { CurrentBilltoComponent } from './current-billto/current-billto.component';
 import { TemplateComponent } from './template/template.component';
 import { SummaryComponent } from './summary/summary.component';
 import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.module';
@@ -19,7 +18,6 @@ import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.mo
     InvoicePageComponent,
     InvoiceDetailComponent,
     InvoiceTableResultComponent,
-    CurrentBilltoComponent,
     TemplateComponent,
     SummaryComponent,
   ],

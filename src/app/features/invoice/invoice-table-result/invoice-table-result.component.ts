@@ -12,7 +12,6 @@ import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 import { OnApplicationEvent, RegisteredEvent } from '@core/interface/on-application-event';
 import { NotificationService } from '@core/service/notification.service';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
-import { CurrentBilltoComponent } from '@feature/invoice/current-billto/current-billto.component';
 import { TemplateComponent } from '@feature/invoice/template/template.component';
 import { Page } from '@core/models/page';
 import { ToastService } from '@core/service/toast.service';
@@ -159,19 +158,6 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
 
   shouldMarkEventAsSeenAfterConsumed(): boolean {
     return true;
-  }
-
-  billToModal() {
-    this.invoiceService.getCurrentBillTo().subscribe((currentBillTo) => {
-      const ngbModalRef = this.modalService.open(CurrentBilltoComponent, {
-        size: 'xl',
-      });
-      ngbModalRef.componentInstance.currentBillTo = currentBillTo;
-      ngbModalRef.componentInstance.onSaveCurrentBillTo.subscribe(async (updatedCurrentBillTo) => {
-        ngbModalRef.close();
-        await firstValueFrom(this.invoiceService.saveCurrentBillTo(updatedCurrentBillTo));
-      });
-    });
   }
 
   templateModal() {

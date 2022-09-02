@@ -14,6 +14,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodoFormComponent } from './todo-form/todo-form.component';
 import { ActuatorComponent } from './actuator/actuator.component';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ActuatorComponent } from './actuator/actuator.component';
     TodoListComponent,
     TodoFormComponent,
     ActuatorComponent,
+    ErrorComponent,
   ],
   imports: [
     CommonModule,

@@ -3,7 +3,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   BillTo,
-  CurrentBillTo,
   Invoice,
   InvoiceForm,
   InvoiceFreemarkerTemplate,
@@ -214,7 +213,7 @@ export class InvoiceDetailComponent implements OnInit {
     return [RateType[RateType.DAYS], RateType[RateType.HOURS]];
   }
 
-  fillFromCurrentBillTo() {
+  fillFromClient() {
     const client: BillableClient = this.invoiceForm.get('selectedClient').value;
     this.invoiceForm.get('billToVatNumber').patchValue(client?.vatNumber);
     this.invoiceForm.get('billToClientName').patchValue(client?.name);

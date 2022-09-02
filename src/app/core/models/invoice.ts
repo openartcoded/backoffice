@@ -61,17 +61,6 @@ export interface BillTo {
   clientName?: string;
 }
 
-export interface CurrentBillTo {
-  billTo: BillTo;
-  maxDaysToPay: number;
-  rateType?: RateType;
-  rate?: number;
-  id?: string;
-  projectName?: string;
-}
-
-
-
 export interface InvoiceForm {
   invoice: Invoice;
   manualUploadFile?: File;

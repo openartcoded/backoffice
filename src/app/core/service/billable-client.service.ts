@@ -22,5 +22,11 @@ export class BillableClientService {
   findAll(): Observable<BillableClient[]> {
     return this.http.get<BillableClient[]>(`${this.basePath}/find-all`);
   }
+  save(client: BillableClient): Observable<BillableClient> {
+    return this.http.post<BillableClient>(`${this.basePath}/save`, client);
+  }
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.basePath}?id=${id}`);
+  }
 
 }
