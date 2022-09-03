@@ -56,7 +56,6 @@ export class TasksTableComponent implements OnInit, OnApplicationEvent {
 
   async load() {
     this.reminderTasks = await firstValueFrom(this.reminderTaskService.findAll());
-    this.filteredReminderTasks = this.reminderTasks;
     const dates = this.nextDates;
     if (dates?.length) {
       this.filterTasks(dates[0]);
