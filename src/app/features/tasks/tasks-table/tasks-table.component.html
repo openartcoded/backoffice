@@ -8,7 +8,7 @@
           type="checkbox"
           id="toggleTask"
           [(ngModel)]="showTasks"
-          (change)="toggleTask()"
+          (change)="filterTasks(currentDate)"
         />
         <label class="form-check-label" for="toggleTask"> Show Actions&nbsp; </label>
       </div>
@@ -18,7 +18,7 @@
           type="checkbox"
           id="toggleDisabled"
           [(ngModel)]="hideDisabled"
-          (change)="toggleDisabled()"
+          (change)="filterTasks(currentDate)"
         />
         <label class="form-check-label" for="toggleDisabled"> Hide Disabled </label>
       </div>
@@ -40,43 +40,77 @@
       </div>
     </div>
   </div>
-  <div class="table-responsive">
-    <table class="table table-sm table-bordered table-hover table-striped">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Next Date</th>
-          <th class="fit d-md-table-cell d-none">Disabled</th>
-          <th class="fit d-md-table-cell d-none">Has Action</th>
-          <th class="fit d-md-table-cell">Results</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td *ngIf="!filteredReminderTasks.length" colspan="5">No entries</td>
-        </tr>
-        <ng-container *ngFor="let task of filteredReminderTasks">
-          <tr role="button" (click)="openTask(task)">
-            <td>{{ task.title }}</td>
-            <td>{{ task?.nextDate | date: 'dd/MM/yyyy HH:mm' }}</td>
-            <td class="fit text-center d-md-table-cell d-none">
-              <input aria-label="disabled" type="checkbox" [checked]="task.disabled" [disabled]="true" />
-            </td>
-            <td class="fit text-center d-md-table-cell d-none">
-              <input aria-label="disabled" type="checkbox" [checked]="task.actionKey" [disabled]="true" />
-            </td>
-            <td class="fit text-center d-md-table-cell">
-              <button
-                class="btn btn-link text-secondary"
-                *ngIf="task.actionKey"
-                (click)="openActionResult(task, $event)"
-              >
-                <fa-icon [icon]="['fas', 'eye']"></fa-icon>
-              </button>
-            </td>
+  <div class="row">
+    <div class="col-md-3 col-12 mb-2">
+      <ul class="list-group">
+        <li
+          role="button"
+          class="list-group-item list-group-item-action"
+          *ngFor="let date of nextDates"
+          [class.active]="date.getTime() === currentDate?.getTime()"
+          (click)="filterTasks(date)"
+        >
+          <div class="d-flex justify-content-between">
+            <span>{{ date | date:'dd/MM/yyyy' }}</span>
+            <span class="badge bg-warning text-dark rounded-circle" *ngIf="date.getTime() === currentDate?.getTime()">
+              {{filteredReminderTasks.length}}
+            </span>
+          </div>
+        </li>
+        <li
+          role="button"
+          class="list-group-item list-group-item-action"
+          [class.active]="!currentDate"
+          (click)="filterTasks(null)"
+        >
+          <div class="d-flex justify-content-between">
+            <span>Show all</span>
+            <span class="badge bg-info text-dark rounded-circle" *ngIf="!currentDate">
+              {{filteredReminderTasks.length}}
+            </span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-9 col-12 table-responsive">
+      <table class="table table-sm table-bordered table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Next Date</th>
+            <th class="fit d-md-table-cell d-none">Disabled</th>
+            <th class="fit d-md-table-cell d-none">Has Action</th>
+            <th class="fit d-md-table-cell">Results</th>
           </tr>
-        </ng-container>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <tr>
+            <td *ngIf="!filteredReminderTasks.length" colspan="5">No entries</td>
+          </tr>
+          <ng-container *ngFor="let task of filteredReminderTasks">
+            <tr role="button" (click)="openTask(task)">
+              <td>{{ task.title }}</td>
+              <td>{{ task?.nextDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+              <td class="fit text-center d-md-table-cell d-none">
+                <input aria-label="disabled" type="checkbox" [checked]="task.disabled" [disabled]="true" />
+              </td>
+              <td class="fit text-center d-md-table-cell d-none">
+                <input aria-label="disabled" type="checkbox" [checked]="task.actionKey" [disabled]="true" />
+              </td>
+              <td class="fit text-center d-md-table-cell">
+                <button
+                  class="btn btn-link text-secondary"
+                  *ngIf="task.actionKey"
+                  (click)="openActionResult(task, $event)"
+                >
+                  <fa-icon [icon]="['fas', 'eye']"></fa-icon>
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
   </div>
+
 </ng-container>
