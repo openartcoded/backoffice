@@ -7,6 +7,8 @@ export interface Timesheet {
   periods?: TimesheetPeriod[];
   readonly closed?: boolean;
   readonly uploadId?: string;
+  readonly clientId?: string;
+  readonly clientName?: string;
   readonly year?: number;
   readonly month?: number;
   readonly monthEnum?: Month;

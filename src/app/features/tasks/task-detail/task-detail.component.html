@@ -61,7 +61,7 @@
                         formControlName="parameterValue"
                       >
                         <option [ngValue]="null">--Select--</option>
-                        <option *ngFor="let o of getOptions(_)" [value]="o">{{ o }}</option>
+                        <option *ngFor="let option of getOptions(_) | keyvalue" [value]="option.key">{{ option.value }}</option>
                       </select>
                     </div>
                   </ng-container>

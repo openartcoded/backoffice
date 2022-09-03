@@ -34,6 +34,7 @@
           <thead>
             <tr>
               <th class="bg-light">Period</th>
+              <th class="fit">Client</th>
               <th class="fit text-center">Closed</th>
               <th class="fit text-center">Working Days</th>
               <th class="fit text-center d-md-table-cell d-none">Hours Worked</th>
@@ -46,6 +47,7 @@
               [routerLink]="['timesheet', timesheet.id]"
             >
               <td>{{ timesheet.name }}</td>
+              <td>{{ timesheet.clientName || 'N/A' }}</td>
               <td class="fit text-center">
                 <input
                   type="checkbox"
