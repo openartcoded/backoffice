@@ -1,8 +1,14 @@
-<ng-container *ngIf="timesheetsGroupedByYear">
-  <app-title [uppercase]="true" title="Timesheets"></app-title>
-  <!-- <div class="d-md-flex justify-content-end pb-2">
-   todo add select client
-  </div> -->
+<app-title [uppercase]="true" title="Timesheets"></app-title>
+<div class="d-md-flex justify-content-end pb-2" *ngIf="timesheetsGroupedByYearAndClientName">
+  <div class="col-sm-2 col-12">
+    <select class="form-select" [(ngModel)]="selectedClientName" (change)="this.setTimesheetYear(this.selectedYear)">
+      <option *ngFor="let name of clientNames"
+              [ngValue]="name">{{name}}</option>
+    </select>
+  </div>
+</div>
+<ng-container *ngIf="timesheetsGroupedByYearAndClientName">
+
   <div class="alert alert-warning" *ngIf="!years?.length">
     <fa-icon icon="info"></fa-icon>
     No content.
@@ -21,7 +27,7 @@
         </li>
       </ul>
     </div>
-    <div class="col-lg-9 col-12" *ngIf="selectedTimesheetYear">
+    <div class="col-lg-9 col-12" *ngIf="selectedTimesheetYear?.length">
       <div class="table-responsive">
         <table class="table table-bordered table-hover">
           <thead>
@@ -56,6 +62,9 @@
           </tbody>
         </table>
       </div>
+    </div>
+    <div class="col-lg-9 col-12" *ngIf="!selectedTimesheetYear?.length">
+      No result for this year.
     </div>
   </div>
 </ng-container>
