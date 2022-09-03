@@ -112,10 +112,12 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   }
 
   async release() {
+    this.toastService.showSuccess("timesheet will be generated");
     await firstValueFrom(this.timesheetService.closeTimesheet(this.timesheet.id));
   }
 
   async reopen() {
+    this.toastService.showSuccess("timesheet will be reopened");
     await firstValueFrom(this.timesheetService.reopenTimesheet(this.timesheet.id));
   }
 
