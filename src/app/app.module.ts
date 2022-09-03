@@ -6,10 +6,10 @@ import { AppComponent } from './app.component';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-
 import {
   faAddressBook,
   faUser,
+  faArrowLeft,
   faArrowDown,
   faArrowUp,
   faAsterisk,
@@ -116,7 +116,6 @@ registerLocaleData(localeDe, 'de');
       multi: true,
       deps: [KeycloakService, ConfigInitService],
     },
-
     {
       provide: HIGHLIGHT_OPTIONS,
       useValue: {
@@ -139,6 +138,7 @@ export class AppModule {
       faAsterisk,
       faUser,
       faKey,
+      faArrowLeft,
       faIdCard,
       faAddressBook,
       faFileCode,

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CurrentBillTo, Invoice, InvoiceFreemarkerTemplate } from '@core/models/invoice';
+import { Invoice, InvoiceFreemarkerTemplate } from '@core/models/invoice';
 import { Page } from '@core/models/page';
 import { ConfigInitService } from '@init/config-init.service';
 
@@ -13,14 +13,6 @@ export class InvoiceService {
 
   constructor(private http: HttpClient, private configService: ConfigInitService) {
     this.basePath = `${configService.getConfig()['BACKEND_URL']}/api/invoice`;
-  }
-
-  getCurrentBillTo(): Observable<CurrentBillTo> {
-    return this.http.get<CurrentBillTo>(`${this.basePath}/current-billto`);
-  }
-
-  saveCurrentBillTo(billTo: CurrentBillTo): Observable<CurrentBillTo> {
-    return this.http.post<CurrentBillTo>(`${this.basePath}/current-billto`, billTo);
   }
 
   search(

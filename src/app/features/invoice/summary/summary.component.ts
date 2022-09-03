@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { InvoiceService } from '@core/service/invoice.service';
 import { Observable } from 'rxjs';
-import { InvoiceSummary, Invoice, InvoicingType } from '@core/models/invoice';
+import { InvoiceSummary, Invoice } from '@core/models/invoice';
 import { map } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { WindowRefService } from '@core/service/window.service';

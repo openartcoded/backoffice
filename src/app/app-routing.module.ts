@@ -22,6 +22,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'billable-clients',
+    loadChildren: () =>
+      import('./features/billable-client/billable-client.module').then(
+        (m) => m.BillableClientModule
+      ),
+  },
+  {
     path: 'timesheets',
     loadChildren: () => import('./features/timesheet/timesheet.module').then((m) => m.TimesheetModule),
   },
@@ -64,6 +71,11 @@ const routes: Routes = [
   {
     path: 'endpoint-sparql',
     loadChildren: () => import('./features/sparql/sparql.module').then((m) => m.SparqlModule),
+  },
+  {
+    path: '**',
+    redirectTo: '404',
+    
   },
 ];
 

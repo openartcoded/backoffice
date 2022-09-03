@@ -94,6 +94,10 @@ export class EditPersonalInfoComponent implements OnInit {
       vatNumber: new UntypedFormControl({ value: this.currentPersonalInfo?.vatNumber, disabled: false }, [
         Validators.required,
       ]),
+      maxDaysToPay: new UntypedFormControl({ value: this.currentPersonalInfo?.maxDaysToPay, disabled: false }, [
+        Validators.required,
+        Validators.min(1),
+      ]),
       financeCharge: new UntypedFormControl({ value: this.currentPersonalInfo?.financeCharge, disabled: false }, [
         Validators.required,
         Validators.min(0),
@@ -167,6 +171,7 @@ export class EditPersonalInfoComponent implements OnInit {
     formData.append('organizationBankAccount', this.form.get('organizationBankAccount').value);
     formData.append('organizationBankBIC', this.form.get('organizationBankBIC').value);
     formData.append('organizationCity', this.form.get('organizationCity').value);
+    formData.append('maxDaysToPay', this.form.get('maxDaysToPay').value);
     formData.append('organizationEmailAddress', this.form.get('organizationEmailAddress').value);
     formData.append('organizationPostCode', this.form.get('organizationPostCode').value);
     formData.append('organizationName', this.form.get('organizationName').value);

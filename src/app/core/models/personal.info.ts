@@ -16,4 +16,5 @@ export interface PersonalInfo {
   note?: string;
   logoUploadId?: string;
   signatureUploadId?: string;
+  maxDaysToPay?: number;
 }

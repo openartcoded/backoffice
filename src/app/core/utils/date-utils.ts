@@ -25,11 +25,17 @@ export class DateUtils {
     return new Date();
   }
 
-  static formatInputDate(date: Date) {
+  static formatInputDate(date?: Date) {
+    if(!date) {
+      return null;
+    }
     return date.toISOString().substring(0, 10);
   }
 
   static getDateFromInput(value: any) {
+    if(!value) {
+      return null;
+    }
     return new Date(value);
   }
 

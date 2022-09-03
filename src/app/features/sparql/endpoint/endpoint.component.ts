@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 import { AuthService } from "@core/service/auth.service";
 import { ConfigInitService } from "@init/config-init.service";
 
@@ -26,11 +27,14 @@ const DEFAULT_QUERY = `  PREFIX owl: <http://www.w3.org/2002/07/owl#>
 export class EndpointComponent implements OnInit {
   constructor(
     private configService: ConfigInitService,
-    private authService: AuthService
+    private authService: AuthService,
+    private titleService: Title,
+
   ) {}
   token: string;
 
   async ngOnInit() {
+    this.titleService.setTitle("Sparql Endpoint");
     import("@triply/yasgui").then((m: any) => {
       const Yasgui: any = m.default;
       const element = document?.getElementById("yasgui");

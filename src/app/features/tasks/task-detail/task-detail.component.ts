@@ -148,6 +148,16 @@ export class TaskDetailComponent implements OnInit {
       ),
     });
   }
+  findInvalidControls() {
+    const invalid = [];
+    const controls = this.form.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
+    }
+    return invalid;
+  }
 
   get hasSpecificDate(): boolean {
     return this.form.get('hasSpecificDate').value;

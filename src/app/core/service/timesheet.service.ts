@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Timesheet, TimesheetPeriod, TimesheetSettings } from '@core/models/timesheet';
+import { Timesheet, TimesheetPeriod, TimesheetSettings, TimesheetSettingsForm } from '@core/models/timesheet';
 import { RawResponse } from '@core/models/raw-response';
 import { ConfigInitService } from '@init/config-init.service';
 
@@ -15,8 +15,8 @@ export class TimesheetService {
     this.basePath = `${this.configService.getConfig()['BACKEND_URL']}/api/timesheet`;
   }
 
-  public findAllGroupedByYear(): Observable<Map<number, Timesheet[]>> {
-    return this.http.get<Map<number, Timesheet[]>>(this.basePath);
+  public findAllGroupedByYearAndClientName(): Observable<Map<number, Map<String, Timesheet[]>>> {
+    return this.http.get<Map<number, Map<String, Timesheet[]>>>(this.basePath);
   }
 
   public count(): Observable<RawResponse> {
@@ -39,11 +39,7 @@ export class TimesheetService {
     return this.http.post<void>(this.basePath + '/reopen?id=' + timesheetId, {});
   }
 
-  public getSettings(): Observable<TimesheetSettings> {
-    return this.http.get<TimesheetSettings>(this.basePath + '/settings');
-  }
-
-  public updateSettings(settings: TimesheetSettings): Observable<TimesheetSettings> {
+  public updateSettings(settings: TimesheetSettingsForm): Observable<TimesheetSettings> {
     return this.http.post<TimesheetSettings>(this.basePath + '/settings', settings);
   }
 

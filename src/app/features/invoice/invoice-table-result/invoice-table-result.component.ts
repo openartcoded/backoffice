@@ -12,11 +12,12 @@ import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 import { OnApplicationEvent, RegisteredEvent } from '@core/interface/on-application-event';
 import { NotificationService } from '@core/service/notification.service';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
-import { CurrentBilltoComponent } from '@feature/invoice/current-billto/current-billto.component';
 import { TemplateComponent } from '@feature/invoice/template/template.component';
 import { Page } from '@core/models/page';
 import { ToastService } from '@core/service/toast.service';
 import { firstValueFrom } from 'rxjs';
+import { BillableClientService } from '@core/service/billable-client.service';
+import { BillableClient, ContractStatus } from '@core/models/billable-client';
 
 @Component({
   selector: 'app-invoice-table-result',
@@ -33,18 +34,21 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   @Input()
   archived: boolean;
 
+  clients: BillableClient[];
+
   constructor(
     private invoiceService: InvoiceService,
     private modalService: NgbModal,
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
+    private billableClientService: BillableClientService,
     private toastService: ToastService,
     private notificationService: NotificationService,
     private dossierService: DossierService,
     private fileService: FileService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.dossierService.activeDossier().subscribe((dt) => (this.activeDossier = dt));
     this.notificationService.subscribe(this);
     this.load();
@@ -53,7 +57,10 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   load(event: number = 1) {
     this.invoiceService
       .search(this.archived, this.logicalDelete, event, this.pageSize)
-      .subscribe((invoices) => (this.invoices = invoices));
+      .subscribe((invoices) => {
+       
+        this.invoices = invoices;
+      });
   }
 
   download(invoice: Invoice): void {
@@ -61,13 +68,14 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   }
 
   async openModal(invoice: Invoice) {
-    const currentBillTo = await firstValueFrom(this.invoiceService.getCurrentBillTo());
+    this.clients = await firstValueFrom(this.billableClientService.findByContractStatus(ContractStatus.ONGOING));
+
     const ngbModalRef = this.modalService.open(InvoiceDetailComponent, {
       size: 'xl',
     });
     ngbModalRef.componentInstance.invoice = invoice;
     ngbModalRef.componentInstance.templates$ = this.invoiceService.listTemplates();
-    ngbModalRef.componentInstance.currentBillTo = currentBillTo;
+    ngbModalRef.componentInstance.clients = this.clients;
     ngbModalRef.componentInstance.onSaveInvoice.subscribe((invoiceForm) => {
       ngbModalRef.close();
       this.invoiceService.save(invoiceForm.invoice).subscribe((inv) => {
@@ -150,19 +158,6 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
 
   shouldMarkEventAsSeenAfterConsumed(): boolean {
     return true;
-  }
-
-  billToModal() {
-    this.invoiceService.getCurrentBillTo().subscribe((currentBillTo) => {
-      const ngbModalRef = this.modalService.open(CurrentBilltoComponent, {
-        size: 'xl',
-      });
-      ngbModalRef.componentInstance.currentBillTo = currentBillTo;
-      ngbModalRef.componentInstance.onSaveCurrentBillTo.subscribe(async (updatedCurrentBillTo) => {
-        ngbModalRef.close();
-        await firstValueFrom(this.invoiceService.saveCurrentBillTo(updatedCurrentBillTo));
-      });
-    });
   }
 
   templateModal() {

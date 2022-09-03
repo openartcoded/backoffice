@@ -22,9 +22,8 @@ export interface ActionParameter {
   value?: string;
   parameterType?: ActionParameterType;
   description?: string;
-  options?: string[];
+  options?: Map<string, string>;
 }
-
 export enum ActionParameterType {
   INTEGER,
   LONG,

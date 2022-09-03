@@ -1,15 +1,14 @@
-<ng-container *ngIf="timesheetsGroupedByYear">
-  <app-title [uppercase]="true" title="Timesheets"></app-title>
-  <div class="d-md-flex justify-content-end pb-2">
-    <div ngbDropdown class="d-inline-block mt-0" container="body">
-      <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-        <fa-icon icon="exclamation"></fa-icon>&nbsp;Actions
-      </button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1" (click)="openSettings()">
-        <button ngbDropdownItem><fa-icon [icon]="['fas', 'dot-circle']"></fa-icon>&nbsp;Settings</button>
-      </div>
-    </div>
+<app-title [uppercase]="true" title="Timesheets"></app-title>
+<div class="d-md-flex justify-content-end pb-2" *ngIf="timesheetsGroupedByYearAndClientName">
+  <div class="col-sm-2 col-12">
+    <select class="form-select" [(ngModel)]="selectedClientName" (change)="this.setTimesheetYear(this.selectedYear)">
+      <option *ngFor="let name of clientNames"
+              [ngValue]="name">{{name}}</option>
+    </select>
   </div>
+</div>
+<ng-container *ngIf="timesheetsGroupedByYearAndClientName">
+
   <div class="alert alert-warning" *ngIf="!years?.length">
     <fa-icon icon="info"></fa-icon>
     No content.
@@ -28,12 +27,13 @@
         </li>
       </ul>
     </div>
-    <div class="col-lg-9 col-12" *ngIf="selectedTimesheetYear">
+    <div class="col-lg-9 col-12" *ngIf="selectedTimesheetYear?.length">
       <div class="table-responsive">
         <table class="table table-bordered table-hover">
           <thead>
             <tr>
               <th class="bg-light">Period</th>
+              <th class="fit">Client</th>
               <th class="fit text-center">Closed</th>
               <th class="fit text-center">Working Days</th>
               <th class="fit text-center d-md-table-cell d-none">Hours Worked</th>
@@ -46,6 +46,7 @@
               [routerLink]="['timesheet', timesheet.id]"
             >
               <td>{{ timesheet.name }}</td>
+              <td>{{ timesheet.clientName || 'N/A' }}</td>
               <td class="fit text-center">
                 <input
                   type="checkbox"
@@ -61,6 +62,9 @@
           </tbody>
         </table>
       </div>
+    </div>
+    <div class="col-lg-9 col-12" *ngIf="!selectedTimesheetYear?.length">
+      No result for this year.
     </div>
   </div>
 </ng-container>
