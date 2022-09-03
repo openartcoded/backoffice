@@ -1,7 +1,8 @@
 FROM node:16.14-alpine as builder
 WORKDIR /usr/src/app
 COPY package.json ./
-RUN npm i --legacy-peer-deps
+#RUN npm i --legacy-peer-deps
+RUN npm i 
 COPY . .
 RUN npm run buildprod
 

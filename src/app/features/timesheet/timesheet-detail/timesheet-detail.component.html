@@ -2,7 +2,7 @@
   <app-title [uppercase]="true"
     [title]="'Timesheet ' + (timesheet.monthEnum?.toString() | trim: 3) + '/' + timesheet.year + (timesheet.clientName ? ' (' + timesheet.clientName + ')' :'') ">
   </app-title>
-  <div class="d-md-flex justify-content-between pb-2">
+  <div class="d-flex justify-content-between pb-2">
     <a routerLink="/timesheets" class="btn btn-outline-primary me-1">
       <fa-icon [icon]="['fas','arrow-left']"></fa-icon>
       Back
