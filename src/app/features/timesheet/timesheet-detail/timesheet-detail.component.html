@@ -12,6 +12,9 @@
         <fa-icon icon="exclamation"></fa-icon>&nbsp;Actions
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button ngbDropdownItem (click)="openSettings()">
+          <fa-icon [icon]="['fas', 'dot-circle']"></fa-icon>&nbsp;Settings
+        </button>
         <button ngbDropdownItem [disabled]="timesheet.closed" (click)="release()">
           <fa-icon [icon]="['fas', 'door-closed']"></fa-icon>&nbsp;Release
         </button>
@@ -25,7 +28,7 @@
         <button ngbDropdownItem [disabled]="!timesheet.closed" (click)="download()">
           <fa-icon [icon]="['fas', 'download']"></fa-icon>&nbsp;Download
         </button>
-        <button ngbDropdownItem (click)="delete()">
+        <button ngbDropdownItem [disabled]="timesheet.closed" (click)="delete()">
           <fa-icon [icon]="['fas', 'trash']"></fa-icon>
           Delete
         </button>

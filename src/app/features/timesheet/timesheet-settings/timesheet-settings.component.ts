@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
-import { TimesheetSettings } from '@core/models/timesheet';
+import { TimesheetSettings, TimesheetSettingsForm } from '@core/models/timesheet';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { BillableClient } from '@core/models/billable-client';
 
 @Component({
   selector: 'app-timesheet-settings',
@@ -10,10 +11,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class TimesheetSettingsComponent implements OnInit {
   @Output()
-  onSubmitForm: EventEmitter<TimesheetSettings> = new EventEmitter<TimesheetSettings>();
+  onSubmitForm: EventEmitter<TimesheetSettingsForm> = new EventEmitter<TimesheetSettingsForm>();
 
   @Input()
-  settings: TimesheetSettings;
+  settings: TimesheetSettingsForm;
+
+  @Input()
+  clients: BillableClient[];
 
   form: UntypedFormGroup;
 
@@ -35,9 +39,9 @@ export class TimesheetSettingsComponent implements OnInit {
         },
         [Validators.required, Validators.min(0.5)]
       ),
-      defaultProjectName: new UntypedFormControl(
+      clientId: new UntypedFormControl(
         {
-          value: this.settings?.defaultProjectName,
+          value: this.settings?.clientId,
           disabled: false,
         },
         [Validators.required]
@@ -46,10 +50,11 @@ export class TimesheetSettingsComponent implements OnInit {
   }
 
   send() {
-    const newSettings: TimesheetSettings = {
+    const newSettings: TimesheetSettingsForm = {
       maxHoursPerDay: this.form.controls.maxHoursPerDay.value,
       minHoursPerDay: this.form.controls.minHoursPerDay.value,
-      defaultProjectName: this.form.controls.defaultProjectName.value,
+      clientId: this.form.controls.clientId.value,
+      timesheetId: this.settings.timesheetId
     };
     this.onSubmitForm.emit(newSettings);
   }

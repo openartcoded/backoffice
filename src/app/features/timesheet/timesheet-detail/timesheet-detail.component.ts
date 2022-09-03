@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { PeriodType, Timesheet, TimesheetPeriod, TimesheetSettings } from '@core/models/timesheet';
+import { PeriodType, Timesheet, TimesheetPeriod, TimesheetSettings, TimesheetSettingsForm } from '@core/models/timesheet';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TimesheetService } from '@core/service/timesheet.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,9 @@ import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { firstValueFrom } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { WindowRefService } from '@core/service/window.service';
+import { TimesheetSettingsComponent } from '../timesheet-settings/timesheet-settings.component';
+import { BillableClientService } from '@core/service/billable-client.service';
+import { ToastService } from '@core/service/toast.service';
 
 @Component({
   selector: 'app-timesheet-detail',
@@ -29,9 +32,11 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
     private modalService: NgbModal,
+    private billableClientService: BillableClientService,
     private notificationService: NotificationService,
     private fileService: FileService,
-    private timesheetService: TimesheetService
+    private timesheetService: TimesheetService,
+    private toastService: ToastService,
   ) {}
 
   async ngOnInit() {
@@ -132,8 +137,10 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   }
 
   private async load() {
-    this.timesheetService.findById(this.id).subscribe((ts) => (this.timesheet = ts));
-    this.timesheetSettings = await firstValueFrom(this.timesheetService.getSettings());
+    this.timesheetService.findById(this.id).subscribe((ts) => {
+      this.timesheet = ts;
+      this.timesheetSettings = this.timesheet.settings;
+    });
   }
 
   handle(events: ArtcodedNotification[]) {
@@ -163,6 +170,26 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
       }
     }
 
+  }
+  async openSettings() {
+    const clients = await firstValueFrom(this.billableClientService.findAll());
+    const settings = {
+      clientId: this.timesheet.clientId,
+      timesheetId: this.timesheet.id,
+      maxHoursPerDay: this.timesheet?.settings?.maxHoursPerDay,
+      minHoursPerDay: this.timesheet?.settings?.minHoursPerDay,
+    }as TimesheetSettingsForm;
+    const ref = this.modalService.open(TimesheetSettingsComponent, {
+      size: 'lg',
+    });
+    ref.componentInstance.settings = settings;
+    ref.componentInstance.clients = clients;
+    ref.componentInstance.onSubmitForm.subscribe(async (updated) => {
+      ref.close();
+      await firstValueFrom(this.timesheetService.updateSettings(updated));
+      this.toastService.showSuccess("Settings updated");
+      this.load();
+    });
   }
 
   shouldMarkEventAsSeenAfterConsumed(): boolean {

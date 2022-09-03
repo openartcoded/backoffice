@@ -7,6 +7,7 @@ export interface Timesheet {
   periods?: TimesheetPeriod[];
   readonly closed?: boolean;
   readonly uploadId?: string;
+  readonly settings?: TimesheetSettings;
   readonly clientId?: string;
   readonly clientName?: string;
   readonly year?: number;
@@ -45,4 +46,10 @@ export interface TimesheetSettings {
   maxHoursPerDay?: number;
   minHoursPerDay?: number;
   defaultProjectName?: string;
+}
+export interface TimesheetSettingsForm {
+  timesheetId: string;
+  clientId: string;
+  maxHoursPerDay?: number;
+  minHoursPerDay?: number;
 }
