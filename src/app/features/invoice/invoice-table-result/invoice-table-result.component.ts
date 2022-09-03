@@ -17,7 +17,7 @@ import { Page } from '@core/models/page';
 import { ToastService } from '@core/service/toast.service';
 import { firstValueFrom } from 'rxjs';
 import { BillableClientService } from '@core/service/billable-client.service';
-import { BillableClient } from '@core/models/billable-client';
+import { BillableClient, ContractStatus } from '@core/models/billable-client';
 
 @Component({
   selector: 'app-invoice-table-result',
@@ -68,7 +68,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   }
 
   async openModal(invoice: Invoice) {
-    this.clients = await firstValueFrom(this.billableClientService.findAll());
+    this.clients = await firstValueFrom(this.billableClientService.findByContractStatus(ContractStatus.ONGOING));
 
     const ngbModalRef = this.modalService.open(InvoiceDetailComponent, {
       size: 'xl',

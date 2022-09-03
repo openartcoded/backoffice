@@ -15,6 +15,7 @@ import { WindowRefService } from '@core/service/window.service';
 import { TimesheetSettingsComponent } from '../timesheet-settings/timesheet-settings.component';
 import { BillableClientService } from '@core/service/billable-client.service';
 import { ToastService } from '@core/service/toast.service';
+import { ContractStatus } from '@core/models/billable-client';
 
 @Component({
   selector: 'app-timesheet-detail',
@@ -174,7 +175,7 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
 
   }
   async openSettings() {
-    const clients = await firstValueFrom(this.billableClientService.findAll());
+    const clients = await firstValueFrom(this.billableClientService.findByContractStatus(ContractStatus.ONGOING));
     const settings = {
       clientId: this.timesheet.clientId,
       timesheetId: this.timesheet.id,

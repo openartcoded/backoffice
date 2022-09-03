@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { BillableClient } from '@core/models/billable-client';
+import { BillableClient, ContractStatus } from '@core/models/billable-client';
 import { BillableClientService } from '@core/service/billable-client.service';
 import { ToastService } from '@core/service/toast.service';
 import { WindowRefService } from '@core/service/window.service';
@@ -61,6 +61,22 @@ export class BillableClientTableComponent implements OnInit {
           this.toastService.showSuccess('Client deleted');
         });
       }
+    }
+  }
+  getContractStatus(status: unknown) {
+    switch (status) {
+      case ContractStatus[ContractStatus.DONE]: return "Ended";
+      case ContractStatus[ContractStatus.ONGOING]: return "In Progress";
+      case ContractStatus[ContractStatus.NOT_STARTED_YET]: return "Not started";
+      default: throw Error("status unknown " + status);
+    }
+  }
+  getContractStatusClasses(status: unknown) {
+    switch (status) {
+      case ContractStatus[ContractStatus.DONE]: return ["text-danger"];
+      case ContractStatus[ContractStatus.ONGOING]: return ["text-success"];
+      case ContractStatus[ContractStatus.NOT_STARTED_YET]: return ["text-primary"];
+      default: throw Error("status unknown " + status);
     }
   }
 

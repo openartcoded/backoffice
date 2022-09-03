@@ -23,7 +23,7 @@
             <td class="text-break">{{ client.name }}</td>
             <td class="text-break">{{ client.emailAddress }}</td>
             <td class="text-break">{{ client.vatNumber }}</td>
-            <td class="text-break">{{ client.contractStatus }}</td>
+            <td class="text-break" [ngClass]="getContractStatusClasses(client.contractStatus)">{{ getContractStatus(client.contractStatus) }}</td>
             <td class="text-center fit">
               <div ngbDropdown class="d-inline-block" container="body">
                 <button

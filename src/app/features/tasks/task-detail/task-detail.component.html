@@ -123,6 +123,11 @@
           />
         </div>
       </div>
+      <div class="alert alert-warning" *ngIf="!form.valid">
+        <p>Invalid field: {{findInvalidControls() | json}}</p>
+        <!-- <p>Cron expression: {{cronExpression}}</p>
+        <p>Specific Date: {{specificDate}}</p> -->
+      </div>
       <hr />
 
       <div class="form-check form-check-inline">
@@ -152,7 +157,7 @@
 
       <div class="d-flex justify-content-end">
         <button class="btn btn-danger me-1" (click)="delete($event)" [disabled]="!task?.id">Delete</button>
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid || (!specificDate && !cronExpression)">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid || (!specificDate && !cronExpression?.length)">
           Submit
           <!-- todo bug with !specificDate && !cronExpression -->
         </button>

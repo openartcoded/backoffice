@@ -103,7 +103,7 @@ export class InvoiceDetailComponent implements OnInit {
           value: this.invoice?.billTo?.emailAddress,
           disabled: this.invoice.locked,
         },
-        []
+        [Validators.required]
       ),
       invoiceTableForm: new UntypedFormArray(this.createInvoiceTable()),
     });
@@ -212,7 +212,16 @@ export class InvoiceDetailComponent implements OnInit {
   getInvoiceType() {
     return [RateType[RateType.DAYS], RateType[RateType.HOURS]];
   }
-
+  findInvalidControls() {
+    const invalid = [];
+    const controls = this.invoiceForm.controls;
+    for (const name in controls) {
+        if (controls[name].invalid) {
+            invalid.push(name);
+        }
+    }
+    return invalid;
+}
   fillFromClient() {
     const client: BillableClient = this.invoiceForm.get('selectedClient').value;
     this.invoiceForm.get('billToVatNumber').patchValue(client?.vatNumber);
