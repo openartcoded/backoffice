@@ -1,5 +1,11 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { PeriodType, Timesheet, TimesheetPeriod, TimesheetSettings, TimesheetSettingsForm } from '@core/models/timesheet';
+import {
+  PeriodType,
+  Timesheet,
+  TimesheetPeriod,
+  TimesheetSettings,
+  TimesheetSettingsForm,
+} from '@core/models/timesheet';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TimesheetService } from '@core/service/timesheet.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,7 +22,7 @@ import { TimesheetSettingsComponent } from '../timesheet-settings/timesheet-sett
 import { BillableClientService } from '@core/service/billable-client.service';
 import { ToastService } from '@core/service/toast.service';
 import { ContractStatus } from '@core/models/billable-client';
-
+import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-timesheet-detail',
   templateUrl: './timesheet-detail.component.html',
@@ -26,6 +32,8 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   timesheet: Timesheet;
   timesheetSettings: TimesheetSettings;
   id: string;
+
+  currentFilter = PeriodType[PeriodType.WORKING_DAY];
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +45,7 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     private notificationService: NotificationService,
     private fileService: FileService,
     private timesheetService: TimesheetService,
-    private toastService: ToastService,
+    private toastService: ToastService
   ) {}
 
   async ngOnInit() {
@@ -48,6 +56,19 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
 
   isWeekend(period: TimesheetPeriod) {
     return PeriodType[PeriodType.WEEKEND] === period.periodType.toString();
+  }
+
+  isToday(period: TimesheetPeriod) {
+    return this.isWorkday(period) && 
+      new Date().toDateString() ===new Date(period.date).toDateString();
+  }
+
+  isNotWorkday(period: TimesheetPeriod) {
+    return !this.isWorkday(period);
+  }
+  
+  isWorkday(period: TimesheetPeriod) {
+    return PeriodType[PeriodType.WORKING_DAY] === period.periodType?.toString();
   }
 
   openPeriod(period: TimesheetPeriod) {
@@ -113,12 +134,12 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   }
 
   async release() {
-    this.toastService.showSuccess("timesheet will be generated");
+    this.toastService.showSuccess('timesheet will be generated');
     await firstValueFrom(this.timesheetService.closeTimesheet(this.timesheet.id));
   }
 
   async reopen() {
-    this.toastService.showSuccess("timesheet will be reopened");
+    this.toastService.showSuccess('timesheet will be reopened');
     await firstValueFrom(this.timesheetService.reopenTimesheet(this.timesheet.id));
   }
 
@@ -126,6 +147,17 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     this.fileService.findById(this.timesheet.uploadId).subscribe((upl) => {
       this.fileService.download(upl);
     });
+  }
+
+  get periods() {
+    if(this.currentFilter){
+      return this.timesheet?.periods?.filter(p => this.currentFilter.toString() === p.periodType.toString());
+    }
+    return this.timesheet?.periods;
+  }
+
+  setFilter(tag?: any) {
+    this.currentFilter = tag?.periodType;
   }
 
   openPdfViewer() {
@@ -167,12 +199,11 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   delete() {
     if (isPlatformBrowser(this.platformId)) {
       if (this.windowRefService.nativeWindow.confirm('Are you sure you want to delete this timesheet?')) {
-        this.timesheetService.delete(this.timesheet.id).subscribe(d => {
+        this.timesheetService.delete(this.timesheet.id).subscribe((d) => {
           this.router.navigateByUrl('/timesheets');
         });
       }
     }
-
   }
   async openSettings() {
     const clients = await firstValueFrom(this.billableClientService.findByContractStatus(ContractStatus.ONGOING));
@@ -181,7 +212,7 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
       timesheetId: this.timesheet.id,
       maxHoursPerDay: this.timesheet?.settings?.maxHoursPerDay,
       minHoursPerDay: this.timesheet?.settings?.minHoursPerDay,
-    }as TimesheetSettingsForm;
+    } as TimesheetSettingsForm;
     const ref = this.modalService.open(TimesheetSettingsComponent, {
       size: 'lg',
     });
@@ -190,7 +221,7 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     ref.componentInstance.onSubmitForm.subscribe(async (updated) => {
       ref.close();
       await firstValueFrom(this.timesheetService.updateSettings(updated));
-      this.toastService.showSuccess("Settings updated");
+      this.toastService.showSuccess('Settings updated');
       this.load();
     });
   }
