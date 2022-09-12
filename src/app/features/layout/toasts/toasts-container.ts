@@ -18,7 +18,7 @@ import { ToastService } from '@core/service/toast.service';
       <ng-template #text>{{ toast.textOrTpl }}</ng-template>
     </ngb-toast>
   `,
-  host: { class: 'toast-container position-fixed top-0 end-0 p-5', style: 'z-index: 1200' },
+  host: { class: 'toast-container position-fixed top-0 end-0 pt-5 me-1', style: 'z-index: 1200' },
 })
 export class ToastsContainer {
   constructor(public toastService: ToastService) {}
