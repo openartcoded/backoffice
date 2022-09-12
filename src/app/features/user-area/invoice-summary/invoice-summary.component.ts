@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 import { InvoiceSummary, Invoice } from '@core/models/invoice';
 import { map } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
-import { WindowRefService } from '@core/service/window.service';
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
@@ -16,22 +14,17 @@ import { DateUtils } from '@core/utils/date-utils';
 export class InvoiceSummaryComponent implements OnInit, OnDestroy {
   summary$: Observable<InvoiceSummary>;
   
-  showGraphs = false;
-
   constructor(
     private invoiceService: InvoiceService,
-    private windowService: WindowRefService,
-    private breakPointObserver: BreakpointObserver,
     @Inject(PLATFORM_ID) private platformId: any
   ) {}
+
   ngOnDestroy(): void {
     this.summary$ = null;
-    this.showGraphs = false;
   }
 
   ngOnInit(): void {
     this.load();
-    setTimeout(() => (this.showGraphs = true), 200);
   }
 
   load() {
@@ -113,21 +106,8 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
     );
   }
 
-  toggleGraphs() {
-    this.showGraphs = !this.showGraphs;
-  }
-
   isBrowser() {
     return isPlatformBrowser(this.platformId);
-  }
-
-  resize() {
-    const shouldResize =
-      this.breakPointObserver.isMatched('(min-width: 768px)') ||
-      this.breakPointObserver.isMatched('(max-width: 768px)');
-    if (this.isBrowser() && !shouldResize) {
-      this.windowService.nativeWindow.dispatchEvent(new Event('resize'));
-    }
   }
 
   findPeriod(invoice) {

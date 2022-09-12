@@ -80,10 +80,7 @@ export class DossierSummaryComponent implements OnInit, OnDestroy {
     };
     const data = [earnings, expenses];
     this.graphs = [{ data: data, config: config, layout: layout('Earnings/Expenses') }];
-
-    setTimeout(() => {
-      this.showGraph = true;
-    }, 100);
+    this.showGraph = true;
   }
 
   isBrowser() {

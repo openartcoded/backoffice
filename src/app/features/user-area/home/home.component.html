@@ -1,6 +1,6 @@
 <app-title title="DASHBOARD" [uppercase]="true"></app-title>
 
-<ng-container>
+<ng-container *ngIf="loaded">
   <div class="d-lg-flex  align-items-stretch">
     <div class="col me-1">
       <app-invoice-summary></app-invoice-summary>
@@ -15,4 +15,7 @@
     </div>
   </div>
 
+</ng-container>
+<ng-container *ngIf="!loaded">
+  loading...
 </ng-container>

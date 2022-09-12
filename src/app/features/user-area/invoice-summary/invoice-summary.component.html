@@ -1,5 +1,5 @@
 <ng-container *ngIf="isBrowser() && summary$ | async as summary">
-    <ng-container *ngIf="showGraphs">
+    <ng-container>
       <div id="plot" class="border me-lg-1 mb-1">
         <ng-container *ngFor="let g of summary.graphs; let index = index">
           <plotly-plot [divId]="'plot'" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
