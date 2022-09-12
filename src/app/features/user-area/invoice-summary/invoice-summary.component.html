@@ -1,13 +1,6 @@
 <ng-container *ngIf="isBrowser() && summary$ | async as summary">
-  <!--<div class="d-flex justify-content-end">
-    <button class="btn btn-success mt-1 mb-1" (click)="toggleGraphs()">
-      {{ showGraphs ? 'Hide' : 'Show' }}
-      graphs
-    </button>
-  </div>-->
-  <div class="d-lg-flex justify-content-lg-between">
     <ng-container *ngIf="showGraphs">
-      <div id="plot" class="w-100 border me-lg-1 mb-1">
+      <div id="plot" class="border me-lg-1 mb-1">
         <ng-container *ngFor="let g of summary.graphs; let index = index">
           <plotly-plot [divId]="'plot'" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
           <hr *ngIf="index + 1 < summary.graphs.length" />
@@ -15,7 +8,7 @@
       </div>
     </ng-container>
 
-    <ul class="list-group mb-1">
+    <ul class="mb-1 list-group">
       <li class="list-group-item bg-light">
         <strong class="text-uppercase text-secondary">This year</strong>
       </li>
@@ -59,5 +52,4 @@
         </div>
       </li>
     </ul>
-  </div>
 </ng-container>

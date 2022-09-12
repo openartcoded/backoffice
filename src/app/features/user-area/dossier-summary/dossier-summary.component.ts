@@ -7,11 +7,11 @@ import { WindowRefService } from '@core/service/window.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-summary',
-  templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.scss'],
+  selector: 'app-dossier-summary',
+  templateUrl: './dossier-summary.component.html',
+  styleUrls: ['./dossier-summary.component.scss'],
 })
-export class SummaryComponent implements OnInit, OnDestroy {
+export class DossierSummaryComponent implements OnInit, OnDestroy {
   dossierSummaries: DossierSummary[];
   graphs: any;
   showGraph: boolean;

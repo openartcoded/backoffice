@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { InvoiceService } from '@core/service/invoice.service';
 import { Observable } from 'rxjs';
 import { InvoiceSummary, Invoice } from '@core/models/invoice';
@@ -9,13 +9,15 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
-  selector: 'app-summary',
-  templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.scss'],
+  selector: 'app-invoice-summary',
+  templateUrl: './invoice-summary.component.html',
+  styleUrls: ['./invoice-summary.component.scss'],
 })
-export class SummaryComponent implements OnInit, OnDestroy {
+export class InvoiceSummaryComponent implements OnInit, OnDestroy {
   summary$: Observable<InvoiceSummary>;
+  
   showGraphs = false;
+
   constructor(
     private invoiceService: InvoiceService,
     private windowService: WindowRefService,
@@ -37,11 +39,11 @@ export class SummaryComponent implements OnInit, OnDestroy {
       responsive: true,
       displayModeBar: false,
     };
-    const layout = (title: string, callback = (lyt) => {}) => {
+    const layout = (title: string, callback = (_) => {}) => {
       let l = {
         barmode: 'group',
         dragmode: 'zoom',
-        showlegend: false,
+        showlegend: true,
         yaxis: {
           fixedrange: true,
           side: 'right',
@@ -58,7 +60,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
             visible: false,
           },
         },
-        //title: title,
+        title,
       };
       callback(l);
       return l;
@@ -120,8 +122,10 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
 
   resize() {
-    const isDesktop = this.breakPointObserver.isMatched('(min-width: 768px)');
-    if (this.isBrowser() && !isDesktop) {
+    const shouldResize =
+      this.breakPointObserver.isMatched('(min-width: 768px)') ||
+      this.breakPointObserver.isMatched('(max-width: 768px)');
+    if (this.isBrowser() && !shouldResize) {
       this.windowService.nativeWindow.dispatchEvent(new Event('resize'));
     }
   }
