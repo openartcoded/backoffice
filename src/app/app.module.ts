@@ -13,6 +13,7 @@ import {
   faArrowDown,
   faArrowUp,
   faAsterisk,
+  faVcard,
   faBars,
   faBirthdayCake,
   faBlog,
@@ -135,6 +136,7 @@ export class AppModule {
     // font awesome
     library.addIcons(
       faEdit,
+      faVcard,
       faAsterisk,
       faUser,
       faKey,

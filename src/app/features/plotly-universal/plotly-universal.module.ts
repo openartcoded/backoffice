@@ -13,8 +13,8 @@ import { WindowRefService } from '@core/service/window.service';
 })
 export default class PlotlyUniversalModule {
   constructor(@Inject(PLATFORM_ID) private platformId: any, private windowService: WindowRefService) {
-    if (isPlatformBrowser(platformId)) {
-      const plotly = (windowService.nativeWindow as any).Plotly;
+    if (isPlatformBrowser(this.platformId)) {
+      const plotly = (this.windowService.nativeWindow as any).Plotly;
       if (typeof plotly === 'undefined') {
         throw new Error(`Plotly object not found on window.`);
       }

@@ -13,7 +13,9 @@ import { firstValueFrom, Subscription } from 'rxjs';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
+
   loaded: boolean = true;
+
   constructor(
     private titleService: Title,
     private breakPointObserver: BreakpointObserver,
@@ -32,9 +34,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.subscription = this.breakPointObserver
         .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
         .subscribe(() => {
-          this.loaded = false;
           this.windowService.nativeWindow.dispatchEvent(new Event('resize'));
-          setTimeout(() => (this.loaded = true), 150);
+          this.loaded = true;
         });
     }
 
