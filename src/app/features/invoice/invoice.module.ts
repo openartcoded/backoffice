@@ -10,8 +10,6 @@ import { NgbDatepickerModule, NgbDropdownModule, NgbPaginationModule, NgbNavModu
 import { InvoiceTableResultComponent } from './invoice-table-result/invoice-table-result.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { TemplateComponent } from './template/template.component';
-import { SummaryComponent } from './summary/summary.component';
-import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +17,6 @@ import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.mo
     InvoiceDetailComponent,
     InvoiceTableResultComponent,
     TemplateComponent,
-    SummaryComponent,
   ],
   imports: [
     CommonModule,
@@ -30,7 +27,6 @@ import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.mo
     NgbDatepickerModule,
     NgbDropdownModule,
     FormsModule,
-    PlotlyUniversalModule,
     NgbPaginationModule,
     NgbNavModule,
     NgxFileDropModule,

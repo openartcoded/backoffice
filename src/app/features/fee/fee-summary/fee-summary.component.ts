@@ -63,7 +63,7 @@ export class FeeSummaryComponent implements OnInit, OnDestroy {
       type: 'bar',
     };
     const data = [totalHVAT, totalVAT];
-    this.graphs$ = of([{ data: data, config: config, layout: layout('Expenses Summary') }]);
+    this.graphs$ = of([{ data: data, config: config, layout: layout('Expenses') }]);
     setTimeout(() => {
       this.showGraph = true;
     }, 150);

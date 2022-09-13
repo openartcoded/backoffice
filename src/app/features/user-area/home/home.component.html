@@ -1,5 +1,21 @@
-<app-title title="HOME" [uppercase]="true"></app-title>
+<app-title title="DASHBOARD" [uppercase]="true"></app-title>
 
-<ng-container>
-  <app-actuator></app-actuator>
+<ng-container *ngIf="loaded">
+  <div class="d-lg-flex  align-items-stretch">
+    <div class="col me-1">
+      <app-invoice-summary></app-invoice-summary>
+    </div>
+    <div class="col me-1">
+      <app-dossier-summary></app-dossier-summary>
+      <app-memo-date></app-memo-date>
+    </div>
+    <div class="col me-1">
+      <app-actuator></app-actuator>
+      <app-todo-list></app-todo-list>
+    </div>
+  </div>
+
+</ng-container>
+<ng-container *ngIf="!loaded">
+  loading...
 </ng-container>

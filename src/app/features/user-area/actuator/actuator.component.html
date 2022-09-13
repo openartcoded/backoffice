@@ -1,8 +1,7 @@
-<div class="container">
   <ng-container *ngIf="buildInfo$ | async as buildInfo">
     <div class="mb-2">
       <ngb-accordion [closeOthers]="true" activeIds="backend-info">
-        <ngb-panel id="backend-info">
+        <ngb-panel id="backend-info" cardClass="p-0">
           <ng-template ngbPanelTitle let-opened="opened">
             <strong class="text-uppercase">Backend Info</strong>
           </ng-template>
@@ -111,28 +110,8 @@
                 </ng-container>
               </ng-template>
             </ngb-panel>
-            <ngb-panel id="memo">
-              <ng-template ngbPanelTitle let-opened="opened">
-                <strong class="text-uppercase">MEMO</strong>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                <app-memo-date></app-memo-date>
-              </ng-template>
-            </ngb-panel>
-
-            <ngb-panel id="todo">
-              <ng-template ngbPanelTitle let-opened="opened">
-                <strong class="text-uppercase">TODO</strong>
-              </ng-template>
-              <ng-template ngbPanelContent>
-
-                <app-todo-list></app-todo-list>
-
-              </ng-template>
-            </ngb-panel>
           </ng-container>
         </ng-container>
       </ngb-accordion>
     </div>
   </ng-container>
-</div>

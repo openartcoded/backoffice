@@ -15,6 +15,9 @@ import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodoFormComponent } from './todo-form/todo-form.component';
 import { ActuatorComponent } from './actuator/actuator.component';
 import { ErrorComponent } from './error/error.component';
+import { InvoiceSummaryComponent } from './invoice-summary/invoice-summary.component';
+import { DossierSummaryComponent } from './dossier-summary/dossier-summary.component';
+import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,8 @@ import { ErrorComponent } from './error/error.component';
     TodoListComponent,
     TodoFormComponent,
     ActuatorComponent,
+    InvoiceSummaryComponent,
+    DossierSummaryComponent,
     ErrorComponent,
   ],
   imports: [
@@ -34,6 +39,7 @@ import { ErrorComponent } from './error/error.component';
     SharedModule,
     FontAwesomeModule,
     NgbCollapseModule,
+    PlotlyUniversalModule,
     NgbAccordionModule,
     AutosizeModule,
     NgxFileDropModule,

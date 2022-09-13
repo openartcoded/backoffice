@@ -9,18 +9,15 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DossierFormComponent } from './dossier-form/dossier-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AutosizeModule } from 'ngx-autosize';
-import { SummaryComponent } from './summary/summary.component';
-import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.module';
 
 @NgModule({
-  declarations: [DossierPageComponent, DossierTableResultComponent, DossierFormComponent, SummaryComponent],
+  declarations: [DossierPageComponent, DossierTableResultComponent, DossierFormComponent],
   imports: [
     CommonModule,
     SharedModule,
     DossierRoutingModule,
     NgbNavModule,
     FontAwesomeModule,
-    PlotlyUniversalModule,
     ReactiveFormsModule,
     FormsModule,
     AutosizeModule,

@@ -1,35 +1,30 @@
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { InvoiceService } from '@core/service/invoice.service';
 import { Observable } from 'rxjs';
 import { InvoiceSummary, Invoice } from '@core/models/invoice';
 import { map } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
-import { WindowRefService } from '@core/service/window.service';
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
-  selector: 'app-summary',
-  templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.scss'],
+  selector: 'app-invoice-summary',
+  templateUrl: './invoice-summary.component.html',
+  styleUrls: ['./invoice-summary.component.scss'],
 })
-export class SummaryComponent implements OnInit, OnDestroy {
+export class InvoiceSummaryComponent implements OnInit, OnDestroy {
   summary$: Observable<InvoiceSummary>;
-  showGraphs = false;
+  
   constructor(
     private invoiceService: InvoiceService,
-    private windowService: WindowRefService,
-    private breakPointObserver: BreakpointObserver,
     @Inject(PLATFORM_ID) private platformId: any
   ) {}
+
   ngOnDestroy(): void {
     this.summary$ = null;
-    this.showGraphs = false;
   }
 
   ngOnInit(): void {
     this.load();
-    setTimeout(() => (this.showGraphs = true), 200);
   }
 
   load() {
@@ -37,11 +32,11 @@ export class SummaryComponent implements OnInit, OnDestroy {
       responsive: true,
       displayModeBar: false,
     };
-    const layout = (title: string, callback = (lyt) => {}) => {
+    const layout = (title: string, callback = (_) => {}) => {
       let l = {
         barmode: 'group',
         dragmode: 'zoom',
-        showlegend: false,
+        showlegend: true,
         yaxis: {
           fixedrange: true,
           side: 'right',
@@ -58,7 +53,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
             visible: false,
           },
         },
-        //title: title,
+        title,
       };
       callback(l);
       return l;
@@ -111,19 +106,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
     );
   }
 
-  toggleGraphs() {
-    this.showGraphs = !this.showGraphs;
-  }
-
   isBrowser() {
     return isPlatformBrowser(this.platformId);
-  }
-
-  resize() {
-    const isDesktop = this.breakPointObserver.isMatched('(min-width: 768px)');
-    if (this.isBrowser() && !isDesktop) {
-      this.windowService.nativeWindow.dispatchEvent(new Event('resize'));
-    }
   }
 
   findPeriod(invoice) {

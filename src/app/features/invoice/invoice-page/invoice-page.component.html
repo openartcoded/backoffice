@@ -51,19 +51,5 @@
       </div>
     </ng-template>
   </li>
-  <li ngbNavItem="summary">
-    <a ngbNavLink routerLink="/invoice/summary">Summary</a>
-    <ng-template ngbNavContent>
-      <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-        <ng-component
-          [ngTemplateOutlet]="fullScreenTemplate"
-          [ngTemplateOutletContext]="{ title: 'Summary' }"
-        ></ng-component>
-        <div class="d-block">
-          <app-summary></app-summary>
-        </div>
-      </div>
-    </ng-template>
-  </li>
 </ul>
 <div [ngbNavOutlet]="nav"></div>
