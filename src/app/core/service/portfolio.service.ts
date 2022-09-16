@@ -30,6 +30,10 @@ export class PortfolioService {
     return this.http.post<void>(`${this.baseUrl}/update-ticks?id=${portfolioId}`, ticks);
   }
 
+  deleteTick(portfolioId: string, symbol: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/tick?id=${portfolioId}&symbol=${symbol}`, {});
+  }
+
   save(portfolio: Portfolio): Observable<Portfolio> {
     return this.http.post<Portfolio>(`${this.baseUrl}/save`, portfolio);
   }

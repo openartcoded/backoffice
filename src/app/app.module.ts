@@ -85,6 +85,7 @@ import {
   faBold,
   faListOl,
   faItalic,
+  faWarning,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -209,6 +210,7 @@ export class AppModule {
       faUserCog,
       faCheckCircle,
       faLinkedin,
+      faWarning,
       faDownload,
       faGithub,
       faPlus,

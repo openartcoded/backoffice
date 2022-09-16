@@ -1,4 +1,11 @@
 <ng-container *ngIf="portfolios  && loaded">
+  <div class="d-block mb-2" *ngIf="errors?.length">
+    <div class="alert alert-danger mb-1" *ngFor="let error of errors">
+      <fa-icon class="me-1" [icon]="['fas','warning']"></fa-icon>
+      <span>Could not get {{error.tick.symbol}}. Error: {{error.error.message}}</span>
+      <button class="btn btn-warning ms-1" (click)="deleteTick(error.tick)">Delete</button>
+    </div>
+  </div>
   <div class="d-flex justify-content-between mb-2">
     <div class="w-100 me-1">
       <app-select-portfolio [selectedPortfolio]="selectedPortfolio" [portfolios]="portfolios"
