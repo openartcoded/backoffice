@@ -1,0 +1,29 @@
+<ng-container *ngIf="isBrowser && logo">
+    <div class="d-block" #companyStamp>
+        <div class="card  bg-secondary text-white">
+            <img [src]="logo" class="card-img-top bg-transparent">
+
+            <div class="card-footer pt-0 pb-0  ps-2 pe-2 d-lg-flex justify-content-between">
+                <div>
+                    <fa-icon class="d-lg-block me-1 text-center" [icon]="['fas','vcard']"></fa-icon>
+                    <strong class=" d-lg-block text-center">{{personalInfo.vatNumber}}</strong>
+                </div>
+                <div>
+                    <fa-icon class="d-lg-block me-1 text-center" [icon]="['fas','mail-bulk']"></fa-icon>
+                    <strong class=" d-lg-block text-center">{{personalInfo.organizationEmailAddress}}</strong>
+                </div>
+                <div>
+                    <fa-icon class="d-lg-block me-1 text-center" [icon]="['fas','phone']"></fa-icon>
+                    <strong class=" d-lg-block text-center">{{personalInfo.organizationPhoneNumber}}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-none">
+        <img #canvas>
+        <a #downloadLink></a>
+    </div>
+    <div class="mt-1 mb-1">
+        <button class="w-100  btn btn-outline-primary " (click)="downloadImage()">Download</button>
+    </div>
+</ng-container>

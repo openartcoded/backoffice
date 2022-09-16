@@ -51,6 +51,7 @@ export class TaskDetailComponent implements OnInit {
     const specificDateFormatted = specificDate ? DateUtils.formatInputDateTime(specificDate) : null;
     this.form = this.fb.group({
       hasSpecificDate: new UntypedFormControl({ value: !!this.task?.specificDate, disabled: false }, []),
+      shouldRunNow: new UntypedFormControl({ value: false, disabled: false }, []),
       hasAction: new UntypedFormControl({ value: !!this.task?.actionKey, disabled: false }, []),
       specificDate: new UntypedFormControl(
         {
@@ -101,6 +102,13 @@ export class TaskDetailComponent implements OnInit {
       } else {
         this.form.controls.specificDate.patchValue(null);
       }
+    });
+
+    this.form.controls.shouldRunNow.valueChanges.subscribe((v) => {
+      if (v) {
+        this.form.controls.hasSpecificDate.patchValue(true);
+        this.form.controls.specificDate.patchValue(DateUtils.formatInputDateTime(new Date()));
+      } 
     });
 
     this.form.controls.action.valueChanges.subscribe((v) => {

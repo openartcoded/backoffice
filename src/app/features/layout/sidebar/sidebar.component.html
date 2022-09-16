@@ -1,25 +1,26 @@
-<div class="offcanvas offcanvas-start sidebar bg-dark pt-1" tabindex="-1" id="offcanvasSideBar" data-bs-scroll="true" data-bs-backdrop="true"  aria-labelledby="offcanvasExampleLabel">
+<div class="offcanvas offcanvas-start sidebar bg-dark pt-1" tabindex="-1" id="offcanvasSideBar" data-bs-scroll="true"
+  data-bs-backdrop="true" aria-labelledby="offcanvasExampleLabel">
   <div class="offcanvas-header text-white">
     <h5 class="offcanvas-title dtext-none d-sm-block" id="offcanvasScrollingLabel"></h5>
-    <button type="button" class="btn-close btn-close-white text-reset d-sm-block" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <button type="button" class="btn-close btn-close-white text-reset d-sm-block" data-bs-dismiss="offcanvas"
+      aria-label="Close"></button>
   </div>
   <div class="offcanvas-body px-0 pt-0">
     <ul *ngIf="links" class="nav flex-column mb-sm-auto mb-0 align-items-md-start align-items-center ">
-      <li *ngFor="let link of links;let index=index" routerLinkActive="active"
-         class=" focusable nav-item w-100"
-          [routerLinkActiveOptions]="link.routerLinkActiveOptions">
-            <a class="nav-link text-light px-2  text-uppercase text-strong" [routerLink]="link.routerLink">
-              <fa-icon class="fs-4 text-center" [icon]="link.icon"></fa-icon>
-              <span class="ms-1 dtext-none d-sm-inline">&nbsp;{{link.title}}</span>
-            </a>
-       
+      <li *ngFor="let link of links;let index=index" routerLinkActive="active" class=" focusable nav-item w-100"
+        [routerLinkActiveOptions]="link.routerLinkActiveOptions">
+        <a class="nav-link text-light px-2  text-uppercase text-strong" [routerLink]="link.routerLink">
+          <fa-icon class="fs-4 text-center" [icon]="link.icon"></fa-icon>
+          <span class="ms-1 dtext-none d-sm-inline">&nbsp;{{link.title}}</span>
+        </a>
+
       </li>
       <li class="w-100">
         <a role="button" class="nav-link  px-2 text-warning" (click)="openSettings()">
-          <fa-icon class="fs-4 text-center"  icon="toolbox"></fa-icon>
+          <fa-icon class="fs-4 text-center" icon="toolbox"></fa-icon>
           <span class="ms-1 dtext-none d-sm-inline">&nbsp;Settings</span>
         </a>
       </li>
     </ul>
   </div>
-</div> 
+</div>

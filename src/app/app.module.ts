@@ -13,6 +13,7 @@ import {
   faArrowDown,
   faArrowUp,
   faAsterisk,
+  faVcard,
   faBars,
   faBirthdayCake,
   faBlog,
@@ -84,6 +85,7 @@ import {
   faBold,
   faListOl,
   faItalic,
+  faWarning,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -135,6 +137,7 @@ export class AppModule {
     // font awesome
     library.addIcons(
       faEdit,
+      faVcard,
       faAsterisk,
       faUser,
       faKey,
@@ -207,6 +210,7 @@ export class AppModule {
       faUserCog,
       faCheckCircle,
       faLinkedin,
+      faWarning,
       faDownload,
       faGithub,
       faPlus,

@@ -18,6 +18,8 @@ import { ErrorComponent } from './error/error.component';
 import { InvoiceSummaryComponent } from './invoice-summary/invoice-summary.component';
 import { DossierSummaryComponent } from './dossier-summary/dossier-summary.component';
 import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.module';
+import { Html2canvasUniversalModule } from '@feature/html2canvas-universal/html2canvas-universal.module';
+import { CompanyStampComponent } from './company-stamp/company-stamp.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.mo
     InvoiceSummaryComponent,
     DossierSummaryComponent,
     ErrorComponent,
+    CompanyStampComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +47,7 @@ import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.mo
     AutosizeModule,
     NgxFileDropModule,
     NgbNavModule,
+    Html2canvasUniversalModule
   ],
 })
 export class UserAreaModule {}
