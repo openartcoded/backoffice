@@ -21,6 +21,10 @@ export class RegisteredEvent {
   static REMINDER_TASK_NOTIFY: string = 'REMINDER_TASK_NOTIFY';
   static CLOSED_TIMESHEET: string = 'CLOSED_TIMESHEET';
   static REOPENED_TIMESHEET: string = 'REOPENED_TIMESHEET';
+  static BILLABLE_CLIENT_UPLOAD_ADDED: string = 'BILLABLE_CLIENT_UPLOAD_ADDED';
+  static BILLABLE_CLIENT_UPLOAD_DELETED: string = 'BILLABLE_CLIENT_UPLOAD_DELETED';
+  static BILLABLE_CLIENT_ERROR: string = 'BILLABLE_CLIENT_ERROR';
+
 }
 
 export interface OnApplicationEvent extends OnDestroy {

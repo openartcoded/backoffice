@@ -1,4 +1,5 @@
 import { RateType } from "./common";
+import { FileUpload } from "./file-upload";
 
 export interface BillableClient {
     id?: string;
@@ -16,6 +17,7 @@ export interface BillableClient {
     startDate?: Date;
     endDate?: Date;
     documentIds?: string[];
+    documents?: FileUpload[];
   }
 
   export enum ContractStatus{

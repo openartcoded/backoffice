@@ -10,7 +10,6 @@ import { InvoiceService } from '@core/service/invoice.service';
 import { FeeDetailComponent } from '@feature/fee/fee-detail/fee-detail.component';
 import { InvoiceDetailComponent } from '@feature/invoice/invoice-detail/invoice-detail.component';
 import { DateUtils } from '@core/utils/date-utils';
-import { LabelService } from '@core/service/label.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({

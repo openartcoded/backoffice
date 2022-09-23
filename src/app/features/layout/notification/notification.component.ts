@@ -82,6 +82,11 @@ export class NotificationComponent implements OnInit, OnApplicationEvent {
       case RegisteredEvent.MEMZ_ADDED:
         this.router.navigateByUrl('/memzagram');
         break;
+      case RegisteredEvent.BILLABLE_CLIENT_UPLOAD_ADDED:
+      case RegisteredEvent.BILLABLE_CLIENT_UPLOAD_DELETED:
+      case RegisteredEvent.BILLABLE_CLIENT_ERROR:
+        this.router.navigateByUrl('/billable-clients');
+        break;
     }
   }
 
