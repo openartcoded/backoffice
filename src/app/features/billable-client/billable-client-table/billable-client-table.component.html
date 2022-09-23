@@ -19,7 +19,7 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let client of clients">
-          <tr>
+          <tr role="button" (click)="addOrEdit(client)">
             <td class="text-break">{{ client.name }}</td>
             <td class="text-break">{{ client.emailAddress }}</td>
             <td class="text-break">{{ client.vatNumber }}</td>

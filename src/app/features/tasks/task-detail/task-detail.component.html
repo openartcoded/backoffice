@@ -93,7 +93,12 @@
         </div>
       </div>
       <div class="mb-1 row" *ngIf="!hasSpecificDate">
-        <label class="col-sm-2 col-form-label" for="cronExpression">Cron</label>
+        <label class="col-sm-2 col-form-label" for="cronExpression">Cron
+          <a class="btn btn-link text-dark p-0" (click)="openCronExpressionHelp()">
+            <fa-icon [icon]="['fas', 'question-circle']"></fa-icon>
+          </a>
+        </label>
+
         <div class="col-sm-10">
           <input
             type="text"

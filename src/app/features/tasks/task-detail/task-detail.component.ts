@@ -1,21 +1,12 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Inject,
-  Input,
-  OnInit,
-  Optional,
-  Output,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Optional, Output, PLATFORM_ID } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionMetadata, ActionParameter, ReminderTask, ActionParameterType } from '@core/models/reminder-task';
 import { firstValueFrom, Observable } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { WindowRefService } from '@core/service/window.service';
 import { DateUtils } from '@core/utils/date-utils';
+import { CronExpressionHelpComponent } from '../cron-expression-help/cron-expression-help.component';
 
 @Component({
   selector: 'app-task-detail',
@@ -39,8 +30,8 @@ export class TaskDetailComponent implements OnInit {
 
   constructor(
     @Optional() public activeModal: NgbActiveModal,
-    private cdr: ChangeDetectorRef,
     private windowService: WindowRefService,
+    private modalService: NgbModal,
     @Inject(PLATFORM_ID) private platformId: any,
     private fb: UntypedFormBuilder
   ) {}
@@ -73,8 +64,8 @@ export class TaskDetailComponent implements OnInit {
         ? this.fb.array(this.task?.actionParameters?.map(this.convertParameter))
         : this.fb.array([]),
       dateCreation: new UntypedFormControl({ value: this.task?.dateCreation, disabled: true }, []),
-      nextDate: new UntypedFormControl({ value: this.task?.nextDate, disabled: true }, []),
-      lastExecutionDate: new UntypedFormControl({ value: this.task?.lastExecutionDate, disabled: true }, []),
+      nextDate: new UntypedFormControl({ value:  DateUtils.formatInputDateTimeWithCustomFormat(this.task?.nextDate, 'DD/MM/yyyy HH:mm:ss'), disabled: true }, []),
+      lastExecutionDate: new UntypedFormControl({ value:  DateUtils.formatInputDateTimeWithCustomFormat(this.task?.lastExecutionDate, 'DD/MM/yyyy HH:mm:ss'), disabled: true }, []),
       updatedDate: new UntypedFormControl({ value: this.task?.updatedDate, disabled: true }, []),
       disabled: new UntypedFormControl({ value: this.task?.disabled || false, disabled: false }, [Validators.required]),
       inAppNotification: new UntypedFormControl({ value: this.task?.inAppNotification || false, disabled: false }, [
@@ -108,7 +99,7 @@ export class TaskDetailComponent implements OnInit {
       if (v) {
         this.form.controls.hasSpecificDate.patchValue(true);
         this.form.controls.specificDate.patchValue(DateUtils.formatInputDateTime(new Date()));
-      } 
+      }
     });
 
     this.form.controls.action.valueChanges.subscribe((v) => {
@@ -131,6 +122,10 @@ export class TaskDetailComponent implements OnInit {
     return this.form.get('actionParameters') as UntypedFormArray;
   }
 
+  openCronExpressionHelp() {
+    this.modalService.open(CronExpressionHelpComponent, { size: 'lg' });
+  }
+    
   convertParameter(parameter: ActionParameter): UntypedFormGroup {
     return new UntypedFormGroup({
       key: new UntypedFormControl(

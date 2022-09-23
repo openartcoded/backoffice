@@ -10,7 +10,18 @@ export class DateUtils {
   }
 
   static formatInputDateTime(date) {
-    return moment(date).tz('Europe/Brussels').format().substring(0, 16);
+    if (date) {
+      return moment(date).tz('Europe/Brussels').format().substring(0, 16);
+    } else {
+      return '';
+    }
+  }
+  static formatInputDateTimeWithCustomFormat(date, format) {
+    if (date) {
+      return moment(date).tz('Europe/Brussels').format(format).substring(0, 16);
+    } else {
+      return '';
+    }
   }
 
   static dateStrToUtc(v) {
@@ -26,14 +37,14 @@ export class DateUtils {
   }
 
   static formatInputDate(date?: Date) {
-    if(!date) {
+    if (!date) {
       return null;
     }
     return date.toISOString().substring(0, 10);
   }
 
   static getDateFromInput(value: any) {
-    if(!value) {
+    if (!value) {
       return null;
     }
     return new Date(value);

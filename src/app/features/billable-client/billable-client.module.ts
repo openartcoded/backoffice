@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AutosizeModule } from 'ngx-autosize';
 import { NgxFileDropModule } from 'ngx-file-drop';
-import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { BillableClientDetailComponent } from './billable-client-detail/billable-client-detail.component';
 
 
@@ -27,6 +27,7 @@ import { BillableClientDetailComponent } from './billable-client-detail/billable
     AutosizeModule,
     NgxFileDropModule,
     NgbCollapseModule,
+    NgbNavModule,
     NgbDropdownModule,
   ]
 })

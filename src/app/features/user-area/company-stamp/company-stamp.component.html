@@ -1,20 +1,26 @@
 <ng-container *ngIf="isBrowser && logo">
     <div class="d-block" #companyStamp>
-        <div class="card  bg-secondary text-white">
+        <div class="card">
             <img [src]="logo" class="card-img-top bg-transparent">
 
-            <div class="card-footer pt-0 pb-0  ps-2 pe-2 d-lg-flex justify-content-between">
-                <div>
-                    <fa-icon class="d-lg-block me-1 text-center" [icon]="['fas','vcard']"></fa-icon>
-                    <strong class=" d-lg-block text-center">{{personalInfo.vatNumber}}</strong>
+            <div class="card-footer pt-0 pb-0  ps-2 pe-2 d-flex justify-content-around  bg-transparent">
+                <div class="d-lg-inline d-block text-center ">
+                    <fa-icon class="me-1" [icon]="['fas','vcard']"></fa-icon>
+                    <h6>{{personalInfo.organizationName}}</h6>
+                    <h6>{{personalInfo.vatNumber}}</h6>
                 </div>
-                <div>
+                <!-- <div>
                     <fa-icon class="d-lg-block me-1 text-center" [icon]="['fas','mail-bulk']"></fa-icon>
-                    <strong class=" d-lg-block text-center">{{personalInfo.organizationEmailAddress}}</strong>
-                </div>
-                <div>
-                    <fa-icon class="d-lg-block me-1 text-center" [icon]="['fas','phone']"></fa-icon>
-                    <strong class=" d-lg-block text-center">{{personalInfo.organizationPhoneNumber}}</strong>
+                    <h6 class=" d-lg-block text-center">{{personalInfo.organizationEmailAddress}}</h6>
+                </div> -->
+                <div class="d-lg-inline d-block  text-center">
+                    <span class="me-1">
+                        <fa-icon class="me-1" [icon]="['fas','phone']"></fa-icon>
+                        <fa-icon [icon]="['fas','mail-bulk']"></fa-icon>
+                    </span>
+                    <h6>{{personalInfo.organizationPhoneNumber}}</h6>
+                    <h6>{{personalInfo.organizationEmailAddress}}</h6>
+
                 </div>
             </div>
         </div>

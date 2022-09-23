@@ -1,29 +1,38 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { OnApplicationEvent, RegisteredEvent } from '@core/interface/on-application-event';
+import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { BillableClient, ContractStatus } from '@core/models/billable-client';
 import { BillableClientService } from '@core/service/billable-client.service';
+import { FileService } from '@core/service/file.service';
+import { NotificationService } from '@core/service/notification.service';
 import { ToastService } from '@core/service/toast.service';
 import { WindowRefService } from '@core/service/window.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { firstValueFrom } from 'rxjs';
 import { BillableClientDetailComponent } from '../billable-client-detail/billable-client-detail.component';
 
 @Component({
   selector: 'app-billable-client-table',
   templateUrl: './billable-client-table.component.html',
-  styleUrls: ['./billable-client-table.component.scss']
+  styleUrls: ['./billable-client-table.component.scss'],
 })
-export class BillableClientTableComponent implements OnInit {
+export class BillableClientTableComponent implements OnInit, OnApplicationEvent {
+  currentNgbModalRef: NgbModalRef;
 
   clients: BillableClient[];
-  constructor(private billableClientService: BillableClientService,
+  constructor(
+    private billableClientService: BillableClientService,
     private titleService: Title,
     private toastService: ToastService,
+    private fileService: FileService,
+    private notificationService: NotificationService,
     private metaService: Meta,
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
-    private modalService: NgbModal,
-    ) { }
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('Clients');
@@ -31,26 +40,38 @@ export class BillableClientTableComponent implements OnInit {
       name: 'description',
       content: 'Manage Clients',
     });
+    this.notificationService.subscribe(this);
     this.load();
   }
 
-  load(){
-    this.billableClientService.findAll().subscribe(c => this.clients = c);
+  load() {
+    this.billableClientService.findAll().subscribe((c) => (this.clients = c));
   }
 
-  addOrEdit(client?: BillableClient) {
-      const ngbModalRef = this.modalService.open(BillableClientDetailComponent, {
-        size: 'xl',
+  async addOrEdit(client?: BillableClient) {
+    this.currentNgbModalRef = this.modalService.open(BillableClientDetailComponent, {
+      size: 'xl',
+    });
+    this.currentNgbModalRef.componentInstance.client = client || ({} as BillableClient);
+    client.documents = await firstValueFrom(this.fileService.findByCorrelationId(client.id));
+    this.currentNgbModalRef.componentInstance.onUpload.subscribe(async (req: { file: File; id: string }) => {
+      await firstValueFrom(this.billableClientService.upload(req.id, req.file));
+      this.toastService.showSuccess('Will add a new document to the client in a bit');
+    });
+    this.currentNgbModalRef.componentInstance.onDeleteUpload.subscribe(async (req: { uploadId: string; id: string }) => {
+      await firstValueFrom(this.billableClientService.deleteUpload(req.id, req.uploadId));
+      this.toastService.showSuccess('Will delete the document in a bit');
+    });
+    this.currentNgbModalRef.componentInstance.onSaveClient.subscribe(async (client) => {
+      this.currentNgbModalRef.close();
+      this.billableClientService.save(client).subscribe((client) => {
+        this.toastService.showSuccess('Client updated');
+        this.load();
       });
-      ngbModalRef.componentInstance.client = client || {} as BillableClient;
-      ngbModalRef.componentInstance.onSaveClient.subscribe(async (client) => {
-        ngbModalRef.close();
-        this.billableClientService.save(client).subscribe(client =>{
-          this.toastService.showSuccess('Client updated');
-          this.load();
-
-        })
-      });
+    });
+    this.currentNgbModalRef.closed.subscribe(() => {
+      this.currentNgbModalRef = null;
+    });
   }
 
   delete(client: BillableClient) {
@@ -65,19 +86,56 @@ export class BillableClientTableComponent implements OnInit {
   }
   getContractStatus(status: unknown) {
     switch (status) {
-      case ContractStatus[ContractStatus.DONE]: return "Ended";
-      case ContractStatus[ContractStatus.ONGOING]: return "In Progress";
-      case ContractStatus[ContractStatus.NOT_STARTED_YET]: return "Not started";
-      default: throw Error("status unknown " + status);
+      case ContractStatus[ContractStatus.DONE]:
+        return 'Ended';
+      case ContractStatus[ContractStatus.ONGOING]:
+        return 'In Progress';
+      case ContractStatus[ContractStatus.NOT_STARTED_YET]:
+        return 'Not started';
+      default:
+        throw Error('status unknown ' + status);
     }
   }
   getContractStatusClasses(status: unknown) {
     switch (status) {
-      case ContractStatus[ContractStatus.DONE]: return ["text-danger"];
-      case ContractStatus[ContractStatus.ONGOING]: return ["text-success"];
-      case ContractStatus[ContractStatus.NOT_STARTED_YET]: return ["text-primary"];
-      default: throw Error("status unknown " + status);
+      case ContractStatus[ContractStatus.DONE]:
+        return ['text-danger'];
+      case ContractStatus[ContractStatus.ONGOING]:
+        return ['text-success'];
+      case ContractStatus[ContractStatus.NOT_STARTED_YET]:
+        return ['text-primary'];
+      default:
+        throw Error('status unknown ' + status);
     }
   }
 
+  handle(events: ArtcodedNotification[]) {
+    const filteredEvents = events.filter((event) =>
+      event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_ADDED || event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_DELETED
+    );
+
+    if (filteredEvents && this.currentNgbModalRef) {
+      const client = this.currentNgbModalRef.componentInstance.client;
+      this.fileService.findByCorrelationId(client.id).subscribe((documents) => {
+        client.documents = documents;
+        this.currentNgbModalRef.componentInstance.client = client;
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.notificationService.unsubscribe(this);
+  }
+
+  shouldHandle(event: ArtcodedNotification): boolean {
+    return (!event.seen && (
+       event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_ADDED ||
+       event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_DELETED ||
+       event.type === RegisteredEvent.BILLABLE_CLIENT_ERROR
+      ));
+  }
+
+  shouldMarkEventAsSeenAfterConsumed(): boolean {
+    return true;
+  }
 }

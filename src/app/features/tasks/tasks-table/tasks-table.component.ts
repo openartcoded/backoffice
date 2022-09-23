@@ -84,10 +84,6 @@ export class TasksTableComponent implements OnInit, OnApplicationEvent {
     return true;
   }
 
-  openCronExpressionHelp() {
-    this.modalService.open(CronExpressionHelpComponent, { size: 'lg' });
-  }
-
   openActionResult(task: ReminderTask, $event: any) {
     $event.stopPropagation();
     const modal = this.modalService.open(ActionResultComponent, {

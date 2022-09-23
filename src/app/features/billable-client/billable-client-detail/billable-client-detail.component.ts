@@ -2,8 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angul
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { BillableClient, ContractStatus } from '@core/models/billable-client';
 import { RateType } from '@core/models/common';
+import { FileUpload } from '@core/models/file-upload';
+import { FileService } from '@core/service/file.service';
 import { DateUtils } from '@core/utils/date-utils';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ImageViewerComponent } from '@shared/image-viewer/image-viewer.component';
+import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 
 @Component({
   selector: 'app-billable-client-detail',
@@ -14,12 +18,23 @@ export class BillableClientDetailComponent implements OnInit {
   @Input()
   client: BillableClient;
 
+  file: File;
+
   @Output()
   onSaveClient: EventEmitter<BillableClient> = new EventEmitter<BillableClient>();
 
+  @Output()
+  onUpload: EventEmitter<{file: File, id: string}> = new EventEmitter<{file: File, id: string}>();
+
+  @Output()
+  onDeleteUpload: EventEmitter<{id: string, uploadId: string}> = new EventEmitter<{id: string, uploadId: string}>();
+
   clientForm: UntypedFormGroup;
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
+  constructor(@Optional() public activeModal: NgbActiveModal, 
+  private fileService: FileService,
+  private fb: UntypedFormBuilder,
+  private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.clientForm = this.fb.group({
@@ -88,4 +103,50 @@ export class BillableClientDetailComponent implements OnInit {
       endDate: DateUtils.getDateFromInput(this.clientForm.get('endDate').value),
     });
   }
+
+  upload() {
+    this.onUpload.emit({file: this.file, id: this.client.id});
+    this.file = null;
+  }
+
+  loadFile($event) {
+    this.file = $event.target.files[0];
+  }
+
+  openPdfViewer(a: FileUpload) {
+    let ngbModalRef = this.modalService.open(PdfViewerComponent, {
+      size: 'xl',
+      scrollable: true,
+    });
+    ngbModalRef.componentInstance.pdf = a;
+    ngbModalRef.componentInstance.title = a.metadata?.originalFilename;
+  }
+
+  openImageViewer(a: FileUpload) {
+    let ngbModalRef = this.modalService.open(ImageViewerComponent, {
+      size: 'xl',
+      scrollable: true,
+    });
+    ngbModalRef.componentInstance.image = a;
+    ngbModalRef.componentInstance.title = a.metadata?.originalFilename;
+  }
+  
+  download(evt, a: FileUpload) {
+    evt.stopPropagation();
+    this.fileService.download(a);
+  }
+  removeDocument($event: MouseEvent, a: FileUpload) {
+    $event.stopPropagation();
+    this.onDeleteUpload.emit({id: this.client.id, uploadId: a.id});
+  }
+
+  isPdf(upl: FileUpload) {
+    return FileService.isPdf(upl.metadata.contentType);
+  }
+
+  isImage(upl: FileUpload) {
+    return FileService.isImage(upl.metadata.contentType);
+  }
+
+
 }
