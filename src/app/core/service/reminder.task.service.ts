@@ -40,4 +40,10 @@ export class ReminderTaskService {
   public save(reminderTask: ReminderTask): Observable<void> {
     return this.http.post<void>(this.basePath + '/save', reminderTask);
   }
+
+  public validateCronExpression(cronExpression: string): Observable<{ valid: boolean }> {
+    return this.http.get<{ valid: boolean }>(
+      this.basePath + '/validate-cron-expression?cronExpression=' + cronExpression
+    );
+  }
 }

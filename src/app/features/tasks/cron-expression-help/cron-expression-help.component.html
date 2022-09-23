@@ -1,13 +1,22 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">Cron Expression Helper</span>
-    <button type="button" class="btn-close" aria-label="Close"
-            (click)="activeModal?.dismiss('Cross click')">
-      
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
+
     </button>
   </div>
   <div class="modal-body">
-    The string has six single space-separated time and date fields:
+    <div class="d-flex justify-content-start" [class.mb-1]="valid ===null">
+      <input class="form-control me-1" type="text" placeholder="Insert Cron expression to validate"
+        [(ngModel)]="cronExpression" [ngModelOptions]="{ standalone: true }">
+      <button class="btn btn-outline-primary" [disabled]="cronExpression?.length === 0" (click)="validateCronExpression()">Validate</button>
+    </div>
+
+    <ng-container *ngIf="valid !== null">
+      <p class="text-end" [class.text-success]="valid" [class.text-danger]="!valid">{{valid ? 'Valid' : 'Invalid'}}</p>
+    </ng-container>
+
+    <p>The string has six single space-separated time and date fields:</p>
     <pre> ┌───────────── second (0-59)
  │ ┌───────────── minute (0 - 59)
  │ │ ┌───────────── hour (0 - 23)
@@ -54,4 +63,3 @@
     </ul>
   </div>
 </ng-container>
-

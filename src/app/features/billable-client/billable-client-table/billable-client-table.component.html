@@ -11,8 +11,8 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Email</th>
-          <th>VAT N°</th>
+          <th class="d-md-table-cell d-none">Email</th>
+          <th class="d-md-table-cell d-none">VAT N°</th>
           <th>Status</th>
           <th class="fit">actions</th>
         </tr>
@@ -21,8 +21,8 @@
         <ng-container *ngFor="let client of clients">
           <tr role="button" (click)="addOrEdit(client)">
             <td class="text-break">{{ client.name }}</td>
-            <td class="text-break">{{ client.emailAddress }}</td>
-            <td class="text-break">{{ client.vatNumber }}</td>
+            <td class="d-md-table-cell d-none text-break">{{ client.emailAddress }}</td>
+            <td class="d-md-table-cell d-none text-break">{{ client.vatNumber }}</td>
             <td class="text-break" [ngClass]="getContractStatusClasses(client.contractStatus)">{{ getContractStatus(client.contractStatus) }}</td>
             <td class="text-center fit">
               <div ngbDropdown class="d-inline-block" container="body">
