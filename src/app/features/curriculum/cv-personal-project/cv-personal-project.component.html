@@ -23,9 +23,7 @@
 
       <a [href]="proj.url" class="card-subtitle text-muted">{{proj.url}}</a>
     </div>
-    <div class="card-body" *ngIf="proj.description">
-      {{proj.description}}
-
+    <div class="card-body" [innerText]="proj.description" *ngIf="proj.description">
     </div>
   </div>
 </div>
