@@ -22,13 +22,13 @@ export class InvoiceService {
     pageSize: number
   ): Observable<Page<Invoice>> {
     return this.http.post<Page<Invoice>>(
-      `${this.basePath}/page?archived=${archived}&logical=${logicalDelete}&page=${pageNumber - 1}&size=${pageSize}`,
+      `${this.basePath}/page?archived=${archived}&logical=${logicalDelete}&page=${pageNumber - 1}&size=${pageSize}&sort=dateCreation,DESC`,
       {}
     );
   }
 
   findAll(archived: boolean = false, logicalDelete: boolean = false): Observable<Invoice[]> {
-    return this.http.post<Invoice[]>(`${this.basePath}/find-all?archived=${archived}&logical=${logicalDelete}`, {});
+    return this.http.post<Invoice[]>(`${this.basePath}/find-all?archived=${archived}&logical=${logicalDelete}&sort=dateCreation,DESC`, {});
   }
 
   newInvoiceFromTemplate(invoice: Invoice): Observable<Invoice> {
