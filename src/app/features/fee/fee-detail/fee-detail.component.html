@@ -68,7 +68,7 @@
                 <li class="list-group-item" *ngFor="let a of fee.attachments">
                   <div class="d-flex justify-content-between">
                     <button class="btn btn-link text-break" (click)="downloadAttachment($event, a)">
-                      {{ a.metadata.name }}
+                      {{ a.name }}
                     </button>
                     <div class="btn-group">
                       <button

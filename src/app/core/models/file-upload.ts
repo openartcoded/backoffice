@@ -1,9 +1,5 @@
 export interface FileUpload {
   id: string;
-  metadata: FileUploadMetadata;
-}
-
-export interface FileUploadMetadata {
   contentType: string;
   originalFilename: string;
   name: string;
@@ -12,6 +8,8 @@ export interface FileUploadMetadata {
   publicResource: boolean;
   correlationId?: string;
 }
+
+
 
 export interface FileUploadSearchCriteria {
   correlationId?: string;
