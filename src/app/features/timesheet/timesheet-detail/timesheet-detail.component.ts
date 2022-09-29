@@ -59,14 +59,13 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   }
 
   isToday(period: TimesheetPeriod) {
-    return this.isWorkday(period) && 
-      new Date().toDateString() ===new Date(period.date).toDateString();
+    return this.isWorkday(period) && new Date().toDateString() === new Date(period.date).toDateString();
   }
 
   isNotWorkday(period: TimesheetPeriod) {
     return !this.isWorkday(period);
   }
-  
+
   isWorkday(period: TimesheetPeriod) {
     return PeriodType[PeriodType.WORKING_DAY] === period.periodType?.toString();
   }
@@ -150,8 +149,8 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   }
 
   get periods() {
-    if(this.currentFilter){
-      return this.timesheet?.periods?.filter(p => this.currentFilter.toString() === p.periodType.toString());
+    if (this.currentFilter) {
+      return this.timesheet?.periods?.filter((p) => this.currentFilter.toString() === p.periodType.toString());
     }
     return this.timesheet?.periods;
   }
