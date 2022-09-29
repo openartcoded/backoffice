@@ -171,7 +171,7 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     });
   }
 
-  private async load() {
+  private load() {
     this.timesheetService.findById(this.id).subscribe((ts) => {
       this.timesheet = ts;
       this.timesheetSettings = this.timesheet.settings;
@@ -179,7 +179,7 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   }
 
   handle(events: ArtcodedNotification[]) {
-    this.load().then((value) => {});
+    this.load();
   }
 
   ngOnDestroy(): void {
@@ -187,9 +187,6 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   }
 
   shouldHandle(event: ArtcodedNotification): boolean {
-    console.log(event.type);
-    console.log(RegisteredEvent.REOPENED_TIMESHEET);
-
     return (
       !event.seen &&
       (event.type === RegisteredEvent.REOPENED_TIMESHEET || event.type === RegisteredEvent.CLOSED_TIMESHEET)
