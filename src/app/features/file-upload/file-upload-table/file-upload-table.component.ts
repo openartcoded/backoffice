@@ -65,7 +65,7 @@ export class FileUploadTableComponent implements OnInit {
       scrollable: true,
     });
     ngbModalRef.componentInstance.pdf = a;
-    ngbModalRef.componentInstance.title = a.metadata?.originalFilename;
+    ngbModalRef.componentInstance.title = a?.originalFilename;
   }
 
   openImageViewer(a: FileUpload) {
@@ -74,14 +74,14 @@ export class FileUploadTableComponent implements OnInit {
       scrollable: true,
     });
     ngbModalRef.componentInstance.image = a;
-    ngbModalRef.componentInstance.title = a.metadata?.originalFilename;
+    ngbModalRef.componentInstance.title = a?.originalFilename;
   }
 
   isPdf(upl: FileUpload) {
-    return FileService.isPdf(upl.metadata.contentType);
+    return FileService.isPdf(upl?.contentType);
   }
 
   isImage(upl: FileUpload) {
-    return FileService.isImage(upl.metadata.contentType);
+    return FileService.isImage(upl?.contentType);
   }
 }

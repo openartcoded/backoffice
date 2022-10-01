@@ -34,7 +34,7 @@
             <fa-icon [icon]="['fas','upload']"></fa-icon>
           </button>
           <a class="btn btn-link" *ngIf="document || adminDoc?.attachment" (click)="openFileSelector()">
-            {{document?.name ? document?.name : adminDoc?.attachment?.metadata?.name}}
+            {{document?.name ? document?.name : adminDoc?.attachment?.name}}
           </a>
         </ng-template>
       </ngx-file-drop>

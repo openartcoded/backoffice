@@ -8,6 +8,7 @@ import {
   NgbNavModule,
   NgbPopoverModule,
   NgbToastModule,
+  NgbTooltipModule,
   NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
@@ -48,6 +49,7 @@ import { ToastsContainer } from './toasts/toasts-container';
     SharedModule,
     FontAwesomeModule,
     NgxFileDropModule,
+    NgbTooltipModule,
     NgbDropdownModule,
     NgbPopoverModule,
     ScrollingModule,

@@ -37,11 +37,11 @@ export class PostEditorComponent implements OnInit, OnDestroy {
     return firstValueFrom(
       this.fileService.uploadFileList(files, true, this.post.id).pipe(
         map((upload) => {
-          let type = upload.metadata.contentType.split('/')[0];
+          let type = upload?.contentType.split('/')[0];
           let isImg = type.toLowerCase().includes('image');
           return [
             {
-              name: upload.metadata.originalFilename,
+              name: upload?.originalFilename,
               url: this.fileService.getPublicDownloadUrl(upload.id),
               isImg: isImg,
             } as UploadResult,

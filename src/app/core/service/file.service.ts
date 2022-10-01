@@ -130,7 +130,7 @@ export class FileService {
   }
 
   findAll(criteria: FileUploadSearchCriteria, pageNumber: number, pageSize: number): Observable<Page<FileUpload>> {
-    const url = `${this.basePath}/find-all?page=${pageNumber - 1}&size=${pageSize}&sort=uploadDate,DESC`;
+    const url = `${this.basePath}/find-all?page=${pageNumber - 1}&size=${pageSize}&sort=creationDate,DESC`;
     return this.http.post<Page<FileUpload>>(url, criteria);
   }
 

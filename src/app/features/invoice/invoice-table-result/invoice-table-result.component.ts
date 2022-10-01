@@ -140,7 +140,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
         scrollable: true,
       });
       ngbModalRef.componentInstance.pdf = upl;
-      ngbModalRef.componentInstance.title = upl.metadata?.originalFilename;
+      ngbModalRef.componentInstance.title = upl?.originalFilename;
     });
   }
 

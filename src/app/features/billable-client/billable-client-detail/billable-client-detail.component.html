@@ -133,7 +133,7 @@
                 <li class="list-group-item" *ngFor="let a of client.documents">
                   <div class="d-flex justify-content-between">
                     <button class="btn btn-link text-break" (click)="download($event, a)">
-                      {{ a.metadata.name }}
+                      {{ a.name }}
                     </button>
                     <div class="btn-group">
                       <button
