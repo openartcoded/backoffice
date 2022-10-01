@@ -1,6 +1,6 @@
   <ng-container *ngIf="buildInfo$ | async as buildInfo">
     <div class="mb-2">
-      <ngb-accordion [closeOthers]="true" activeIds="backend-info">
+      <ngb-accordion [closeOthers]="true">
         <ngb-panel id="backend-info" cardClass="p-0">
           <ng-template ngbPanelTitle let-opened="opened">
             <strong class="text-uppercase">Backend Info</strong>
@@ -92,7 +92,7 @@
               </ng-template>
             </ngb-panel>
           </ng-container>
-          <ng-container *ngIf="healthIndicator.components?.camelHealth as camelHealth">
+          <!-- <ng-container *ngIf="healthIndicator.components?.camelHealth as camelHealth">
             <ngb-panel id="camel">
               <ng-template ngbPanelTitle let-opened="opened">
                 <strong class="text-uppercase">Camel</strong>
@@ -110,7 +110,7 @@
                 </ng-container>
               </ng-template>
             </ngb-panel>
-          </ng-container>
+          </ng-container> -->
         </ng-container>
       </ngb-accordion>
     </div>

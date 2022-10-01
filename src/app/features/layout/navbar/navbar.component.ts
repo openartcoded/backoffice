@@ -6,9 +6,10 @@ import { ConfigInitService } from '@init/config-init.service';
 import { MenuLink } from '@core/models/settings';
 import { SettingsService } from '@core/service/settings.service';
 import { FallbackMenu } from '../sidebar/fallback-menu';
-import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { filter, take } from 'rxjs/operators';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { environment } from '@env/environment';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -22,6 +23,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   links: MenuLink[];
 
   link: MenuLink;
+  version = environment.version;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
