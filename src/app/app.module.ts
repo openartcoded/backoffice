@@ -87,6 +87,7 @@ import {
   faListOl,
   faItalic,
   faWarning,
+  faCalendar,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -149,6 +150,7 @@ export class AppModule {
       faBold,
       faListOl,
       faItalic,
+      faCalendar,
       faPhone,
       faBirthdayCake,
       faMailBulk,
@@ -163,6 +165,7 @@ export class AppModule {
       faDollarSign,
       faTasks,
       faInfoCircle,
+      faCalendar,
       faQuestionCircle,
       faMoneyBill,
       faEnvelope,
