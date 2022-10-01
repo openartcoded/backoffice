@@ -10,24 +10,26 @@
 
     <ul class="mb-1 list-group">
       <li class="list-group-item bg-light">
-        <strong class="text-uppercase text-secondary">This year</strong>
+        <select [(ngModel)]="selectedYear" class="form-select">
+          <option *ngFor="let summaryPerYear of summary.invoicesGroupByYear | keyvalue" [ngValue]="summaryPerYear.key">{{summaryPerYear.key}}</option>
+        </select>
       </li>
-      <li class="list-group-item">
+      <li class="list-group-item" *ngIf="selectedYear">
         <div class="d-flex justify-content-between">
           <strong class="text-uppercase text-break">Number of Invoices</strong>
-          <strong>{{ summary.numberOfInvoicesThisYear }}</strong>
+          <strong>{{ summary.invoicesGroupByYear?.get(selectedYear)?.numberOfInvoices || 0 }}</strong>
         </div>
       </li>
       <li class="list-group-item">
         <div class="d-flex justify-content-between">
           <strong class="text-uppercase">Total worked (days)</strong>
-          <strong class="text-uppercase">{{ summary.totalAmountOfWorkThisYear | number: '1.2-2' }}</strong>
+          <strong class="text-uppercase">{{ (summary.invoicesGroupByYear?.get(selectedYear)?.totalAmountOfWork || 0) | number: '1.2-2' }}</strong>
         </div>
       </li>
       <li class="list-group-item">
         <div class="d-flex justify-content-between">
           <strong class="text-uppercase">Total excl. VAT</strong>
-          <strong class="text-uppercase">{{ summary.totalExclVatThisYear | currency: '€' }}</strong>
+          <strong class="text-uppercase">{{ (summary.invoicesGroupByYear?.get(selectedYear)?.totalExclVat || 0) | currency: '€'  }}</strong>
         </div>
       </li>
       <li class="list-group-item bg-light">
@@ -36,7 +38,7 @@
       <li class="list-group-item">
         <div class="d-flex justify-content-between">
           <strong class="text-uppercase">Number of Invoices</strong>
-          <strong>{{ summary.totalInvoicesThisYear }}</strong>
+          <strong>{{ summary.totalInvoices }}</strong>
         </div>
       </li>
       <li class="list-group-item">
