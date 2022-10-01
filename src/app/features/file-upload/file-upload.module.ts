@@ -7,7 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbCollapseModule, NgbDropdownModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileUploadSearchFormComponent } from './file-upload-search-form/file-upload-search-form.component';
-
+import {CalendarModule} from 'primeng/calendar';
 @NgModule({
   declarations: [FileUploadTableComponent, FileUploadSearchFormComponent],
   imports: [
@@ -17,6 +17,7 @@ import { FileUploadSearchFormComponent } from './file-upload-search-form/file-up
     FontAwesomeModule,
     NgbPaginationModule,
     FormsModule,
+    CalendarModule,
     NgbCollapseModule,
     ReactiveFormsModule,
     NgbDropdownModule,
