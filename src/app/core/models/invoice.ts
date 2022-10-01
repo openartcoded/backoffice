@@ -5,11 +5,15 @@ import { RateType } from './common';
 export interface InvoiceSummary {
   graphs: PlotlyGraph[];
   totalAmountOfWork: number;
-  totalInvoicesThisYear: number;
-  totalAmountOfWorkThisYear: number;
   totalExclVat: number;
-  totalExclVatThisYear: number;
-  numberOfInvoicesThisYear: number;
+  totalInvoices: number;
+  invoicesGroupByYear: Map<number, InvoicePerYearSummary>
+}
+
+export interface InvoicePerYearSummary {
+  totalAmountOfWork:number;
+   totalExclVat: number;
+   numberOfInvoices: number;
 }
 
 export interface Invoice {

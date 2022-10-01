@@ -13,7 +13,8 @@ import { DateUtils } from '@core/utils/date-utils';
 })
 export class InvoiceSummaryComponent implements OnInit, OnDestroy {
   summary$: Observable<InvoiceSummary>;
-  
+  selectedYear: number = DateUtils.getCurrentYear();
+
   constructor(
     private invoiceService: InvoiceService,
     @Inject(PLATFORM_ID) private platformId: any
@@ -84,17 +85,27 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
         const data = [average, amountWorked];
         const graphs = [{ data: data, config: config, layout: layout('Earnings/Working days') }];
 
-        const invoicesThisYear = invoicesOrderedByDateAsc.filter((i) => i.invoiceTable?.some(this.filterByYear));
+        const invoicesGroupByYear = invoicesOrderedByDateAsc.reduce((group, invoice) => {
+          const dateOfInvoice = new Date(invoice.dateOfInvoice);
+          const year = dateOfInvoice.getFullYear();
+          const { totalAmountOfWork, totalExclVat,numberOfInvoices} = group.get(year) || {
+            totalAmountOfWork: 0,
+            totalExclVat: 0,
+            numberOfInvoices: 0
+          };
+
+          group.set(year, {
+            totalAmountOfWork: totalAmountOfWork + this.findAmount(invoice),
+            totalExclVat: totalExclVat + invoice.subTotal,
+            numberOfInvoices: numberOfInvoices + 1,
+          });
+          return group;
+        }, new Map());
+
         return {
-          graphs: graphs,
-          totalInvoicesThisYear: invoicesOrderedByDateAsc.length,
-          totalAmountOfWorkThisYear: invoicesThisYear
-            .map(this.findAmount)
-            .reduce((previousValue, currentValue) => previousValue + currentValue, 0),
-          totalExclVatThisYear: invoicesThisYear
-            .map((i) => i.subTotal)
-            .reduce((previousValue, currentValue) => previousValue + currentValue, 0),
-          numberOfInvoicesThisYear: invoicesThisYear.length,
+          invoicesGroupByYear,
+          graphs,
+          totalInvoices: invoicesOrderedByDateAsc.length,
           totalAmountOfWork: invoicesOrderedByDateAsc
             .map(this.findAmount)
             .reduce((previousValue, currentValue) => previousValue + currentValue, 0),
@@ -125,12 +136,6 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
       }
     }
     return 0;
-  }
-
-  filterByYear(invoice) {
-    let currentYear = DateUtils.getCurrentYear().toString();
-    const year = invoice.period?.split('/')[1];
-    return year === currentYear;
   }
 
   generateGraphData(invoicesOrderedByDateAsc: Invoice[]): GraphData[] {
