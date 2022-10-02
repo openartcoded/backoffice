@@ -88,6 +88,8 @@ import {
   faItalic,
   faWarning,
   faCalendar,
+  faArrows,
+  faArrowsUpDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -150,6 +152,8 @@ export class AppModule {
       faBold,
       faListOl,
       faItalic,
+      faArrows,
+      faArrowsUpDown,
       faCalendar,
       faPhone,
       faBirthdayCake,

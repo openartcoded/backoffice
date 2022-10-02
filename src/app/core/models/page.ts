@@ -1,7 +1,16 @@
-interface Sort {
+export interface Sort {
   sorted: boolean;
   unsorted: boolean;
   empty: boolean;
+}
+
+export interface SortCriteria {
+  direction: Direction;
+  property: string;
+}
+
+export enum Direction {
+  ASC, DESC
 }
 
 interface Pageable {

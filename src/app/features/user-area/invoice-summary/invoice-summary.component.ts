@@ -5,6 +5,7 @@ import { InvoiceSummary, Invoice } from '@core/models/invoice';
 import { map } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { DateUtils } from '@core/utils/date-utils';
+import { Direction } from '@core/models/page';
 
 @Component({
   selector: 'app-invoice-summary',

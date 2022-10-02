@@ -27,9 +27,31 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th class="fit d-md-table-cell d-none">N°</th>
-          <th class="fit d-md-table-cell d-none">Client</th>
-          <th>Date</th>
+          <th class="fit d-md-table-cell">N°</th>
+          <th class="fit d-md-table-cell d-none">
+            <div class="d-flex justify-content-between">
+              <span>Created</span>
+              <a [class.text-muted]="sort.property !== 'dateCreation'"  [class.text-dark]="sort.property === 'dateCreation'" (click)="setSort('dateCreation')">
+                <fa-icon [icon]="['fas', sort.property !== 'dateCreation' ? 'arrows-up-down': sort.direction === ASC ? 'arrow-up' : 'arrow-down']"></fa-icon>
+              </a>
+            </div>
+          </th>
+          <th class="fit d-md-table-cell">
+            <div class="d-flex justify-content-between">
+              <span>Client</span>
+              <a [class.text-muted]="sort.property !== 'billTo.clientName'"  [class.text-dark]="sort.property === 'billTo.clientName'" (click)="setSort('billTo.clientName')">
+                <fa-icon [icon]="['fas', sort.property !== 'billTo.clientName' ? 'arrows-up-down':sort.direction === ASC ? 'arrow-up' : 'arrow-down']"></fa-icon>
+              </a>
+            </div>
+          </th>
+          <th class="fit d-md-table-cell">
+            <div class="d-flex justify-content-between">
+              <span>Date</span>
+              <a [class.text-muted]="sort.property !== 'dateOfInvoice'"  [class.text-dark]="sort.property === 'dateOfInvoice'" (click)="setSort('dateOfInvoice')">
+                <fa-icon [icon]="['fas', sort.property !== 'dateOfInvoice' ? 'arrows-up-down': sort.direction === ASC ? 'arrow-up' : 'arrow-down']"></fa-icon>
+              </a>
+            </div>
+          </th>
           <th class="d-md-table-cell d-none">Due Date</th>
           <th class="d-md-table-cell d-none">SubTotal</th>
           <th class="d-md-table-cell d-none">Taxes</th>
@@ -39,9 +61,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let invoice of invoices.content" role="button" (click)="openModal(invoice)">
-          <td class="fit d-md-table-cell d-none">{{ invoice.invoiceNumber }}</td>
-          <td class="fit d-md-table-cell d-none">{{ invoice.billTo.clientName }}</td>
-          <td>{{ invoice.dateOfInvoice | date: 'dd/MM/yyyy' }}</td>
+          <td class="fit d-md-table-cell">{{ invoice.invoiceNumber }}</td>
+          <td class="fit d-md-table-cell d-none">{{ invoice.dateCreation | date: 'dd/MM/yyyy' }}</td>
+          <td class="fit d-md-table-cell">{{ invoice.billTo.clientName }}</td>
+          <td class="fit d-md-table-cell">{{ invoice.dateOfInvoice | date: 'dd/MM/yyyy' }}</td>
           <td class="d-md-table-cell text-primary d-none">{{ invoice.dueDate | date: 'dd/MM/yyyy' }}</td>
           <td class="d-md-table-cell d-none">{{ invoice.subTotal | currency: '€' }}</td>
           <td class="d-md-table-cell d-none">{{ invoice.taxes | currency: '€' }}</td>
@@ -86,7 +109,7 @@
           </td>
         </tr>
         <tr *ngIf="!invoices.content?.length">
-          <td colspan="7">No Content</td>
+          <td colspan="8">No Content</td>
         </tr>
       </tbody>
     </table>

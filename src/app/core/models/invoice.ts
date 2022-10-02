@@ -21,6 +21,7 @@ export interface Invoice {
   invoiceNumber?: string;
   maxDaysToPay?: number;
   dateOfInvoice?: Date;
+  dateCreation?: Date;
   dueDate?: Date;
   billTo?: BillTo;
   invoiceTable?: InvoiceRow[];

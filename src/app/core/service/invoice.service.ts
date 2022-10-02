@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Invoice, InvoiceFreemarkerTemplate } from '@core/models/invoice';
-import { Page } from '@core/models/page';
+import { Direction, Page, SortCriteria } from '@core/models/page';
 import { ConfigInitService } from '@init/config-init.service';
 
 @Injectable({
@@ -19,16 +19,19 @@ export class InvoiceService {
     archived: boolean = false,
     logicalDelete: boolean = false,
     pageNumber: number,
-    pageSize: number
+    pageSize: number,
+    sortCriteria: SortCriteria,
   ): Observable<Page<Invoice>> {
+    const direction = Direction[sortCriteria.direction];
     return this.http.post<Page<Invoice>>(
-      `${this.basePath}/page?archived=${archived}&logical=${logicalDelete}&page=${pageNumber - 1}&size=${pageSize}&sort=dateCreation,DESC`,
+      `${this.basePath}/page?archived=${archived}&logical=${logicalDelete}&page=${pageNumber - 1}&size=${pageSize}&sort=${sortCriteria.property},${direction}`,
       {}
     );
   }
 
-  findAll(archived: boolean = false, logicalDelete: boolean = false): Observable<Invoice[]> {
-    return this.http.post<Invoice[]>(`${this.basePath}/find-all?archived=${archived}&logical=${logicalDelete}&sort=dateCreation,DESC`, {});
+  findAll(archived: boolean = false, logicalDelete: boolean = false,
+    ): Observable<Invoice[]> {
+    return this.http.post<Invoice[]>(`${this.basePath}/find-all?archived=${archived}&logical=${logicalDelete}`, {});
   }
 
   newInvoiceFromTemplate(invoice: Invoice): Observable<Invoice> {

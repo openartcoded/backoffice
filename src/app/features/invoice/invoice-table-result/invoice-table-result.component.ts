@@ -18,7 +18,7 @@ import { ToastService } from '@core/service/toast.service';
 import { firstValueFrom } from 'rxjs';
 import { BillableClientService } from '@core/service/billable-client.service';
 import { BillableClient, ContractStatus } from '@core/models/billable-client';
-
+import {SortCriteria, Direction} from '@core/models/page';
 @Component({
   selector: 'app-invoice-table-result',
   templateUrl: './invoice-table-result.component.html',
@@ -29,12 +29,19 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   activeDossier: Dossier;
   pageSize: number = 5;
 
+  sort: SortCriteria = {
+    direction: Direction.DESC,
+    property: 'dateCreation'
+  };
+
   @Input()
   logicalDelete: boolean;
   @Input()
   archived: boolean;
 
   clients: BillableClient[];
+  ASC = Direction.ASC;
+  DESC = Direction.DESC;
 
   constructor(
     private invoiceService: InvoiceService,
@@ -56,7 +63,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
 
   load(event: number = 1) {
     this.invoiceService
-      .search(this.archived, this.logicalDelete, event, this.pageSize)
+      .search(this.archived, this.logicalDelete, event, this.pageSize, this.sort)
       .subscribe((invoices) => {
        
         this.invoices = invoices;
@@ -173,5 +180,13 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
       ngbModalRef.close();
       await firstValueFrom(this.invoiceService.deleteTemplate(template));
     });
+  }
+
+  setSort(propertyName: string) {
+    this.sort = {
+      property: propertyName,
+      direction: this.sort.direction === Direction.ASC ? Direction.DESC : Direction.ASC
+    }
+    this.load();
   }
 }
