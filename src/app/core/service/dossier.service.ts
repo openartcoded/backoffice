@@ -30,6 +30,12 @@ export class DossierService {
       {}
     );
   }
+  
+  import(file: File): Observable<void> {
+    let formData = new FormData();
+    formData.append('zip', file);
+    return this.http.post<void>(`${this.configService.getConfig()['BACKEND_URL']}/api/dossier/import`, formData);
+  }
 
   getSummary(id: string): Observable<DossierSummary> {
     return this.http.post<DossierSummary>(

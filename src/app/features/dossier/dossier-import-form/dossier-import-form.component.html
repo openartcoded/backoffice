@@ -1,0 +1,18 @@
+<ng-container>
+    <div class="modal-header" *ngIf="activeModal">
+      <span class="modal-title text-break">Import Dossier</span>
+      <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="input-group mb-2 ">
+            <input type="file" class="form-control" id="inputGroupFile02" (change)="loadFile($event)"  accept=".zip"/>
+            <div class="input-group-append">
+              <button class="input-group-text ms-1" id="" (click)="upload()" [disabled]="!file">
+                <fa-icon icon="plus"></fa-icon>
+                Import
+              </button>
+            </div>
+          </div>
+    </div>
+  </ng-container>
+  

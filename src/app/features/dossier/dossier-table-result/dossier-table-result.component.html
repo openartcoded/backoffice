@@ -8,7 +8,7 @@
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
         <button ngbDropdownItem (click)="newDossier()" [disabled]="dossiers?.length > 0">
           <fa-icon [icon]="['fas', 'plus']"></fa-icon>
-          New dossier
+          New
         </button>
         <button
           ngbDropdownItem
@@ -18,7 +18,7 @@
           "
         >
           <fa-icon [icon]="['fas', 'times']"></fa-icon>
-          Delete dossier
+          Delete
         </button>
         <button
           ngbDropdownItem
@@ -26,7 +26,12 @@
           [disabled]="closed || !dossiers?.length || !dossiers[0]?.invoiceIds?.length"
         >
           <fa-icon [icon]="['fas', 'check']"></fa-icon>
-          Close dossier
+          Close
+        </button>
+
+        <button ngbDropdownItem (click)="importDossier()">
+          <fa-icon [icon]="['fas', 'upload']"></fa-icon>
+          Import
         </button>
       </div>
     </div>

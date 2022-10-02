@@ -9,9 +9,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DossierFormComponent } from './dossier-form/dossier-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AutosizeModule } from 'ngx-autosize';
+import { DossierImportFormComponent } from './dossier-import-form/dossier-import-form.component';
 
 @NgModule({
-  declarations: [DossierPageComponent, DossierTableResultComponent, DossierFormComponent],
+  declarations: [DossierPageComponent, DossierTableResultComponent, DossierFormComponent, DossierImportFormComponent],
   imports: [
     CommonModule,
     SharedModule,

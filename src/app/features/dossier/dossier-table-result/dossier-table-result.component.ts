@@ -9,6 +9,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { LabelService } from '@core/service/label.service';
 import { Label } from '@core/models/fee';
 import { ToastService } from '@core/service/toast.service';
+import { DossierImportFormComponent } from '../dossier-import-form/dossier-import-form.component';
 
 @Component({
   selector: 'app-dossier-table-result',
@@ -44,6 +45,16 @@ export class DossierTableResultComponent implements OnInit {
     this.openDossier();
   }
 
+  importDossier() {
+    const modalRef = this.modalService.open(DossierImportFormComponent, {
+      size: 'sm',
+      scrollable: false,
+    });
+    modalRef.componentInstance.onUpload.subscribe(file => {
+        this.dossierService.import(file).subscribe();
+        modalRef.close();
+    });
+  }
   openDossier(
     doss: Dossier = { name: null, advancePayments: [] },
     recallForModification: boolean = false
