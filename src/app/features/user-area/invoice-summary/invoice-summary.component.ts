@@ -37,7 +37,7 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
       let l = {
         barmode: 'group',
         dragmode: 'zoom',
-        showlegend: true,
+        showlegend: false,
         yaxis: {
           fixedrange: true,
           side: 'right',

@@ -1,9 +1,7 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { DossierSummary } from '@core/models/dossier';
 import { DossierService } from '@core/service/dossier.service';
-import { WindowRefService } from '@core/service/window.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -17,9 +15,7 @@ export class DossierSummaryComponent implements OnInit, OnDestroy {
   showGraph: boolean;
   constructor(
     private dossierService: DossierService,
-    private windowService: WindowRefService,
     @Inject(PLATFORM_ID) private platformId: any,
-    private breakPointObserver: BreakpointObserver
   ) {}
   ngOnDestroy(): void {
     this.graphs = null;
@@ -39,7 +35,7 @@ export class DossierSummaryComponent implements OnInit, OnDestroy {
 
   loadGraph(summaries: DossierSummary[]) {
     const orderedSummaries = summaries.sort(
-      (s1, s2) => new Date(s1.dossier?.creationDate).getTime() - new Date(s2.dossier?.creationDate).getTime()
+      (s1, s2) => new Date(s1.dossier?.closedDate).getTime() - new Date(s2.dossier?.closedDate).getTime()
     );
     const config = {
       responsive: true,
@@ -50,7 +46,7 @@ export class DossierSummaryComponent implements OnInit, OnDestroy {
       let l = {
         barmode: 'group',
         dragmode: 'zoom',
-        showlegend: true,
+        showlegend: false,
         yaxis: {
           fixedrange: true,
           type: 'linear',
