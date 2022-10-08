@@ -4,6 +4,9 @@
       <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
+      <div class="d-block mb-2">
+        <button class="btn btn-outline-primary w-100" (click)="getImportExample()">Download example</button>
+      </div>
         <div class="input-group mb-2 ">
             <input type="file" class="form-control" id="inputGroupFile02" (change)="loadFile($event)"  accept=".zip"/>
             <div class="input-group-append">

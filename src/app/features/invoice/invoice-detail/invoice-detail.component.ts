@@ -49,7 +49,7 @@ export class InvoiceDetailComponent implements OnInit {
   }
 
   openPdfViewer($event) {
-    $event.stopPropagation();
+    $event?.preventDefault();
     this.fileService.findById(this.invoice.invoiceUploadId).subscribe((upl) => {
       const ngbModalRef = this.modalService.open(PdfViewerComponent, {
         size: 'xl',

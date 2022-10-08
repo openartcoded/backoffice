@@ -9,6 +9,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class DossierImportFormComponent implements OnInit {
   @Output()
   onUpload: EventEmitter<File> = new EventEmitter<File>();
+  @Output()
+  onGetExample: EventEmitter<void> = new EventEmitter<void>();
 
   file: File;
 
@@ -22,6 +24,10 @@ export class DossierImportFormComponent implements OnInit {
   upload() {
     this.onUpload.emit(this.file);
     this.file = null;
+  }
+
+  getImportExample(){
+    this.onGetExample.emit();
   }
 
   loadFile($event) {

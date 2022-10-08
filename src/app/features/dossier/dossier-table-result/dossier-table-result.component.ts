@@ -52,7 +52,11 @@ export class DossierTableResultComponent implements OnInit {
     });
     modalRef.componentInstance.onUpload.subscribe(file => {
         this.dossierService.import(file).subscribe();
+        this.toastService.showSuccess("Dossier(s) will be imported.");
         modalRef.close();
+    });
+    modalRef.componentInstance.onGetExample.subscribe(()=> {
+      this.dossierService.importExample();
     });
   }
   openDossier(
