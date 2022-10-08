@@ -50,7 +50,7 @@
     "ngx-autosize": "^2.0.2",
     "ngx-file-drop": "^14.0.1",
     "ngx-highlightjs": "^7.0.1",
-    "ngx-markdown-editor": "4.1.0",
+    "ngx-markdown-editor": "4.0.0",
     "plotly.js": "^2.14.0",
     "primeicons": "^6.0.1",
     "primeng": "^14.1.2",
