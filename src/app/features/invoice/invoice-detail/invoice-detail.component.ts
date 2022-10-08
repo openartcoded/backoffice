@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   BillTo,
@@ -16,6 +16,8 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DateUtils } from '@core/utils/date-utils';
 import { BillableClient } from '@core/models/billable-client';
+import { FileService } from '@core/service/file.service';
+import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 
 @Component({
   selector: 'app-invoice-detail',
@@ -38,12 +40,25 @@ export class InvoiceDetailComponent implements OnInit {
   invoiceForm: UntypedFormGroup;
 
   constructor(@Optional() public activeModal: NgbActiveModal, 
+  private modalService: NgbModal,
+  private fileService: FileService,
   private formBuilder: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.invoiceForm = this.createFormGroup();
   }
 
+  openPdfViewer($event) {
+    $event.stopPropagation();
+    this.fileService.findById(this.invoice.invoiceUploadId).subscribe((upl) => {
+      const ngbModalRef = this.modalService.open(PdfViewerComponent, {
+        size: 'xl',
+        scrollable: true,
+      });
+      ngbModalRef.componentInstance.pdf = upl;
+      ngbModalRef.componentInstance.title = upl?.originalFilename;
+    });
+  }
   createFormGroup(): UntypedFormGroup {
     return this.formBuilder.group({
       invoiceNumber: new UntypedFormControl({ value: this.invoice.invoiceNumber, disabled: this.invoice.locked }, [
