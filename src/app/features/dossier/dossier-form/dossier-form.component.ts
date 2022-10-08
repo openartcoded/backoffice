@@ -11,6 +11,8 @@ import { FeeDetailComponent } from '@feature/fee/fee-detail/fee-detail.component
 import { InvoiceDetailComponent } from '@feature/invoice/invoice-detail/invoice-detail.component';
 import { DateUtils } from '@core/utils/date-utils';
 import { firstValueFrom } from 'rxjs';
+import { BillableClient } from '@core/models/billable-client';
+import { BillableClientService } from '@core/service/billable-client.service';
 
 @Component({
   selector: 'app-dossier-form',
@@ -45,19 +47,23 @@ export class DossierFormComponent implements OnInit {
 
   expenses: Fee[];
   filteredExpenses: Fee[];
+  clients : BillableClient[];
 
   constructor(
     @Optional() public activeModal: NgbActiveModal,
     private feeService: FeeService,
     private modalService: NgbModal,
     private invoiceService: InvoiceService,
+    private clientService: BillableClientService,
     private fb: UntypedFormBuilder
   ) {}
 
   async ngOnInit() {
     this.dossierForm = this.createFormGroup();
     await this.loadFees();
+    this.clients = await firstValueFrom(this.clientService.findAll());
     await this.loadInvoices();
+  
   }
 
   async loadFees() {
@@ -246,6 +252,7 @@ export class DossierFormComponent implements OnInit {
       size: 'xl',
     });
     modalRef.componentInstance.invoice = i;
+    modalRef.componentInstance.clients = this.clients;
   }
 
   filterExpense() {

@@ -19,6 +19,8 @@ export interface Dossier {
   tvaToBePaid?: number;
   recalledForModificationDate?: Date;
   dossierUploadId?: string;
+  imported?: boolean;
+  importedDate?: Date;
 }
 
 export interface TvaAdvancePayment {

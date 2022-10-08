@@ -5,7 +5,6 @@ import { InvoiceSummary, Invoice } from '@core/models/invoice';
 import { map } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { DateUtils } from '@core/utils/date-utils';
-import { Direction } from '@core/models/page';
 
 @Component({
   selector: 'app-invoice-summary',
@@ -38,7 +37,7 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
       let l = {
         barmode: 'group',
         dragmode: 'zoom',
-        showlegend: true,
+        showlegend: false,
         yaxis: {
           fixedrange: true,
           side: 'right',

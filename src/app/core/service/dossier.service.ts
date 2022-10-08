@@ -5,6 +5,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { map } from 'rxjs/operators';
 import { ConfigInitService } from '@init/config-init.service';
+import { FileService } from './file.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ export class DossierService {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: any,
     private configService: ConfigInitService,
+    private fileService: FileService,
     private http: HttpClient
   ) {}
 
@@ -29,6 +31,17 @@ export class DossierService {
       `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/find-by-id?id=${id}`,
       {}
     );
+  }
+  
+  import(file: File): Observable<void> {
+    let formData = new FormData();
+    formData.append('zip', file);
+    return this.http.post<void>(`${this.configService.getConfig()['BACKEND_URL']}/api/dossier/import`, formData);
+  }
+
+  importExample() {
+    const url = `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/import-example`;
+    this.fileService.downloadLink(url);
   }
 
   getSummary(id: string): Observable<DossierSummary> {

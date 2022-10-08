@@ -20,7 +20,22 @@
       <tbody>
         <ng-container *ngFor="let client of clients">
           <tr role="button" (click)="addOrEdit(client)">
-            <td class="text-break">{{ client.name }}</td>
+            <td class="text-break">
+                <div class="d-flex justify-content-between">
+                  <span>{{ client.name }}</span>
+                  <ng-container *ngIf="client.imported">
+                    <ng-template #infoFrontend>
+                      Imported on {{client.importedDate | date:'dd/MM/yyyy HH:mm'}}
+                    </ng-template>
+                    <button (click)="$event.stopPropagation();" type="button"
+                      class="ps-0 ms-0  mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
+                      triggers="click:blur">
+                      <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+                    </button>
+                  </ng-container>
+                </div>
+
+            </td>
             <td class="d-md-table-cell d-none text-break">{{ client.emailAddress }}</td>
             <td class="d-md-table-cell d-none text-break">{{ client.vatNumber }}</td>
             <td class="text-break" [ngClass]="getContractStatusClasses(client.contractStatus)">{{ getContractStatus(client.contractStatus) }}</td>

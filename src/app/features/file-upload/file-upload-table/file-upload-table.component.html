@@ -22,7 +22,7 @@
         <ng-container *ngFor="let upl of fileUploads.content">
           <tr>
             <td class="text-break">{{ upl?.creationDate | date:'dd/MM/yyyy HH:mm'}}</td>
-            <td class="text-break">{{ upl?.name }}</td>
+            <td class="text-break">{{ upl?.originalFilename }}</td>
             <td class="text-break d-md-table-cell d-none">{{ upl?.correlationId }}</td>
             <td class="fit d-md-table-cell d-none text-break">{{ upl?.publicResource ? 'Yes' : 'No' }}</td>
             <td class="text-center fit">

@@ -16,7 +16,7 @@ export class FeeService {
 
   search(criteria: FeeSearchCriteria, pageNumber: number, pageSize: number): Observable<Page<Fee>> {
     return this.http.post<Page<Fee>>(
-      `${this.backendUrl}/api/fee/search?page=${pageNumber - 1}&size=${pageSize}&sort=updatedDate,DESC`,
+      `${this.backendUrl}/api/fee/search?page=${pageNumber - 1}&size=${pageSize}&sort=date,DESC`,
       criteria
     );
   }

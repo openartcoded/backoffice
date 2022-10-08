@@ -1,6 +1,13 @@
 <ng-container *ngIf="dossier">
   <div class="modal-header" *ngIf="activeModal">
-    <span class="modal-title text-break">Dossier <{{ dossier.name ? dossier.name : 'New Dossier' }}></span>
+    <span class="modal-title text-break">Dossier <{{ dossier.name ? dossier.name : 'New Dossier' }}>
+      <ng-container *ngIf="dossier.imported">
+        <ng-template #infoFrontend>Imported on {{dossier.importedDate | date:'dd/MM/yyyy HH:mm'}}</ng-template>
+        <button (click)="$event.stopPropagation();" type="button" class="ps-0 ms-0  me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend" triggers="click:blur">
+          <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+        </button>
+      </ng-container>
+    </span>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body" *ngIf="dossierForm">
