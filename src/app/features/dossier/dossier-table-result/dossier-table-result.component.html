@@ -6,18 +6,18 @@
         Actions
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <button ngbDropdownItem (click)="newDossier()" [disabled]="dossiers?.length > 0">
+        <button ngbDropdownItem (click)="newDossier()" [disabled]="dossiers?.content?.length > 0">
           <fa-icon [icon]="['fas', 'plus']"></fa-icon>
           New
         </button>
         <button ngbDropdownItem (click)="deleteDossier()" [disabled]="
-            closed || !dossiers?.length || dossiers[0]?.feeIds?.length > 0 || dossiers[0]?.invoiceIds?.length > 0
+            closed || !dossiers?.content?.length || dossiers?.content[0]?.feeIds?.length > 0 || dossiers?.content[0]?.invoiceIds?.length > 0
           ">
           <fa-icon [icon]="['fas', 'times']"></fa-icon>
           Delete
         </button>
         <button ngbDropdownItem (click)="closeActiveDossier()"
-          [disabled]="closed || !dossiers?.length || !dossiers[0]?.invoiceIds?.length">
+          [disabled]="closed || !dossiers?.content?.length || !dossiers[0]?.invoiceIds?.length">
           <fa-icon [icon]="['fas', 'check']"></fa-icon>
           Close
         </button>
@@ -45,9 +45,9 @@
       </thead>
       <tbody>
         <tr class="bg-light">
-          <td *ngIf="!dossiers.length" [attr.colspan]="closed ? '7' : '6'">No entries</td>
+          <td *ngIf="!dossiers?.content?.length" [attr.colspan]="closed ? '7' : '6'">No entries</td>
         </tr>
-        <ng-container *ngFor="let d of dossiers">
+        <ng-container *ngFor="let d of dossiers.content">
           <tr role="button" (click)="openDossier(d)">
             <td>
               <div class="d-flex justify-content-between">
@@ -91,5 +91,10 @@
         </ng-container>
       </tbody>
     </table>
+  </div>
+  <div class="d-flex justify-content-between mb-2">
+    <ngb-pagination *ngIf="dossiers?.totalPages > 1" [page]="dossiers?.pageable?.pageNumber + 1"
+      [pageSize]="dossiers?.size" [maxSize]="5" [collectionSize]="dossiers?.totalElements" (pageChange)="load($event)">
+    </ngb-pagination>
   </div>
 </ng-container>

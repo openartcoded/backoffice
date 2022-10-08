@@ -20,17 +20,18 @@ export class InvoiceService {
     logicalDelete: boolean = false,
     pageNumber: number,
     pageSize: number,
-    sortCriteria: SortCriteria,
+    sortCriteria: SortCriteria
   ): Observable<Page<Invoice>> {
     const direction = Direction[sortCriteria.direction];
     return this.http.post<Page<Invoice>>(
-      `${this.basePath}/page?archived=${archived}&logical=${logicalDelete}&page=${pageNumber - 1}&size=${pageSize}&sort=${sortCriteria.property},${direction}`,
+      `${this.basePath}/page?archived=${archived}&logical=${logicalDelete}&page=${
+        pageNumber - 1
+      }&size=${pageSize}&sort=${sortCriteria.property},${direction}`,
       {}
     );
   }
 
-  findAll(archived: boolean = false, logicalDelete: boolean = false,
-    ): Observable<Invoice[]> {
+  findAll(archived: boolean = false, logicalDelete: boolean = false): Observable<Invoice[]> {
     return this.http.post<Invoice[]>(`${this.basePath}/find-all?archived=${archived}&logical=${logicalDelete}`, {});
   }
 

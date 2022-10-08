@@ -3,17 +3,23 @@
 <ng-container *ngIf="loaded">
   
   <div class="d-lg-flex justify-content-between">
-    <div class="col col-lg-3 me-2">
+    <div class="col col-lg-2  me-2">
       <app-company-stamp></app-company-stamp>
-      <app-todo-list></app-todo-list>
       <app-actuator></app-actuator>
     </div>
-    <div class="col me-2">
+
+    <div class="col col-lg-4 me-2">
+      <app-invoice-summary></app-invoice-summary>
+    </div>
+    <div class="col col-lg-3  me-2">
       <app-dossier-summary></app-dossier-summary>
       <app-memo-date></app-memo-date>
     </div>
+ 
+
     <div class="col">
-      <app-invoice-summary></app-invoice-summary>
+      <app-fee-summary></app-fee-summary>
+      <app-todo-list></app-todo-list>
     </div>
   </div>
 

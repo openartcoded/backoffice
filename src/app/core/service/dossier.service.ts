@@ -6,6 +6,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { map } from 'rxjs/operators';
 import { ConfigInitService } from '@init/config-init.service';
 import { FileService } from './file.service';
+import { Direction, Page, SortCriteria } from '@core/models/page';
 
 @Injectable({
   providedIn: 'root',
@@ -26,13 +27,29 @@ export class DossierService {
     );
   }
 
+  findAllWithPage(
+    closed: boolean,
+    pageNumber: number,
+    pageSize: number,
+    sortCriteria: SortCriteria
+  ): Observable<Page<Dossier>> {
+    const direction = Direction[sortCriteria.direction];
+
+    return this.http.post<Page<Dossier>>(
+      `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/find-all-paged?closed=${closed}&page=${
+        pageNumber - 1
+      }&size=${pageSize}&sort=${sortCriteria.property},${direction}`,
+      {}
+    );
+  }
+
   findById(id: string): Observable<Dossier[]> {
     return this.http.post<Dossier[]>(
       `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/find-by-id?id=${id}`,
       {}
     );
   }
-  
+
   import(file: File): Observable<void> {
     let formData = new FormData();
     formData.append('zip', file);

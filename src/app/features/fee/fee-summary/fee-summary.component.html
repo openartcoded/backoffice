@@ -1,8 +1,0 @@
-<ng-container *ngIf="graphs$ | async as graphs">
-  <div id="plot-exp" *ngIf="showGraph">
-    <ng-container *ngFor="let g of graphs; let index = index">
-      <plotly-plot [divId]="'plot-exp'" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
-      <hr *ngIf="index + 1 < graphs.length" />
-    </ng-container>
-  </div>
-</ng-container>

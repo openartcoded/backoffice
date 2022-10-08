@@ -17,7 +17,6 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 import { UpdatePriceComponent } from './update-price/update-price.component';
 import { DefaultPriceComponent } from './default-price/default-price.component';
 import { ColorPickerModule } from 'primeng/colorpicker';
-import { FeeSummaryComponent } from './fee-summary/fee-summary.component';
 import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.module';
 @NgModule({
   declarations: [
@@ -30,7 +29,6 @@ import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.mo
     ManualSubmitComponent,
     UpdatePriceComponent,
     DefaultPriceComponent,
-    FeeSummaryComponent,
   ],
   imports: [
     CommonModule,

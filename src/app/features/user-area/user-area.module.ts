@@ -20,6 +20,7 @@ import { DossierSummaryComponent } from './dossier-summary/dossier-summary.compo
 import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.module';
 import { Html2canvasUniversalModule } from '@feature/html2canvas-universal/html2canvas-universal.module';
 import { CompanyStampComponent } from './company-stamp/company-stamp.component';
+import { FeeSummaryComponent } from './fee-summary/fee-summary.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { CompanyStampComponent } from './company-stamp/company-stamp.component';
     TodoListComponent,
     TodoFormComponent,
     ActuatorComponent,
+    FeeSummaryComponent,
     InvoiceSummaryComponent,
     DossierSummaryComponent,
     ErrorComponent,

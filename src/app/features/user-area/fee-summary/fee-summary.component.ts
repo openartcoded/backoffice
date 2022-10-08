@@ -34,7 +34,7 @@ export class FeeSummaryComponent implements OnInit, OnDestroy {
       let l = {
         barmode: 'group',
         dragmode: 'zoom',
-        showlegend: true,
+        showlegend: false,
         yaxis: {
           fixedrange: true,
           type: 'linear',

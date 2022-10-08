@@ -10,6 +10,7 @@ import { LabelService } from '@core/service/label.service';
 import { Label } from '@core/models/fee';
 import { ToastService } from '@core/service/toast.service';
 import { DossierImportFormComponent } from '../dossier-import-form/dossier-import-form.component';
+import { Direction, Page, SortCriteria } from '@core/models/page';
 
 @Component({
   selector: 'app-dossier-table-result',
@@ -19,9 +20,16 @@ import { DossierImportFormComponent } from '../dossier-import-form/dossier-impor
 export class DossierTableResultComponent implements OnInit {
   @Input()
   closed: boolean;
-  dossiers: Dossier[];
+  dossiers: Page<Dossier>;
+  pageSize: number = 5;
+
+  sort: SortCriteria = {
+    direction: Direction.DESC,
+    property: 'updatedDate',
+  };
 
   labels: Label[];
+
   constructor(
     private dossierService: DossierService,
     private labelService: LabelService,
@@ -34,10 +42,16 @@ export class DossierTableResultComponent implements OnInit {
 
   ngOnInit(): void {
     this.load();
+    this.loadLabels();
   }
 
-  load(): void {
-    this.dossierService.findAll(this.closed).subscribe((d) => (this.dossiers = d));
+  load(event: number = 1): void {
+    this.dossierService
+      .findAllWithPage(this.closed, event, this.pageSize, this.sort)
+      .subscribe((d) => (this.dossiers = d));
+  }
+  
+  loadLabels() {
     this.labelService.findAll().subscribe((labels) => (this.labels = labels));
   }
 
@@ -50,12 +64,12 @@ export class DossierTableResultComponent implements OnInit {
       size: 'sm',
       scrollable: false,
     });
-    modalRef.componentInstance.onUpload.subscribe(file => {
-        this.dossierService.import(file).subscribe();
-        this.toastService.showSuccess("Dossier(s) will be imported.");
-        modalRef.close();
+    modalRef.componentInstance.onUpload.subscribe((file) => {
+      this.dossierService.import(file).subscribe();
+      this.toastService.showSuccess('Dossier(s) will be imported.');
+      modalRef.close();
     });
-    modalRef.componentInstance.onGetExample.subscribe(()=> {
+    modalRef.componentInstance.onGetExample.subscribe(() => {
       this.dossierService.importExample();
     });
   }

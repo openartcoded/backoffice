@@ -1,6 +1,6 @@
   <ng-container *ngIf="buildInfo$ | async as buildInfo">
     <div class="mb-2">
-      <ngb-accordion [closeOthers]="true">
+      <ngb-accordion [closeOthers]="true" activeIds="backend-info">
         <ngb-panel id="backend-info" cardClass="p-0">
           <ng-template ngbPanelTitle let-opened="opened">
             <strong class="text-uppercase">Backend Info</strong>
