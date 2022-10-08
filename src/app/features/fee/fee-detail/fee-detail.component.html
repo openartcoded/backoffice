@@ -4,6 +4,14 @@
       <fa-icon *ngIf="fee.tag" [icon]="['fas', 'circle']" [ngStyle]="getStyleForTag(fee)"></fa-icon>&nbsp;{{
         fee.subject | titlecase
       }}
+      <ng-container *ngIf="fee.imported">
+        <ng-template #infoFrontend>
+          Imported on {{fee.importedDate | date:'dd/MM/yyyy HH:mm'}}
+        </ng-template>
+        <button (click)="$event.stopPropagation();" type="button" class="ps-0 ms-0  me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend" triggers="click:blur">
+          <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+        </button>
+      </ng-container>
     </span>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>

@@ -73,7 +73,19 @@
             <td class="fit">
               <fa-icon [icon]="['fas', 'circle']" [ngStyle]="getStyleForTag(f)"></fa-icon>
             </td>
-            <td>{{ f.subject }}</td>
+            <td>
+              <div class="d-flex justify-content-between">
+              <span>{{ f.subject }}</span>
+              <ng-container *ngIf="f.imported">
+                <ng-template #infoFrontend>
+                  Imported on {{f.importedDate | date:'dd/MM/yyyy HH:mm'}}
+                </ng-template>
+                <button (click)="$event.stopPropagation();" type="button" class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0  me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend" triggers="click:blur">
+                  <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+                </button>
+              </ng-container>
+              </div>
+            </td>
             <td class="d-md-table-cell d-none">{{ f.date | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td class="text-center fit">
               {{ f.attachmentIds.length }}

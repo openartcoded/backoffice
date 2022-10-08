@@ -10,21 +10,14 @@
           <fa-icon [icon]="['fas', 'plus']"></fa-icon>
           New
         </button>
-        <button
-          ngbDropdownItem
-          (click)="deleteDossier()"
-          [disabled]="
+        <button ngbDropdownItem (click)="deleteDossier()" [disabled]="
             closed || !dossiers?.length || dossiers[0]?.feeIds?.length > 0 || dossiers[0]?.invoiceIds?.length > 0
-          "
-        >
+          ">
           <fa-icon [icon]="['fas', 'times']"></fa-icon>
           Delete
         </button>
-        <button
-          ngbDropdownItem
-          (click)="closeActiveDossier()"
-          [disabled]="closed || !dossiers?.length || !dossiers[0]?.invoiceIds?.length"
-        >
+        <button ngbDropdownItem (click)="closeActiveDossier()"
+          [disabled]="closed || !dossiers?.length || !dossiers[0]?.invoiceIds?.length">
           <fa-icon [icon]="['fas', 'check']"></fa-icon>
           Close
         </button>
@@ -56,31 +49,34 @@
         </tr>
         <ng-container *ngFor="let d of dossiers">
           <tr role="button" (click)="openDossier(d)">
-            <td>{{ d.name }}</td>
+            <td>
+              <div class="d-flex justify-content-between">
+                <span>{{ d.name }}</span>
+                <ng-container *ngIf="d.imported">
+                  <ng-template #infoFrontend>
+                    Imported on {{d.importedDate | date:'dd/MM/yyyy HH:mm'}}
+                  </ng-template>
+                  <button (click)="$event.stopPropagation();" type="button"
+                    class="ps-0 ms-0  mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend" triggers="click:blur">
+                    <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+                  </button>
+                </ng-container>
+              </div>
+            </td>
             <td>{{ d?.updatedDate | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td class="d-md-table-cell d-none">{{ d.feeIds?.length }}</td>
             <td class="d-md-table-cell d-none">{{ d.invoiceIds?.length }}</td>
             <td class="d-md-table-cell d-none">{{ d.description }}</td>
             <td class="d-md-table-cell d-none" *ngIf="closed">{{ d?.tvaDue || 0 | currency: '€' }}</td>
-            <td
-              *ngIf="!closed"
-              [class.bg-danger]="d?.tvaToBePaid < 0"
-              [class.text-warning]="d?.tvaToBePaid < 0"
-              [class.bg-info]="d?.tvaToBePaid > 0"
-              [class.bg-secondary]="d?.tvaToBePaid === 0"
-              [class.text-white]="d?.tvaToBePaid >= 0"
-              class="d-md-table-cell d-none"
-            >
+            <td *ngIf="!closed" [class.bg-danger]="d?.tvaToBePaid < 0" [class.text-warning]="d?.tvaToBePaid < 0"
+              [class.bg-info]="d?.tvaToBePaid > 0" [class.bg-secondary]="d?.tvaToBePaid === 0"
+              [class.text-white]="d?.tvaToBePaid >= 0" class="d-md-table-cell d-none">
               {{ d?.tvaToBePaid | currency: '€' }}
             </td>
             <td *ngIf="closed" class="text-center fit">
               <div ngbDropdown class="d-inline-block" container="body">
-                <button
-                  class="btn btn-outline-secondary"
-                  id="dropdownBasic2"
-                  ngbDropdownToggle
-                  (click)="$event.stopPropagation()"
-                ></button>
+                <button class="btn btn-outline-secondary" id="dropdownBasic2" ngbDropdownToggle
+                  (click)="$event.stopPropagation()"></button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
                   <button ngbDropdownItem (click)="downloadArchive(d.dossierUploadId)">
                     <fa-icon [icon]="['fas', 'download']"></fa-icon>&nbsp;Download

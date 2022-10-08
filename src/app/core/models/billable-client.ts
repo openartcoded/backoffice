@@ -18,6 +18,8 @@ export interface BillableClient {
     endDate?: Date;
     documentIds?: string[];
     documents?: FileUpload[];
+    imported?: boolean;
+    importedDate?: Date;
   }
 
   export enum ContractStatus{

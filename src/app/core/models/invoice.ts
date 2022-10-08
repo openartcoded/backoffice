@@ -36,6 +36,8 @@ export interface Invoice {
   taxes?: number;
   total?: number;
   taxRate?: number;
+  imported?: boolean;
+  importedDate?: Date;
 }
 
 export interface InvoiceFreemarkerTemplate {

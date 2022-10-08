@@ -6,7 +6,7 @@ import { SharedModule } from '@shared/shared.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InvoiceDetailComponent } from './invoice-detail/invoice-detail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbDatepickerModule, NgbDropdownModule, NgbPaginationModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbDropdownModule, NgbPaginationModule, NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { InvoiceTableResultComponent } from './invoice-table-result/invoice-table-result.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { TemplateComponent } from './template/template.component';
@@ -25,6 +25,7 @@ import { TemplateComponent } from './template/template.component';
     FontAwesomeModule,
     ReactiveFormsModule,
     NgbDatepickerModule,
+    NgbTooltipModule,
     NgbDropdownModule,
     FormsModule,
     NgbPaginationModule,

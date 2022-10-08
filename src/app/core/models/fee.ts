@@ -16,6 +16,8 @@ export interface Fee {
   priceHVAT?: number;
   vat?: number;
   priceTot?: number;
+  imported?: boolean;
+  importedDate?: Date;
 }
 
 export interface FeeUpdatePriceRequest {

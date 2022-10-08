@@ -1,6 +1,18 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
-    <span class="modal-title text-break">Client {{client.name}}</span>
+    <span class="modal-title text-break">Client {{client.name}}
+      <ng-container *ngIf="client.imported">
+        <ng-template #infoFrontend>
+          Imported on {{client.importedDate | date:'dd/MM/yyyy HH:mm'}}
+        </ng-template>
+        <button (click)="$event.stopPropagation();" type="button"
+          class="ps-0 ms-0  mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
+          triggers="click:blur">
+          <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+        </button>
+      </ng-container>
+
+    </span>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
 
     </button>
