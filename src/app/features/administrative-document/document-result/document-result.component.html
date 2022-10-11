@@ -4,6 +4,10 @@
     <fa-icon icon="plus"></fa-icon>
     Add
   </button>
+  <button class="btn btn-outline-primary ms-1" (click)="split()">
+    <fa-icon icon="arrows-split-up-and-left"></fa-icon>
+    Split
+  </button>
 </div>
 <app-document-search-form [searchCriteria]="searchCriteria" (formSubmitted)="search($event)"></app-document-search-form>
 <ng-container *ngIf="adminDocuments">

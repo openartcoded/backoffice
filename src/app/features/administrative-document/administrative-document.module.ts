@@ -11,9 +11,10 @@ import { AutosizeModule } from 'ngx-autosize';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { ChipsModule } from 'primeng/chips';
 import { DocumentSearchFormComponent } from './document-search-form/document-search-form.component';
+import { SplitPdfComponent } from './split-pdf/split-pdf.component';
 
 @NgModule({
-  declarations: [DocumentResultComponent, DocumentEditorComponent, DocumentSearchFormComponent],
+  declarations: [DocumentResultComponent, DocumentEditorComponent, DocumentSearchFormComponent, SplitPdfComponent],
   imports: [
     CommonModule,
     SharedModule,

@@ -89,8 +89,10 @@ import {
   faWarning,
   faCalendar,
   faArrows,
+  faArrowsSplitUpAndLeft,
   faArrowsUpDown,
 } from '@fortawesome/free-solid-svg-icons';
+
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '@env/environment';
@@ -154,6 +156,7 @@ export class AppModule {
       faItalic,
       faArrows,
       faArrowsUpDown,
+      faArrowsSplitUpAndLeft,
       faCalendar,
       faPhone,
       faBirthdayCake,

@@ -4,7 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-dossier-import-form',
   templateUrl: './dossier-import-form.component.html',
-  styleUrls: ['./dossier-import-form.component.scss']
+  styleUrls: ['./dossier-import-form.component.scss'],
 })
 export class DossierImportFormComponent implements OnInit {
   @Output()
@@ -14,24 +14,20 @@ export class DossierImportFormComponent implements OnInit {
 
   file: File;
 
-  constructor(
-    @Optional() public activeModal: NgbActiveModal,
-  ) { }
+  constructor(@Optional() public activeModal: NgbActiveModal) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   upload() {
     this.onUpload.emit(this.file);
     this.file = null;
   }
 
-  getImportExample(){
+  getImportExample() {
     this.onGetExample.emit();
   }
 
   loadFile($event) {
     this.file = $event.target.files[0];
   }
-
 }
