@@ -16,6 +16,7 @@ import { OnApplicationEvent, RegisteredEvent } from '@core/interface/on-applicat
 import { NotificationService } from '@core/service/notification.service';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { OnDestroy } from '@angular/core';
+import { SplitPdfComponent } from '../split-pdf/split-pdf.component';
 
 @Component({
   selector: 'app-document-result',
@@ -23,6 +24,7 @@ import { OnDestroy } from '@angular/core';
   styleUrls: ['./document-result.component.scss'],
 })
 export class DocumentResultComponent implements OnInit, OnDestroy, OnApplicationEvent {
+
   adminDocuments: Page<AdministrativeDocument>;
   pageSize: number = 5;
   searchCriteria: AdministrativeDocumentSearchCriteria;
@@ -80,14 +82,13 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
   }
 
   openRow(a: AdministrativeDocument) {
-    if(this.isPdf(a.attachment)){
+    if (this.isPdf(a.attachment)) {
       this.openPdfViewer(a.attachment);
-    }else if(this.isImage(a.attachment)){
-      this.openImageViewer(a.attachment)
-    }else{
+    } else if (this.isImage(a.attachment)) {
+      this.openImageViewer(a.attachment);
+    } else {
       this.addOrEdit(a);
     }
-
   }
   openPdfViewer(a: FileUpload) {
     let ngbModalRef = this.modalService.open(PdfViewerComponent, {
@@ -142,5 +143,10 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
 
   shouldMarkEventAsSeenAfterConsumed(): boolean {
     return true;
+  }
+  split() {
+    const modalRef = this.modalService.open(SplitPdfComponent, {
+      size: 'sm',
+    });
   }
 }
