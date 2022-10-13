@@ -10,6 +10,7 @@ import { NgbDatepickerModule, NgbDropdownModule, NgbPaginationModule, NgbNavModu
 import { InvoiceTableResultComponent } from './invoice-table-result/invoice-table-result.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { TemplateComponent } from './template/template.component';
+import { AutosizeModule } from 'ngx-autosize';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { TemplateComponent } from './template/template.component';
     FontAwesomeModule,
     ReactiveFormsModule,
     NgbDatepickerModule,
+    AutosizeModule,
     NgbTooltipModule,
     NgbDropdownModule,
     FormsModule,
