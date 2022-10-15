@@ -70,18 +70,24 @@
                     [value]="invoice.total | currency:'€'" placeholder="total">
                 </div>
               </div>
-              <ng-container *ngIf="templates$ | async as templates">
+              <ng-container *ngIf="templates">
                 <div class="mb-1 row" *ngIf="templates.length">
                   <label class="col-sm-2 col-form-label" for="freemarkerTemplateId">Template</label>
                   <div class="col-sm-10">
                     <select class="form-select" id="freemarkerTemplateId" formControlName="freemarkerTemplateId">
+                      <option [value]="null">Please select</option>
                       <option *ngFor="let template of templates" [value]="template.id">{{template.name}}</option>
                     </select>
                   </div>
                 </div>
-
               </ng-container>
-
+              <div class="mb-1 row">
+                <label class="col-sm-2 col-form-label" for="specialNote">Special note</label>
+                <div class="col-sm-10">
+                  <textarea id="specialNote" [autosize]="true" class="form-control" formControlName="specialNote"
+                    placeholder="Put a note here"></textarea>
+                </div>
+              </div>
               <hr>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" id="uploadedManually"

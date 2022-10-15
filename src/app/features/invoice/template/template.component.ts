@@ -15,7 +15,7 @@ import { WindowRefService } from '@core/service/window.service';
 })
 export class TemplateComponent implements OnInit {
   @Input()
-  templates$: Observable<InvoiceFreemarkerTemplate[]>;
+  templates: InvoiceFreemarkerTemplate[];
 
   @Output()
   onSaveTemplate: EventEmitter<FormData> = new EventEmitter<FormData>();

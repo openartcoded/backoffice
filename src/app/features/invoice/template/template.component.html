@@ -10,7 +10,7 @@
       <li ngbNavItem>
         <a ngbNavLink>Current Templates</a>
         <ng-template ngbNavContent>
-          <ng-container *ngIf="templates$ | async as templates">
+          <ng-container *ngIf="templates">
             <ul class="list-group mt-2" id="templates">
               <li class="list-group-item" *ngFor="let t of templates">
                 <div class="d-flex justify-content-between">

@@ -76,12 +76,12 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
 
   async openModal(invoice: Invoice) {
     this.clients = await firstValueFrom(this.billableClientService.findByContractStatus(ContractStatus.ONGOING));
-
+    const templates = await firstValueFrom(this.invoiceService.listTemplates());
     const ngbModalRef = this.modalService.open(InvoiceDetailComponent, {
       size: 'xl',
     });
     ngbModalRef.componentInstance.invoice = invoice;
-    ngbModalRef.componentInstance.templates$ = this.invoiceService.listTemplates();
+    ngbModalRef.componentInstance.templates = templates;
     ngbModalRef.componentInstance.clients = this.clients;
     ngbModalRef.componentInstance.onSaveInvoice.subscribe((invoiceForm) => {
       ngbModalRef.close();
@@ -168,18 +168,23 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   }
 
   templateModal() {
-    const ngbModalRef = this.modalService.open(TemplateComponent, {
-      size: 'lg',
-    });
-    ngbModalRef.componentInstance.templates$ = this.invoiceService.listTemplates();
-    ngbModalRef.componentInstance.onSaveTemplate.subscribe(async (formData) => {
-      ngbModalRef.close();
-      await firstValueFrom(this.invoiceService.addTemplate(formData));
-    });
-    ngbModalRef.componentInstance.onDeleteTemplate.subscribe(async (template) => {
-      ngbModalRef.close();
-      await firstValueFrom(this.invoiceService.deleteTemplate(template));
-    });
+    this.invoiceService.listTemplates().subscribe(templates => {
+      const ngbModalRef = this.modalService.open(TemplateComponent, {
+        size: 'lg',
+      });
+      ngbModalRef.componentInstance.templates = templates ;
+      ngbModalRef.componentInstance.onSaveTemplate.subscribe(async (formData) => {
+        ngbModalRef.close();
+        await firstValueFrom(this.invoiceService.addTemplate(formData));
+        this.toastService.showSuccess("Will add the template");
+      });
+      ngbModalRef.componentInstance.onDeleteTemplate.subscribe(async (template) => {
+        ngbModalRef.close();
+        await firstValueFrom(this.invoiceService.deleteTemplate(template));
+        this.toastService.showSuccess("Will delete the template");
+      });
+    })
+
   }
 
   setSort(propertyName: string) {

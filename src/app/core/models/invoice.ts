@@ -38,6 +38,7 @@ export interface Invoice {
   taxRate?: number;
   imported?: boolean;
   importedDate?: Date;
+  specialNote?: string;
 }
 
 export interface InvoiceFreemarkerTemplate {

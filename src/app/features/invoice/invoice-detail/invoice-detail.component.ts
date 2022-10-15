@@ -29,7 +29,7 @@ export class InvoiceDetailComponent implements OnInit {
   invoice: Invoice;
 
   @Input()
-  templates$: Observable<InvoiceFreemarkerTemplate[]>;
+  templates: InvoiceFreemarkerTemplate[];
 
   @Input()
   clients: BillableClient[];
@@ -66,10 +66,10 @@ export class InvoiceDetailComponent implements OnInit {
       ]),
       freemarkerTemplateId: new UntypedFormControl(
         {
-          value: this.invoice.freemarkerTemplateId,
+          value: this.templates.some(templ => templ.id === this.invoice.freemarkerTemplateId) ? this.invoice.freemarkerTemplateId : null,
           disabled: this.invoice.locked,
         },
-        []
+        [Validators.required]
       ),
       selectedClient: new UntypedFormControl(
         {
@@ -110,6 +110,8 @@ export class InvoiceDetailComponent implements OnInit {
       billToCity: new UntypedFormControl({ value: this.invoice?.billTo?.city, disabled: this.invoice.locked }, [
         Validators.required,
       ]),
+      specialNote: new UntypedFormControl({ value: this.invoice?.specialNote, disabled: this.invoice.locked }, [
+      ]),
       billToAddress: new UntypedFormControl({ value: this.invoice?.billTo?.address, disabled: this.invoice.locked }, [
         Validators.required,
       ]),
@@ -146,6 +148,13 @@ export class InvoiceDetailComponent implements OnInit {
 
   set file(file) {
     this.invoiceForm.get('file').patchValue(file);
+  }
+  get specialNote() {
+    return this.invoiceForm.get('specialNote').value;
+  }
+
+  set specialNote(note) {
+    this.invoiceForm.get('specialNote').patchValue(note);
   }
 
   drop(files: NgxFileDropEntry[]) {
@@ -193,6 +202,7 @@ export class InvoiceDetailComponent implements OnInit {
     let toSave = {
       invoiceNumber: this.invoiceForm.get('invoiceNumber').value,
       freemarkerTemplateId: this.invoiceForm.get('freemarkerTemplateId').value,
+      specialNote: this.invoiceForm.get('specialNote').value,
       maxDaysToPay: this.invoiceForm.get('maxDaysToPay').value,
       dateOfInvoice: DateUtils.getDateFromInput(this.invoiceForm.get('dateOfInvoice').value),
       taxRate: this.invoiceForm.get('taxRate').value,
