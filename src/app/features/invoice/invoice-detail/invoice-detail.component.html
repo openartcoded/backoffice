@@ -70,7 +70,7 @@
                     [value]="invoice.total | currency:'€'" placeholder="total">
                 </div>
               </div>
-              <ng-container *ngIf="templates$ | async as templates">
+              <ng-container *ngIf="templates">
                 <div class="mb-1 row" *ngIf="templates.length">
                   <label class="col-sm-2 col-form-label" for="freemarkerTemplateId">Template</label>
                   <div class="col-sm-10">

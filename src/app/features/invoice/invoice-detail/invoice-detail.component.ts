@@ -29,7 +29,7 @@ export class InvoiceDetailComponent implements OnInit {
   invoice: Invoice;
 
   @Input()
-  templates$: Observable<InvoiceFreemarkerTemplate[]>;
+  templates: InvoiceFreemarkerTemplate[];
 
   @Input()
   clients: BillableClient[];
@@ -66,7 +66,7 @@ export class InvoiceDetailComponent implements OnInit {
       ]),
       freemarkerTemplateId: new UntypedFormControl(
         {
-          value: this.invoice.freemarkerTemplateId,
+          value: this.templates.some(templ => templ.id === this.invoice.freemarkerTemplateId) ? this.invoice.freemarkerTemplateId : null,
           disabled: this.invoice.locked,
         },
         [Validators.required]
