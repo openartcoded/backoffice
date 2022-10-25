@@ -10,7 +10,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./timesheets.component.scss'],
 })
 export class TimesheetsComponent implements OnInit {
-  timesheetsGroupedByYearAndClientName: Map<number, Map<String, Timesheet[]>>;
+  timesheetsGroupedByYearAndClientName: Map<number, Map<string, Timesheet[]>>;
   selectedTimesheetYear: Timesheet[];
   selectedYear: number;
   selectedClientName: string;
@@ -20,19 +20,22 @@ export class TimesheetsComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle('Timesheets');
     this.timesheetService.findAllGroupedByYearAndClientName().subscribe((data) => {
-      this.timesheetsGroupedByYearAndClientName = data;
+      // TODO typescript doesn't turn it to an actual Map. you cannot use has, get, etc
+      this.timesheetsGroupedByYearAndClientName = data || new Map();
       this.setTimesheetYear(this.currentYear);
     });
   }
 
   setTimesheetYear(year: number) {
+    // this will probably cause issues in the future.
     const byYear = this.timesheetsGroupedByYearAndClientName[year];
     if (byYear && !this.selectedClientName) {
       this.selectedClientName = Object.keys(byYear)?.find((f) => true);
     }
     if (this.selectedClientName && byYear) {
-      this.selectedTimesheetYear = byYear[this.selectedClientName]?.sort((a, b) => a.month - b.month);
+      this.selectedTimesheetYear = byYear[this.selectedClientName]?.sort((a, b) => b.month - a.month);
     }
+
     this.selectedYear = year;
   }
 
