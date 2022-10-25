@@ -10,16 +10,14 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 import { NgbCollapseModule, NgbDropdownModule, NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { BillableClientDetailComponent } from './billable-client-detail/billable-client-detail.component';
 
-
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
-  declarations: [
-    BillableClientTableComponent,
-    BillableClientDetailComponent
-  ],
+  declarations: [BillableClientTableComponent, BillableClientDetailComponent],
   imports: [
     CommonModule,
     SharedModule,
+    MultiSelectModule,
     BillableClientRoutingModule,
     FormsModule,
     FontAwesomeModule,
@@ -30,6 +28,6 @@ import { BillableClientDetailComponent } from './billable-client-detail/billable
     NgbCollapseModule,
     NgbNavModule,
     NgbDropdownModule,
-  ]
+  ],
 })
-export class BillableClientModule { }
+export class BillableClientModule {}

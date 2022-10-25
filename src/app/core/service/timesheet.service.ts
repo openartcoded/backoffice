@@ -15,8 +15,8 @@ export class TimesheetService {
     this.basePath = `${this.configService.getConfig()['BACKEND_URL']}/api/timesheet`;
   }
 
-  public findAllGroupedByYearAndClientName(): Observable<Map<number, Map<String, Timesheet[]>>> {
-    return this.http.get<Map<number, Map<String, Timesheet[]>>>(this.basePath);
+  public findAllGroupedByYearAndClientName(): Observable<Map<number, Map<string, Timesheet[]>>> {
+    return this.http.get<Map<number, Map<string, Timesheet[]>>>(this.basePath);
   }
 
   public count(): Observable<RawResponse> {

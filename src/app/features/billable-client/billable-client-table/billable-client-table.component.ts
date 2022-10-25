@@ -45,7 +45,12 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
   }
 
   load() {
-    this.billableClientService.findAll().subscribe((c) => (this.clients = c));
+    this.billableClientService.findAll().subscribe(
+      (clients) =>
+        (this.clients = clients.sort((a, b) => {
+          return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+        }))
+    );
   }
 
   async addOrEdit(client?: BillableClient) {
@@ -58,10 +63,12 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
       await firstValueFrom(this.billableClientService.upload(req.id, req.file));
       this.toastService.showSuccess('Will add a new document to the client in a bit');
     });
-    this.currentNgbModalRef.componentInstance.onDeleteUpload.subscribe(async (req: { uploadId: string; id: string }) => {
-      await firstValueFrom(this.billableClientService.deleteUpload(req.id, req.uploadId));
-      this.toastService.showSuccess('Will delete the document in a bit');
-    });
+    this.currentNgbModalRef.componentInstance.onDeleteUpload.subscribe(
+      async (req: { uploadId: string; id: string }) => {
+        await firstValueFrom(this.billableClientService.deleteUpload(req.id, req.uploadId));
+        this.toastService.showSuccess('Will delete the document in a bit');
+      }
+    );
     this.currentNgbModalRef.componentInstance.onSaveClient.subscribe(async (client) => {
       this.currentNgbModalRef.close();
       this.billableClientService.save(client).subscribe((client) => {
@@ -110,8 +117,10 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
   }
 
   handle(events: ArtcodedNotification[]) {
-    const filteredEvents = events.filter((event) =>
-      event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_ADDED || event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_DELETED
+    const filteredEvents = events.filter(
+      (event) =>
+        event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_ADDED ||
+        event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_DELETED
     );
 
     if (filteredEvents && this.currentNgbModalRef) {
@@ -128,11 +137,12 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
   }
 
   shouldHandle(event: ArtcodedNotification): boolean {
-    return (!event.seen && (
-       event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_ADDED ||
-       event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_DELETED ||
-       event.type === RegisteredEvent.BILLABLE_CLIENT_ERROR
-      ));
+    return (
+      !event.seen &&
+      (event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_ADDED ||
+        event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_DELETED ||
+        event.type === RegisteredEvent.BILLABLE_CLIENT_ERROR)
+    );
   }
 
   shouldMarkEventAsSeenAfterConsumed(): boolean {
