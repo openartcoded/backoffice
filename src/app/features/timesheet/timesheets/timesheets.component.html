@@ -1,11 +1,10 @@
 <app-title [uppercase]="true" title="Timesheets"></app-title>
 <div class="d-md-flex justify-content-end pb-2" *ngIf="timesheetsGroupedByYearAndClientName">
-  <div class="col-sm-2 col-12">
-    <select class="form-select" [(ngModel)]="selectedClientName" (change)="this.setTimesheetYear(this.selectedYear)">
-      <option *ngFor="let name of clientNames"
-              [ngValue]="name">{{name}}</option>
-    </select>
-  </div>
+  <button class="btn  me-1" [class.btn-outline-secondary]="name !== this.selectedClientName"
+    [class.btn-secondary]="name === this.selectedClientName" *ngFor="let name of clientNames"
+    (click)="this.setClient(name)">
+    {{name}}
+  </button>
 </div>
 <ng-container *ngIf="timesheetsGroupedByYearAndClientName">
 
@@ -16,13 +15,8 @@
   <div class="row mb-2">
     <div class="col-lg-3 d-md-inline-block col-12 mb-4">
       <ul class="list-group">
-        <li
-          role="button"
-          class="list-group-item list-group-item-action"
-          *ngFor="let year of years"
-          [class.active]="year === selectedYear"
-          (click)="setTimesheetYear(year)"
-        >
+        <li role="button" class="list-group-item list-group-item-action" *ngFor="let year of years"
+          [class.active]="year === selectedYear" (click)="setTimesheetYear(year)">
           {{ year }}
         </li>
       </ul>
@@ -40,21 +34,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              *ngFor="let timesheet of selectedTimesheetYear"
-              role="button"
-              [routerLink]="['timesheet', timesheet.id]"
-            >
+            <tr *ngFor="let timesheet of selectedTimesheetYear" role="button"
+              [routerLink]="['timesheet', timesheet.id]">
               <td>{{ timesheet.name }}</td>
               <td>{{ timesheet.clientName || 'N/A' }}</td>
               <td class="fit text-center">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  aria-label="select"
-                  [checked]="timesheet.closed"
-                  [disabled]="true"
-                />
+                <input type="checkbox" class="form-check-input" aria-label="select" [checked]="timesheet.closed"
+                  [disabled]="true" />
               </td>
               <td class="fit text-center">{{ timesheet.numberOfWorkingDays }}</td>
               <td class="fit text-center d-md-table-cell d-none">{{ timesheet.numberOfHoursWorked }}</td>
