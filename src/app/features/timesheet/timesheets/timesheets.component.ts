@@ -26,6 +26,11 @@ export class TimesheetsComponent implements OnInit {
     });
   }
 
+  setClient(name: string) {
+    this.selectedClientName = name;
+    this.setTimesheetYear(this.currentYear);
+  }
+
   setTimesheetYear(year: number) {
     // this will probably cause issues in the future.
     const byYear = this.timesheetsGroupedByYearAndClientName[year];
