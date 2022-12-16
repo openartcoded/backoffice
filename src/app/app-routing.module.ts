@@ -82,10 +82,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      useHash: false,
-      initialNavigation: 'enabledNonBlocking', // this should be kept as is for keycloak
-      relativeLinkResolution: 'legacy',
-    }),
+    useHash: false,
+    initialNavigation: 'enabledNonBlocking'
+}),
   ],
   exports: [RouterModule],
 })
