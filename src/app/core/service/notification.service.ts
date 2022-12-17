@@ -82,7 +82,7 @@ export class NotificationService {
         )
         .subscribe((notifications) => {
           this.updateTitle(notifications);
-          const newEvents = notifications.filter((n) => !this.eventsAlreadySent.find((x) => x.id === n.id));
+          const newEvents = notifications?.filter((n) => !this.eventsAlreadySent.find((x) => x.id === n.id));
           this.components.forEach((component) => {
             const componentEvents = newEvents.filter((evt) => component.shouldHandle(evt));
             if (componentEvents.length) {

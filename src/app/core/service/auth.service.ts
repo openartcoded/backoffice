@@ -2,6 +2,7 @@ import { ApplicationInitStatus, EventEmitter, Injectable, OnDestroy } from '@ang
 import { User } from '@core/models/user';
 import { KeycloakEventType, KeycloakService } from 'keycloak-angular';
 import { Subscription } from 'rxjs';
+import { WindowRefService } from './window.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class AuthService implements OnDestroy {
   keycloakSubscription: Subscription;
   loggedIn: EventEmitter<any> = new EventEmitter<any>();
   tokenRefreshed: EventEmitter<string> = new EventEmitter<any>();
-  constructor(private keycloakService: KeycloakService, private appInit: ApplicationInitStatus) {
+  constructor(private keycloakService: KeycloakService, private appInit: ApplicationInitStatus, private windowService: WindowRefService) {
     this.appInit.donePromise.then(() => this.onInit());
   }
   ngOnDestroy(): void {
@@ -25,6 +26,8 @@ export class AuthService implements OnDestroy {
         e.type == KeycloakEventType.OnAuthLogout ||
         e.type == KeycloakEventType.OnAuthRefreshError
       ) {
+        this.keycloakService.clearToken();
+        this.windowService?.nativeWindow?.sessionStorage?.clear();
         this.loggedOut.emit();
       }
       if (e.type == KeycloakEventType.OnAuthSuccess || e.type == KeycloakEventType.OnAuthRefreshSuccess) {
