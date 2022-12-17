@@ -61,7 +61,7 @@ export class InvoiceDetailComponent implements OnInit {
   }
   createFormGroup(): UntypedFormGroup {
     return this.formBuilder.group({
-      invoiceNumber: new UntypedFormControl({ value: this.invoice.invoiceNumber, disabled: this.invoice.locked }, [
+      invoiceNumber: new UntypedFormControl({ value: this.invoice.invoiceNumber, disabled: true /* always disabled, coming from backend */ }, [
         Validators.maxLength(9),
       ]),
       freemarkerTemplateId: new UntypedFormControl(
@@ -200,7 +200,7 @@ export class InvoiceDetailComponent implements OnInit {
 
   send() {
     let toSave = {
-      invoiceNumber: this.invoiceForm.get('invoiceNumber').value,
+      invoiceNumber: this.invoice.invoiceNumber /* this.invoiceForm.get('invoiceNumber').value */,
       freemarkerTemplateId: this.invoiceForm.get('freemarkerTemplateId').value,
       specialNote: this.invoiceForm.get('specialNote').value,
       maxDaysToPay: this.invoiceForm.get('maxDaysToPay').value,
