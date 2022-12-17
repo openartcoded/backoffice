@@ -13,7 +13,7 @@ export class AuthService implements OnDestroy {
   keycloakSubscription: Subscription;
   loggedIn: EventEmitter<any> = new EventEmitter<any>();
   tokenRefreshed: EventEmitter<string> = new EventEmitter<any>();
-  constructor(private keycloakService: KeycloakService, private appInit: ApplicationInitStatus, private windowService: WindowRefService) {
+  constructor(private keycloakService: KeycloakService, private appInit: ApplicationInitStatus) {
     this.appInit.donePromise.then(() => this.onInit());
   }
   ngOnDestroy(): void {
@@ -26,8 +26,6 @@ export class AuthService implements OnDestroy {
         e.type == KeycloakEventType.OnAuthLogout ||
         e.type == KeycloakEventType.OnAuthRefreshError
       ) {
-        this.keycloakService.clearToken();
-        this.windowService?.nativeWindow?.sessionStorage?.clear();
         this.loggedOut.emit();
       }
       if (e.type == KeycloakEventType.OnAuthSuccess || e.type == KeycloakEventType.OnAuthRefreshSuccess) {
