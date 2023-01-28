@@ -17,7 +17,7 @@
           Delete
         </button>
         <button ngbDropdownItem (click)="closeActiveDossier()"
-          [disabled]="closed || !dossiers?.content?.length || dossiers?.content[0]?.invoiceIds?.length == 0">
+          [disabled]="closed || !dossiers?.content?.length || (dossiers?.content[0]?.feeIds?.length == 0 && dossiers?.content[0]?.invoiceIds?.length == 0)">
           <fa-icon [icon]="['fas', 'check']"></fa-icon>
           Close
         </button>
