@@ -17,7 +17,7 @@
           Delete
         </button>
         <button ngbDropdownItem (click)="closeActiveDossier()"
-          [disabled]="closed || !dossiers?.content?.length || !dossiers[0]?.invoiceIds?.length">
+          [disabled]="closed || !dossiers?.content?.length || dossiers?.content[0]?.feeIds?.length == 0 || dossiers?.content[0]?.invoiceIds?.length == 0">
           <fa-icon [icon]="['fas', 'check']"></fa-icon>
           Close
         </button>
@@ -57,7 +57,8 @@
                     Imported on {{d.importedDate | date:'dd/MM/yyyy HH:mm'}}
                   </ng-template>
                   <button (click)="$event.stopPropagation();" type="button"
-                    class="ps-0 ms-0  mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend" triggers="click:blur">
+                    class="ps-0 ms-0  mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
+                    triggers="click:blur">
                     <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
                   </button>
                 </ng-container>
