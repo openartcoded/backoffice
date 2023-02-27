@@ -29,9 +29,8 @@ export class PeriodFormComponent implements OnInit {
   constructor(
     @Optional() public activeModal: NgbActiveModal,
     private timesheetService: TimesheetService,
-    private cdr: ChangeDetectorRef,
     private fb: UntypedFormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadForm();
@@ -78,7 +77,10 @@ export class PeriodFormComponent implements OnInit {
         },
         this.period.afternoonStartTime ? [Validators.required] : []
       ),
-      shortDescription: new UntypedFormControl({ value: this.period.shortDescription, disabled: this.timesheetClosed }, []),
+      shortDescription: new UntypedFormControl(
+        { value: this.period.shortDescription, disabled: this.timesheetClosed },
+        []
+      ),
       projectName: new UntypedFormControl({ value: this.period.projectName, disabled: this.timesheetClosed }, []),
     });
   }
@@ -94,8 +96,8 @@ export class PeriodFormComponent implements OnInit {
     const transformHours = (hour) =>
       hour
         ? moment(date + ' ' + hour, 'YYYY-MM-dd HH:mm')
-            .tz('Europe/Brussels')
-            .toDate()
+          .tz('Europe/Brussels')
+          .toDate()
         : null;
     const enableForm = (hour, control) => {
       if (hour) {
@@ -124,12 +126,16 @@ export class PeriodFormComponent implements OnInit {
     });
   }
   checkTypeAndAutoComplete() {
-    if(this.form.controls.periodType.value?.toString() !== PeriodType[PeriodType.WORKING_DAY]){
-      this.form.get("morningStartTime").patchValue("08:00");
-      this.form.get("morningEndTime").patchValue("12:00");
-      this.form.get("afternoonStartTime").patchValue("13:00");
-      this.form.get("afternoonEndTime").patchValue("17:00");
+    if (this.form.controls.periodType.value?.toString() !== PeriodType[PeriodType.WORKING_DAY]) {
+      this.autocomplete();
     }
+  }
+  autocomplete($event?: any) {
+    $event?.preventDefault();
+    this.form.get('morningStartTime').patchValue('08:00');
+    this.form.get('morningEndTime').patchValue('12:00');
+    this.form.get('afternoonStartTime').patchValue('13:00');
+    this.form.get('afternoonEndTime').patchValue('17:00');
   }
 
   setTimeNow(event: any, componentInstance: string) {

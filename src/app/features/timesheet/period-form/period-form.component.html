@@ -7,15 +7,17 @@
   </div>
   <div class="modal-body" *ngIf="form">
     <form [formGroup]="form" (ngSubmit)="send()">
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" (click)="autocomplete($event)" [disabled]="timesheetClosed">
+          Auto <fa-icon icon="user-clock"></fa-icon>
+        </button>
+      </div>
       <div class="mb-2">
         <label class="col-sm-2 col-form-label" for="morningStartTime">Morning Start</label>
         <div class="input-group">
           <input type="time" class="form-control" id="morningStartTime" formControlName="morningStartTime" />
-          <button
-            class="btn btn-primary"
-            (click)="setTimeNow($event, 'morningStartTime')"
-            [disabled]="form.controls.morningStartTime.disabled"
-          >
+          <button class="btn btn-primary" (click)="setTimeNow($event, 'morningStartTime')"
+            [disabled]="form.controls.morningStartTime.disabled">
             <fa-icon icon="user-clock"></fa-icon>
           </button>
         </div>
@@ -24,11 +26,8 @@
         <label class="col-sm-2 col-form-label" for="morningEndTime">Morning End</label>
         <div class="input-group">
           <input type="time" class="form-control" id="morningEndTime" formControlName="morningEndTime" />
-          <button
-            class="btn btn-primary"
-            (click)="setTimeNow($event, 'morningEndTime')"
-            [disabled]="form.controls.morningEndTime.disabled"
-          >
+          <button class="btn btn-primary" (click)="setTimeNow($event, 'morningEndTime')"
+            [disabled]="form.controls.morningEndTime.disabled">
             <fa-icon icon="user-clock"></fa-icon>
           </button>
         </div>
@@ -37,11 +36,8 @@
         <label for="afternoonStartTime">Afternoon Start</label>
         <div class="input-group">
           <input type="time" class="form-control" id="afternoonStartTime" formControlName="afternoonStartTime" />
-          <button
-            class="btn btn-primary"
-            (click)="setTimeNow($event, 'afternoonStartTime')"
-            [disabled]="form.controls.afternoonStartTime.disabled"
-          >
+          <button class="btn btn-primary" (click)="setTimeNow($event, 'afternoonStartTime')"
+            [disabled]="form.controls.afternoonStartTime.disabled">
             <fa-icon icon="user-clock"></fa-icon>
           </button>
         </div>
@@ -50,11 +46,8 @@
         <label for="afternoonEndTime">Afternoon End</label>
         <div class="input-group">
           <input type="time" class="form-control" id="afternoonEndTime" formControlName="afternoonEndTime" />
-          <button
-            class="btn btn-primary"
-            (click)="setTimeNow($event, 'afternoonEndTime')"
-            [disabled]="form.controls.afternoonEndTime.disabled"
-          >
+          <button class="btn btn-primary" (click)="setTimeNow($event, 'afternoonEndTime')"
+            [disabled]="form.controls.afternoonEndTime.disabled">
             <fa-icon icon="user-clock"></fa-icon>
           </button>
         </div>
@@ -62,7 +55,7 @@
       <div class="mb-2">
         <label for="periodType">Type</label>
         <select (change)="checkTypeAndAutoComplete()" class="form-select" id="periodType" formControlName="periodType">
-          <option *ngFor="let pt of periodTypes" [ngValue]="periodTypeClass[pt]" >{{ periodTypeClass[pt] }}</option>
+          <option *ngFor="let pt of periodTypes" [ngValue]="periodTypeClass[pt]">{{ periodTypeClass[pt] }}</option>
         </select>
       </div>
       <div class="mb-2">
