@@ -1,6 +1,6 @@
 <app-title title="Clients" [uppercase]="true"></app-title>
 <div class="d-flex justify-content-end mb-2">
-  <button class="btn btn-outline-primary" (click)="addOrEdit()">
+  <button class="btn btn-outline-primary" (click)="addOrEdit(null)">
     <fa-icon icon="plus"></fa-icon>
     Add
   </button>
@@ -21,24 +21,29 @@
         <ng-container *ngFor="let client of clients">
           <tr role="button" (click)="addOrEdit(client)">
             <td class="text-break">
-                <div class="d-flex justify-content-between">
-                  <span>{{ client.name }}</span>
-                  <ng-container *ngIf="client.imported">
-                    <ng-template #infoFrontend>
-                      Imported on {{client.importedDate | date:'dd/MM/yyyy HH:mm'}}
-                    </ng-template>
-                    <button (click)="$event.stopPropagation();" type="button"
-                      class="ps-0 ms-0  mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
-                      triggers="click:blur">
-                      <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
-                    </button>
-                  </ng-container>
-                </div>
-
+              <div class="d-flex justify-content-between">
+                <span>{{ client.name }}</span>
+                <ng-container *ngIf="client.imported">
+                  <ng-template #infoFrontend>
+                    Imported on {{ client.importedDate | date: 'dd/MM/yyyy HH:mm' }}
+                  </ng-template>
+                  <button
+                    (click)="$event.stopPropagation()"
+                    type="button"
+                    class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark"
+                    [ngbTooltip]="infoFrontend"
+                    triggers="click:blur"
+                  >
+                    <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+                  </button>
+                </ng-container>
+              </div>
             </td>
             <td class="d-md-table-cell d-none text-break">{{ client.emailAddress }}</td>
             <td class="d-md-table-cell d-none text-break">{{ client.vatNumber }}</td>
-            <td class="text-break" [ngClass]="getContractStatusClasses(client.contractStatus)">{{ getContractStatus(client.contractStatus) }}</td>
+            <td class="text-break" [ngClass]="getContractStatusClasses(client.contractStatus)">
+              {{ getContractStatus(client.contractStatus) }}
+            </td>
             <td class="text-center fit">
               <div ngbDropdown class="d-inline-block" container="body">
                 <button
@@ -59,8 +64,10 @@
             </td>
           </tr>
         </ng-container>
+        <tr *ngIf="!clients.length">
+          <td colspan="5">No content</td>
+        </tr>
       </tbody>
     </table>
   </div>
-
 </ng-container>

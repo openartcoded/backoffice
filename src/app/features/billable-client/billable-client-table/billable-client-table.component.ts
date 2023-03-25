@@ -4,6 +4,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { OnApplicationEvent, RegisteredEvent } from '@core/interface/on-application-event';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { BillableClient, ContractStatus } from '@core/models/billable-client';
+import { RateType } from '@core/models/common';
 import { BillableClientService } from '@core/service/billable-client.service';
 import { FileService } from '@core/service/file.service';
 import { NotificationService } from '@core/service/notification.service';
@@ -32,7 +33,7 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Clients');
@@ -47,9 +48,9 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
   load() {
     this.billableClientService.findAll().subscribe(
       (clients) =>
-        (this.clients = clients.sort((a, b) => {
-          return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
-        }))
+      (this.clients = clients.sort((a, b) => {
+        return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+      }))
     );
   }
 
@@ -57,8 +58,24 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
     this.currentNgbModalRef = this.modalService.open(BillableClientDetailComponent, {
       size: 'xl',
     });
-    this.currentNgbModalRef.componentInstance.client = client || ({} as BillableClient);
-    client.documents = await firstValueFrom(this.fileService.findByCorrelationId(client.id));
+    let clientToUpdate =
+      client ||
+      {
+        defaultWorkingDays: [],
+        address: "",
+        city: "",
+        contractStatus: ContractStatus.NOT_STARTED_YET,
+        documentIds: [],
+        emailAddress: "",
+        endDate: null,
+        startDate: new Date(),
+        name: "",
+        rateType: RateType.DAYS
+
+      } as BillableClient;
+    console.log(clientToUpdate);
+    this.currentNgbModalRef.componentInstance.client = clientToUpdate;
+    clientToUpdate.documents = await firstValueFrom(this.fileService.findByCorrelationId(clientToUpdate.id));
     this.currentNgbModalRef.componentInstance.onUpload.subscribe(async (req: { file: File; id: string }) => {
       await firstValueFrom(this.billableClientService.upload(req.id, req.file));
       this.toastService.showSuccess('Will add a new document to the client in a bit');
@@ -69,9 +86,9 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
         this.toastService.showSuccess('Will delete the document in a bit');
       }
     );
-    this.currentNgbModalRef.componentInstance.onSaveClient.subscribe(async (client) => {
+    this.currentNgbModalRef.componentInstance.onSaveClient.subscribe(async (client: BillableClient) => {
       this.currentNgbModalRef.close();
-      this.billableClientService.save(client).subscribe((client) => {
+      this.billableClientService.save(client).subscribe((client: BillableClient) => {
         this.toastService.showSuccess('Client updated');
         this.load();
       });
@@ -84,7 +101,7 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
   delete(client: BillableClient) {
     if (isPlatformBrowser(this.platformId)) {
       if (this.windowRefService.nativeWindow.confirm('Are you sure you want to delete this client?')) {
-        this.billableClientService.delete(client.id).subscribe((data) => {
+        this.billableClientService.delete(client.id).subscribe((_data) => {
           this.load();
           this.toastService.showSuccess('Client deleted');
         });
