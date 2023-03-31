@@ -47,7 +47,7 @@ export class DossierFormComponent implements OnInit {
 
   expenses: Fee[];
   filteredExpenses: Fee[];
-  clients : BillableClient[];
+  clients: BillableClient[];
 
   constructor(
     @Optional() public activeModal: NgbActiveModal,
@@ -56,14 +56,13 @@ export class DossierFormComponent implements OnInit {
     private invoiceService: InvoiceService,
     private clientService: BillableClientService,
     private fb: UntypedFormBuilder
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.dossierForm = this.createFormGroup();
     await this.loadFees();
     this.clients = await firstValueFrom(this.clientService.findAll());
     await this.loadInvoices();
-  
   }
 
   async loadFees() {
@@ -79,6 +78,7 @@ export class DossierFormComponent implements OnInit {
         this.expenses.push(fee);
         this.filteredExpenses.push(fee);
       }
+      this.filteredExpenses.sort((e1, e2) => new Date(e2.date).getTime() - new Date(e1.date).getTime());
     }
   }
 
@@ -93,6 +93,8 @@ export class DossierFormComponent implements OnInit {
         this.invoiceTotalExclVat += invoice.subTotal;
         this.dossier.invoices.push(invoice);
       }
+      this.dossier.invoices.sort((e1, e2) => new Date(e2.dateOfInvoice).getTime() - new Date(e1.dateOfInvoice).getTime());
+
     }
   }
 
@@ -252,6 +254,7 @@ export class DossierFormComponent implements OnInit {
       size: 'xl',
     });
     modalRef.componentInstance.invoice = i;
+    modalRef.componentInstance.templates = [];
     modalRef.componentInstance.clients = this.clients;
   }
 

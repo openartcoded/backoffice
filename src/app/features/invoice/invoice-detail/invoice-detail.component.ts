@@ -1,16 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import {
-  BillTo,
-  Invoice,
-  InvoiceForm,
-  InvoiceFreemarkerTemplate,
-  InvoiceRow,
-} from '@core/models/invoice';
-import {
-  RateType
-} from '@core/models/common';
+import { BillTo, Invoice, InvoiceForm, InvoiceFreemarkerTemplate, InvoiceRow } from '@core/models/invoice';
+import { RateType } from '@core/models/common';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
@@ -39,10 +31,12 @@ export class InvoiceDetailComponent implements OnInit {
 
   invoiceForm: UntypedFormGroup;
 
-  constructor(@Optional() public activeModal: NgbActiveModal, 
-  private modalService: NgbModal,
-  private fileService: FileService,
-  private formBuilder: UntypedFormBuilder) {}
+  constructor(
+    @Optional() public activeModal: NgbActiveModal,
+    private modalService: NgbModal,
+    private fileService: FileService,
+    private formBuilder: UntypedFormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.invoiceForm = this.createFormGroup();
@@ -61,19 +55,22 @@ export class InvoiceDetailComponent implements OnInit {
   }
   createFormGroup(): UntypedFormGroup {
     return this.formBuilder.group({
-      invoiceNumber: new UntypedFormControl({ value: this.invoice.invoiceNumber, disabled: true /* always disabled, coming from backend */ }, [
-        Validators.maxLength(9),
-      ]),
+      invoiceNumber: new UntypedFormControl(
+        { value: this.invoice.invoiceNumber, disabled: true /* always disabled, coming from backend */ },
+        [Validators.maxLength(9)]
+      ),
       freemarkerTemplateId: new UntypedFormControl(
         {
-          value: this.templates.some(templ => templ.id === this.invoice.freemarkerTemplateId) ? this.invoice.freemarkerTemplateId : null,
+          value: this.templates.some((templ) => templ.id === this.invoice.freemarkerTemplateId)
+            ? this.invoice.freemarkerTemplateId
+            : null,
           disabled: this.invoice.locked,
         },
         [Validators.required]
       ),
       selectedClient: new UntypedFormControl(
         {
-          value: this.clients.find(c => c.name === this.invoice.billTo?.clientName),
+          value: this.clients.find((c) => c.name === this.invoice.billTo?.clientName),
           disabled: this.invoice.locked,
         },
         []
@@ -89,9 +86,14 @@ export class InvoiceDetailComponent implements OnInit {
         },
         [Validators.required]
       ),
-      taxRate: new UntypedFormControl({ value: this.invoice.taxRate, disabled: this.invoice.locked }, [Validators.required]),
+      taxRate: new UntypedFormControl({ value: this.invoice.taxRate, disabled: this.invoice.locked }, [
+        Validators.required,
+      ]),
       locked: new UntypedFormControl({ value: this.invoice.locked, disabled: true }, []),
-      uploadedManually: new UntypedFormControl({ value: this.invoice.uploadedManually, disabled: this.invoice.locked }, []),
+      uploadedManually: new UntypedFormControl(
+        { value: this.invoice.uploadedManually, disabled: this.invoice.locked },
+        []
+      ),
       logicalDelete: new UntypedFormControl({ value: this.invoice.logicalDelete, disabled: true }, []),
       billToVatNumber: new UntypedFormControl(
         {
@@ -110,8 +112,7 @@ export class InvoiceDetailComponent implements OnInit {
       billToCity: new UntypedFormControl({ value: this.invoice?.billTo?.city, disabled: this.invoice.locked }, [
         Validators.required,
       ]),
-      specialNote: new UntypedFormControl({ value: this.invoice?.specialNote, disabled: this.invoice.locked }, [
-      ]),
+      specialNote: new UntypedFormControl({ value: this.invoice?.specialNote, disabled: this.invoice.locked }, []),
       billToAddress: new UntypedFormControl({ value: this.invoice?.billTo?.address, disabled: this.invoice.locked }, [
         Validators.required,
       ]),
@@ -179,12 +180,16 @@ export class InvoiceDetailComponent implements OnInit {
           Validators.required,
         ]),
         rate: new UntypedFormControl({ value: table.rate, disabled: this.invoice.locked }, [Validators.required]),
-        rateType: new UntypedFormControl({ value: table.rateType, disabled: this.invoice.locked }, [Validators.required]),
+        rateType: new UntypedFormControl({ value: table.rateType, disabled: this.invoice.locked }, [
+          Validators.required,
+        ]),
         amount: new UntypedFormControl({ value: table.amount, disabled: this.invoice.locked }, [
           Validators.required,
           Validators.min(1),
         ]),
-        amountType: new UntypedFormControl({ value: table.amountType, disabled: this.invoice.locked }, [Validators.required]),
+        amountType: new UntypedFormControl({ value: table.amountType, disabled: this.invoice.locked }, [
+          Validators.required,
+        ]),
       });
     };
     let arr = this.invoice?.invoiceTable?.length
@@ -241,12 +246,12 @@ export class InvoiceDetailComponent implements OnInit {
     const invalid = [];
     const controls = this.invoiceForm.controls;
     for (const name in controls) {
-        if (controls[name].invalid) {
-            invalid.push(name);
-        }
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
     }
     return invalid;
-}
+  }
   fillFromClient() {
     const client: BillableClient = this.invoiceForm.get('selectedClient').value;
     this.invoiceForm.get('billToVatNumber').patchValue(client?.vatNumber);
