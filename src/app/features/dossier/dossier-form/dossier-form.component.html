@@ -1,9 +1,16 @@
 <ng-container *ngIf="dossier">
   <div class="modal-header" *ngIf="activeModal">
-    <span class="modal-title text-break">Dossier <{{ dossier.name ? dossier.name : 'New Dossier' }}>
+    <span class="modal-title text-break"
+      >Dossier <{{ dossier.name ? dossier.name : 'New Dossier' }}>
       <ng-container *ngIf="dossier.imported">
-        <ng-template #infoFrontend>Imported on {{dossier.importedDate | date:'dd/MM/yyyy HH:mm'}}</ng-template>
-        <button (click)="$event.stopPropagation();" type="button" class="ps-0 ms-0  me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend" triggers="click:blur">
+        <ng-template #infoFrontend>Imported on {{ dossier.importedDate | date : 'dd/MM/yyyy HH:mm' }}</ng-template>
+        <button
+          (click)="$event.stopPropagation()"
+          type="button"
+          class="ps-0 ms-0 me-0 btn btn-link text-dark"
+          [ngbTooltip]="infoFrontend"
+          triggers="click:blur"
+        >
           <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
         </button>
       </ng-container>
@@ -127,8 +134,8 @@
             <div class="mt-2">
               <ng-container formArrayName="advancePayments">
                 <div class="alert alert-warning" *ngIf="vatTotal && feeTotalVat">
-                  Estimated VAT: ({{ vatTotal | currency: '€' }} - {{ feeTotalVat | currency: '€' }}) =
-                  {{ vatTotal - feeTotalVat | currency: '€' }}
+                  Estimated VAT: ({{ vatTotal | currency : '€' }} - {{ feeTotalVat | currency : '€' }}) =
+                  {{ vatTotal - feeTotalVat | currency : '€' }}
                 </div>
                 <div class="d-flex justify-content-end">
                   <button
@@ -181,7 +188,7 @@
           <a ngbNavLink>Expenses</a>
           <ng-template ngbNavContent>
             <div class="alert alert-warning mt-2" *ngIf="feeTotalExclVat">
-              Total: {{ feeTotalExclVat | currency: '€' }}, VAT: {{ feeTotalVat | currency: '€' }}
+              Total: {{ feeTotalExclVat | currency : '€' }}, VAT: {{ feeTotalVat | currency : '€' }}
             </div>
             <div class="mt-2 mb-1" *ngIf="expenses?.length">
               <input
@@ -216,7 +223,7 @@
           <a ngbNavLink>Invoices</a>
           <ng-template ngbNavContent>
             <div class="alert alert-warning mt-2" *ngIf="invoiceTotalExclVat">
-              Total Excl. VAT: {{ invoiceTotalExclVat | currency: '€' }}
+              Total Excl. VAT: {{ invoiceTotalExclVat | currency : '€' }}
             </div>
             <div class="bg-light p-2 mt-2" *ngIf="!dossier.invoices?.length">No Content.</div>
             <ul class="list-group" *ngIf="dossier.invoices?.length" id="invoices">
@@ -224,7 +231,9 @@
                 <div class="d-flex justify-content-between">
                   <div>
                     <a class="btn btn-link pe-0 ps-0" (click)="openInvoiceDetail(i)">{{ i.invoiceNumber }}</a>
-                    <span class="text-danger">({{ i.subTotal | currency: '€' }})</span>
+                    <span class="text-danger"
+                      >({{ i.billTo?.clientName + ' - ' }}{{ i.subTotal | currency : '€' }})</span
+                    >
                   </div>
                   <a class="btn btn-link" *ngIf="!dossier.closed" (click)="removeInvoice($event, i)">
                     <fa-icon [icon]="['fas', 'times']" class="text-danger"></fa-icon>

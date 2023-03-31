@@ -10,15 +10,16 @@ import { BillableClient, ContractStatus } from '@core/models/billable-client';
 export class BillableClientService {
   basePath: string;
 
-  constructor(private http: HttpClient, private configService: ConfigInitService) {
+  constructor(private http: HttpClient, configService: ConfigInitService) {
     this.basePath = `${configService.getConfig()['BACKEND_URL']}/api/billable-client`;
   }
 
-
   findByContractStatus(contractStatus: ContractStatus): Observable<BillableClient[]> {
-    return this.http.get<BillableClient[]>(`${this.basePath}/find-by-contract-status?contractStatus=${ContractStatus[contractStatus]}`);
+    return this.http.get<BillableClient[]>(
+      `${this.basePath}/find-by-contract-status?contractStatus=${ContractStatus[contractStatus]}`
+    );
   }
-  
+
   findAll(): Observable<BillableClient[]> {
     return this.http.get<BillableClient[]>(`${this.basePath}/find-all`);
   }
@@ -41,5 +42,4 @@ export class BillableClientService {
   deleteUpload(id: string, uploadId: string): Observable<void> {
     return this.http.delete<void>(`${this.basePath}/upload?id=${id}&uploadId=${uploadId}`);
   }
-
 }
