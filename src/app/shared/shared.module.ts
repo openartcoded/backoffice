@@ -16,6 +16,8 @@ import { EditEmailComponent } from './edit-email/edit-email.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { BytesToHumanPipe } from './pipes/bytes-to-human.pipe';
 import { StopPropagationDirective } from './directives/stop.propagation.directive';
+import { MailFormComponent } from './mail-form/mail-form.component';
+import { AutosizeModule } from 'ngx-autosize';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { StopPropagationDirective } from './directives/stop.propagation.directiv
     StopPropagationDirective,
     EditEmailComponent,
     BytesToHumanPipe,
+    MailFormComponent,
   ],
   exports: [
     TitleComponent,
@@ -42,7 +45,15 @@ import { StopPropagationDirective } from './directives/stop.propagation.directiv
     TrimPipe,
     BytesToHumanPipe,
   ],
-  imports: [CommonModule, NgbToastModule, FontAwesomeModule, NgbDropdownModule, ReactiveFormsModule, PdfViewerModule],
+  imports: [
+    CommonModule,
+    AutosizeModule,
+    NgbToastModule,
+    FontAwesomeModule,
+    NgbDropdownModule,
+    ReactiveFormsModule,
+    PdfViewerModule,
+  ],
   providers: [SlugifyPipe, SortPipe],
 })
-export class SharedModule {}
+export class SharedModule { }

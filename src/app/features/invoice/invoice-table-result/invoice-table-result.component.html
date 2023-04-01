@@ -31,10 +31,21 @@
           <th class="fit d-md-table-cell d-none">
             <div class="d-flex justify-content-between">
               <span>Created</span>
-              <a [class.text-muted]="sort.property !== 'dateCreation'"
-                [class.text-dark]="sort.property === 'dateCreation'" (click)="setSort('dateCreation')">
+              <a
+                [class.text-muted]="sort.property !== 'dateCreation'"
+                [class.text-dark]="sort.property === 'dateCreation'"
+                (click)="setSort('dateCreation')"
+              >
                 <fa-icon
-                  [icon]="['fas', sort.property !== 'dateCreation' ? 'arrows-up-down': sort.direction === ASC ? 'arrow-up' : 'arrow-down']">
+                  [icon]="[
+                    'fas',
+                    sort.property !== 'dateCreation'
+                      ? 'arrows-up-down'
+                      : sort.direction === ASC
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                  ]"
+                >
                 </fa-icon>
               </a>
             </div>
@@ -42,10 +53,21 @@
           <th class="fit d-md-table-cell">
             <div class="d-flex justify-content-between">
               <span>Client</span>
-              <a [class.text-muted]="sort.property !== 'billTo.clientName'"
-                [class.text-dark]="sort.property === 'billTo.clientName'" (click)="setSort('billTo.clientName')">
+              <a
+                [class.text-muted]="sort.property !== 'billTo.clientName'"
+                [class.text-dark]="sort.property === 'billTo.clientName'"
+                (click)="setSort('billTo.clientName')"
+              >
                 <fa-icon
-                  [icon]="['fas', sort.property !== 'billTo.clientName' ? 'arrows-up-down':sort.direction === ASC ? 'arrow-up' : 'arrow-down']">
+                  [icon]="[
+                    'fas',
+                    sort.property !== 'billTo.clientName'
+                      ? 'arrows-up-down'
+                      : sort.direction === ASC
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                  ]"
+                >
                 </fa-icon>
               </a>
             </div>
@@ -53,10 +75,21 @@
           <th class="fit d-md-table-cell">
             <div class="d-flex justify-content-between">
               <span>Date</span>
-              <a [class.text-muted]="sort.property !== 'dateOfInvoice'"
-                [class.text-dark]="sort.property === 'dateOfInvoice'" (click)="setSort('dateOfInvoice')">
+              <a
+                [class.text-muted]="sort.property !== 'dateOfInvoice'"
+                [class.text-dark]="sort.property === 'dateOfInvoice'"
+                (click)="setSort('dateOfInvoice')"
+              >
                 <fa-icon
-                  [icon]="['fas', sort.property !== 'dateOfInvoice' ? 'arrows-up-down': sort.direction === ASC ? 'arrow-up' : 'arrow-down']">
+                  [icon]="[
+                    'fas',
+                    sort.property !== 'dateOfInvoice'
+                      ? 'arrows-up-down'
+                      : sort.direction === ASC
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                  ]"
+                >
                 </fa-icon>
               </a>
             </div>
@@ -75,37 +108,50 @@
               <span>{{ invoice.invoiceNumber }}</span>
               <ng-container *ngIf="invoice.imported">
                 <ng-template #infoFrontend>
-                  Imported on {{invoice.importedDate | date:'dd/MM/yyyy HH:mm'}}
+                  Imported on {{ invoice.importedDate | date : 'dd/MM/yyyy HH:mm' }}
                 </ng-template>
-                <button (click)="$event.stopPropagation();" type="button"
-                  class="ps-0 ms-0  mt-0 pt-0 mb-0 pb-0 me-0 pe-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
-                  triggers="click:blur">
+                <button
+                  (click)="$event.stopPropagation()"
+                  type="button"
+                  class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 pe-0 btn btn-link text-dark"
+                  [ngbTooltip]="infoFrontend"
+                  triggers="click:blur"
+                >
                   <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
                 </button>
               </ng-container>
             </div>
-
           </td>
-          <td class="fit d-md-table-cell d-none">{{ invoice.dateCreation | date: 'dd/MM/yyyy' }}</td>
+          <td class="fit d-md-table-cell d-none">{{ invoice.dateCreation | date : 'dd/MM/yyyy' }}</td>
           <td class="fit d-md-table-cell">{{ invoice.billTo.clientName }}</td>
-          <td class="fit d-md-table-cell">{{ invoice.dateOfInvoice | date: 'dd/MM/yyyy' }}</td>
-          <td class="d-md-table-cell text-primary d-none">{{ invoice.dueDate | date: 'dd/MM/yyyy' }}</td>
-          <td class="d-md-table-cell d-none">{{ invoice.subTotal | currency: '€' }}</td>
-          <td class="d-md-table-cell d-none">{{ invoice.taxes | currency: '€' }}</td>
-          <td class="d-md-table-cell d-none text-danger">{{ invoice.total | currency: '€' }}</td>
+          <td class="fit d-md-table-cell">{{ invoice.dateOfInvoice | date : 'dd/MM/yyyy' }}</td>
+          <td class="d-md-table-cell text-primary d-none">{{ invoice.dueDate | date : 'dd/MM/yyyy' }}</td>
+          <td class="d-md-table-cell d-none">{{ invoice.subTotal | currency : '€' }}</td>
+          <td class="d-md-table-cell d-none">{{ invoice.taxes | currency : '€' }}</td>
+          <td class="d-md-table-cell d-none text-danger">{{ invoice.total | currency : '€' }}</td>
           <td class="text-center fit">
             <div ngbDropdown class="d-inline-block" container="body">
-              <button class="btn btn-outline-secondary" id="dropdownBasic2" ngbDropdownToggle
-                (click)="$event.stopPropagation()"></button>
+              <button
+                class="btn btn-outline-secondary"
+                id="dropdownBasic2"
+                ngbDropdownToggle
+                (click)="$event.stopPropagation()"
+              ></button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
                 <button [disabled]="!invoice.invoiceUploadId" ngbDropdownItem (click)="download(invoice)">
                   <fa-icon [icon]="['fas', 'download']"></fa-icon>&nbsp;Download
                 </button>
+                <button [disabled]="!invoice.invoiceUploadId" ngbDropdownItem (click)="sendMail(invoice)">
+                  <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>&nbsp;Send
+                </button>
                 <button ngbDropdownItem (click)="openModal(invoice)">
                   <fa-icon [icon]="['fas', 'eye']"></fa-icon>&nbsp;Open
                 </button>
-                <button *ngIf="activeDossier && !invoice.archived && !invoice.logicalDelete" ngbDropdownItem
-                  (click)="process(invoice)">
+                <button
+                  *ngIf="activeDossier && !invoice.archived && !invoice.logicalDelete"
+                  ngbDropdownItem
+                  (click)="process(invoice)"
+                >
                   <fa-icon [icon]="['fas', 'cog']"></fa-icon>&nbsp;Process
                 </button>
                 <button ngbDropdownItem (click)="newInvoiceFromTemplate(invoice)">
@@ -132,8 +178,14 @@
     </table>
   </div>
   <div class="d-flex justify-content-between mb-2">
-    <ngb-pagination *ngIf="invoices?.totalPages > 1" [page]="invoices?.pageable?.pageNumber + 1"
-      [pageSize]="invoices?.size" [maxSize]="5" [collectionSize]="invoices?.totalElements" (pageChange)="load($event)">
+    <ngb-pagination
+      *ngIf="invoices?.totalPages > 1"
+      [page]="invoices?.pageable?.pageNumber + 1"
+      [pageSize]="invoices?.size"
+      [maxSize]="5"
+      [collectionSize]="invoices?.totalElements"
+      (pageChange)="load($event)"
+    >
     </ngb-pagination>
   </div>
 </ng-container>
