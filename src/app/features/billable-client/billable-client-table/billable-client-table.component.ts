@@ -60,20 +60,18 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
     });
     let clientToUpdate =
       client ||
-      {
+      ({
         defaultWorkingDays: [],
-        address: "",
-        city: "",
+        address: '',
+        city: '',
         contractStatus: ContractStatus.NOT_STARTED_YET,
         documentIds: [],
-        emailAddress: "",
+        emailAddress: '',
         endDate: null,
         startDate: new Date(),
-        name: "",
-        rateType: RateType.DAYS
-
-      } as BillableClient;
-    console.log(clientToUpdate);
+        name: '',
+        rateType: RateType.DAYS,
+      } as BillableClient);
     this.currentNgbModalRef.componentInstance.client = clientToUpdate;
     clientToUpdate.documents = await firstValueFrom(this.fileService.findByCorrelationId(clientToUpdate.id));
     this.currentNgbModalRef.componentInstance.onUpload.subscribe(async (req: { file: File; id: string }) => {

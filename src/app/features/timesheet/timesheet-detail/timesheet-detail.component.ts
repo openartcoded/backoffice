@@ -22,7 +22,9 @@ import { TimesheetSettingsComponent } from '../timesheet-settings/timesheet-sett
 import { BillableClientService } from '@core/service/billable-client.service';
 import { ToastService } from '@core/service/toast.service';
 import { ContractStatus } from '@core/models/billable-client';
-import * as moment from 'moment-timezone';
+import { MailFormComponent } from '@shared/mail-form/mail-form.component';
+import { MailRequest } from '@core/models/mail-request';
+import { MailService } from '@core/service/mail.service';
 @Component({
   selector: 'app-timesheet-detail',
   templateUrl: './timesheet-detail.component.html',
@@ -45,12 +47,13 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     private notificationService: NotificationService,
     private fileService: FileService,
     private timesheetService: TimesheetService,
+    private mailService: MailService,
     private toastService: ToastService
-  ) {}
+  ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.id = this.route.snapshot.params.id;
-    await this.load();
+    this.load();
     this.notificationService.subscribe(this);
   }
 
@@ -69,14 +72,13 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   isWorkday(period: TimesheetPeriod) {
     return PeriodType[PeriodType.WORKING_DAY] === period.periodType?.toString();
   }
-
   openPeriod(period: TimesheetPeriod) {
     const ref = this.modalService.open(PeriodFormComponent, { size: 'lg' });
     ref.componentInstance.period = period;
     ref.componentInstance.timesheetId = this.timesheet.id;
     ref.componentInstance.timesheetClosed = this.timesheet.closed;
-    ref.dismissed.subscribe(async (value) => {
-      await this.load();
+    ref.dismissed.subscribe((_value) => {
+      this.load();
     });
   }
 
@@ -148,6 +150,18 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     });
   }
 
+  async send() {
+    const upload = await firstValueFrom(this.fileService.findById(this.timesheet.uploadId));
+    const ngbModalRef = this.modalService.open(MailFormComponent, {
+      size: 'md',
+    });
+    ngbModalRef.componentInstance.attachments = [upload];
+    ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
+      ngbModalRef.close();
+      await firstValueFrom(this.mailService.send(mailRequest));
+      this.toastService.showSuccess('Mail will be send');
+    });
+  }
   get periods() {
     if (this.currentFilter) {
       return this.timesheet?.periods?.filter((p) => this.currentFilter.toString() === p.periodType.toString());
@@ -177,7 +191,7 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     });
   }
 
-  handle(events: ArtcodedNotification[]) {
+  handle(_events: ArtcodedNotification[]) {
     this.load();
   }
 

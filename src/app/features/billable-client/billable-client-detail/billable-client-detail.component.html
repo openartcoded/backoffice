@@ -3,7 +3,7 @@
     <span class="modal-title text-break"
       >Client {{ client.name }}
       <ng-container *ngIf="client.imported">
-        <ng-template #infoFrontend> Imported on {{ client.importedDate | date: 'dd/MM/yyyy HH:mm' }} </ng-template>
+        <ng-template #infoFrontend> Imported on {{ client.importedDate | date : 'dd/MM/yyyy HH:mm' }} </ng-template>
         <button
           (click)="$event.stopPropagation()"
           type="button"
@@ -191,7 +191,7 @@
                 <li class="list-group-item" *ngFor="let a of client.documents">
                   <div class="d-flex justify-content-between">
                     <button class="btn btn-link text-break" (click)="download($event, a)">
-                      {{ a.name }}
+                      {{ a.originalFilename }}
                     </button>
                     <div class="btn-group">
                       <button class="btn btn-link" (click)="removeDocument($event, a)">
