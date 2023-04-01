@@ -27,8 +27,7 @@ export class FeeService {
 
   updatePrice(id: string, priceHVat: number, vat: number): Observable<Fee> {
     return this.http.post<Fee>(
-      `${
-        this.configService.getConfig()['BACKEND_URL']
+      `${this.configService.getConfig()['BACKEND_URL']
       }/api/fee/update-price?id=${id}&priceHVat=${priceHVat}&vat=${vat}`,
       {}
     );
@@ -36,8 +35,7 @@ export class FeeService {
 
   removeAttachment(feeId: string, attachmentId: string): Observable<Fee> {
     return this.http.post<Fee>(
-      `${
-        this.configService.getConfig()['BACKEND_URL']
+      `${this.configService.getConfig()['BACKEND_URL']
       }/api/fee/remove-attachment?id=${feeId}&attachmentId=${attachmentId}`,
       {}
     );
@@ -57,6 +55,14 @@ export class FeeService {
 
   findById(id: string): Observable<Fee> {
     return this.http.post<Fee>(`${this.backendUrl}/api/fee/find-by-id?id=${id}`, {});
+  }
+
+  findByIds(ids: string[]): Observable<Fee[]> {
+    const params = new URLSearchParams();
+    for (const id of ids) {
+      params.append('id', id);
+    }
+    return this.http.post<Fee[]>(`${this.backendUrl}/api/fee/find-by-ids?${params.toString()}`, {});
   }
 
   summaries(): Observable<FeeSummary[]> {

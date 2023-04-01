@@ -71,8 +71,9 @@ export class DossierFormComponent implements OnInit {
     this.feeTotalVat = 0;
     this.feeTotalExclVat = 0;
     if (this.dossier?.feeIds?.length) {
-      for (let id of this.dossier.feeIds) {
-        const fee = await firstValueFrom(this.feeService.findById(id));
+      const fees = await firstValueFrom(this.feeService.findByIds(this.dossier.feeIds));
+
+      for (let fee of fees) {
         this.feeTotalVat += fee.vat || 0;
         this.feeTotalExclVat += fee.priceHVAT || 0;
         this.expenses.push(fee);
@@ -87,14 +88,15 @@ export class DossierFormComponent implements OnInit {
     this.vatTotal = 0;
     this.invoiceTotalExclVat = 0;
     if (this.dossier?.invoiceIds?.length) {
-      for (let id of this.dossier.invoiceIds) {
-        const invoice = await firstValueFrom(this.invoiceService.findById(id));
+      const invoices = await firstValueFrom(this.invoiceService.findByIds(this.dossier.invoiceIds));
+      for (let invoice of invoices) {
         this.vatTotal += invoice.taxes;
         this.invoiceTotalExclVat += invoice.subTotal;
         this.dossier.invoices.push(invoice);
       }
-      this.dossier.invoices.sort((e1, e2) => new Date(e2.dateOfInvoice).getTime() - new Date(e1.dateOfInvoice).getTime());
-
+      this.dossier.invoices.sort(
+        (e1, e2) => new Date(e2.dateOfInvoice).getTime() - new Date(e1.dateOfInvoice).getTime()
+      );
     }
   }
 

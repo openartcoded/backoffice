@@ -49,6 +49,15 @@ export class FileService {
     return this.http.get<FileUpload>(url, {});
   }
 
+  findByIds(ids: string[]): Observable<FileUpload[]> {
+    const params = new URLSearchParams();
+    for (const id of ids) {
+      params.append('id', id);
+    }
+    const url = `${this.basePath}/find-by-ids?${params.toString()}`;
+    return this.http.get<FileUpload[]>(url, {});
+  }
+
   findByPublicId(id: string): Observable<FileUpload> {
     const url = `${this.basePath}/public/find-by-id?id=${id}`;
     return this.http.get<FileUpload>(url, {});
