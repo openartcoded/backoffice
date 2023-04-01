@@ -51,7 +51,8 @@
           <th class="fit"></th>
           <th>Subject</th>
           <th class="d-md-table-cell d-none">Date received</th>
-          <th class="fit">Files</th>
+          <th class="d-md-table-cell d-none fit">Files</th>
+          <th class="fit"></th>
           <th class="text-center fit" *ngIf="!archived">
             <input
               type="checkbox"
@@ -66,7 +67,7 @@
       </thead>
       <tbody>
         <tr class="bg-light">
-          <td *ngIf="!fees?.content?.length" colspan="5">No entries</td>
+          <td *ngIf="!fees?.content?.length" colspan="6">No entries</td>
         </tr>
         <ng-container *ngFor="let f of fees.content">
           <tr role="button" (click)="openDetail(f)">
@@ -75,20 +76,31 @@
             </td>
             <td>
               <div class="d-flex justify-content-between">
-              <span>{{ f.subject }}</span>
-              <ng-container *ngIf="f.imported">
-                <ng-template #infoFrontend>
-                  Imported on {{f.importedDate | date:'dd/MM/yyyy HH:mm'}}
-                </ng-template>
-                <button (click)="$event.stopPropagation();" type="button" class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0  me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend" triggers="click:blur">
-                  <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
-                </button>
-              </ng-container>
+                <span>{{ f.subject }}</span>
+                <ng-container *ngIf="f.imported">
+                  <ng-template #infoFrontend>
+                    Imported on {{ f.importedDate | date : 'dd/MM/yyyy HH:mm' }}
+                  </ng-template>
+                  <button
+                    (click)="$event.stopPropagation()"
+                    type="button"
+                    class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark"
+                    [ngbTooltip]="infoFrontend"
+                    triggers="click:blur"
+                  >
+                    <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+                  </button>
+                </ng-container>
               </div>
             </td>
-            <td class="d-md-table-cell d-none">{{ f.date | date: 'dd/MM/yyyy HH:mm' }}</td>
-            <td class="text-center fit">
+            <td class="d-md-table-cell d-none">{{ f.date | date : 'dd/MM/yyyy HH:mm' }}</td>
+            <td class="d-md-table-cell d-none text-center fit">
               {{ f.attachmentIds.length }}
+            </td>
+            <td class="text-center fit">
+              <a class="btn btn-link" (click)="sendMail(f, $event)">
+                <fa-icon [icon]="['fas', 'mail-bulk']" />
+              </a>
             </td>
             <td class="text-center fit" (click)="toggleSelectedRow(f, false, $event)" *ngIf="!archived">
               <input type="checkbox" class="form-check-input" aria-label="select" [checked]="isFeeSelected(f)" />

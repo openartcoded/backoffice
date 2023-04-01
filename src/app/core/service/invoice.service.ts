@@ -24,8 +24,7 @@ export class InvoiceService {
   ): Observable<Page<Invoice>> {
     const direction = Direction[sortCriteria.direction];
     return this.http.post<Page<Invoice>>(
-      `${this.basePath}/page?archived=${archived}&logical=${logicalDelete}&page=${
-        pageNumber - 1
+      `${this.basePath}/page?archived=${archived}&logical=${logicalDelete}&page=${pageNumber - 1
       }&size=${pageSize}&sort=${sortCriteria.property},${direction}`,
       {}
     );
@@ -76,5 +75,13 @@ export class InvoiceService {
 
   findById(id: string) {
     return this.http.post<Invoice>(`${this.basePath}/find-by-id?id=${id}`, {});
+  }
+
+  findByIds(ids: string[]): Observable<Invoice[]> {
+    const params = new URLSearchParams();
+    for (const id of ids) {
+      params.append('id', id);
+    }
+    return this.http.post<Invoice[]>(`${this.basePath}/find-by-ids?${params.toString()}`, {});
   }
 }

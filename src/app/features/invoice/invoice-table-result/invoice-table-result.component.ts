@@ -18,7 +18,10 @@ import { ToastService } from '@core/service/toast.service';
 import { firstValueFrom } from 'rxjs';
 import { BillableClientService } from '@core/service/billable-client.service';
 import { BillableClient, ContractStatus } from '@core/models/billable-client';
-import {SortCriteria, Direction} from '@core/models/page';
+import { SortCriteria, Direction } from '@core/models/page';
+import { MailFormComponent } from '@shared/mail-form/mail-form.component';
+import { MailService } from '@core/service/mail.service';
+import { MailRequest } from '@core/models/mail-request';
 @Component({
   selector: 'app-invoice-table-result',
   templateUrl: './invoice-table-result.component.html',
@@ -31,7 +34,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
 
   sort: SortCriteria = {
     direction: Direction.DESC,
-    property: 'dateCreation'
+    property: 'dateCreation',
   };
 
   @Input()
@@ -52,8 +55,9 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
     private toastService: ToastService,
     private notificationService: NotificationService,
     private dossierService: DossierService,
-    private fileService: FileService
-  ) {}
+    private fileService: FileService,
+    private mailService: MailService
+  ) { }
 
   ngOnInit() {
     this.dossierService.activeDossier().subscribe((dt) => (this.activeDossier = dt));
@@ -65,13 +69,25 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
     this.invoiceService
       .search(this.archived, this.logicalDelete, event, this.pageSize, this.sort)
       .subscribe((invoices) => {
-       
         this.invoices = invoices;
       });
   }
 
   download(invoice: Invoice): void {
     this.fileService.findById(invoice.invoiceUploadId).subscribe((f) => this.fileService.download(f));
+  }
+
+  async sendMail(invoice: Invoice) {
+    const upload = await firstValueFrom(this.fileService.findById(invoice.invoiceUploadId));
+    const ngbModalRef = this.modalService.open(MailFormComponent, {
+      size: 'md',
+    });
+    ngbModalRef.componentInstance.attachments = [upload];
+    ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
+      ngbModalRef.close();
+      await firstValueFrom(this.mailService.send(mailRequest));
+      this.toastService.showSuccess('Mail will be send');
+    });
   }
 
   async openModal(invoice: Invoice) {
@@ -106,9 +122,8 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
 
   delete(invoice: Invoice) {
     if (isPlatformBrowser(this.platformId)) {
-      let areYouSureYouWantToDeleteTheInvoice = `Are you sure you want to delete the invoice (${
-        this.logicalDelete ? 'REALLY' : 'logically'
-      }) ?`;
+      let areYouSureYouWantToDeleteTheInvoice = `Are you sure you want to delete the invoice (${this.logicalDelete ? 'REALLY' : 'logically'
+        }) ?`;
       let resp = this.windowRefService.nativeWindow.confirm(areYouSureYouWantToDeleteTheInvoice);
       if (resp) {
         this.invoiceService.delete(invoice, !(this.logicalDelete || false)).subscribe((data) => {
@@ -151,7 +166,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
     });
   }
 
-  handle(events: ArtcodedNotification[]) {
+  handle(_events: ArtcodedNotification[]) {
     this.load();
   }
 
@@ -168,30 +183,29 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   }
 
   templateModal() {
-    this.invoiceService.listTemplates().subscribe(templates => {
+    this.invoiceService.listTemplates().subscribe((templates) => {
       const ngbModalRef = this.modalService.open(TemplateComponent, {
         size: 'lg',
       });
-      ngbModalRef.componentInstance.templates = templates ;
+      ngbModalRef.componentInstance.templates = templates;
       ngbModalRef.componentInstance.onSaveTemplate.subscribe(async (formData) => {
         ngbModalRef.close();
         await firstValueFrom(this.invoiceService.addTemplate(formData));
-        this.toastService.showSuccess("Will add the template");
+        this.toastService.showSuccess('Will add the template');
       });
       ngbModalRef.componentInstance.onDeleteTemplate.subscribe(async (template) => {
         ngbModalRef.close();
         await firstValueFrom(this.invoiceService.deleteTemplate(template));
-        this.toastService.showSuccess("Will delete the template");
+        this.toastService.showSuccess('Will delete the template');
       });
-    })
-
+    });
   }
 
   setSort(propertyName: string) {
     this.sort = {
       property: propertyName,
-      direction: this.sort.direction === Direction.ASC ? Direction.DESC : Direction.ASC
-    }
+      direction: this.sort.direction === Direction.ASC ? Direction.DESC : Direction.ASC,
+    };
     this.load();
   }
 }

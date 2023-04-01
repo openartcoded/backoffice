@@ -15,6 +15,11 @@ import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { NotificationService } from '@core/service/notification.service';
 import { LabelService } from '@core/service/label.service';
 import { firstValueFrom } from 'rxjs';
+import { FileService } from '@core/service/file.service';
+import { MailService } from '@core/service/mail.service';
+import { MailFormComponent } from '@shared/mail-form/mail-form.component';
+import { MailRequest } from '@core/models/mail-request';
+import { ToastService } from '@core/service/toast.service';
 
 @Component({
   selector: 'app-fee-table-result',
@@ -42,8 +47,11 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     private windowRefService: WindowRefService,
     private notificationService: NotificationService,
     private labelService: LabelService,
-    private feeService: FeeService
-  ) {}
+    private feeService: FeeService,
+    private fileService: FileService,
+    private mailService: MailService,
+    private toastService: ToastService
+  ) { }
 
   ngOnInit(): void {
     this.dossierService.activeDossier().subscribe((dt) => (this.activeDossier = dt));
@@ -115,7 +123,7 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
       return;
     }
     let tagIds = this.selectedRows.map((r) => r.id);
-    this.feeService.updateTag(tagIds, $event).subscribe((data) => {
+    this.feeService.updateTag(tagIds, $event).subscribe((_data) => {
       this.search(this.searchCriteria);
     });
   }
@@ -127,7 +135,7 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
       scrollable: true,
     });
     modalRef.componentInstance.fee = f;
-    modalRef.componentInstance.feeUpdated.subscribe((f) => {
+    modalRef.componentInstance.feeUpdated.subscribe((_f) => {
       this.load();
     });
   }
@@ -145,14 +153,14 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     modalRef.componentInstance.selectedFees = this.selectedRows;
     modalRef.componentInstance.labels = this.tags;
     modalRef.componentInstance.activeDossier = this.activeDossier;
-    modalRef.componentInstance.selectedFeeRemoved.subscribe((f) => {
+    modalRef.componentInstance.selectedFeeRemoved.subscribe((f: Fee) => {
       this.toggleSelectedRow(f, true);
       if (this.selectedRows.length === 0) {
         modalRef.close();
       }
     });
-    modalRef.componentInstance.processValidated.subscribe((fees) => {
-      this.dossierService.processFees(fees.map((f) => f.id)).subscribe((dt) => {
+    modalRef.componentInstance.processValidated.subscribe((fees: Fee[]) => {
+      this.dossierService.processFees(fees.map((f) => f.id)).subscribe((_dt) => {
         modalRef.close();
         this.selectedRows = [];
         this.load();
@@ -185,7 +193,20 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     });
   }
 
-  handle(events: ArtcodedNotification[]) {
+  async sendMail(fee: Fee, event: MouseEvent) {
+    event.stopPropagation();
+    const uploads = await firstValueFrom(this.fileService.findByIds(fee.attachmentIds));
+    const ngbModalRef = this.modalService.open(MailFormComponent, {
+      size: 'md',
+    });
+    ngbModalRef.componentInstance.attachments = uploads;
+    ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
+      ngbModalRef.close();
+      await firstValueFrom(this.mailService.send(mailRequest));
+      this.toastService.showSuccess('Mail will be send');
+    });
+  }
+  handle(_events: ArtcodedNotification[]) {
     this.load();
   }
 

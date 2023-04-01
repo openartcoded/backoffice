@@ -11,6 +11,10 @@ import { Label } from '@core/models/fee';
 import { ToastService } from '@core/service/toast.service';
 import { DossierImportFormComponent } from '../dossier-import-form/dossier-import-form.component';
 import { Direction, Page, SortCriteria } from '@core/models/page';
+import { MailService } from '@core/service/mail.service';
+import { MailFormComponent } from '@shared/mail-form/mail-form.component';
+import { MailRequest } from '@core/models/mail-request';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-dossier-table-result',
@@ -37,8 +41,9 @@ export class DossierTableResultComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: any,
     private toastService: ToastService,
     private windowRefService: WindowRefService,
-    private modalService: NgbModal
-  ) {}
+    private modalService: NgbModal,
+    private mailService: MailService
+  ) { }
 
   ngOnInit(): void {
     this.load();
@@ -50,7 +55,7 @@ export class DossierTableResultComponent implements OnInit {
       .findAllWithPage(this.closed, event, this.pageSize, this.sort)
       .subscribe((d) => (this.dossiers = d));
   }
-  
+
   loadLabels() {
     this.labelService.findAll().subscribe((labels) => (this.labels = labels));
   }
@@ -147,15 +152,28 @@ export class DossierTableResultComponent implements OnInit {
     }
   }
 
-  downloadArchive(dossierUploadId: string, callback = () => {}) {
+  downloadArchive(dossierUploadId: string, callback = () => { }) {
     this.fileService.findById(dossierUploadId).subscribe((zip) => {
       this.fileService.download(zip);
       callback();
     });
   }
 
+  async sendMail(dossierUploadId: string) {
+    const upload = await firstValueFrom(this.fileService.findById(dossierUploadId));
+    const ngbModalRef = this.modalService.open(MailFormComponent, {
+      size: 'md',
+    });
+    ngbModalRef.componentInstance.attachments = [upload];
+    ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
+      ngbModalRef.close();
+      await firstValueFrom(this.mailService.send(mailRequest));
+      this.toastService.showSuccess('Mail will be send');
+    });
+  }
+
   deleteDossier() {
-    this.dossierService.deleteActiveDossier().subscribe((d) => {
+    this.dossierService.deleteActiveDossier().subscribe((_d) => {
       this.load();
     });
   }

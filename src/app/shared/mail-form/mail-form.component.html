@@ -1,0 +1,36 @@
+<ng-container>
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">Send email</span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form class="mt-2" [formGroup]="mailForm" (ngSubmit)="send()" *ngIf="mailForm">
+      <div class="mb-1">
+        <input type="email" class="form-control mb-2" formControlName="to" placeholder="Email" />
+      </div>
+      <div class="mb-1">
+        <input type="text" class="form-control mb-2" formControlName="subject" placeholder="Subject" />
+      </div>
+      <div class="mb-1">
+        <textarea class="form-control mb-2" [autosize] formControlName="body" placeholder="Body"></textarea>
+      </div>
+      <div class="mb-1" *ngIf="attachments?.length">
+        <ul class="list-group" id="uploads">
+          <li class="list-group-item" *ngFor="let a of attachments">
+            <div class="d-flex justify-content-between">
+              <div>
+                <span class="text-danger">{{ a.originalFilename }}</span>
+              </div>
+              <a class="btn btn-link" (click)="removeAttachment($event, a)">
+                <fa-icon [icon]="['fas', 'times']" class="text-danger"></fa-icon>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary" [disabled]="!mailForm.valid">Submit</button>
+      </div>
+    </form>
+  </div>
+</ng-container>

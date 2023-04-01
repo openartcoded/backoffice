@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
 import { Page } from '../models/page';
 import {
   AdministrativeDocument,
@@ -16,7 +15,7 @@ import { ConfigInitService } from '@init/config-init.service';
 export class AdministrativeDocumentService {
   private baseUrl: string;
 
-  constructor(private http: HttpClient, private readonly configService: ConfigInitService) {
+  constructor(private http: HttpClient, configService: ConfigInitService) {
     this.baseUrl = `${configService.getConfig()['BACKEND_URL']}/api/administrative-document`;
   }
 
