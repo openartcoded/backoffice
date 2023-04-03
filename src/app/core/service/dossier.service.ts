@@ -18,7 +18,7 @@ export class DossierService {
     private configService: ConfigInitService,
     private fileService: FileService,
     private http: HttpClient
-  ) {}
+  ) { }
 
   findAll(closed: boolean): Observable<Dossier[]> {
     return this.http.post<Dossier[]>(
@@ -36,8 +36,7 @@ export class DossierService {
     const direction = Direction[sortCriteria.direction];
 
     return this.http.post<Page<Dossier>>(
-      `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/find-all-paged?closed=${closed}&page=${
-        pageNumber - 1
+      `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/find-all-paged?closed=${closed}&page=${pageNumber - 1
       }&size=${pageSize}&sort=${sortCriteria.property},${direction}`,
       {}
     );
@@ -46,6 +45,13 @@ export class DossierService {
   findById(id: string): Observable<Dossier[]> {
     return this.http.post<Dossier[]>(
       `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/find-by-id?id=${id}`,
+      {}
+    );
+  }
+
+  fromPrevious(): Observable<Dossier> {
+    return this.http.post<Dossier>(
+      `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/new-from-previous`,
       {}
     );
   }
@@ -114,8 +120,8 @@ export class DossierService {
     );
   }
 
-  newDossier(dossier: Dossier): Observable<void> {
-    return this.http.post<void>(`${this.configService.getConfig()['BACKEND_URL']}/api/dossier/new-dossier`, dossier);
+  newDossier(dossier: Dossier): Observable<Dossier> {
+    return this.http.post<Dossier>(`${this.configService.getConfig()['BACKEND_URL']}/api/dossier/new-dossier`, dossier);
   }
 
   updateDossier(dossier: Dossier): Observable<void> {

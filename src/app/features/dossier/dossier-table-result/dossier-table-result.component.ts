@@ -63,6 +63,11 @@ export class DossierTableResultComponent implements OnInit {
   newDossier() {
     this.openDossier();
   }
+  newDossierFromPrevious() {
+    this.dossierService.fromPrevious().subscribe((dossier: Dossier) => {
+      this.openDossier(dossier, false);
+    });
+  }
 
   importDossier() {
     const modalRef = this.modalService.open(DossierImportFormComponent, {
@@ -89,30 +94,33 @@ export class DossierTableResultComponent implements OnInit {
     modalRef.componentInstance.dossier = doss;
     modalRef.componentInstance.labels = this.labels;
     modalRef.componentInstance.recallForModification = recallForModification;
-    modalRef.componentInstance.onDownloadSummary.subscribe((dossier) => {
+    modalRef.componentInstance.onDownloadSummary.subscribe((dossier: Dossier) => {
       if (dossier.id) {
         // modalRef.close();
         this.dossierService.generateSummary(dossier.id);
       }
     });
-    modalRef.componentInstance.submitted.subscribe((dossier) => {
+    modalRef.componentInstance.submitted.subscribe((dossier: Dossier) => {
       if (dossier.id) {
         if (!dossier.closed) {
           this.dossierService.updateDossier(dossier).subscribe((dossier) => {
             this.load();
+            modalRef.componentInstance.dossier = dossier;
             this.toastService.showSuccess('Dossier updated');
             // modalRef.close();
           });
         } else if (modalRef.componentInstance.recallForModification) {
           this.dossierService.recallForModification(dossier).subscribe((dossier) => {
             this.load();
+            modalRef.componentInstance.dossier = dossier;
             this.toastService.showSuccess('Dossier updated');
             //  modalRef.close();
           });
         }
       } else {
-        this.dossierService.newDossier(dossier).subscribe((dossier) => {
+        this.dossierService.newDossier(dossier).subscribe((dossier: Dossier) => {
           this.load();
+          modalRef.componentInstance.dossier = dossier;
           this.toastService.showSuccess('Dossier created');
           //  modalRef.close();
         });
