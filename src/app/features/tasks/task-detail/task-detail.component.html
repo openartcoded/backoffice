@@ -1,6 +1,6 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
-    <span class="modal-title text-break">{{ task?.title || 'New Task' }}</span>
+    <span class="modal-title text-break">{{ task?.customActionName || task?.title || 'New Task' }}</span>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body" *ngIf="form">
@@ -42,6 +42,18 @@
             </div>
           </div>
         </div>
+        <div class="mb-1 row" *ngIf="hasAction">
+          <label class="col-sm-2 col-form-label" for="title">Custom Title</label>
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              formControlName="customActionName"
+              placeholder="Enter a custom title"
+            />
+          </div>
+        </div>
       </ng-container>
       <ng-container *ngIf="actionParameters?.length && hasAction">
         <div class="mb-1 row">
@@ -61,7 +73,9 @@
                         formControlName="parameterValue"
                       >
                         <option [ngValue]="null">--Select--</option>
-                        <option *ngFor="let option of getOptions(_) | keyvalue" [value]="option.key">{{ option.value }}</option>
+                        <option *ngFor="let option of getOptions(_) | keyvalue" [value]="option.key">
+                          {{ option.value }}
+                        </option>
                       </select>
                     </div>
                   </ng-container>
@@ -93,7 +107,8 @@
         </div>
       </div>
       <div class="mb-1 row" *ngIf="!hasSpecificDate">
-        <label class="col-sm-2 col-form-label" for="cronExpression">Cron
+        <label class="col-sm-2 col-form-label" for="cronExpression"
+          >Cron
           <a class="btn btn-link text-dark p-0" (click)="openCronExpressionHelp()">
             <fa-icon [icon]="['fas', 'question-circle']"></fa-icon>
           </a>
@@ -129,7 +144,7 @@
         </div>
       </div>
       <div class="alert alert-warning" *ngIf="!form.valid">
-        <p>Invalid field: {{findInvalidControls() | json}}</p>
+        <p>Invalid field: {{ findInvalidControls() | json }}</p>
         <!-- <p>Cron expression: {{cronExpression}}</p>
         <p>Specific Date: {{specificDate}}</p> -->
       </div>
@@ -166,7 +181,11 @@
 
       <div class="d-flex justify-content-end">
         <button class="btn btn-danger me-1" (click)="delete($event)" [disabled]="!task?.id">Delete</button>
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid || (!specificDate && !cronExpression?.length)">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!form.valid || (!specificDate && !cronExpression?.length)"
+        >
           Submit
           <!-- todo bug with !specificDate && !cronExpression -->
         </button>
