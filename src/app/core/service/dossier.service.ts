@@ -124,12 +124,15 @@ export class DossierService {
     return this.http.post<Dossier>(`${this.configService.getConfig()['BACKEND_URL']}/api/dossier/new-dossier`, dossier);
   }
 
-  updateDossier(dossier: Dossier): Observable<void> {
-    return this.http.post<void>(`${this.configService.getConfig()['BACKEND_URL']}/api/dossier/update-dossier`, dossier);
+  updateDossier(dossier: Dossier): Observable<Dossier> {
+    return this.http.post<Dossier>(
+      `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/update-dossier`,
+      dossier
+    );
   }
 
-  recallForModification(dossier: Dossier): Observable<void> {
-    return this.http.post<void>(
+  recallForModification(dossier: Dossier): Observable<Dossier> {
+    return this.http.post<Dossier>(
       `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/recall-for-modification`,
       dossier
     );

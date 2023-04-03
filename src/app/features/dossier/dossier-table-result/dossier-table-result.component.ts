@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { DossierService } from '@core/service/dossier.service';
 import { Dossier } from '@core/models/dossier';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -88,11 +88,13 @@ export class DossierTableResultComponent implements OnInit {
     doss: Dossier = { name: null, advancePayments: [] },
     recallForModification: boolean = false
   ): NgbModalRef {
+    const dossierUpdatedEmitter: EventEmitter<Dossier> = new EventEmitter<Dossier>();
     const modalRef = this.modalService.open(DossierFormComponent, {
       size: 'xl',
       scrollable: true,
     });
     modalRef.componentInstance.dossier = doss;
+    modalRef.componentInstance.dossierUpdatedEmitter = dossierUpdatedEmitter;
     modalRef.componentInstance.labels = this.labels;
     modalRef.componentInstance.recallForModification = recallForModification;
     modalRef.componentInstance.onDownloadSummary.subscribe((dossier: Dossier) => {
@@ -106,14 +108,14 @@ export class DossierTableResultComponent implements OnInit {
         if (!dossier.closed) {
           this.dossierService.updateDossier(dossier).subscribe((savedDossier) => {
             this.load();
-            modalRef.componentInstance.dossier = savedDossier;
+            dossierUpdatedEmitter.emit(savedDossier);
             this.toastService.showSuccess('Dossier updated');
             // modalRef.close();
           });
         } else if (modalRef.componentInstance.recallForModification) {
-          this.dossierService.recallForModification(dossier).subscribe((savedDossier) => {
+          this.dossierService.recallForModification(dossier).subscribe((savedDossier: Dossier) => {
             this.load();
-            modalRef.componentInstance.dossier = savedDossier;
+            dossierUpdatedEmitter.emit(savedDossier);
             this.toastService.showSuccess('Dossier updated');
             //  modalRef.close();
           });
@@ -121,27 +123,27 @@ export class DossierTableResultComponent implements OnInit {
       } else {
         this.dossierService.newDossier(dossier).subscribe((savedDossier: Dossier) => {
           this.load();
-          modalRef.componentInstance.dossier = savedDossier;
+          dossierUpdatedEmitter.emit(savedDossier);
           this.toastService.showSuccess('Dossier created');
           //  modalRef.close();
         });
       }
     });
     modalRef.componentInstance.feeRemoved.subscribe((fee: Fee) => {
-      this.dossierService.removeFee(fee.id).subscribe((savedDossier) => {
+      this.dossierService.removeFee(fee.id).subscribe((savedDossier: Dossier) => {
         this.toastService.showSuccess('Expense removed');
-        modalRef.componentInstance.dossier = savedDossier;
-        modalRef.componentInstance.loadFees();
-        modalRef.componentInstance.loadInvoices();
+        dossierUpdatedEmitter.emit(savedDossier);
+        //modalRef.componentInstance.loadFees();
+        //modalRef.componentInstance.loadInvoices();
         this.load();
       });
     });
     modalRef.componentInstance.invoiceRemoved.subscribe((invoice: Invoice) => {
       this.dossierService.removeInvoice(invoice.id).subscribe((savedDossier) => {
         this.toastService.showSuccess('Invoice removed');
-        modalRef.componentInstance.dossier = savedDossier;
-        modalRef.componentInstance.loadInvoices();
-        modalRef.componentInstance.loadFees();
+        dossierUpdatedEmitter.emit(savedDossier);
+        // modalRef.componentInstance.loadInvoices();
+        // modalRef.componentInstance.loadFees();
         this.load();
       });
     });
