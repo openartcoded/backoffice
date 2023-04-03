@@ -13,6 +13,7 @@ export interface ReminderTask {
   sendMail?: boolean;
   persistResult?: boolean;
   actionKey?: string;
+  customActionName?: string;
   actionParameters?: ActionParameter[];
 }
 

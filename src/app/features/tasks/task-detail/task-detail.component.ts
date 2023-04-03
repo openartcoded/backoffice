@@ -53,6 +53,7 @@ export class TaskDetailComponent implements OnInit {
       ),
       cronExpression: new UntypedFormControl({ value: this.task?.cronExpression, disabled: false }, []),
       actionKey: new UntypedFormControl({ value: this.task?.actionKey, disabled: false }, []),
+      customActionName: new UntypedFormControl({ value: this.task?.customActionName, disabled: false }, []),
       action: new UntypedFormControl(
         {
           value: this.task?.actionKey ? this.allowedActions.find((action) => action.key === this.task.actionKey) : null,
@@ -64,8 +65,20 @@ export class TaskDetailComponent implements OnInit {
         ? this.fb.array(this.task?.actionParameters?.map(this.convertParameter))
         : this.fb.array([]),
       dateCreation: new UntypedFormControl({ value: this.task?.dateCreation, disabled: true }, []),
-      nextDate: new UntypedFormControl({ value:  DateUtils.formatInputDateTimeWithCustomFormat(this.task?.nextDate, 'DD/MM/yyyy HH:mm:ss'), disabled: true }, []),
-      lastExecutionDate: new UntypedFormControl({ value:  DateUtils.formatInputDateTimeWithCustomFormat(this.task?.lastExecutionDate, 'DD/MM/yyyy HH:mm:ss'), disabled: true }, []),
+      nextDate: new UntypedFormControl(
+        {
+          value: DateUtils.formatInputDateTimeWithCustomFormat(this.task?.nextDate, 'DD/MM/yyyy HH:mm:ss'),
+          disabled: true,
+        },
+        []
+      ),
+      lastExecutionDate: new UntypedFormControl(
+        {
+          value: DateUtils.formatInputDateTimeWithCustomFormat(this.task?.lastExecutionDate, 'DD/MM/yyyy HH:mm:ss'),
+          disabled: true,
+        },
+        []
+      ),
       updatedDate: new UntypedFormControl({ value: this.task?.updatedDate, disabled: true }, []),
       disabled: new UntypedFormControl({ value: this.task?.disabled || false, disabled: false }, [Validators.required]),
       inAppNotification: new UntypedFormControl({ value: this.task?.inAppNotification || false, disabled: false }, [
@@ -81,6 +94,7 @@ export class TaskDetailComponent implements OnInit {
       if (!v) {
         this.form.controls.actionParameters = this.fb.array([]);
         this.form.controls.actionKey.patchValue(null);
+        this.form.controls.customActionName.patchValue(null);
         this.form.controls.description.patchValue(null);
         this.form.controls.title.patchValue(null);
         this.form.controls.action.patchValue(null);
@@ -98,6 +112,7 @@ export class TaskDetailComponent implements OnInit {
     this.form.controls.shouldRunNow.valueChanges.subscribe((v) => {
       if (v) {
         this.form.controls.hasSpecificDate.patchValue(true);
+        this.form.controls.cronExpression.patchValue(null);
         this.form.controls.specificDate.patchValue(DateUtils.formatInputDateTime(new Date()));
       }
     });
@@ -105,8 +120,9 @@ export class TaskDetailComponent implements OnInit {
     this.form.controls.action.valueChanges.subscribe((v) => {
       if (v) {
         this.form.controls.actionParameters = this.fb.array([]);
-        v.allowedParameters.map(this.convertParameter).forEach((p) => this.actionParameters.push(p));
+        v.allowedParameters.map(this.convertParameter).forEach((p: any) => this.actionParameters.push(p));
         this.form.controls.actionKey.patchValue(v.key);
+        this.form.controls.customActionName.patchValue(null);
         this.form.controls.title.patchValue(v.title);
         this.form.controls.description.patchValue(v.description);
         this.form.controls.cronExpression.patchValue(v.defaultCronValue);
@@ -125,7 +141,7 @@ export class TaskDetailComponent implements OnInit {
   openCronExpressionHelp() {
     this.modalService.open(CronExpressionHelpComponent, { size: 'lg' });
   }
-    
+
   convertParameter(parameter: ActionParameter): UntypedFormGroup {
     return new UntypedFormGroup({
       key: new UntypedFormControl(
@@ -189,6 +205,7 @@ export class TaskDetailComponent implements OnInit {
           })
         : null,
       actionKey: this.form.get('actionKey').value,
+      customActionName: this.form.get('customActionName').value,
       inAppNotification: this.form.get('inAppNotification').value,
       description: this.form.get('description').value,
       title: this.form.get('title').value,
