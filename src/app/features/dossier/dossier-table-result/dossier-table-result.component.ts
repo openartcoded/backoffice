@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { DossierService } from '@core/service/dossier.service';
 import { Dossier } from '@core/models/dossier';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -7,7 +7,7 @@ import { FileService } from '@core/service/file.service';
 import { WindowRefService } from '@core/service/window.service';
 import { isPlatformBrowser } from '@angular/common';
 import { LabelService } from '@core/service/label.service';
-import { Label } from '@core/models/fee';
+import { Fee, Label } from '@core/models/fee';
 import { ToastService } from '@core/service/toast.service';
 import { DossierImportFormComponent } from '../dossier-import-form/dossier-import-form.component';
 import { Direction, Page, SortCriteria } from '@core/models/page';
@@ -15,6 +15,7 @@ import { MailService } from '@core/service/mail.service';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { MailRequest } from '@core/models/mail-request';
 import { firstValueFrom } from 'rxjs';
+import { Invoice } from '@core/models/invoice';
 
 @Component({
   selector: 'app-dossier-table-result',
@@ -63,6 +64,11 @@ export class DossierTableResultComponent implements OnInit {
   newDossier() {
     this.openDossier();
   }
+  newDossierFromPrevious() {
+    this.dossierService.fromPrevious().subscribe((dossier: Dossier) => {
+      this.openDossier(dossier, false);
+    });
+  }
 
   importDossier() {
     const modalRef = this.modalService.open(DossierImportFormComponent, {
@@ -82,57 +88,62 @@ export class DossierTableResultComponent implements OnInit {
     doss: Dossier = { name: null, advancePayments: [] },
     recallForModification: boolean = false
   ): NgbModalRef {
+    const dossierUpdatedEmitter: EventEmitter<Dossier> = new EventEmitter<Dossier>();
     const modalRef = this.modalService.open(DossierFormComponent, {
       size: 'xl',
       scrollable: true,
     });
     modalRef.componentInstance.dossier = doss;
+    modalRef.componentInstance.dossierUpdatedEmitter = dossierUpdatedEmitter;
     modalRef.componentInstance.labels = this.labels;
     modalRef.componentInstance.recallForModification = recallForModification;
-    modalRef.componentInstance.onDownloadSummary.subscribe((dossier) => {
+    modalRef.componentInstance.onDownloadSummary.subscribe((dossier: Dossier) => {
       if (dossier.id) {
         // modalRef.close();
         this.dossierService.generateSummary(dossier.id);
       }
     });
-    modalRef.componentInstance.submitted.subscribe((dossier) => {
+    modalRef.componentInstance.submitted.subscribe((dossier: Dossier) => {
       if (dossier.id) {
         if (!dossier.closed) {
-          this.dossierService.updateDossier(dossier).subscribe((dossier) => {
+          this.dossierService.updateDossier(dossier).subscribe((savedDossier) => {
             this.load();
+            dossierUpdatedEmitter.emit(savedDossier);
             this.toastService.showSuccess('Dossier updated');
             // modalRef.close();
           });
         } else if (modalRef.componentInstance.recallForModification) {
-          this.dossierService.recallForModification(dossier).subscribe((dossier) => {
+          this.dossierService.recallForModification(dossier).subscribe((savedDossier: Dossier) => {
             this.load();
+            dossierUpdatedEmitter.emit(savedDossier);
             this.toastService.showSuccess('Dossier updated');
             //  modalRef.close();
           });
         }
       } else {
-        this.dossierService.newDossier(dossier).subscribe((dossier) => {
+        this.dossierService.newDossier(dossier).subscribe((savedDossier: Dossier) => {
           this.load();
+          dossierUpdatedEmitter.emit(savedDossier);
           this.toastService.showSuccess('Dossier created');
           //  modalRef.close();
         });
       }
     });
-    modalRef.componentInstance.feeRemoved.subscribe((fee) => {
-      this.dossierService.removeFee(fee.id).subscribe((dossier) => {
+    modalRef.componentInstance.feeRemoved.subscribe((fee: Fee) => {
+      this.dossierService.removeFee(fee.id).subscribe((savedDossier: Dossier) => {
         this.toastService.showSuccess('Expense removed');
-        modalRef.componentInstance.dossier = dossier;
-        modalRef.componentInstance.loadFees();
-        modalRef.componentInstance.loadInvoices();
+        dossierUpdatedEmitter.emit(savedDossier);
+        //modalRef.componentInstance.loadFees();
+        //modalRef.componentInstance.loadInvoices();
         this.load();
       });
     });
-    modalRef.componentInstance.invoiceRemoved.subscribe((invoice) => {
-      this.dossierService.removeInvoice(invoice.id).subscribe((dossier) => {
+    modalRef.componentInstance.invoiceRemoved.subscribe((invoice: Invoice) => {
+      this.dossierService.removeInvoice(invoice.id).subscribe((savedDossier) => {
         this.toastService.showSuccess('Invoice removed');
-        modalRef.componentInstance.dossier = dossier;
-        modalRef.componentInstance.loadInvoices();
-        modalRef.componentInstance.loadFees();
+        dossierUpdatedEmitter.emit(savedDossier);
+        // modalRef.componentInstance.loadInvoices();
+        // modalRef.componentInstance.loadFees();
         this.load();
       });
     });

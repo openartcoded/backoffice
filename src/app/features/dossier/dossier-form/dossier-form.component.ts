@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Optional, Output } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Dossier, TvaAdvancePayment } from '@core/models/dossier';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +10,7 @@ import { InvoiceService } from '@core/service/invoice.service';
 import { FeeDetailComponent } from '@feature/fee/fee-detail/fee-detail.component';
 import { InvoiceDetailComponent } from '@feature/invoice/invoice-detail/invoice-detail.component';
 import { DateUtils } from '@core/utils/date-utils';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { BillableClient } from '@core/models/billable-client';
 import { BillableClientService } from '@core/service/billable-client.service';
 
@@ -19,7 +19,10 @@ import { BillableClientService } from '@core/service/billable-client.service';
   templateUrl: './dossier-form.component.html',
   styleUrls: ['./dossier-form.component.scss'],
 })
-export class DossierFormComponent implements OnInit {
+export class DossierFormComponent implements OnInit, OnDestroy {
+  dossierUpdatedSubscription: Subscription;
+  @Input()
+  dossierUpdatedEmitter: EventEmitter<Dossier>;
   @Input()
   dossier: Dossier;
   @Input()
@@ -58,16 +61,31 @@ export class DossierFormComponent implements OnInit {
     private fb: UntypedFormBuilder
   ) { }
 
-  async ngOnInit() {
+  ngOnDestroy(): void {
+    this.dossierUpdatedSubscription?.unsubscribe();
+  }
+
+  ngOnInit() {
+    this.load();
+  }
+
+  async load() {
     this.dossierForm = this.createFormGroup();
     await this.loadFees();
     this.clients = await firstValueFrom(this.clientService.findAll());
     await this.loadInvoices();
+    if (this.dossierUpdatedSubscription) {
+      this.dossierUpdatedSubscription.unsubscribe();
+    }
+    if (this.dossierUpdatedEmitter) {
+      this.dossierUpdatedEmitter.subscribe(async (d) => {
+        this.dossier = d;
+        await this.load();
+      });
+    }
   }
 
   async loadFees() {
-    this.expenses = [];
-    this.filteredExpenses = [];
     this.feeTotalVat = 0;
     this.feeTotalExclVat = 0;
     if (this.dossier?.feeIds?.length) {
@@ -76,15 +94,17 @@ export class DossierFormComponent implements OnInit {
       for (let fee of fees) {
         this.feeTotalVat += fee.vat || 0;
         this.feeTotalExclVat += fee.priceHVAT || 0;
-        this.expenses.push(fee);
-        this.filteredExpenses.push(fee);
       }
+      this.expenses = fees;
+      this.filteredExpenses = fees;
       this.filteredExpenses.sort((e1, e2) => new Date(e2.date).getTime() - new Date(e1.date).getTime());
+    } else {
+      this.expenses = [];
+      this.filteredExpenses = [];
     }
   }
 
   async loadInvoices() {
-    this.dossier.invoices = [];
     this.vatTotal = 0;
     this.invoiceTotalExclVat = 0;
     if (this.dossier?.invoiceIds?.length) {
@@ -92,11 +112,13 @@ export class DossierFormComponent implements OnInit {
       for (let invoice of invoices) {
         this.vatTotal += invoice.taxes;
         this.invoiceTotalExclVat += invoice.subTotal;
-        this.dossier.invoices.push(invoice);
       }
+      this.dossier.invoices = invoices;
       this.dossier.invoices.sort(
         (e1, e2) => new Date(e2.dateOfInvoice).getTime() - new Date(e1.dateOfInvoice).getTime()
       );
+    } else {
+      this.dossier.invoices = [];
     }
   }
 
