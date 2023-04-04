@@ -18,6 +18,7 @@ import { BytesToHumanPipe } from './pipes/bytes-to-human.pipe';
 import { StopPropagationDirective } from './directives/stop.propagation.directive';
 import { MailFormComponent } from './mail-form/mail-form.component';
 import { AutosizeModule } from 'ngx-autosize';
+import { Chips, ChipsModule } from 'primeng/chips';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { AutosizeModule } from 'ngx-autosize';
   imports: [
     CommonModule,
     AutosizeModule,
+    ChipsModule,
     NgbToastModule,
     FontAwesomeModule,
     NgbDropdownModule,

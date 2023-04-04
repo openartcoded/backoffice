@@ -5,8 +5,8 @@
   </div>
   <div class="modal-body">
     <form class="mt-2" [formGroup]="mailForm" (ngSubmit)="send()" *ngIf="mailForm">
-      <div class="mb-1">
-        <input type="email" class="form-control mb-2" formControlName="to" placeholder="Email" />
+      <div class="mb-2">
+        <p-chips id="to" formControlName="to" separator="," placeholder="To" minlength="1"></p-chips>
       </div>
       <div class="mb-1">
         <input type="text" class="form-control mb-2" formControlName="subject" placeholder="Subject" />

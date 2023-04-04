@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { FileUpload } from '@core/models/file-upload';
 import { MailRequest } from '@core/models/mail-request';
+import { EmailsValidator } from '@core/validators/emails.validator';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -24,15 +25,20 @@ export class MailFormComponent {
   constructor(private fb: UntypedFormBuilder, public activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
-    this.mailForm = this.fb.group({
-      to: [this.to, [Validators.required, Validators.email]],
-      subject: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
-      body: [null, [Validators.required, Validators.minLength(1)]],
-      bcc: [false, [Validators.required]],
-    });
+    this.mailForm = this.fb.group(
+      {
+        to: [this.to || [], [Validators.required]],
+        subject: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+        body: [null, [Validators.required, Validators.minLength(1)]],
+        bcc: [false, [Validators.required]],
+      },
+      {
+        validators: EmailsValidator('to'),
+      }
+    );
   }
 
-  get mailTo(): string {
+  get mailTo(): string[] {
     return this.mailForm.get('to').value;
   }
   get subject(): string {

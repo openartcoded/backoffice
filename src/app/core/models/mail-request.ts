@@ -1,5 +1,5 @@
 export interface MailRequest {
-  to: string;
+  to: string[];
   subject: string;
   body: string;
   bcc: boolean;
