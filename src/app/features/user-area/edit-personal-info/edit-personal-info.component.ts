@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { PersonalInfo } from '@core/models/personal.info';
+import { Accountant, PersonalInfo } from '@core/models/personal.info';
 import { FileService } from '@core/service/file.service';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -156,10 +156,68 @@ export class EditPersonalInfoComponent implements OnInit {
       ),
       logoUpload: new UntypedFormControl(null, []),
       signatureUpload: new UntypedFormControl(null, []),
+      accountants: this.fb.array(this.createAccountants(this.currentPersonalInfo?.accountants || [])),
     });
   }
 
+  private createAccountants(accountants: Accountant[]): UntypedFormGroup[] {
+    return accountants?.map(this.convertAccountantToForm);
+  }
+
+  addAccountant($event: MouseEvent) {
+    $event.preventDefault();
+    this.accountants.push(
+      this.convertAccountantToForm({
+        firstName: '',
+        lastName: '',
+        email: '',
+      })
+    );
+  }
+
+  removeAccountant($event: MouseEvent, index: number) {
+    $event.preventDefault();
+    this.accountants.removeAt(index);
+  }
+
+  get accountants(): UntypedFormArray {
+    return this.form.get('accountants') as UntypedFormArray;
+  }
+
+  private convertAccountantToForm = (accountant: Accountant): UntypedFormGroup => {
+    return new UntypedFormGroup({
+      firstName: new UntypedFormControl(
+        {
+          value: accountant.firstName,
+          disabled: false,
+        },
+        [Validators.required]
+      ),
+      lastName: new UntypedFormControl(
+        {
+          value: accountant.lastName,
+          disabled: false,
+        },
+        [Validators.required]
+      ),
+      email: new UntypedFormControl(
+        {
+          value: accountant.email,
+          disabled: false,
+        },
+        [Validators.required, Validators.email]
+      ),
+    });
+  };
+
   send() {
+    const accountants = this.accountants?.controls?.map((c) => {
+      return {
+        firstName: c.get('firstName').value,
+        lastName: c.get('lastName').value,
+        email: c.get('email').value,
+      } as Accountant;
+    });
     const formData = new FormData();
     formData.append('logo', this.logoUpload);
     formData.append('signature', this.signatureUpload);
@@ -176,6 +234,8 @@ export class EditPersonalInfoComponent implements OnInit {
     formData.append('organizationPostCode', this.form.get('organizationPostCode').value);
     formData.append('organizationName', this.form.get('organizationName').value);
     formData.append('organizationPhoneNumber', this.form.get('organizationPhoneNumber').value);
+    formData.append('accountants', JSON.stringify(accountants));
+
     this.onSavePersonalInfo.emit(formData);
     // this.form.reset();
   }

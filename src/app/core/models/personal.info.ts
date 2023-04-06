@@ -17,4 +17,10 @@ export interface PersonalInfo {
   logoUploadId?: string;
   signatureUploadId?: string;
   maxDaysToPay?: number;
+  accountants?: Accountant[];
+}
+export interface Accountant {
+  firstName: string;
+  lastName: string;
+  email: string;
 }
