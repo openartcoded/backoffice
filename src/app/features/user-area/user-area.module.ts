@@ -21,7 +21,9 @@ import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.mo
 import { Html2canvasUniversalModule } from '@feature/html2canvas-universal/html2canvas-universal.module';
 import { CompanyStampComponent } from './company-stamp/company-stamp.component';
 import { FeeSummaryComponent } from './fee-summary/fee-summary.component';
+import { ScriptComponent } from './script/script.component';
 
+import { ScrollingModule } from '@angular/cdk/scrolling';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -36,12 +38,14 @@ import { FeeSummaryComponent } from './fee-summary/fee-summary.component';
     DossierSummaryComponent,
     ErrorComponent,
     CompanyStampComponent,
+    ScriptComponent,
   ],
   imports: [
     CommonModule,
     UserAreaRoutingModule,
     ReactiveFormsModule,
     SharedModule,
+    ScrollingModule,
     FontAwesomeModule,
     NgbCollapseModule,
     FormsModule,
@@ -53,4 +57,4 @@ import { FeeSummaryComponent } from './fee-summary/fee-summary.component';
     Html2canvasUniversalModule
   ],
 })
-export class UserAreaModule {}
+export class UserAreaModule { }

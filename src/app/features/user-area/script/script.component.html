@@ -1,0 +1,27 @@
+<ng-container *ngIf="$scripts | async as scripts">
+  <div class="card mb-2">
+    <div class="card-header">Events</div>
+    <div class="example-viewport list-group list-group-flush">
+      <div class="list-group-item border-top-0 border-left-0 border-right-0" *ngFor="let s of scripts">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex flex-column">
+            <small class="text-muted font-weight-bold">{{ s.name }}</small>
+            <span class="text-break">{{ s.description}}</span>
+          </div>
+          <div>
+
+            <span class="badge rounded-circle align-middle" [class.bg-primary]="s.enabled"
+              [class.text-white]="s.enabled" [class.bg-danger]="!s.enabled">&nbsp;
+            </span>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="card-body" *ngIf="!scripts">
+      <p>No content</p>
+    </div>
+
+  </div>
+</ng-container>
