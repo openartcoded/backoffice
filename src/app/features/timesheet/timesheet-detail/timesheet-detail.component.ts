@@ -143,6 +143,10 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     this.toastService.showSuccess('timesheet will be reopened');
     await firstValueFrom(this.timesheetService.reopenTimesheet(this.timesheet.id));
   }
+  async generateInvoice() {
+    this.toastService.showSuccess('invoice will be generated');
+    await firstValueFrom(this.timesheetService.generateInvoice(this.timesheet.id));
+  }
 
   download() {
     this.fileService.findById(this.timesheet.uploadId).subscribe((upl) => {

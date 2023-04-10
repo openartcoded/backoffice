@@ -5,6 +5,8 @@ export interface BillableClient {
   id?: string;
   maxDaysToPay?: number;
   rate?: number;
+  taxRate?: number;
+  nature?: string;
   rateType?: RateType;
   projectName?: string;
   vatNumber?: string;

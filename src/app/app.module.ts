@@ -17,6 +17,8 @@ import {
   faBars,
   faBirthdayCake,
   faBlog,
+  faFileInvoice,
+  faFileInvoiceDollar,
   faBookOpen,
   faBuilding,
   faCalendarAlt,

@@ -36,7 +36,7 @@ export class InvoiceDetailComponent implements OnInit {
     private modalService: NgbModal,
     private fileService: FileService,
     private formBuilder: UntypedFormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.invoiceForm = this.createFormGroup();
@@ -195,11 +195,11 @@ export class InvoiceDetailComponent implements OnInit {
     let arr = this.invoice?.invoiceTable?.length
       ? this.invoice?.invoiceTable
       : [
-          {
-            rateType: RateType.HOURS,
-            amountType: RateType.DAYS,
-          },
-        ];
+        {
+          rateType: RateType.HOURS,
+          amountType: RateType.DAYS,
+        },
+      ];
     return arr.map(convertInvoiceRowToForm);
   }
 
@@ -260,10 +260,12 @@ export class InvoiceDetailComponent implements OnInit {
     this.invoiceForm.get('billToAddress').patchValue(client?.address);
     this.invoiceForm.get('billToEmailAddress').patchValue(client?.emailAddress);
     this.invoiceForm.get('maxDaysToPay').patchValue(client?.maxDaysToPay);
+    this.invoiceForm.get('taxRate').patchValue(client?.taxRate);
     this.invoiceTableForm.controls.forEach((c) => {
       c.get('projectName').patchValue(client?.projectName);
       c.get('rateType').patchValue(client?.rateType);
       c.get('rate').patchValue(client?.rate);
+      c.get('nature').patchValue(client?.nature);
     });
   }
 }

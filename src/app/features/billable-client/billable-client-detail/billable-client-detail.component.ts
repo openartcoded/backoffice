@@ -38,7 +38,7 @@ export class BillableClientDetailComponent implements OnInit {
     private fileService: FileService,
     private fb: UntypedFormBuilder,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.clientForm = this.fb.group({
@@ -47,6 +47,11 @@ export class BillableClientDetailComponent implements OnInit {
         Validators.required,
         Validators.min(0),
       ]),
+      taxRate: new UntypedFormControl({ value: this.client?.taxRate, disabled: false }, [
+        Validators.required,
+        Validators.min(0),
+      ]),
+      nature: new UntypedFormControl({ value: this.client?.nature, disabled: false }, [Validators.required]),
       clientName: new UntypedFormControl({ value: this.client?.name, disabled: false }, [Validators.required]),
       city: new UntypedFormControl({ value: this.client?.city, disabled: false }, [Validators.required]),
       address: new UntypedFormControl({ value: this.client?.address, disabled: false }, [Validators.required]),
@@ -98,6 +103,8 @@ export class BillableClientDetailComponent implements OnInit {
     this.onSaveClient.emit({
       id: this.client?.id,
       vatNumber: this.clientForm.get('vatNumber').value,
+      taxRate: this.clientForm.get('taxRate').value,
+      nature: this.clientForm.get('nature').value,
       name: this.clientForm.get('clientName').value,
       city: this.clientForm.get('city').value,
       address: this.clientForm.get('address').value,
