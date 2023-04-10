@@ -4,6 +4,7 @@ import { CvService } from '@core/service/cv.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Meta, Title } from '@angular/platform-browser';
 import {
+  Curriculum,
   CurriculumFreemarkerTemplate,
   Experience,
   Hobby,
@@ -28,14 +29,14 @@ export class CvViewComponent implements OnInit {
   scholarHistories: ScholarHistory[];
   introduction: string;
   personalProjects: PersonalProject[];
-  private cv;
+  private cv: Curriculum;
 
   constructor(
     private titleService: Title,
     private modalService: NgbModal,
     private metaService: Meta,
-    private cvService: CvService
-  ) {}
+    private cvService: CvService,
+  ) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Curriculum Vitae - BITTICH NORDINE');
