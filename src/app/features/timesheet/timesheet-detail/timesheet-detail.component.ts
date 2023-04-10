@@ -25,6 +25,8 @@ import { ContractStatus } from '@core/models/billable-client';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { MailRequest } from '@core/models/mail-request';
 import { MailService } from '@core/service/mail.service';
+import { InvoiceDetailComponent } from '@feature/invoice/invoice-detail/invoice-detail.component';
+import { InvoiceService } from '@core/service/invoice.service';
 @Component({
   selector: 'app-timesheet-detail',
   templateUrl: './timesheet-detail.component.html',
@@ -43,6 +45,7 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
     private modalService: NgbModal,
+    private invoiceService: InvoiceService,
     private billableClientService: BillableClientService,
     private notificationService: NotificationService,
     private fileService: FileService,
@@ -80,6 +83,16 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     ref.dismissed.subscribe((_value) => {
       this.load();
     });
+  }
+
+  async openInvoice() {
+    const clients = await firstValueFrom(this.billableClientService.findAll());
+    const templates = await firstValueFrom(this.invoiceService.listTemplates());
+    const invoice = await firstValueFrom(this.invoiceService.findById(this.timesheet.invoiceId));
+    const ref = this.modalService.open(InvoiceDetailComponent, { size: 'xl' });
+    ref.componentInstance.clients = clients;
+    ref.componentInstance.invoice = invoice;
+    ref.componentInstance.templates = templates;
   }
 
   getTagForPeriodType(pt: PeriodType) {

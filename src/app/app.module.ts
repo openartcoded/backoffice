@@ -159,6 +159,7 @@ export class AppModule {
       faArrowsSplitUpAndLeft,
       faCalendar,
       faPhone,
+      faFileInvoiceDollar,
       faBirthdayCake,
       faMailBulk,
       faRocket,

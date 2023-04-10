@@ -27,6 +27,10 @@
           (click)="generateInvoice()">
           <fa-icon [icon]="['fas', 'file-invoice-dollar']"></fa-icon>&nbsp;Generate invoice
         </button>
+        <button ngbDropdownItem [disabled]="!timesheet.invoiceId || !timesheet.closed || !timesheet.clientId"
+          (click)="openInvoice()">
+          <fa-icon [icon]="['fas', 'file-invoice-dollar']"></fa-icon>&nbsp;Open invoice
+        </button>
         <button ngbDropdownItem [disabled]="!timesheet.closed" (click)="reopen()">
           <fa-icon [icon]="['fas', 'book-open']"></fa-icon>&nbsp;Reopen
         </button>
