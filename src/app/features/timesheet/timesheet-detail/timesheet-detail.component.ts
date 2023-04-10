@@ -145,7 +145,8 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   }
   async generateInvoice() {
     this.toastService.showSuccess('invoice will be generated');
-    await firstValueFrom(this.timesheetService.generateInvoice(this.timesheet.id));
+    const timesheet = await firstValueFrom(this.timesheetService.generateInvoice(this.timesheet.id));
+    this.timesheet = timesheet;
   }
 
   download() {

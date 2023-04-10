@@ -27,8 +27,8 @@ export class TimesheetService {
     return this.http.post<Timesheet>(this.basePath, timesheet);
   }
 
-  public generateInvoice(timesheetId: string): Observable<void> {
-    return this.http.post<void>(this.basePath + '/generate-invoice?id=' + timesheetId, {});
+  public generateInvoice(timesheetId: string): Observable<Timesheet> {
+    return this.http.post<Timesheet>(this.basePath + '/generate-invoice?id=' + timesheetId, {});
   }
 
   public saveOrUpdatePeriod(timesheetId: string, period: TimesheetPeriod): Observable<TimesheetPeriod> {
