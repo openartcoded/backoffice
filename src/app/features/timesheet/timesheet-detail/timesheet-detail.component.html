@@ -23,7 +23,8 @@
         <button ngbDropdownItem [disabled]="timesheet.closed" (click)="release()">
           <fa-icon [icon]="['fas', 'door-closed']"></fa-icon>&nbsp;Release
         </button>
-        <button ngbDropdownItem [disabled]="!timesheet.closed || !timesheet.clientId" (click)="generateInvoice()">
+        <button ngbDropdownItem [disabled]="timesheet.invoiceId?.length > 0 || !timesheet.closed || !timesheet.clientId"
+          (click)="generateInvoice()">
           <fa-icon [icon]="['fas', 'file-invoice-dollar']"></fa-icon>&nbsp;Generate invoice
         </button>
         <button ngbDropdownItem [disabled]="!timesheet.closed" (click)="reopen()">
