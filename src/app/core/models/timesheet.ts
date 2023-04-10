@@ -2,6 +2,7 @@ import { DayOfWeek, Month } from '@core/models/date-enhanced';
 
 export interface Timesheet {
   readonly id?: string;
+  readonly invoiceId?: string;
   readonly dateCreation?: Date;
   name?: string;
   periods?: TimesheetPeriod[];

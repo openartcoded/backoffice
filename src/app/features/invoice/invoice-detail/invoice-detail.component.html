@@ -255,11 +255,27 @@
         <p>Invalid field: {{findInvalidControls() | json}}</p>
       </div>
       <div class="d-flex justify-content-end">
-        <button class="btn  btn-outline-info me-1" [disabled]="!invoice.invoiceUploadId"
-          (click)="openPdfViewer($event)">
-          <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon>
-          View as PDF
-        </button>
+        <div ngbDropdown class="d-inline-block" container="body">
+          <button class="btn btn-outline-primary me-1" id="dropdownBasic2" ngbDropdownToggle
+            [disabled]="!invoice.invoiceUploadId" (click)="$event?.preventDefault()">Action</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+            <button [disabled]="!invoice.invoiceUploadId" ngbDropdownItem (click)="download()">
+              <fa-icon [icon]="['fas', 'download']"></fa-icon>&nbsp;Download
+            </button>
+            <button [disabled]="!invoice.timesheetId" ngbDropdownItem
+              [routerLink]="['/timesheets/timesheet/'+invoice.timesheetId]">
+              <fa-icon [icon]="['fas', 'clock']"></fa-icon>&nbsp;Timesheet
+            </button>
+            <button [disabled]="!invoice.invoiceUploadId" ngbDropdownItem (click)="sendMail()">
+              <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>&nbsp;Send
+            </button>
+            <button ngbDropdownItem [disabled]="!invoice.invoiceUploadId" (click)="openPdfViewer()">
+              <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon>
+              View as PDF
+            </button>
+          </div>
+        </div>
+
         <button type="submit" class="btn  btn-primary"
           [disabled]="!invoiceForm.valid || invoice?.locked || invoice?.archived">Submit
         </button>

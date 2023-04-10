@@ -14,8 +14,8 @@ export class CvService {
     this.basePath = `${this.configService.getConfig()['BACKEND_URL']}/api/cv`;
   }
 
-  public getCurriculum(): Observable<any> {
-    return this.http.get<any>(`${this.basePath}`);
+  public getCurriculum(): Observable<Curriculum> {
+    return this.http.get<Curriculum>(`${this.basePath}`);
   }
 
   public getDownloadCvRequests(): Observable<DownloadCvRequest[]> {

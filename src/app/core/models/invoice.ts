@@ -11,13 +11,14 @@ export interface InvoiceSummary {
 }
 
 export interface InvoicePerYearSummary {
-  totalAmountOfWork:number;
-   totalExclVat: number;
-   numberOfInvoices: number;
+  totalAmountOfWork: number;
+  totalExclVat: number;
+  numberOfInvoices: number;
 }
 
 export interface Invoice {
   id?: string;
+  timesheetId?: string;
   invoiceNumber?: string;
   maxDaysToPay?: number;
   dateOfInvoice?: Date;

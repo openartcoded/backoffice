@@ -1,15 +1,19 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { BillTo, Invoice, InvoiceForm, InvoiceFreemarkerTemplate, InvoiceRow } from '@core/models/invoice';
 import { RateType } from '@core/models/common';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
-import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DateUtils } from '@core/utils/date-utils';
 import { BillableClient } from '@core/models/billable-client';
 import { FileService } from '@core/service/file.service';
 import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
+import { firstValueFrom } from 'rxjs';
+import { MailFormComponent } from '@shared/mail-form/mail-form.component';
+import { MailRequest } from '@core/models/mail-request';
+import { MailService } from '@core/service/mail.service';
+import { ToastService } from '@core/service/toast.service';
 
 @Component({
   selector: 'app-invoice-detail',
@@ -35,15 +39,32 @@ export class InvoiceDetailComponent implements OnInit {
     @Optional() public activeModal: NgbActiveModal,
     private modalService: NgbModal,
     private fileService: FileService,
+    private mailService: MailService,
+    private toastService: ToastService,
     private formBuilder: UntypedFormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.invoiceForm = this.createFormGroup();
   }
 
-  openPdfViewer($event) {
-    $event?.preventDefault();
+  download(): void {
+    this.fileService.findById(this.invoice.invoiceUploadId).subscribe((f) => this.fileService.download(f));
+  }
+  async sendMail() {
+    const upload = await firstValueFrom(this.fileService.findById(this.invoice.invoiceUploadId));
+    const ngbModalRef = this.modalService.open(MailFormComponent, {
+      size: 'md',
+    });
+    ngbModalRef.componentInstance.attachments = [upload];
+    ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
+      ngbModalRef.close();
+      await firstValueFrom(this.mailService.send(mailRequest));
+      this.toastService.showSuccess('Mail will be send');
+    });
+  }
+
+  openPdfViewer() {
     this.fileService.findById(this.invoice.invoiceUploadId).subscribe((upl) => {
       const ngbModalRef = this.modalService.open(PdfViewerComponent, {
         size: 'xl',
@@ -195,11 +216,11 @@ export class InvoiceDetailComponent implements OnInit {
     let arr = this.invoice?.invoiceTable?.length
       ? this.invoice?.invoiceTable
       : [
-          {
-            rateType: RateType.HOURS,
-            amountType: RateType.DAYS,
-          },
-        ];
+        {
+          rateType: RateType.HOURS,
+          amountType: RateType.DAYS,
+        },
+      ];
     return arr.map(convertInvoiceRowToForm);
   }
 
@@ -260,10 +281,12 @@ export class InvoiceDetailComponent implements OnInit {
     this.invoiceForm.get('billToAddress').patchValue(client?.address);
     this.invoiceForm.get('billToEmailAddress').patchValue(client?.emailAddress);
     this.invoiceForm.get('maxDaysToPay').patchValue(client?.maxDaysToPay);
+    this.invoiceForm.get('taxRate').patchValue(client?.taxRate);
     this.invoiceTableForm.controls.forEach((c) => {
       c.get('projectName').patchValue(client?.projectName);
       c.get('rateType').patchValue(client?.rateType);
       c.get('rate').patchValue(client?.rate);
+      c.get('nature').patchValue(client?.nature);
     });
   }
 }
