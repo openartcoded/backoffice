@@ -1,8 +1,11 @@
 .example-viewport {
-  height: 120px;
+  height: 125px;
   overflow-y: scroll;
 }
 
 .example-item {
   height: 50px;
+}
+.badge {
+	--bs-badge-font-size: 0.25em;
 }

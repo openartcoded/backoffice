@@ -1,7 +1,7 @@
 {
   "name": "artcoded",
   "short_name": "artcoded",
-  "theme_color": "#2d7844",
+  "theme_color": "#001f3f",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",

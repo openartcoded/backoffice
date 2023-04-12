@@ -15,5 +15,6 @@ export interface FileUploadSearchCriteria {
   correlationId?: string;
   dateBefore?: Date;
   dateAfter?: Date;
+  originalFilename?: string;
   publicResource?: boolean;
 }

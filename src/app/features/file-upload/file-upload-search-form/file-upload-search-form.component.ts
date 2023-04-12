@@ -19,7 +19,7 @@ export class FileUploadSearchFormComponent implements OnInit {
 
   isCollapsed: boolean = true;
 
-  constructor(private fb: UntypedFormBuilder) {}
+  constructor(private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
@@ -27,6 +27,7 @@ export class FileUploadSearchFormComponent implements OnInit {
       publicResource: new UntypedFormControl('', []),
       dateBefore: new UntypedFormControl('', []),
       dateAfter: new UntypedFormControl('', []),
+      originalFilename: new UntypedFormControl('', []),
     });
   }
 
@@ -43,6 +44,9 @@ export class FileUploadSearchFormComponent implements OnInit {
     } else {
       this.searchCriteria.dateBefore = null;
     }
+    if (this.searchForm.controls.originalFilename.value) {
+      this.searchCriteria.originalFilename = this.searchForm.controls.originalFilename.value;
+    }
     if (this.searchForm.controls.dateAfter.value) {
       this.searchCriteria.dateAfter = DateUtils.getDateFromInput(this.searchForm.controls.dateAfter.value);
     } else {
@@ -57,5 +61,6 @@ export class FileUploadSearchFormComponent implements OnInit {
     this.searchCriteria.dateBefore = null;
     this.searchCriteria.dateAfter = null;
     this.searchCriteria.publicResource = null;
+    this.searchCriteria.originalFilename = null;
   }
 }

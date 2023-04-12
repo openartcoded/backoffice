@@ -13,7 +13,8 @@
     <ng-template #infoFrontend>
       v{{version}} ({{ env | lowercase }})
     </ng-template>
-    <button type="button" class="ps-0 ms-0 pe-1 me-0 btn btn-link text-white" [ngbTooltip]="infoFrontend" triggers="click:blur">
+    <button type="button" class="ps-0 ms-0 pe-1 me-0 btn btn-link text-white" [ngbTooltip]="infoFrontend"
+      triggers="click:blur">
       <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
     </button>
   </div>

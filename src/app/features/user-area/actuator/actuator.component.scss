@@ -17,4 +17,6 @@ code {
     border-right: none;
   }
 }
-
+::ng-deep .accordion-body {
+  padding: 5px;
+}

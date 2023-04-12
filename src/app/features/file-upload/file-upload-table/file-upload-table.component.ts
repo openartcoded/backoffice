@@ -25,7 +25,7 @@ export class FileUploadTableComponent implements OnInit {
     private windowRefService: WindowRefService,
     private modalService: NgbModal,
     private titleService: Title
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('File Uploads');
@@ -44,7 +44,7 @@ export class FileUploadTableComponent implements OnInit {
   delete(upl: FileUpload) {
     if (isPlatformBrowser(this.platformId)) {
       if (this.windowRefService.nativeWindow.confirm('Are you sure you want to delete this file? ')) {
-        this.fileService.delete(upl).subscribe((d) => {
+        this.fileService.delete(upl).subscribe((_d) => {
           this.search(this.searchCriteria);
         });
       }

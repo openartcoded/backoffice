@@ -4,20 +4,17 @@
       <img [src]="logo" class="card-img-top bg-transparent" />
 
       <div class="card-footer pt-0 pb-0 ps-2 pe-2 bg-transparent">
-        <div class="d-block">
+        <div class="d-block fw-bold">
           <fa-icon class="me-1" [icon]="['fas', 'vcard']"></fa-icon>
           <small>&nbsp;{{ personalInfo.organizationName }}</small>
           <small>({{ personalInfo.vatNumber }})</small>
         </div>
-        <!-- <div>
-                    <fa-icon class="d-lg-block me-1 text-center" [icon]="['fas','mail-bulk']"></fa-icon>
-                    <h6 class=" d-lg-block text-center">{{personalInfo.organizationEmailAddress}}</h6>
-                </div> -->
-        <div class="d-block">
+
+        <div class="d-block fw-bold">
           <fa-icon class="me-1" [icon]="['fas', 'phone']"></fa-icon>
           <small>&nbsp;{{ personalInfo.organizationPhoneNumber }}</small>
         </div>
-        <div class="d-block">
+        <div class="d-block fw-bold">
           <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>
           <small>&nbsp;{{ personalInfo.organizationEmailAddress }}</small>
         </div>
