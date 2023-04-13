@@ -16,20 +16,14 @@ export class DossierSummaryComponent implements OnInit, OnDestroy {
   constructor(
     private dossierService: DossierService,
     @Inject(PLATFORM_ID) private platformId: any,
-  ) {}
+  ) { }
   ngOnDestroy(): void {
     this.graphs = null;
     this.dossierSummaries = null;
   }
 
   async ngOnInit() {
-    const summaries = [];
-    const dossiers = await firstValueFrom(this.dossierService.findAll(true));
-    for (let d of dossiers) {
-      const summary = await firstValueFrom(this.dossierService.getSummary(d.id));
-      summary.dossier = d;
-      summaries.push(summary);
-    }
+    const summaries = await firstValueFrom(this.dossierService.getAllSummaries(true));
     this.loadGraph(summaries);
   }
 
@@ -42,7 +36,7 @@ export class DossierSummaryComponent implements OnInit, OnDestroy {
       displayModeBar: false,
     };
 
-    const layout = (title: string, callback = (lyt) => {}) => {
+    const layout = (title: string, callback = (_lyt: any) => { }) => {
       let l = {
         barmode: 'group',
         dragmode: 'zoom',

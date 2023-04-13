@@ -73,6 +73,22 @@ export class DossierService {
       {}
     );
   }
+  getAllSummaries(closed: boolean): Observable<DossierSummary[]> {
+    return this.http.post<DossierSummary[]>(
+      `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/find-all-summaries?closed=${closed}`,
+      {}
+    );
+  }
+  getSummaries(ids: string[]): Observable<DossierSummary[]> {
+    const params = new URLSearchParams();
+    for (const id of ids) {
+      params.append('id', id);
+    }
+    return this.http.post<DossierSummary[]>(
+      `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/summaries?${params.toString()}`,
+      {}
+    );
+  }
 
   async generateSummary(id: string) {
     if (isPlatformBrowser(this.platformId)) {
