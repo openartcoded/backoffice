@@ -23,6 +23,7 @@ export class FileUploadSearchFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
+      id: new UntypedFormControl('', []),
       correlationId: new UntypedFormControl('', []),
       publicResource: new UntypedFormControl('', []),
       dateBefore: new UntypedFormControl('', []),
@@ -36,6 +37,11 @@ export class FileUploadSearchFormComponent implements OnInit {
       this.searchCriteria.correlationId = this.searchForm.controls.correlationId.value.trim();
     } else {
       this.searchCriteria.correlationId = null;
+    }
+    if (this.searchForm.controls.id.value?.trim()) {
+      this.searchCriteria.id = this.searchForm.controls.id.value.trim();
+    } else {
+      this.searchCriteria.id = null;
     }
     this.searchCriteria.publicResource = this.searchForm.controls.publicResource.value;
 
@@ -57,6 +63,7 @@ export class FileUploadSearchFormComponent implements OnInit {
 
   resetForm() {
     this.searchForm.reset();
+    this.searchCriteria.id = null;
     this.searchCriteria.correlationId = null;
     this.searchCriteria.dateBefore = null;
     this.searchCriteria.dateAfter = null;

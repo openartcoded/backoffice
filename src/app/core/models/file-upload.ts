@@ -12,6 +12,7 @@ export interface FileUpload {
 
 
 export interface FileUploadSearchCriteria {
+  id?: string;
   correlationId?: string;
   dateBefore?: Date;
   dateAfter?: Date;
