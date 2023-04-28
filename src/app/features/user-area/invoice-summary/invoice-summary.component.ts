@@ -122,13 +122,7 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
   }
 
   findPeriod(invoice) {
-    let period = invoice?.invoiceTable?.find((t) => t.period?.length)?.period;
-    // todo dirty bugfix for a single invoice
-    let periodBug = period.split('-');
-    if (periodBug?.length && periodBug.length === 2) {
-      period = periodBug[1] + "/" + periodBug[0];
-    }
-    return period;
+    return invoice?.invoiceTable?.find((t) => t.period?.length)?.period;
   }
 
   findAmount(invoice) {
