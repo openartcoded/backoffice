@@ -18,7 +18,7 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
   constructor(
     private invoiceService: InvoiceService,
     @Inject(PLATFORM_ID) private platformId: any
-  ) {}
+  ) { }
 
   ngOnDestroy(): void {
     this.summary$ = null;
@@ -33,7 +33,7 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
       responsive: true,
       displayModeBar: false,
     };
-    const layout = (title: string, callback = (_) => {}) => {
+    const layout = (title: string, callback = (_) => { }) => {
       let l = {
         barmode: 'group',
         dragmode: 'zoom',
@@ -88,7 +88,7 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
         const invoicesGroupByYear = invoicesOrderedByDateAsc.reduce((group, invoice) => {
           const dateOfInvoice = new Date(invoice.dateOfInvoice);
           const year = dateOfInvoice.getFullYear();
-          const { totalAmountOfWork, totalExclVat,numberOfInvoices} = group.get(year) || {
+          const { totalAmountOfWork, totalExclVat, numberOfInvoices } = group.get(year) || {
             totalAmountOfWork: 0,
             totalExclVat: 0,
             numberOfInvoices: 0
@@ -122,7 +122,13 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
   }
 
   findPeriod(invoice) {
-    return invoice?.invoiceTable?.find((t) => t.period?.length)?.period;
+    let period = invoice?.invoiceTable?.find((t) => t.period?.length)?.period;
+    // todo dirty bugfix for a single invoice
+    let periodBug = period.split('-');
+    if (periodBug?.length && periodBug.length === 2) {
+      period = periodBug[1] + "/" + periodBug[0];
+    }
+    return period;
   }
 
   findAmount(invoice) {
