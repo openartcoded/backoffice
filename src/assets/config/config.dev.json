@@ -1,5 +1,5 @@
 {
-    "KEYCLOAK_URL": "http://auth.somehost.org:8080",
+    "KEYCLOAK_URL": "https://auth.somehost.org",
     "KEYCLOAK_REALM": "Artcoded",
     "KEYCLOAK_CLIENT_ID": "frontend-client",
     "BACKEND_URL": "http://localhost:4200",
