@@ -11,6 +11,7 @@ export interface ReminderTask {
   description: string;
   disabled: boolean;
   sendMail?: boolean;
+  sendSms?: boolean;
   persistResult?: boolean;
   actionKey?: string;
   customActionName?: string;

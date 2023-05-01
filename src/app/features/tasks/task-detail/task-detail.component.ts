@@ -34,7 +34,7 @@ export class TaskDetailComponent implements OnInit {
     private modalService: NgbModal,
     @Inject(PLATFORM_ID) private platformId: any,
     private fb: UntypedFormBuilder
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.allowedActions = await firstValueFrom(this.allowedActions$);
@@ -85,6 +85,7 @@ export class TaskDetailComponent implements OnInit {
         Validators.required,
       ]),
       sendMail: new UntypedFormControl({ value: this.task?.sendMail || false, disabled: false }, [Validators.required]),
+      sendSms: new UntypedFormControl({ value: this.task?.sendSms || false, disabled: false }, [Validators.required]),
       persistResult: new UntypedFormControl({ value: this.task?.persistResult || false, disabled: false }, []),
       title: new UntypedFormControl({ value: this.task?.title, disabled: false }, [Validators.required]),
       description: new UntypedFormControl({ value: this.task?.description, disabled: false }, [Validators.required]),
@@ -197,12 +198,12 @@ export class TaskDetailComponent implements OnInit {
       id: this.task?.id,
       actionParameters: this.hasAction
         ? this.actionParameters?.controls?.map((c) => {
-            return {
-              key: c.get('key').value,
-              value: c.get('parameterValue').value,
-              parameterType: c.get('parameterType').value,
-            };
-          })
+          return {
+            key: c.get('key').value,
+            value: c.get('parameterValue').value,
+            parameterType: c.get('parameterType').value,
+          };
+        })
         : null,
       actionKey: this.form.get('actionKey').value,
       customActionName: this.form.get('customActionName').value,
@@ -211,6 +212,7 @@ export class TaskDetailComponent implements OnInit {
       title: this.form.get('title').value,
       disabled: this.form.get('disabled').value,
       sendMail: this.form.get('sendMail').value,
+      sendSms: this.form.get('sendSms').value,
       persistResult: this.form.get('persistResult').value,
       cronExpression: !this.hasSpecificDate ? this.cronExpression : null,
       specificDate: this.hasSpecificDate ? DateUtils.dateStrToUtc(specificDate) : null,
