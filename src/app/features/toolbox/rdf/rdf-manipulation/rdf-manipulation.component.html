@@ -1,7 +1,7 @@
 <app-title title="Rdf Utils" [uppercase]="true"></app-title>
 <ul [activeId]="activeId" ngbNav="ngbNav" #nav="ngbNav" class="nav-tabs">
   <li ngbNavItem="file-conversion">
-    <a ngbNavLink routerLink="../file-conversion">File</a>
+    <a ngbNavLink routerLink="/toolbox/rdf/file-conversion">File</a>
     <ng-template ngbNavContent>
       <div class="d-block">
         <app-title title="File Conversion" titleClass="h4" [uppercase]="true"></app-title>
@@ -12,7 +12,7 @@
     </ng-template>
   </li>
   <li ngbNavItem="string-conversion">
-    <a ngbNavLink routerLink="../string-conversion">Text</a>
+    <a ngbNavLink routerLink="/toolbox/rdf/string-conversion">Text</a>
     <ng-template ngbNavContent>
       <div class="d-block">
         <app-title title="String Conversion" titleClass="h4" [uppercase]="true"></app-title>
@@ -23,7 +23,7 @@
     </ng-template>
   </li>
   <li ngbNavItem="shacl-validation">
-    <a ngbNavLink routerLink="../shacl-validation">Shacl</a>
+    <a ngbNavLink routerLink="/toolbox/rdf/shacl-validation">Shacl</a>
     <ng-template ngbNavContent>
       <div class="d-block">
         <app-title title="Shacl Validation" titleClass="h4" [uppercase]="true"></app-title>
@@ -35,4 +35,3 @@
   </li>
 </ul>
 <div [ngbNavOutlet]="nav"></div>
-

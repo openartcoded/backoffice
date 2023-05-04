@@ -1,6 +1,6 @@
 <app-title title="Date Utils" [uppercase]="true"></app-title>
 <ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
-  <li ngbNavItem="business-days" routerLink="../business-days">
+  <li ngbNavItem="business-days" routerLink="/toolbox/date/business-days">
     <a ngbNavLink>Business</a>
     <ng-template ngbNavContent>
       <div class="d-block">
@@ -11,7 +11,7 @@
       </div>
     </ng-template>
   </li>
-  <li ngbNavItem="how-many-since" routerLink="../how-many-since">
+  <li ngbNavItem="how-many-since" routerLink="/toolbox/date/how-many-since">
     <a ngbNavLink>Since</a>
     <ng-template ngbNavContent>
       <div class="d-block">
@@ -22,7 +22,7 @@
       </div>
     </ng-template>
   </li>
-  <li ngbNavItem="how-many-before" routerLink="../how-many-before">
+  <li ngbNavItem="how-many-before" routerLink="/toolbox/date/how-many-before">
     <a ngbNavLink>Before</a>
     <ng-template ngbNavContent>
       <div class="d-block">
@@ -33,8 +33,8 @@
 
       </div>
     </ng-template>
-    </li>
-  <li ngbNavItem="date-between" routerLink="../date-between">
+  </li>
+  <li ngbNavItem="date-between" routerLink="/toolbox/date/date-between">
     <a ngbNavLink>Between</a>
     <ng-template ngbNavContent>
       <div class="d-block">
@@ -45,6 +45,5 @@
       </div>
     </ng-template>
   </li>
-  </ul>
-  <div [ngbNavOutlet]="nav"></div>
-
+</ul>
+<div [ngbNavOutlet]="nav"></div>

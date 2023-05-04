@@ -1,7 +1,7 @@
 <app-title title="Base64 Utils" [uppercase]="true"></app-title>
 <ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
   <li ngbNavItem="decode">
-    <a ngbNavLink routerLink="../decode">Decode</a>
+    <a ngbNavLink routerLink="/toolbox/base64/decode">Decode</a>
     <ng-template ngbNavContent>
       <div class="d-block">
         <app-title title="Base64 decode" titleClass="h4" [uppercase]="true"></app-title>
@@ -12,7 +12,7 @@
     </ng-template>
   </li>
   <li ngbNavItem="encode">
-    <a ngbNavLink routerLink="../encode">Encode</a>
+    <a ngbNavLink routerLink="/toolbox/base64/encode">Encode</a>
     <ng-template ngbNavContent>
       <div class="d-block">
         <app-title title="Base64 encode" titleClass="h4" [uppercase]="true"></app-title>
@@ -23,7 +23,7 @@
     </ng-template>
   </li>
   <li ngbNavItem="image-encode">
-    <a ngbNavLink routerLink="../image-encode">Image encode</a>
+    <a ngbNavLink routerLink="/toolbox/base64/image-encode">Image encode</a>
     <ng-template ngbNavContent>
       <div class="d-block">
         <app-title title="Image encode" titleClass="h4" [uppercase]="true"></app-title>
@@ -35,4 +35,3 @@
   </li>
 </ul>
 <div [ngbNavOutlet]="nav"></div>
-
