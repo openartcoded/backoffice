@@ -21,7 +21,7 @@ import { BillableClient, ContractStatus } from '@core/models/billable-client';
 import { SortCriteria, Direction } from '@core/models/page';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { MailService } from '@core/service/mail.service';
-import { MailRequest } from '@core/models/mail-request';
+import { MailContextType, MailRequest } from '@core/models/mail-request';
 @Component({
   selector: 'app-invoice-table-result',
   templateUrl: './invoice-table-result.component.html',
@@ -79,10 +79,18 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
 
   async sendMail(invoice: Invoice) {
     const upload = await firstValueFrom(this.fileService.findById(invoice.invoiceUploadId));
+    const context: Map<string, MailContextType> = new Map();
+    context.set('Invoice N°', invoice.invoiceNumber);
+    context.set('Client', invoice.billTo?.clientName);
+    context.set('Period', invoice.invoiceTable[0]?.period);
+
     const ngbModalRef = this.modalService.open(MailFormComponent, {
-      size: 'md',
+      size: 'lg',
     });
     ngbModalRef.componentInstance.attachments = [upload];
+    ngbModalRef.componentInstance.context = context;
+    ngbModalRef.componentInstance.defaultSubject = `Invoice ${invoice.invoiceNumber}`;
+    ngbModalRef.componentInstance.to = [invoice.billTo?.emailAddress];
     ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
       ngbModalRef.close();
       await firstValueFrom(this.mailService.send(mailRequest));

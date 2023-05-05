@@ -11,7 +11,7 @@ import { FileService } from '@core/service/file.service';
 import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 import { firstValueFrom } from 'rxjs';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
-import { MailRequest } from '@core/models/mail-request';
+import { MailContextType, MailRequest } from '@core/models/mail-request';
 import { MailService } from '@core/service/mail.service';
 import { ToastService } from '@core/service/toast.service';
 
@@ -53,10 +53,20 @@ export class InvoiceDetailComponent implements OnInit {
   }
   async sendMail() {
     const upload = await firstValueFrom(this.fileService.findById(this.invoice.invoiceUploadId));
+    const context: Map<string, MailContextType> = new Map();
+    context.set('Invoice N°', this.invoice.invoiceNumber);
+    context.set('Client', this.invoice.billTo?.clientName);
+    context.set('Period', this.invoice.invoiceTable[0]?.period);
+
     const ngbModalRef = this.modalService.open(MailFormComponent, {
-      size: 'md',
+      size: 'lg',
     });
+    ngbModalRef.componentInstance.context = context;
+    ngbModalRef.componentInstance.defaultSubject = `Invoice ${this.invoice.invoiceNumber}`;
+    ngbModalRef.componentInstance.to = [this.invoice.billTo?.emailAddress];
+
     ngbModalRef.componentInstance.attachments = [upload];
+
     ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
       ngbModalRef.close();
       await firstValueFrom(this.mailService.send(mailRequest));

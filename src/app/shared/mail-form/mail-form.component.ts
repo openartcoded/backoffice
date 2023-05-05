@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { FileUpload } from '@core/models/file-upload';
-import { MailRequest } from '@core/models/mail-request';
+import { MailContextType, MailRequest } from '@core/models/mail-request';
 import { EmailsValidator } from '@core/validators/emails.validator';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-mail-form',
@@ -11,13 +12,20 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./mail-form.component.scss'],
 })
 export class MailFormComponent {
+
   public mailForm: UntypedFormGroup;
 
   @Input()
   attachments: FileUpload[];
 
   @Input()
-  to?: string;
+  context: Map<string, MailContextType> = new Map<string, MailContextType>();
+
+  @Input()
+  to?: string[];
+  @Input()
+  defaultSubject?: string;
+
 
   @Output()
   sendMail: EventEmitter<MailRequest> = new EventEmitter<MailRequest>();
@@ -28,7 +36,7 @@ export class MailFormComponent {
     this.mailForm = this.fb.group(
       {
         to: [this.to || [], [Validators.required]],
-        subject: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+        subject: [this.defaultSubject, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
         body: [null, [Validators.required, Validators.minLength(1)]],
         bcc: [false, [Validators.required]],
       },
@@ -63,5 +71,11 @@ export class MailFormComponent {
       uploadIds: (this.attachments || []).map((a) => a.id),
     } as MailRequest);
     this.mailForm.reset();
+  }
+  updateBody($event: MouseEvent, v: MailContextType) {
+    $event.preventDefault();
+    const body = this.body?.length ? this.body + ' ' : '';
+    this.mailForm.get('body').patchValue(body + v);
+
   }
 }

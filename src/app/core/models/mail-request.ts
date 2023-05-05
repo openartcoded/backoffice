@@ -5,3 +5,5 @@ export interface MailRequest {
   bcc: boolean;
   uploadIds: string[];
 }
+export type MailContextType = string | number | boolean;
+
