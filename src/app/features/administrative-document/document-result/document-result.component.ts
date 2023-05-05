@@ -17,6 +17,11 @@ import { NotificationService } from '@core/service/notification.service';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { OnDestroy } from '@angular/core';
 import { SplitPdfComponent } from '../split-pdf/split-pdf.component';
+import { MailContextType, MailRequest } from '@core/models/mail-request';
+import { MailFormComponent } from '@shared/mail-form/mail-form.component';
+import { ToastService } from '@core/service/toast.service';
+import { MailService } from '@core/service/mail.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-document-result',
@@ -36,8 +41,10 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
     private windowRefService: WindowRefService,
     private notificationService: NotificationService,
     private modalService: NgbModal,
+    private toastService: ToastService,
+    private mailService: MailService,
     private titleService: Title
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Administrative Documents');
@@ -144,9 +151,24 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
   shouldMarkEventAsSeenAfterConsumed(): boolean {
     return true;
   }
+
   split() {
-    const modalRef = this.modalService.open(SplitPdfComponent, {
+    this.modalService.open(SplitPdfComponent, {
       size: 'sm',
+    });
+  }
+  async sendMail(document: AdministrativeDocument) {
+    const context: Map<string, MailContextType> = new Map();
+    const ngbModalRef = this.modalService.open(MailFormComponent, {
+      size: 'lg',
+    });
+    ngbModalRef.componentInstance.context = context;
+
+    ngbModalRef.componentInstance.attachments = [document.attachment];
+    ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
+      ngbModalRef.close();
+      await firstValueFrom(this.mailService.send(mailRequest));
+      this.toastService.showSuccess('Mail will be send');
     });
   }
 }

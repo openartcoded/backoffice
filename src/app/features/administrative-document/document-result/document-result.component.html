@@ -27,12 +27,8 @@
             <td class="text-break">{{ ad.dateCreation | date: 'dd/MM/yyyy' }}</td>
             <td class="text-center fit">
               <div ngbDropdown class="d-inline-block" container="body">
-                <button
-                  class="btn btn-outline-secondary"
-                  id="dropdownBasic1"
-                  ngbDropdownToggle
-                  stopPropagation
-                ></button>
+                <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle
+                  stopPropagation></button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                   <button ngbDropdownItem (click)="addOrEdit(ad)">
                     <fa-icon [icon]="['fas', 'edit']"></fa-icon> Edit
@@ -50,6 +46,9 @@
                     <button ngbDropdownItem (click)="openImageViewer(ad.attachment)" *ngIf="isImage(ad.attachment)">
                       <fa-icon [icon]="['fas', 'file-image']"></fa-icon> Open
                     </button>
+                    <button ngbDropdownItem (click)="sendMail(ad)" *ngIf="ad.attachment">
+                      <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>&nbsp;Send
+                    </button>
                   </ng-container>
                 </div>
               </div>
@@ -60,14 +59,8 @@
     </table>
   </div>
   <div class="d-flex justify-content-between mb-2">
-    <ngb-pagination
-      *ngIf="adminDocuments.totalPages > 1"
-      [page]="pageNumber"
-      [pageSize]="adminDocuments.size"
-      [maxSize]="pageSize"
-      [collectionSize]="adminDocuments.totalElements"
-      (pageChange)="load($event)"
-    >
+    <ngb-pagination *ngIf="adminDocuments.totalPages > 1" [page]="pageNumber" [pageSize]="adminDocuments.size"
+      [maxSize]="pageSize" [collectionSize]="adminDocuments.totalElements" (pageChange)="load($event)">
     </ngb-pagination>
   </div>
 </ng-container>

@@ -3,9 +3,8 @@
     <span class="modal-title text-break">
       {{adminDoc?.title ? 'Edit ' + adminDoc?.title : 'New Document'}}
     </span>
-    <button type="button" class="btn-close" aria-label="Close"
-            (click)="activeModal?.dismiss('Cross click')">
-      
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
+
     </button>
   </div>
   <div class="modal-body">
@@ -26,21 +25,20 @@
       </div>
 
       <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event)"
-                     dropZoneClassName="flat bg-light d-block"
-                     [multiple]="false">
+        dropZoneClassName="flat bg-light d-block" [multiple]="false">
         <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
           <button id="dd" class="btn btn-primary me-1" type="button" (click)="openFileSelector()"
-                  *ngIf="!document && !adminDoc?.attachment">
+            *ngIf="!document && !adminDoc?.attachment">
             <fa-icon [icon]="['fas','upload']"></fa-icon>
           </button>
           <a class="btn btn-link" *ngIf="document || adminDoc?.attachment" (click)="openFileSelector()">
-            {{document?.name ? document?.name : adminDoc?.attachment?.name}}
+            {{document?.name || adminDoc?.attachment?.originalFilename}}
           </a>
         </ng-template>
       </ngx-file-drop>
       <div class="d-flex justify-content-end">
         <button type="submit" class="btn  btn-primary mt-2"
-                [disabled]="!form.valid || (!document && !adminDoc.attachmentId)">Submit
+          [disabled]="!form.valid || (!document && !adminDoc.attachmentId)">Submit
         </button>
       </div>
     </form>

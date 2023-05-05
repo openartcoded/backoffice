@@ -13,7 +13,7 @@ import { DossierImportFormComponent } from '../dossier-import-form/dossier-impor
 import { Direction, Page, SortCriteria } from '@core/models/page';
 import { MailService } from '@core/service/mail.service';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
-import { MailRequest } from '@core/models/mail-request';
+import { MailContextType, MailRequest } from '@core/models/mail-request';
 import { firstValueFrom } from 'rxjs';
 import { Invoice } from '@core/models/invoice';
 
@@ -170,11 +170,15 @@ export class DossierTableResultComponent implements OnInit {
     });
   }
 
-  async sendMail(dossierUploadId: string) {
-    const upload = await firstValueFrom(this.fileService.findById(dossierUploadId));
+  async sendMail(dossier: Dossier) {
+    const upload = await firstValueFrom(this.fileService.findById(dossier.dossierUploadId));
+    const context: Map<string, MailContextType> = new Map();
+    context.set('Name', dossier.name);
     const ngbModalRef = this.modalService.open(MailFormComponent, {
-      size: 'md',
+      size: 'lg',
     });
+    ngbModalRef.componentInstance.context = context;
+
     ngbModalRef.componentInstance.attachments = [upload];
     ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
       ngbModalRef.close();
