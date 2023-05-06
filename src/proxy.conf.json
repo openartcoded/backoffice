@@ -1,15 +1,32 @@
 {
   "/api": {
-    "target": "http://localhost:9000",
-    "secure": false
+    "target": {
+      "host": "backoffice.somehost.org",
+      "protocol": "https:",
+      "port": 443
+    },
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
   },
   "/sparql": {
-    "target": "http://localhost:8888",
-    "secure": false
+    "target": {
+      "host": "backoffice.somehost.org",
+      "protocol": "https:",
+      "port": 443
+    },
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
   },
   "/proxy": {
-    "target": "http://localhost",
-    "secure": false
+    "target": {
+      "host": "backoffice.somehost.org",
+      "protocol": "https:",
+      "port": 443
+    },
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
   }
-} 
- 
+}
