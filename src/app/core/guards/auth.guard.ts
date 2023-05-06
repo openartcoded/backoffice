@@ -1,5 +1,5 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { WindowRefService } from '@core/service/window.service';
 
 import { KeycloakAuthGuard, KeycloakService } from 'keycloak-angular';
