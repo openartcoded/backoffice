@@ -3,7 +3,7 @@
     "KEYCLOAK_REALM": "Artcoded",
     "KEYCLOAK_CLIENT_ID": "frontend-client",
     "BACKEND_URL": "http://localhost:4200",
-    "FRONTEND_URL": "http://localhost:4200",
+    "FRONTEND_URL": "https://somehost.org",
     "SPARQL_ENDPOINT": "http://localhost:4200/sparql",
     "ENV_TYPE": "DEV",
     "IMMO_ENABLED": true
