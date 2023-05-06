@@ -9,6 +9,11 @@
                 Personal Info
             </button>
             <div class="dropdown-divider"></div>
+            <button ngbDropdownItem (click)="openSmsModal()">
+                <fa-icon icon="phone"></fa-icon>
+                Send sms
+            </button>
+            <div class="dropdown-divider"></div>
             <a ngbDropdownItem target="_blank" [href]="frontOfficeUrl" *ngIf="frontOfficeUrl">
                 <fa-icon icon="book-open"></fa-icon>
                 Homepage

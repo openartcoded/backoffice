@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { FileUpload } from '@core/models/file-upload';
 import { MailContextType, MailRequest } from '@core/models/mail-request';
@@ -11,7 +11,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './mail-form.component.html',
   styleUrls: ['./mail-form.component.scss'],
 })
-export class MailFormComponent {
+export class MailFormComponent implements OnInit {
 
   public mailForm: UntypedFormGroup;
 

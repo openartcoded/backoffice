@@ -19,6 +19,7 @@ import { StopPropagationDirective } from './directives/stop.propagation.directiv
 import { MailFormComponent } from './mail-form/mail-form.component';
 import { AutosizeModule } from 'ngx-autosize';
 import { Chips, ChipsModule } from 'primeng/chips';
+import { SmsFormComponent } from './sms-form/sms-form.component';
 
 @NgModule({
   declarations: [
@@ -34,10 +35,13 @@ import { Chips, ChipsModule } from 'primeng/chips';
     EditEmailComponent,
     BytesToHumanPipe,
     MailFormComponent,
+    SmsFormComponent,
   ],
   exports: [
     TitleComponent,
     PdfViewerComponent,
+    MailFormComponent,
+    SmsFormComponent,
     SortPipe,
     ImageViewerComponent,
     SlugifyPipe,

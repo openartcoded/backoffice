@@ -7,6 +7,9 @@ import { PersonalInfo } from '@core/models/personal.info';
 import { EditPersonalInfoComponent } from '@feature/user-area/edit-personal-info/edit-personal-info.component';
 import { ToastService } from '@core/service/toast.service';
 import { firstValueFrom } from 'rxjs';
+import { SmsFormComponent } from '@shared/sms-form/sms-form.component';
+import { SmsService } from '@core/service/sms.service';
+import { Sms } from '@core/models/sms';
 
 @Component({
   selector: 'app-user-menu',
@@ -20,10 +23,10 @@ export class UserMenuComponent implements OnInit {
     private personalInfoService: PersonalInfoService,
     private configService: ConfigInitService,
     private toastService: ToastService,
-
+    private smsService: SmsService,
     private modalService: NgbModal,
     private authenticationService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const config = this.configService.getConfig();
@@ -43,6 +46,16 @@ export class UserMenuComponent implements OnInit {
       //modal.close();
       await firstValueFrom(this.personalInfoService.save(formData));
       this.toastService.showSuccess('Personal Information updated');
+    });
+  }
+  async openSmsModal() {
+    const modal = this.modalService.open(SmsFormComponent, {
+      size: 'lg',
+    });
+    modal.componentInstance.sendSms.subscribe(async (sms: Sms) => {
+      modal.close();
+      await firstValueFrom(this.smsService.send(sms));
+      this.toastService.showSuccess('Sms sent');
     });
   }
 }
