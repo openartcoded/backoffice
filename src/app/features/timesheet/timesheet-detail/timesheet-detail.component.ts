@@ -23,7 +23,7 @@ import { BillableClientService } from '@core/service/billable-client.service';
 import { ToastService } from '@core/service/toast.service';
 import { ContractStatus } from '@core/models/billable-client';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
-import { MailRequest } from '@core/models/mail-request';
+import { MailContextType, MailRequest } from '@core/models/mail-request';
 import { MailService } from '@core/service/mail.service';
 import { InvoiceDetailComponent } from '@feature/invoice/invoice-detail/invoice-detail.component';
 import { InvoiceService } from '@core/service/invoice.service';
@@ -170,10 +170,18 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
 
   async send() {
     const upload = await firstValueFrom(this.fileService.findById(this.timesheet.uploadId));
+    const clients = await firstValueFrom(this.billableClientService.findAll());
+
+    const ctx: Map<string, MailContextType> = new Map();
+    ctx.set('Client', this.timesheet.clientName);
+    ctx.set('Period', this.timesheet.month + '/' + this.timesheet.year);
     const ngbModalRef = this.modalService.open(MailFormComponent, {
-      size: 'md',
+      size: 'lg',
     });
     ngbModalRef.componentInstance.attachments = [upload];
+    ngbModalRef.componentInstance.context = ctx;
+    ngbModalRef.componentInstance.defaultSubject = 'Timesheet ' + ctx.get('Period');
+    ngbModalRef.componentInstance.to = clients.filter(c => c.id == this.timesheet.clientId).map(c => c.emailAddress);
     ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
       ngbModalRef.close();
       await firstValueFrom(this.mailService.send(mailRequest));

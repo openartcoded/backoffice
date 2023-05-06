@@ -1,13 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { BillableClient, ContractStatus, DefaultWorkingDay, getAllDays } from '@core/models/billable-client';
+import { BillableClient, ContractStatus, getAllDays } from '@core/models/billable-client';
 import { RateType } from '@core/models/common';
 import { FileUpload } from '@core/models/file-upload';
+import { MailContextType, MailRequest } from '@core/models/mail-request';
 import { FileService } from '@core/service/file.service';
+import { MailService } from '@core/service/mail.service';
+import { ToastService } from '@core/service/toast.service';
 import { DateUtils } from '@core/utils/date-utils';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewerComponent } from '@shared/image-viewer/image-viewer.component';
+import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-billable-client-detail',
@@ -37,7 +42,9 @@ export class BillableClientDetailComponent implements OnInit {
     @Optional() public activeModal: NgbActiveModal,
     private fileService: FileService,
     private fb: UntypedFormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private mailService: MailService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -79,6 +86,7 @@ export class BillableClientDetailComponent implements OnInit {
       phoneNumber: new UntypedFormControl({ value: this.client?.phoneNumber, disabled: false }, []),
     });
   }
+
   get startDate(): string {
     return this.clientForm.get('startDate').value;
   }
@@ -118,6 +126,23 @@ export class BillableClientDetailComponent implements OnInit {
       defaultWorkingDays: this.clientForm.get('defaultWorkingDays').value,
       startDate: DateUtils.getDateFromInput(this.clientForm.get('startDate').value),
       endDate: DateUtils.getDateFromInput(this.clientForm.get('endDate').value),
+    });
+  }
+
+  async sendMail(attachment: FileUpload) {
+    const ctx: Map<string, MailContextType> = new Map();
+    ctx.set('Client', this.client.name);
+    ctx.set('Project', this.client.projectName);
+    const ngbModalRef = this.modalService.open(MailFormComponent, {
+      size: 'lg',
+    });
+    ngbModalRef.componentInstance.attachments = [attachment];
+    ngbModalRef.componentInstance.context = ctx;
+    ngbModalRef.componentInstance.to = [this.client.emailAddress];
+    ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
+      ngbModalRef.close();
+      await firstValueFrom(this.mailService.send(mailRequest));
+      this.toastService.showSuccess('Mail will be send');
     });
   }
 

@@ -172,6 +172,10 @@
                       <button class="btn btn-link" *ngIf="isImage(a)" (click)="openImageViewer(a)">
                         <fa-icon [icon]="['fas', 'file-image']" class="text-secondary"></fa-icon>
                       </button>
+
+                      <button class="btn btn-link" (click)="sendMail(a)">
+                        <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>
+                      </button>
                     </div>
                   </div>
                 </li>
