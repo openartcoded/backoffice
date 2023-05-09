@@ -1,7 +1,7 @@
 <ng-container *ngIf="form">
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">
-      {{adminDoc?.title ? 'Edit ' + adminDoc?.title : 'New Document'}}
+      {{adminDoc?.title ? (!formDisabled ? 'Edit ':'') + adminDoc?.title : 'New Document'}}
     </span>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
 
@@ -24,21 +24,42 @@
         <p-chips id="tags" formControlName="tags" separator=","></p-chips>
       </div>
 
-      <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event)"
+      <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event)" [disabled]="formDisabled"
         dropZoneClassName="flat bg-light d-block" [multiple]="false">
         <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
           <button id="dd" class="btn btn-primary me-1" type="button" (click)="openFileSelector()"
-            *ngIf="!document && !adminDoc?.attachment">
+            [disabled]="formDisabled" *ngIf="!document && !adminDoc?.attachment">
             <fa-icon [icon]="['fas','upload']"></fa-icon>
           </button>
-          <a class="btn btn-link" *ngIf="document || adminDoc?.attachment" (click)="openFileSelector()">
+          <button class="btn btn-link" [disabled]="formDisabled" *ngIf="document || adminDoc?.attachment"
+            (click)="openFileSelector()">
             {{document?.name || adminDoc?.attachment?.originalFilename}}
-          </a>
+          </button>
         </ng-template>
       </ngx-file-drop>
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn  btn-primary mt-2"
-          [disabled]="!form.valid || (!document && !adminDoc.attachmentId)">Submit
+      <div class="d-flex justify-content-end  mt-2">
+        <div ngbDropdown *ngIf="adminDoc?.attachment" container="body">
+          <button class="btn btn-outline-secondary me-1" id="dropdownBasic1" ngbDropdownToggle stopPropagation
+            (click)="$event?.preventDefault()">Action</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <ng-container>
+              <button ngbDropdownItem (click)="download(adminDoc.attachment)">
+                <fa-icon [icon]="['fas', 'download']"></fa-icon> Download
+              </button>
+              <button ngbDropdownItem (click)="openPdfViewer(adminDoc.attachment)" *ngIf="isPdf(adminDoc.attachment)">
+                <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon> Open
+              </button>
+              <button ngbDropdownItem (click)="openImageViewer(adminDoc.attachment)"
+                *ngIf="isImage(adminDoc.attachment)">
+                <fa-icon [icon]="['fas', 'file-image']"></fa-icon> Open
+              </button>
+            </ng-container>
+          </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary "
+          [disabled]="!form.valid || (!document && !adminDoc.attachmentId) || formDisabled">Submit
         </button>
       </div>
     </form>

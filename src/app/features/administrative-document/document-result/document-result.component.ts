@@ -22,6 +22,8 @@ import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { ToastService } from '@core/service/toast.service';
 import { MailService } from '@core/service/mail.service';
 import { firstValueFrom } from 'rxjs';
+import { DossierService } from '@core/service/dossier.service';
+import { Dossier } from '@core/models/dossier';
 
 @Component({
   selector: 'app-document-result',
@@ -29,11 +31,10 @@ import { firstValueFrom } from 'rxjs';
   styleUrls: ['./document-result.component.scss'],
 })
 export class DocumentResultComponent implements OnInit, OnDestroy, OnApplicationEvent {
-
   adminDocuments: Page<AdministrativeDocument>;
   pageSize: number = 5;
   searchCriteria: AdministrativeDocumentSearchCriteria;
-
+  activeDossier: Dossier;
   constructor(
     private fileService: FileService,
     private administrativeDocumentService: AdministrativeDocumentService,
@@ -43,12 +44,14 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
     private modalService: NgbModal,
     private toastService: ToastService,
     private mailService: MailService,
+    private dossierService: DossierService,
     private titleService: Title
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.titleService.setTitle('Administrative Documents');
     this.notificationService.subscribe(this);
+    this.dossierService.activeDossier().subscribe((dt) => (this.activeDossier = dt));
     this.search({});
   }
 
@@ -170,5 +173,15 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
       await firstValueFrom(this.mailService.send(mailRequest));
       this.toastService.showSuccess('Mail will be send');
     });
+  }
+
+  addToDossier(document: AdministrativeDocument) {
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.windowRefService.nativeWindow.confirm('Add document to dossier?')) {
+        this.dossierService.addDocumentToDossier(document.id).subscribe((dt) => {
+          this.load();
+        });
+      }
+    }
   }
 }

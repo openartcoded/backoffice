@@ -12,6 +12,7 @@ export interface Dossier {
   feeIds?: string[];
   fees?: Fee[];
   invoiceIds?: string[];
+  documentIds?: string[];
   invoices?: Invoice[];
   closed?: boolean;
   closedDate?: Date;

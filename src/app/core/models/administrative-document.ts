@@ -9,6 +9,8 @@ export interface AdministrativeDocument {
   tags?: string[];
   attachmentId?: string;
   attachment?: FileUpload;
+  locked?: boolean;
+
 }
 
 export interface AdministrativeDocumentSearchCriteria {

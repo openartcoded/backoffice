@@ -179,6 +179,20 @@ export class DossierService {
     );
   }
 
+  addDocumentToDossier(id: string) {
+    return this.http.post<void>(
+      `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/add-document?id=${id}`,
+      {}
+    );
+  }
+
+  removeDocument(id: string): Observable<Dossier> {
+    return this.http.post<Dossier>(
+      `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/remove-document?id=${id}`,
+      {}
+    );
+  }
+
   deleteActiveDossier() {
     return this.http.delete<any>(`${this.configService.getConfig()['BACKEND_URL']}/api/dossier/active-dossier`, {});
   }

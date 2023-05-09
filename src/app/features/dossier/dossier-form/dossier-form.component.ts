@@ -13,6 +13,10 @@ import { DateUtils } from '@core/utils/date-utils';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { BillableClient } from '@core/models/billable-client';
 import { BillableClientService } from '@core/service/billable-client.service';
+import { AdministrativeDocumentService } from '@core/service/administrative-document.service';
+import { AdministrativeDocument } from '@core/models/administrative-document';
+import { DocumentEditorComponent } from '@feature/administrative-document/document-editor/document-editor.component';
+import { FileService } from '@core/service/file.service';
 
 @Component({
   selector: 'app-dossier-form',
@@ -42,6 +46,8 @@ export class DossierFormComponent implements OnInit, OnDestroy {
   feeRemoved: EventEmitter<Fee> = new EventEmitter<Fee>();
   @Output()
   invoiceRemoved: EventEmitter<Invoice> = new EventEmitter<Invoice>();
+  @Output()
+  documentRemoved: EventEmitter<AdministrativeDocument> = new EventEmitter<AdministrativeDocument>();
 
   @Output()
   onDownloadSummary: EventEmitter<Dossier> = new EventEmitter<Dossier>();
@@ -49,14 +55,17 @@ export class DossierFormComponent implements OnInit, OnDestroy {
   dossierForm: UntypedFormGroup;
 
   expenses: Fee[];
+  documents: AdministrativeDocument[];
   filteredExpenses: Fee[];
   clients: BillableClient[];
 
   constructor(
     @Optional() public activeModal: NgbActiveModal,
     private feeService: FeeService,
+    private fileService: FileService,
     private modalService: NgbModal,
     private invoiceService: InvoiceService,
+    private documentService: AdministrativeDocumentService,
     private clientService: BillableClientService,
     private fb: UntypedFormBuilder
   ) { }
@@ -74,6 +83,7 @@ export class DossierFormComponent implements OnInit, OnDestroy {
     await this.loadFees();
     this.clients = await firstValueFrom(this.clientService.findAll());
     await this.loadInvoices();
+    await this.loadDocuments();
     if (this.dossierUpdatedSubscription) {
       this.dossierUpdatedSubscription.unsubscribe();
     }
@@ -101,6 +111,13 @@ export class DossierFormComponent implements OnInit, OnDestroy {
     } else {
       this.expenses = [];
       this.filteredExpenses = [];
+    }
+  }
+  async loadDocuments() {
+    if (this.dossier?.documentIds?.length) {
+      this.documents = await firstValueFrom(this.documentService.findByIds(this.dossier.documentIds));
+    } else {
+      this.documents = [];
     }
   }
 
@@ -231,6 +248,10 @@ export class DossierFormComponent implements OnInit, OnDestroy {
     $event.stopPropagation();
     this.invoiceRemoved.emit(i);
   }
+  removeDocument($event: MouseEvent, a: AdministrativeDocument) {
+    $event.stopPropagation();
+    this.documentRemoved.emit(a);
+  }
 
   private createAdvancePayments(payments: TvaAdvancePayment[]): UntypedFormGroup[] {
     return payments?.map(this.convertAdvancePaymentToForm);
@@ -280,6 +301,13 @@ export class DossierFormComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.invoice = i;
     modalRef.componentInstance.templates = [];
     modalRef.componentInstance.clients = this.clients;
+  }
+
+  async openDocumentDetail(d: AdministrativeDocument) {
+    d.attachment = await firstValueFrom(this.fileService.findById(d.attachmentId));
+    const modalRef = this.modalService.open(DocumentEditorComponent, { size: 'xl' });
+    modalRef.componentInstance.adminDoc = d;
+    modalRef.componentInstance.formDisabled = true;
   }
 
   filterExpense() {

@@ -16,6 +16,7 @@ import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { MailContextType, MailRequest } from '@core/models/mail-request';
 import { firstValueFrom } from 'rxjs';
 import { Invoice } from '@core/models/invoice';
+import { AdministrativeDocument } from '@core/models/administrative-document';
 
 @Component({
   selector: 'app-dossier-table-result',
@@ -135,6 +136,13 @@ export class DossierTableResultComponent implements OnInit {
         dossierUpdatedEmitter.emit(savedDossier);
         //modalRef.componentInstance.loadFees();
         //modalRef.componentInstance.loadInvoices();
+        this.load();
+      });
+    });
+    modalRef.componentInstance.documentRemoved.subscribe((d: AdministrativeDocument) => {
+      this.dossierService.removeDocument(d.id).subscribe((savedDossier: Dossier) => {
+        this.toastService.showSuccess('Document removed');
+        dossierUpdatedEmitter.emit(savedDossier);
         this.load();
       });
     });

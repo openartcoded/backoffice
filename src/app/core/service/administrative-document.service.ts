@@ -29,7 +29,13 @@ export class AdministrativeDocumentService {
       criteria
     );
   }
-
+  findByIds(ids: string[]): Observable<AdministrativeDocument[]> {
+    const params = new URLSearchParams();
+    for (const id of ids) {
+      params.append('id', id);
+    }
+    return this.http.post<AdministrativeDocument[]>(`${this.baseUrl}/find-by-ids?${params.toString()}`, {});
+  }
   save(submitForm: AdministrativeDocumentForm): Observable<any> {
     let formData = new FormData();
     formData.append('document', submitForm.document);

@@ -33,7 +33,7 @@
                   <button ngbDropdownItem (click)="addOrEdit(ad)">
                     <fa-icon [icon]="['fas', 'edit']"></fa-icon> Edit
                   </button>
-                  <button (click)="delete(ad)" ngbDropdownItem>
+                  <button (click)="delete(ad)" [disabled]="ad.locked" ngbDropdownItem>
                     <fa-icon [icon]="['fas', 'trash']"></fa-icon> Delete
                   </button>
                   <ng-container *ngIf="ad.attachment">
@@ -48,6 +48,9 @@
                     </button>
                     <button ngbDropdownItem (click)="sendMail(ad)" *ngIf="ad.attachment">
                       <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>&nbsp;Send
+                    </button>
+                    <button *ngIf="activeDossier && !ad.locked" ngbDropdownItem (click)="addToDossier(ad)">
+                      <fa-icon [icon]="['fas', 'cog']"></fa-icon>&nbsp;Add to dossier
                     </button>
                   </ng-container>
                 </div>
