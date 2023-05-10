@@ -2,9 +2,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { InfoService } from '@core/service/info.service';
 import { WindowRefService } from '@core/service/window.service';
-import { firstValueFrom, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -21,8 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private breakPointObserver: BreakpointObserver,
     @Inject(PLATFORM_ID) private platformId: any,
     private windowService: WindowRefService,
-    private infoService: InfoService
-  ) {}
+  ) { }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
@@ -42,7 +40,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
     }
 
-    const backendInfo = await firstValueFrom(this.infoService.getBuildInfo());
-    this.titleService.setTitle('BackOffice - ' + backendInfo.build.version);
+    this.titleService.setTitle('Artcoded BackOffice');
   }
 }
