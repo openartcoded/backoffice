@@ -112,7 +112,7 @@ registerLocaleData(localeDe, 'de');
     LayoutModule,
     KeycloakAngularModule,
     HighlightModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
+    ServiceWorkerModule.register('safety-worker.js', { // disable ngsw worker
       enabled: environment.production,
     }),
   ],
