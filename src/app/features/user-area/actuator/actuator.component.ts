@@ -2,23 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { BackendInfo } from '@core/models/backend.info';
 import { HealthIndicator } from '@core/models/health.indicator';
 import { InfoService } from '@core/service/info.service';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
+type Indicators = { buildInfo: BackendInfo, healthIndicator: HealthIndicator };
 @Component({
   selector: 'app-actuator',
   templateUrl: './actuator.component.html',
   styleUrls: ['./actuator.component.scss'],
 })
 export class ActuatorComponent implements OnInit {
-  buildInfo$: Observable<BackendInfo>;
-  healthIndicator$: Observable<HealthIndicator>;
+  indicators$: Observable<Indicators>;
 
   // logs$: Observable<any>;
-  constructor(private infoService: InfoService) {}
+  constructor(private infoService: InfoService) { }
 
   ngOnInit(): void {
-    this.buildInfo$ = this.infoService.getBuildInfo();
-    this.healthIndicator$ = this.infoService.getHealth();
+    this.indicators$ = combineLatest([this.infoService.getBuildInfo(), this.infoService.getHealth()])
+      .pipe(map(([buildInfo, healthIndicator]) => ({ buildInfo, healthIndicator })));
     // this.logs$ = this.infoService.getLogs();
   }
 }
