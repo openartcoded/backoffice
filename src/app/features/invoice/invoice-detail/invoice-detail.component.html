@@ -1,6 +1,6 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
-    <span class="modal-title text-break">Invoice <{{invoice.invoiceNumber ? invoice.invoiceNumber : 'New' }}>
+    <span class="modal-title text-break">Invoice <{{(invoice.newInvoiceNumber || invoice.invoiceNumber)|| 'New' }}>
         <ng-container *ngIf="invoice.imported">
           <ng-template #infoFrontend>
             Imported on {{invoice.importedDate | date:'dd/MM/yyyy HH:mm'}}
@@ -25,10 +25,17 @@
           <ng-template ngbNavContent>
             <div class="mt-2">
               <div class="mb-1 row">
-                <label class="col-sm-2 col-form-label" for="invoiceNumber">Invoice number</label>
+                <label class="col-sm-2 col-form-label" for="newInvoiceNumber">Invoice number</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="newInvoiceNumber" formControlName="newInvoiceNumber"
+                    placeholder="Invoice number">
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-sm-2 col-form-label" for="invoiceNumber">Invoice reference</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="invoiceNumber" formControlName="invoiceNumber"
-                    placeholder="Invoice number" required="required">
+                    placeholder="Invoice reference" required="required">
                 </div>
               </div>
               <div class="mb-1 row">

@@ -54,7 +54,8 @@ export class InvoiceDetailComponent implements OnInit {
   async sendMail() {
     const upload = await firstValueFrom(this.fileService.findById(this.invoice.invoiceUploadId));
     const context: Map<string, MailContextType> = new Map();
-    context.set('Invoice N°', this.invoice.invoiceNumber);
+    context.set('Invoice Ref', this.invoice.invoiceNumber);
+    context.set('Invoice N°', this.invoice.newInvoiceNumber);
     context.set('Client', this.invoice.billTo?.clientName);
     context.set('Period', this.invoice.invoiceTable[0]?.period);
 
@@ -62,7 +63,7 @@ export class InvoiceDetailComponent implements OnInit {
       size: 'lg',
     });
     ngbModalRef.componentInstance.context = context;
-    ngbModalRef.componentInstance.defaultSubject = `Invoice ${this.invoice.invoiceNumber}`;
+    ngbModalRef.componentInstance.defaultSubject = `Invoice ${this.invoice.newInvoiceNumber || this.invoice.invoiceNumber}`;
     ngbModalRef.componentInstance.to = [this.invoice.billTo?.emailAddress];
 
     ngbModalRef.componentInstance.attachments = [upload];
@@ -90,6 +91,11 @@ export class InvoiceDetailComponent implements OnInit {
         { value: this.invoice.invoiceNumber, disabled: true /* always disabled, coming from backend */ },
         [Validators.maxLength(9)]
       ),
+      newInvoiceNumber: new UntypedFormControl(
+        { value: this.invoice.newInvoiceNumber, disabled: true /* always disabled, coming from backend */ },
+        [Validators.maxLength(9)]
+      ),
+
       freemarkerTemplateId: new UntypedFormControl(
         {
           value: this.templates.some((templ) => templ.id === this.invoice.freemarkerTemplateId)

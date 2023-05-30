@@ -173,7 +173,8 @@
               <li class="list-group-item" *ngFor="let i of dossier.invoices">
                 <div class="d-flex justify-content-between">
                   <div>
-                    <a class="btn btn-link pe-0 ps-0" (click)="openInvoiceDetail(i)">{{ i.invoiceNumber }}</a>
+                    <a class="btn btn-link pe-0 ps-0" (click)="openInvoiceDetail(i)">{{ i.newInvoiceNumber ||
+                      i.invoiceNumber }}</a>
                     <span class="text-danger">({{ i.billTo?.clientName + ' - ' }}{{ i.subTotal | currency : '€'
                       }})</span>
                   </div>

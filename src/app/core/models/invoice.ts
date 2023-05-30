@@ -19,7 +19,9 @@ export interface InvoicePerYearSummary {
 export interface Invoice {
   id?: string;
   timesheetId?: string;
+  seqInvoiceNumber?: number;
   invoiceNumber?: string;
+  newInvoiceNumber?: string;
   maxDaysToPay?: number;
   dateOfInvoice?: Date;
   dateCreation?: Date;

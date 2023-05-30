@@ -80,7 +80,8 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   async sendMail(invoice: Invoice) {
     const upload = await firstValueFrom(this.fileService.findById(invoice.invoiceUploadId));
     const context: Map<string, MailContextType> = new Map();
-    context.set('Invoice N°', invoice.invoiceNumber);
+    context.set('Invoice Ref', invoice.invoiceNumber);
+    context.set('Invoice N°', invoice.newInvoiceNumber);
     context.set('Client', invoice.billTo?.clientName);
     context.set('Period', invoice.invoiceTable[0]?.period);
 
@@ -89,7 +90,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
     });
     ngbModalRef.componentInstance.attachments = [upload];
     ngbModalRef.componentInstance.context = context;
-    ngbModalRef.componentInstance.defaultSubject = `Invoice ${invoice.invoiceNumber}`;
+    ngbModalRef.componentInstance.defaultSubject = `Invoice ${invoice.newInvoiceNumber || invoice.invoiceNumber}`;
     ngbModalRef.componentInstance.to = [invoice.billTo?.emailAddress];
     ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
       ngbModalRef.close();

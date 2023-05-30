@@ -10,7 +10,7 @@
       <fa-icon icon="exclamation"></fa-icon>&nbsp;Actions
     </button>
     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-      <button [disabled]="archived" ngbDropdownItem (click)="newInvoice()">
+      <button [disabled]="archived || invoices?.content?.length > 0" ngbDropdownItem (click)="newInvoice()">
         <fa-icon [icon]="['fas', 'plus']"></fa-icon>&nbsp;New
       </button>
       <button (click)="load()" [disabled]="archived" ngbDropdownItem>
@@ -90,7 +90,7 @@
         <tr *ngFor="let invoice of invoices.content" role="button" (click)="openModal(invoice)">
           <td class="fit d-md-table-cell">
             <div class="d-flex justify-content-between">
-              <span>{{ invoice.invoiceNumber }}</span>
+              <span>{{ invoice.newInvoiceNumber || invoice.invoiceNumber }}</span>
               <ng-container *ngIf="invoice.imported">
                 <ng-template #infoFrontend>
                   Imported on {{ invoice.importedDate | date : 'dd/MM/yyyy HH:mm' }}
@@ -135,7 +135,8 @@
                 <button ngbDropdownItem (click)="newInvoiceFromTemplate(invoice)">
                   <fa-icon [icon]="['fas', 'plus']"></fa-icon>&nbsp;From Template
                 </button>
-                <button *ngIf="!invoice.archived" ngbDropdownItem (click)="delete(invoice)">
+                <button *ngIf="!invoice.archived && invoices?.content?.length == 1" ngbDropdownItem
+                  (click)="delete(invoice)">
                   <fa-icon [icon]="['fas', 'trash']"></fa-icon>&nbsp;Delete
                 </button>
                 <button *ngIf="invoice.logicalDelete" ngbDropdownItem (click)="restore(invoice)">
@@ -150,7 +151,7 @@
           </td>
         </tr>
         <tr *ngIf="!invoices.content?.length">
-          <td colspan="8">No Content</td>
+          <td colspan="9">No Content</td>
         </tr>
       </tbody>
     </table>
