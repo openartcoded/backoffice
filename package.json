@@ -1,6 +1,6 @@
 {
   "name": "artcoded-backoffice",
-  "version": "2023.4.4",
+  "version": "2023.5.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
