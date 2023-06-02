@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from './core/service/auth.service';
-import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { ToggleSidebarService } from '@core/service/toggle-sidebar.service';
@@ -23,8 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private breakPointObserver: BreakpointObserver,
     private titleService: Title,
     private metaService: Meta,
-    private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.toggleCheck();
@@ -36,7 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.updateMetas();
   }
 
-  expand($event): void {
+  expand(_$event: any): void {
     this.toggle = this.toggleSidebarService.expand(this.toggle);
   }
 
