@@ -82,8 +82,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let period of periods" [class.bg-info]="isToday(period)" [class.bg-light]="isNotWorkday(period)"
-              role="button" (click)="openPeriod(period)">
+            <tr *ngFor="let period of periods" [class.table-info]="isToday(period)"
+              [class.table-light]="isNotWorkday(period)" role="button" (click)="openPeriod(period)">
               <td>
                 <span class="me-1">
                   <fa-icon [icon]="['fas', 'circle']"
