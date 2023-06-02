@@ -1,5 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_ID, APP_INITIALIZER, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -107,7 +106,6 @@ registerLocaleData(localeDe, 'de');
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     LayoutModule,
     KeycloakAngularModule,
@@ -117,6 +115,7 @@ registerLocaleData(localeDe, 'de');
     }),
   ],
   providers: [
+    { provide: APP_ID, useValue: 'serverApp' },
     ConfigInitService,
     {
       provide: APP_INITIALIZER,
