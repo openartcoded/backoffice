@@ -39,7 +39,7 @@
     "@types/validator": "^13.7.17",
     "ace-builds": "^1.22.0",
     "angular-plotly.js": "^5.1.0",
-    "bootstrap": "^5.2.3",
+    "bootstrap": "^5.3.0",
     "html2canvas": "^1.4.1",
     "jsonpath-plus": "6.0.1",
     "keycloak-angular": "^14.0.0",
