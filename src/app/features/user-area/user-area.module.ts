@@ -24,6 +24,7 @@ import { FeeSummaryComponent } from './fee-summary/fee-summary.component';
 import { ScriptComponent } from './script/script.component';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { NextTasksComponent } from './next-tasks/next-tasks.component';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -39,6 +40,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     ErrorComponent,
     CompanyStampComponent,
     ScriptComponent,
+    NextTasksComponent,
   ],
   imports: [
     CommonModule,

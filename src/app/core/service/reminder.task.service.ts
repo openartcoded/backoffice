@@ -19,6 +19,9 @@ export class ReminderTaskService {
     return this.http.get<ReminderTask[]>(this.basePath + '/find-all');
   }
 
+  public findNextTenTasks(): Observable<ReminderTask[]> {
+    return this.http.get<ReminderTask[]>(this.basePath + '/find-next-ten-tasks');
+  }
   public allowedActions(): Observable<ActionMetadata[]> {
     return this.http.get<ActionMetadata[]>(this.basePath + '/allowed-actions');
   }

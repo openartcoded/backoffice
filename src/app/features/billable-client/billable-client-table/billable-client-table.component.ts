@@ -48,9 +48,7 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
   load() {
     this.billableClientService.findAll().subscribe(
       (clients) =>
-      (this.clients = clients.sort((a, b) => {
-        return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
-      }))
+        (this.clients = clients)
     );
   }
 

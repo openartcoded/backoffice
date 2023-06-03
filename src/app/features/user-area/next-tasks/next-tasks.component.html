@@ -1,0 +1,13 @@
+<ng-container *ngIf="reminderTasks$ | async as reminderTasks">
+  <div class="d-flex justify-content-between">
+    <div class="card border-primary me-1" *ngFor="let task of reminderTasks">
+      <div class="card-body">
+        <small class="card-title text-muted">{{
+          task.nextDate | date: 'dd/MM @ HH:mm'
+          }}</small><br>
+        <strong>{{task.customActionName || task.title}}</strong>
+      </div>
+    </div>
+
+  </div>
+</ng-container>

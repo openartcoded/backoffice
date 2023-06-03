@@ -1,23 +1,29 @@
-<ng-container *ngIf="loaded">
-  <div class="d-lg-flex justify-content-between mt-3">
-    <div class="col col-lg-2 me-2">
-      <app-company-stamp></app-company-stamp>
-      <app-script></app-script>
-      <app-actuator></app-actuator>
+<div class="mt-2">
+  <ng-container *ngIf="loaded">
+    <div clas="d-block">
+      <app-next-tasks />
     </div>
+    <div class="d-lg-flex justify-content-between mt-1">
 
-    <div class="col col-lg-4 me-2">
-      <app-invoice-summary></app-invoice-summary>
-    </div>
-    <div class="col col-lg-3 me-2">
-      <app-dossier-summary></app-dossier-summary>
-      <app-memo-date></app-memo-date>
-    </div>
+      <div class="col col-lg-2 me-2">
+        <app-company-stamp></app-company-stamp>
+        <app-script></app-script>
+        <app-actuator></app-actuator>
+      </div>
 
-    <div class="col">
-      <app-fee-summary></app-fee-summary>
-      <app-todo-list></app-todo-list>
+      <div class="col col-lg-4 me-2">
+        <app-invoice-summary></app-invoice-summary>
+      </div>
+      <div class="col col-lg-3 me-2">
+        <app-dossier-summary></app-dossier-summary>
+        <app-memo-date></app-memo-date>
+      </div>
+
+      <div class="col">
+        <app-fee-summary></app-fee-summary>
+        <app-todo-list></app-todo-list>
+      </div>
     </div>
-  </div>
-</ng-container>
-<ng-container *ngIf="!loaded"> loading... </ng-container>
+  </ng-container>
+  <ng-container *ngIf="!loaded"> loading... </ng-container>
+</div>
