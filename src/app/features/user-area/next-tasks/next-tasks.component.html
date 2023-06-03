@@ -1,5 +1,5 @@
 <ng-container *ngIf="reminderTasks$ | async as reminderTasks">
-  <div class="d-none d-lg-flex justify-content-between">
+  <div class="d-none d-lg-flex justify-content-between" *ngIf="reminderTasks.length">
     <div class="card border-primary me-1" *ngFor="let task of reminderTasks">
       <div class="card-body">
         <small class="card-title text-muted">{{
@@ -8,6 +8,5 @@
         <strong>{{task.customActionName || task.title}}</strong>
       </div>
     </div>
-
   </div>
 </ng-container>
