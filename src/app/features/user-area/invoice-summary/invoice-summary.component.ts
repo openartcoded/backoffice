@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { InvoiceService } from '@core/service/invoice.service';
 import { Observable } from 'rxjs';
-import { InvoiceSummary, Invoice } from '@core/models/invoice';
+import { InvoiceSummary, BackendInvoiceSummary } from '@core/models/invoice';
 import { map } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { DateUtils } from '@core/utils/date-utils';
@@ -59,7 +59,7 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
       callback(l);
       return l;
     };
-    this.summary$ = this.invoiceService.findAll(true, false).pipe(
+    this.summary$ = this.invoiceService.findAllSummaries().pipe(
       map((invoices) => {
         const invoicesOrderedByDateAsc = invoices.sort(
           (a, b) =>
@@ -121,29 +121,24 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
     return isPlatformBrowser(this.platformId);
   }
 
-  findPeriod(invoice) {
-    return invoice?.invoiceTable?.find((t) => t.period?.length)?.period;
-  }
-
-  findAmount(invoice) {
-    const it = invoice.invoiceTable?.find((i) => i.amount > 0);
-    if (it?.amount) {
-      switch (it.amountType) {
+  findAmount(invoice: BackendInvoiceSummary) {
+    if (invoice?.amount) {
+      switch (invoice.amountType) {
         case 'HOURS':
-          return it.amount / it.hoursPerDay;
+          return invoice.amount / invoice.hoursPerDay;
         default:
-          return it.amount;
+          return invoice.amount;
       }
     }
     return 0;
   }
 
-  generateGraphData(invoicesOrderedByDateAsc: Invoice[]): GraphData[] {
+  generateGraphData(invoicesOrderedByDateAsc: BackendInvoiceSummary[]): GraphData[] {
     const graphInvoices = invoicesOrderedByDateAsc
       .map((invoice) => {
         return {
           dateOfInvoice: invoice.dateOfInvoice,
-          period: this.findPeriod(invoice),
+          period: invoice.period,
           subTotal: invoice.subTotal,
           amount: this.findAmount(invoice),
         };

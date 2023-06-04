@@ -1,4 +1,4 @@
-import { APP_ID, APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_ID, APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -116,6 +116,7 @@ registerLocaleData(localeDe, 'de');
   ],
   providers: [
     { provide: APP_ID, useValue: 'serverApp' },
+    { provide: LOCALE_ID, useValue: 'de' },
     ConfigInitService,
     {
       provide: APP_INITIALIZER,

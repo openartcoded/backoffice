@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Invoice, InvoiceFreemarkerTemplate } from '@core/models/invoice';
+import { BackendInvoiceSummary, Invoice, InvoiceFreemarkerTemplate } from '@core/models/invoice';
 import { Direction, Page, SortCriteria } from '@core/models/page';
 import { ConfigInitService } from '@init/config-init.service';
 
@@ -30,8 +30,8 @@ export class InvoiceService {
     );
   }
 
-  findAll(archived: boolean = false, logicalDelete: boolean = false): Observable<Invoice[]> {
-    return this.http.post<Invoice[]>(`${this.basePath}/find-all?archived=${archived}&logical=${logicalDelete}`, {});
+  findAllSummaries(): Observable<BackendInvoiceSummary[]> {
+    return this.http.post<Invoice[]>(`${this.basePath}/find-all-summaries`, {});
   }
 
   newInvoiceFromTemplate(invoice: Invoice): Observable<Invoice> {

@@ -16,6 +16,15 @@ export interface InvoicePerYearSummary {
   numberOfInvoices: number;
 }
 
+export interface BackendInvoiceSummary {
+  period?: string;
+  amount?: number;
+  hoursPerDay?: number;
+  amountType?: string;
+  subTotal?: number;
+  dateOfInvoice?: Date;
+}
+
 export interface Invoice {
   id?: string;
   timesheetId?: string;
