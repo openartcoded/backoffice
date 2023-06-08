@@ -40,9 +40,10 @@ export class UserMenuComponent implements OnInit {
     const personalInfo: PersonalInfo = await firstValueFrom(this.personalInfoService.get());
     const modal = this.modalService.open(EditPersonalInfoComponent, {
       size: 'lg',
+      backdrop: 'static'
     });
     modal.componentInstance.currentPersonalInfo = personalInfo;
-    modal.componentInstance.onSavePersonalInfo.subscribe(async (formData) => {
+    modal.componentInstance.onSavePersonalInfo.subscribe(async (formData: any) => {
       //modal.close();
       await firstValueFrom(this.personalInfoService.save(formData));
       this.toastService.showSuccess('Personal Information updated');

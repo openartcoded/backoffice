@@ -1,11 +1,9 @@
 <app-title title="Uploads" [uppercase]="true"></app-title>
-<app-file-upload-search-form
-  [searchCriteria]="searchCriteria"
-  (formSubmitted)="search($event)"
-></app-file-upload-search-form>
+<app-file-upload-search-form [searchCriteria]="searchCriteria"
+  (formSubmitted)="search($event)"></app-file-upload-search-form>
 <ng-container *ngIf="fileUploads">
   <div class="d-flex justify-content-end">
-   <strong>Total: {{fileUploads.totalElements}}</strong>
+    <strong>Total: {{fileUploads.totalElements}}</strong>
   </div>
   <div class="table-responsive">
     <table class="table table-bordered">
@@ -15,6 +13,7 @@
           <th>name</th>
           <th class="d-md-table-cell d-none">correlationId</th>
           <th class="fit d-md-table-cell d-none">public</th>
+          <th class="fit d-md-table-cell d-none">size</th>
           <th class="fit">actions</th>
         </tr>
       </thead>
@@ -25,6 +24,7 @@
             <td class="text-break">{{ upl?.originalFilename }}</td>
             <td class="text-break d-md-table-cell d-none">{{ upl?.correlationId }}</td>
             <td class="fit d-md-table-cell d-none text-break">{{ upl?.publicResource ? 'Yes' : 'No' }}</td>
+            <td class="fit d-md-table-cell d-none text-break">{{ upl?.size | bytesToHuman }}</td>
             <td class="text-center fit">
               <div ngbDropdown class="d-inline-block" container="body">
                 <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle></button>
@@ -33,9 +33,9 @@
                     <fa-icon [icon]="['fas', 'download']"></fa-icon>
                     Download
                   </button>
-                  <button (click)="delete(upl)" ngbDropdownItem>
+                  <button (click)="delete(upl)" ngbDropdownItem disabled>
                     <fa-icon [icon]="['fas', 'trash']"></fa-icon>
-                    Delete
+                    Delete (disabled)
                   </button>
                   <button (click)="openPdfViewer(upl)" *ngIf="isPdf(upl)" ngbDropdownItem>
                     <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon>
@@ -54,14 +54,8 @@
     </table>
   </div>
   <div class="d-lg-flex justify-content-lg-between mb-2">
-    <ngb-pagination
-      *ngIf="fileUploads.totalPages > 1"
-      [page]="pageNumber"
-      [pageSize]="fileUploads.size"
-      [maxSize]="5"
-      [collectionSize]="fileUploads.totalElements"
-      (pageChange)="load($event)"
-    >
+    <ngb-pagination *ngIf="fileUploads.totalPages > 1" [page]="pageNumber" [pageSize]="fileUploads.size" [maxSize]="5"
+      [collectionSize]="fileUploads.totalElements" (pageChange)="load($event)">
     </ngb-pagination>
   </div>
 </ng-container>

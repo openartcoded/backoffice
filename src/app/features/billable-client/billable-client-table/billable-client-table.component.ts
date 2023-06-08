@@ -55,6 +55,7 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
   async addOrEdit(client?: BillableClient) {
     this.currentNgbModalRef = this.modalService.open(BillableClientDetailComponent, {
       size: 'xl',
+      backdrop: 'static'
     });
     let clientToUpdate =
       client ||

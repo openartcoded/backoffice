@@ -29,7 +29,7 @@ export class TasksTableComponent implements OnInit, OnApplicationEvent {
     private notificationService: NotificationService,
     private titleService: Title,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.notificationService.subscribe(this);
@@ -41,6 +41,7 @@ export class TasksTableComponent implements OnInit, OnApplicationEvent {
     const modal = this.modalService.open(TaskDetailComponent, {
       size: 'xl',
       scrollable: true,
+      backdrop: 'static'
     });
     modal.componentInstance.task = task;
     modal.componentInstance.allowedActions$ = this.reminderTaskService.allowedActions();

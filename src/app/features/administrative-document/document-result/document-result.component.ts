@@ -83,8 +83,11 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
       .search(this.searchCriteria, event, this.pageSize)
       .pipe(
         tap((page) => {
-          page.content.forEach((ad) => {
-            this.fileService.findById(ad.attachmentId).subscribe((at) => (ad.attachment = at));
+          const attachmentIds = page.content?.map(d => d.attachmentId);
+          this.fileService.findByIds(attachmentIds).subscribe(attachments => {
+            attachments.forEach(attachment => {
+              page.content.filter(d => d.attachmentId === attachment.id).forEach(d => d.attachment = attachment);
+            });
           });
         })
       )
@@ -127,7 +130,7 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
   }
 
   addOrEdit(ad: AdministrativeDocument = { title: '' }) {
-    let ref = this.modalService.open(DocumentEditorComponent, { size: 'xl' });
+    let ref = this.modalService.open(DocumentEditorComponent, { size: 'xl', backdrop: 'static' });
     ref.componentInstance.adminDoc = ad;
     ref.componentInstance.formSubmitted.subscribe((form) => {
       ref.close();

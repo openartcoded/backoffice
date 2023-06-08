@@ -93,6 +93,7 @@ export class DossierTableResultComponent implements OnInit {
     const modalRef = this.modalService.open(DossierFormComponent, {
       size: 'xl',
       scrollable: true,
+      backdrop: 'static'
     });
     modalRef.componentInstance.dossier = doss;
     modalRef.componentInstance.dossierUpdatedEmitter = dossierUpdatedEmitter;
