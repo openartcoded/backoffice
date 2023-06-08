@@ -27,12 +27,13 @@
       <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event)" [disabled]="formDisabled"
         dropZoneClassName="flat bg-light d-block" [multiple]="false">
         <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-          <button id="dd" class="btn btn-primary me-1" type="button" (click)="openFileSelector()"
-            [disabled]="formDisabled" *ngIf="!document && !adminDoc?.attachment">
+          <button id="dd" class="btn btn-primary me-1" type="button"
+            (click)="$event.preventDefault();openFileSelector()" [disabled]="formDisabled"
+            *ngIf="!document && !adminDoc?.attachment">
             <fa-icon [icon]="['fas','upload']"></fa-icon>
           </button>
           <button class="btn btn-link" [disabled]="formDisabled" *ngIf="document || adminDoc?.attachment"
-            (click)="openFileSelector()">
+            (click)="$event.preventDefault();openFileSelector()">
             {{document?.name || adminDoc?.attachment?.originalFilename}}
           </button>
         </ng-template>

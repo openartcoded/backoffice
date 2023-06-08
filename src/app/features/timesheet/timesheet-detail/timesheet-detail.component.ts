@@ -76,7 +76,7 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     return PeriodType[PeriodType.WORKING_DAY] === period.periodType?.toString();
   }
   openPeriod(period: TimesheetPeriod) {
-    const ref = this.modalService.open(PeriodFormComponent, { size: 'lg' });
+    const ref = this.modalService.open(PeriodFormComponent, { size: 'lg', backdrop: 'static' });
     ref.componentInstance.period = period;
     ref.componentInstance.timesheetId = this.timesheet.id;
     ref.componentInstance.timesheetClosed = this.timesheet.closed;

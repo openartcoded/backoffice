@@ -89,7 +89,7 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     }
   }
 
-  toggleAllRows(toggle, fees: Fee[]) {
+  toggleAllRows(toggle: any, fees: Fee[]) {
     if (toggle?.target?.checked) {
       this.selectedRows = [...this.selectedRows, ...fees];
     } else {
@@ -133,9 +133,10 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     const modalRef = this.modalService.open(FeeDetailComponent, {
       size: 'xl',
       scrollable: true,
+      backdrop: 'static'
     });
     modalRef.componentInstance.fee = f;
-    modalRef.componentInstance.feeUpdated.subscribe((_f) => {
+    modalRef.componentInstance.feeUpdated.subscribe((_f: any) => {
       this.load();
     });
   }
@@ -184,9 +185,9 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
       size: 'lg',
     });
     //manualFormSubmitted
-    modalRef.componentInstance.manualFormSubmitted.subscribe((form) => {
+    modalRef.componentInstance.manualFormSubmitted.subscribe((form: any) => {
       modalRef.close();
-      this.feeService.manualSubmit(form).subscribe((fee) => {
+      this.feeService.manualSubmit(form).subscribe((_fee) => {
         this.selectedRows = [];
         this.load();
       });
