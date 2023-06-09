@@ -76,7 +76,7 @@ export class DossierTableResultComponent implements OnInit {
       size: 'sm',
       scrollable: false,
     });
-    modalRef.componentInstance.onUpload.subscribe((file) => {
+    modalRef.componentInstance.onUpload.subscribe((file: any) => {
       this.dossierService.import(file).subscribe();
       this.toastService.showSuccess('Dossier(s) will be imported.');
       modalRef.close();
@@ -95,7 +95,9 @@ export class DossierTableResultComponent implements OnInit {
       scrollable: true,
       backdrop: 'static'
     });
+
     modalRef.componentInstance.dossier = doss;
+    modalRef.componentInstance.size$ = this.dossierService.size(doss.id);
     modalRef.componentInstance.dossierUpdatedEmitter = dossierUpdatedEmitter;
     modalRef.componentInstance.labels = this.labels;
     modalRef.componentInstance.recallForModification = recallForModification;

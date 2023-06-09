@@ -16,8 +16,8 @@
       <thead>
         <tr>
           <th>title</th>
-          <th>creationDate</th>
-          <th>size</th>
+          <th class="fit d-md-table-cell d-none text-break">creationDate</th>
+          <th class="fit d-md-table-cell d-none text-break">size</th>
           <th class="fit">actions</th>
         </tr>
       </thead>
@@ -25,8 +25,8 @@
         <ng-container *ngFor="let ad of adminDocuments.content">
           <tr role="button" (click)="openRow(ad)">
             <td class="text-break">{{ ad.title }}</td>
-            <td class="text-break">{{ ad.dateCreation | date: 'dd/MM/yyyy' }}</td>
-            <td class="text-break">{{ad.attachment?.size | bytesToHuman}}</td>
+            <td class="fit d-md-table-cell d-none text-break">{{ ad.dateCreation | date: 'dd/MM/yyyy' }}</td>
+            <td class="fit d-md-table-cell d-none text-break">{{ad.attachment?.size | bytesToHuman}}</td>
             <td class="text-center fit">
               <div ngbDropdown class="d-inline-block" container="body">
                 <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle

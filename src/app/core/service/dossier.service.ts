@@ -49,6 +49,13 @@ export class DossierService {
     );
   }
 
+  size(id: string): Observable<number> {
+    return this.http.post<number>(
+      `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/size?id=${id}`,
+      {}
+    );
+  }
+
   fromPrevious(): Observable<Dossier> {
     return this.http.post<Dossier>(
       `${this.configService.getConfig()['BACKEND_URL']}/api/dossier/new-from-previous`,

@@ -10,7 +10,7 @@ import { InvoiceService } from '@core/service/invoice.service';
 import { FeeDetailComponent } from '@feature/fee/fee-detail/fee-detail.component';
 import { InvoiceDetailComponent } from '@feature/invoice/invoice-detail/invoice-detail.component';
 import { DateUtils } from '@core/utils/date-utils';
-import { firstValueFrom, Subscription } from 'rxjs';
+import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { BillableClient } from '@core/models/billable-client';
 import { BillableClientService } from '@core/service/billable-client.service';
 import { AdministrativeDocumentService } from '@core/service/administrative-document.service';
@@ -25,6 +25,9 @@ import { FileService } from '@core/service/file.service';
 })
 export class DossierFormComponent implements OnInit, OnDestroy {
   dossierUpdatedSubscription: Subscription;
+  @Input()
+  size$: Observable<number>;
+
   @Input()
   dossierUpdatedEmitter: EventEmitter<Dossier>;
   @Input()
@@ -80,8 +83,8 @@ export class DossierFormComponent implements OnInit, OnDestroy {
 
   async load() {
     this.dossierForm = this.createFormGroup();
-    await this.loadFees();
     this.clients = await firstValueFrom(this.clientService.findAll());
+    await this.loadFees();
     await this.loadInvoices();
     await this.loadDocuments();
     if (this.dossierUpdatedSubscription) {
