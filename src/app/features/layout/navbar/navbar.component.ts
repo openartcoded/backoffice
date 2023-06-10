@@ -10,6 +10,8 @@ import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { environment } from '@env/environment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CacheComponent } from '../cache/cache.component';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -29,13 +31,23 @@ export class NavbarComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document,
     private configInitService: ConfigInitService,
     private settingsService: SettingsService,
+    private modalService: NgbModal,
     private router: Router,
     private readonly updates: SwUpdate,
     @Inject(PLATFORM_ID) private platformId: any
-  ) {}
+  ) { }
 
   ngOnDestroy(): void {
     this.unsubscribe();
+  }
+  reload() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.document.location.reload();
+    }
+  }
+
+  openCacheModal() {
+    this.modalService.open(CacheComponent, { size: "sm" });
   }
 
   refreshPwa() {

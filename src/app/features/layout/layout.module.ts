@@ -24,6 +24,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
 import { AutosizeModule } from 'ngx-autosize';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { ToastsContainer } from './toasts/toasts-container';
+import { CacheComponent } from './cache/cache.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ToastsContainer } from './toasts/toasts-container';
     AppSettingsComponent,
     ToastsContainer,
     UserMenuComponent,
+    CacheComponent,
   ],
   exports: [NavbarComponent, SidebarComponent, ToastsContainer],
   imports: [

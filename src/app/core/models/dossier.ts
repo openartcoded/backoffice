@@ -30,7 +30,8 @@ export interface TvaAdvancePayment {
 }
 
 export interface DossierSummary {
-  dossier?: Dossier;
+  // dossier?: Dossier;
+  closedDate: Date;
   name?: string;
   totalExpenses?: number;
   computedTotalExpensesPerTag?: Map<string, number>;

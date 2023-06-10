@@ -1,0 +1,17 @@
+<ng-container *ngIf="cacheNames$ | async as cacheNames">
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">Clear Cache</span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body" *ngIf="form">
+    <form [formGroup]="form" (ngSubmit)="clear()">
+      <select aria-label="Cache" class="form-select mb-2" name="cache" id="cache" formControlName="cache">
+        <option [ngValue]="null">--Select--</option>
+        <option *ngFor="let c of cacheNames" [ngValue]="c">{{c}}</option>
+      </select>
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+      </div>
+    </form>
+  </div>
+</ng-container>

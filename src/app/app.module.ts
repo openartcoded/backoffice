@@ -90,6 +90,7 @@ import {
   faArrows,
   faArrowsSplitUpAndLeft,
   faArrowsUpDown,
+  faBattery,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
@@ -144,6 +145,8 @@ export class AppModule {
     library.addIcons(
       faEdit,
       faVcard,
+      faBattery,
+      faDatabase,
       faAsterisk,
       faUser,
       faKey,

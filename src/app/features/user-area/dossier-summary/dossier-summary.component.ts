@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { DossierSummary } from '@core/models/dossier';
 import { DossierService } from '@core/service/dossier.service';
+import { DateUtils } from '@core/utils/date-utils';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -28,8 +29,10 @@ export class DossierSummaryComponent implements OnInit, OnDestroy {
   }
 
   loadGraph(summaries: DossierSummary[]) {
+
     const orderedSummaries = summaries.sort(
-      (s1, s2) => new Date(s1.dossier?.closedDate).getTime() - new Date(s2.dossier?.closedDate).getTime()
+
+      (s1, s2) => new Date(s1.closedDate).getTime() - new Date(s2.closedDate).getTime()
     );
     const config = {
       responsive: true,

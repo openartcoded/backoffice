@@ -28,10 +28,14 @@
     </select>
   </div>
   <div class="d-lg-inline me-1">
-    <button (click)="refreshPwa()" class="btn btn-link text-white">
+    <a class="btn btn-link text-white no-focus" (click)="openCacheModal()">
+      <fa-icon [icon]="['fas','database']"></fa-icon>
+    </a>
+    <button (click)="reload()" class="btn btn-link text-white">
       <fa-icon [icon]="['fas', 'sync']"></fa-icon>
     </button>
     <app-notification></app-notification>
+
     <app-user-menu></app-user-menu>
   </div>
 </nav>
