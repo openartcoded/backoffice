@@ -34,7 +34,7 @@ export class PostsComponent implements OnInit {
     private slugifyPipe: SlugifyPipe,
     protected fileService: FileService,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Blog - Nordine Bittich');
@@ -61,6 +61,7 @@ export class PostsComponent implements OnInit {
 
     const modalRef = this.modalService.open(PostEditorComponent, {
       size: 'xl',
+      backdrop: 'static'
     });
     modalRef.componentInstance.post = postWithDetails;
     modalRef.componentInstance.saved.subscribe((post) => this.load());

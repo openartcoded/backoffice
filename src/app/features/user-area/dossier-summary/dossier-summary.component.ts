@@ -2,7 +2,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { DossierSummary } from '@core/models/dossier';
 import { DossierService } from '@core/service/dossier.service';
-import { DateUtils } from '@core/utils/date-utils';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
