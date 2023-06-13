@@ -52,9 +52,9 @@
     "ngx-file-drop": "^15.0.0",
     "ngx-highlightjs": "^9.0.0",
     "ngx-markdown-editor": "5.3.1",
-    "plotly.js": "^2.24.1",
+    "plotly.js": "^2.24.2",
     "primeicons": "^6.0.1",
-    "primeng": "^16.0.0-rc.2",
+    "primeng": "^16.0.0",
     "rxjs": "^7.8.0",
     "validator": "^13.9.0",
     "zone.js": "^0.13.0"
