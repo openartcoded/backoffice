@@ -37,8 +37,8 @@
     "@nguniversal/express-engine": "^16.0.2",
     "@triply/yasgui": "^4.2.28",
     "@types/validator": "^13.7.17",
-    "ace-builds": "^1.22.0",
-    "angular-plotly.js": "^5.1.0",
+    "ace-builds": "^1.22.1",
+    "angular-plotly.js": "^5.1.1",
     "bootstrap": "^5.3.0",
     "html2canvas": "^1.4.1",
     "jsonpath-plus": "6.0.1",
@@ -57,7 +57,7 @@
     "primeng": "^16.0.0",
     "rxjs": "^7.8.0",
     "validator": "^13.9.0",
-    "zone.js": "^0.13.0"
+    "zone.js": "^0.13.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.0.4",
