@@ -20,6 +20,7 @@ export interface BackendInvoiceSummary {
   period?: string;
   amount?: number;
   hoursPerDay?: number;
+  client?: string;
   amountType?: string;
   subTotal?: number;
   dateOfInvoice?: Date;

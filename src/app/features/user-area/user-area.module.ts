@@ -15,7 +15,7 @@ import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodoFormComponent } from './todo-form/todo-form.component';
 import { ActuatorComponent } from './actuator/actuator.component';
 import { ErrorComponent } from './error/error.component';
-import { InvoiceSummaryComponent } from './invoice-summary/invoice-summary.component';
+import { GenericSummaryComponent } from './generic-summary/generic-summary.component';
 import { DossierSummaryComponent } from './dossier-summary/dossier-summary.component';
 import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.module';
 import { Html2canvasUniversalModule } from '@feature/html2canvas-universal/html2canvas-universal.module';
@@ -35,7 +35,7 @@ import { NextTasksComponent } from './next-tasks/next-tasks.component';
     TodoFormComponent,
     ActuatorComponent,
     FeeSummaryComponent,
-    InvoiceSummaryComponent,
+    GenericSummaryComponent,
     DossierSummaryComponent,
     ErrorComponent,
     CompanyStampComponent,

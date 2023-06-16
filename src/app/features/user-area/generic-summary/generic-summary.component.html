@@ -1,0 +1,111 @@
+<ul ngbNav #nav="ngbNav" (activeIdChange)="this.resize($event)" [(activeId)]="active" class=" nav-tabs">
+  <li [ngbNavItem]="1">
+    <button ngbNavLink>Invoices/Months</button>
+    <ng-template ngbNavContent>
+      <p *ngIf="!loaded">loading...</p>
+      <ng-container *ngIf="isBrowser() && loaded && summary$ | async as summary">
+        <ng-container>
+          <div id="plot" class="border me-lg-1 mb-1">
+            <ng-container *ngFor="let g of summary.graphs; let index = index">
+              <plotly-plot [divId]="'plot'" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
+              <hr *ngIf="index + 1 < summary.graphs.length" />
+            </ng-container>
+          </div>
+        </ng-container>
+
+      </ng-container>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="5">
+    <button ngbNavLink>Invoices/Client</button>
+    <ng-template ngbNavContent>
+      <p *ngIf="!loaded">loading...</p>
+      <ng-container *ngIf="isBrowser() && loaded && graphsPerClient$ | async as graphsPerClient">
+        <ng-container>
+          <div id="plot" class="border me-lg-1 mb-1">
+            <ng-container *ngFor="let g of graphsPerClient; let index = index">
+              <plotly-plot [divId]="'plot'" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
+            </ng-container>
+          </div>
+        </ng-container>
+
+      </ng-container>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="3">
+    <button ngbNavLink>Dossiers</button>
+    <ng-template ngbNavContent>
+      <app-dossier-summary *ngIf="loaded"></app-dossier-summary>
+      <p *ngIf="!loaded">loading...</p>
+    </ng-template>
+  </li>
+
+  <li [ngbNavItem]="4">
+    <button ngbNavLink>Expenses</button>
+    <ng-template ngbNavContent>
+      <app-fee-summary *ngIf="loaded">></app-fee-summary>
+
+      <p *ngIf="!loaded">loading...</p>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="2">
+    <button ngbNavLink>Stats</button>
+    <ng-template ngbNavContent>
+      <ul class="mb-1 list-group" *ngIf="summary$ | async as summary">
+        <li class="list-group-item bg-light">
+          <select [(ngModel)]="selectedYear" class="form-select">
+            <option *ngFor="let summaryPerYear of summary.invoicesGroupByYear | keyvalue"
+              [ngValue]="summaryPerYear.key">
+              {{summaryPerYear.key}}</option>
+          </select>
+        </li>
+        <li class="list-group-item" *ngIf="selectedYear">
+          <div class="d-flex justify-content-between">
+            <strong class="text-uppercase text-break">Number of Invoices</strong>
+            <strong>{{ summary.invoicesGroupByYear?.get(selectedYear)?.numberOfInvoices || 0 }}</strong>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between">
+            <strong class="text-uppercase">Total worked (days)</strong>
+            <strong class="text-uppercase">{{ (summary.invoicesGroupByYear?.get(selectedYear)?.totalAmountOfWork || 0)
+              |
+              number: '1.2-2' }}</strong>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between">
+            <strong class="text-uppercase">Total excl. VAT</strong>
+            <strong class="text-uppercase">{{ (summary.invoicesGroupByYear?.get(selectedYear)?.totalExclVat || 0) |
+              currency: '€' }}</strong>
+          </div>
+        </li>
+        <li class="list-group-item bg-light">
+          <strong class="text-uppercase text-secondary">All time</strong>
+        </li>
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between">
+            <strong class="text-uppercase">Number of Invoices</strong>
+            <strong>{{ summary.totalInvoices }}</strong>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between">
+            <strong class="text-uppercase">Total worked</strong>
+            <strong class="text-uppercase">{{ summary.totalAmountOfWork | number: '1.2-2' }}&nbsp;days</strong>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between">
+            <strong class="text-uppercase">Total excl. VAT</strong>
+            <strong class="text-uppercase">{{ summary.totalExclVat | currency: '€' }}</strong>
+          </div>
+        </li>
+      </ul>
+
+    </ng-template>
+  </li>
+
+
+</ul>
+<div [ngbNavOutlet]="nav" class="mt-2"></div>

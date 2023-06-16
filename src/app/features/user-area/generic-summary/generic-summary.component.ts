@@ -1,21 +1,25 @@
-import { Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { InvoiceService } from '@core/service/invoice.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { InvoiceSummary, BackendInvoiceSummary } from '@core/models/invoice';
 import { map } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { DateUtils } from '@core/utils/date-utils';
+import { WindowRefService } from '@core/service/window.service';
 
 @Component({
-  selector: 'app-invoice-summary',
-  templateUrl: './invoice-summary.component.html',
-  styleUrls: ['./invoice-summary.component.scss'],
+  selector: 'app-generic-summary',
+  templateUrl: './generic-summary.component.html',
+  styleUrls: ['./generic-summary.component.scss'],
 })
-export class InvoiceSummaryComponent implements OnInit, OnDestroy {
+export class GenericSummaryComponent implements OnInit, OnDestroy {
   summary$: Observable<InvoiceSummary>;
+  graphsPerClient$: Observable<any[]>;
   selectedYear: number = DateUtils.getCurrentYear();
-
+  active = 1;
+  loaded = true;
   constructor(
+    private windowService: WindowRefService,
     private invoiceService: InvoiceService,
     @Inject(PLATFORM_ID) private platformId: any
   ) { }
@@ -26,6 +30,63 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.load();
+  }
+
+  resize(activeItem: number) {
+    if (this.isBrowser() && (activeItem === 1 || activeItem === 3 || activeItem === 4 || activeItem === 5)) {
+      this.loaded = false;
+      let timeout: number;
+      if (activeItem === 5) timeout = 200;
+      else timeout = 150;
+      this.windowService.nativeWindow.dispatchEvent(new Event('resize'));
+      setTimeout(() => {
+        this.loaded = true;
+      }, timeout);
+    }
+  }
+
+  makeGraphInvoicePerClient(invoicesOrderedByDateAsc: BackendInvoiceSummary[]) {
+    const config = {
+      responsive: true,
+      displayModeBar: false,
+    };
+    const invoicesGroupBClient = invoicesOrderedByDateAsc.reduce((group, invoice) => {
+      const sum = group.get(invoice.client) || 0;
+
+      group.set(invoice.client, sum + invoice.subTotal);
+      return group;
+    }, new Map());
+    const layout = (title: string, callback = (_lyt: any) => { }) => {
+      let l = {
+        barmode: 'group',
+        dragmode: 'zoom',
+        showlegend: false,
+        yaxis: {
+          fixedrange: true,
+          type: 'linear',
+        },
+        xaxis: {
+          fixedrange: true,
+          rangeslider: {
+            visible: false,
+          },
+        },
+        title: title,
+      };
+      callback(l);
+      return l;
+    };
+    const totalByClient = [...invoicesGroupBClient];
+    const byClient = {
+      name: '',
+      x: totalByClient.map(([client, _tot]) => client),
+      y: totalByClient.map(([_client, tot]) => tot),
+      type: 'bar',
+    };
+
+    const data = [byClient];
+    this.graphsPerClient$ = of([{ data: data, config: config, layout: layout('Invoice/Client') }]);
+
   }
 
   load() {
@@ -102,6 +163,8 @@ export class InvoiceSummaryComponent implements OnInit, OnDestroy {
           return group;
         }, new Map());
 
+        this.loaded = true;
+        this.makeGraphInvoicePerClient(invoicesOrderedByDateAsc);
         return {
           invoicesGroupByYear,
           graphs,
