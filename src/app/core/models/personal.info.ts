@@ -23,4 +23,5 @@ export interface Accountant {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber?: string;
 }

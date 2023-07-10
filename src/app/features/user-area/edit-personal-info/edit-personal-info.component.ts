@@ -28,9 +28,9 @@ export class EditPersonalInfoComponent implements OnInit {
     private fileService: FileService,
     private domSanitizer: DomSanitizer,
     private fb: UntypedFormBuilder
-  ) {}
+  ) { }
 
-  drop($event: NgxFileDropEntry[], onListFile = (file) => {}, onReadFile = (event) => {}) {
+  drop($event: NgxFileDropEntry[], onListFile = (file) => { }, onReadFile = (event) => { }) {
     for (const droppedFile of $event) {
       const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
       fileEntry.file((file: File) => {
@@ -200,6 +200,13 @@ export class EditPersonalInfoComponent implements OnInit {
         },
         [Validators.required]
       ),
+      phoneNumber: new UntypedFormControl(
+        {
+          value: accountant.phoneNumber,
+          disabled: false,
+        },
+        [Validators.required]
+      ),
       email: new UntypedFormControl(
         {
           value: accountant.email,
@@ -215,6 +222,7 @@ export class EditPersonalInfoComponent implements OnInit {
       return {
         firstName: c.get('firstName').value,
         lastName: c.get('lastName').value,
+        phoneNumber: c.get('phoneNumber').value,
         email: c.get('email').value,
       } as Accountant;
     });
