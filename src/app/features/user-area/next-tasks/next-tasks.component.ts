@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ReminderTask } from '@core/models/reminder-task';
 import { ReminderTaskService } from '@core/service/reminder.task.service';
-import { Observable } from 'rxjs';
+import { TaskDetailComponent } from '@feature/tasks/task-detail/task-detail.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable, firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-next-tasks',
@@ -10,11 +12,35 @@ import { Observable } from 'rxjs';
 })
 export class NextTasksComponent implements OnInit {
   reminderTasks$: Observable<ReminderTask[]>;
-  constructor(private reminderTaskService: ReminderTaskService) {
+  constructor(private reminderTaskService: ReminderTaskService,
+    private modalService: NgbModal) {
 
   }
   ngOnInit(): void {
+    this.load();
+  }
+  load() {
     this.reminderTasks$ = this.reminderTaskService.findNextTenTasks();
+  }
+  openTask(task: ReminderTask) {
+    const modal = this.modalService.open(TaskDetailComponent, {
+      size: 'xl',
+      scrollable: true,
+      backdrop: 'static'
+    });
+    modal.componentInstance.task = task;
+    modal.componentInstance.allowedActions$ = this.reminderTaskService.allowedActions();
+    modal.componentInstance.onSaveTask.subscribe(async (taskToSave: ReminderTask) => {
+      modal.close();
+      await firstValueFrom(this.reminderTaskService.save(taskToSave));
+      this.load();
+    });
+    modal.componentInstance.onDeleteTask.subscribe(async (taskToDelete: ReminderTask) => {
+      modal.close();
+      await firstValueFrom(this.reminderTaskService.delete(taskToDelete.id));
+      this.load();
+    });
+
   }
 
 }
