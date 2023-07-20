@@ -31,7 +31,7 @@ export class MostClickedMenuComponent implements OnInit, OnDestroy {
         this.router.navigate(this.links[0].routerLink);
       } else if (event.code === 'Digit2' && this.links?.length > 1 && !this.modalService.hasOpenModals()) {
         this.router.navigate(this.links[1].routerLink);
-      } else if (event.code === 'Digit2' && this.links?.length > 2 && !this.modalService.hasOpenModals()) {
+      } else if (event.code === 'Digit3' && this.links?.length > 2 && !this.modalService.hasOpenModals()) {
         this.router.navigate(this.links[2].routerLink);
       }
 
