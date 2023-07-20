@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { MenuLink } from '@core/models/settings';
 import { SettingsService } from '@core/service/settings.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-most-clicked-menu',
