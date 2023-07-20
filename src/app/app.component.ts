@@ -1,9 +1,11 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from './core/service/auth.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { ToggleSidebarService } from '@core/service/toggle-sidebar.service';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +24,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private breakPointObserver: BreakpointObserver,
     private titleService: Title,
     private metaService: Meta,
+    private modalService: NgbModal,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -82,4 +86,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.toggle = this.toggleSidebarService.toggleCheck();
     this.cdr.detectChanges();
   }
+  @HostListener('document:keydown.control.²')
+  home() {
+    if (!this.modalService.hasOpenModals()) {
+      this.router.navigate(['']);
+    }
+  }
+
 }

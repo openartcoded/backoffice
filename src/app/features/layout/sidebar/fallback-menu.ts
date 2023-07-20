@@ -15,6 +15,7 @@ export class FallbackMenu {
         icon: ['fas', 'home'],
         routerLink: [''],
         show: true,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2cb',
@@ -28,6 +29,7 @@ export class FallbackMenu {
         icon: ['fas', 'tasks'],
         routerLink: ['tasks'],
         show: true,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2ca',
@@ -41,6 +43,7 @@ export class FallbackMenu {
         icon: ['fas', 'clock'],
         routerLink: ['timesheets'],
         show: false,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2d5',
@@ -54,6 +57,7 @@ export class FallbackMenu {
         icon: ['fas', 'money-bill-wave'],
         routerLink: ['fee'],
         show: true,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2d3',
@@ -67,6 +71,7 @@ export class FallbackMenu {
         icon: ['fas', 'file-invoice-dollar'],
         routerLink: ['invoice'],
         show: true,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2d4',
@@ -80,6 +85,7 @@ export class FallbackMenu {
         icon: ['fas', 'folder-open'],
         routerLink: ['dossier'],
         show: true,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2cc',
@@ -93,6 +99,7 @@ export class FallbackMenu {
         icon: ['fas', 'unlock-alt'],
         routerLink: ['documents'],
         show: true,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2d1',
@@ -106,6 +113,7 @@ export class FallbackMenu {
         icon: ['fas', 'blog'],
         routerLink: ['blog'],
         show: true,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2cf',
@@ -119,6 +127,7 @@ export class FallbackMenu {
         icon: ['fas', 'images'],
         routerLink: ['memzagram'],
         show: true,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2ce',
@@ -132,6 +141,7 @@ export class FallbackMenu {
         icon: ['fas', 'university'],
         routerLink: ['cv'],
         show: true,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2d6',
@@ -145,6 +155,7 @@ export class FallbackMenu {
         icon: ['fas', 'chart-line'],
         routerLink: ['finance'],
         show: true,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2d8',
@@ -158,6 +169,7 @@ export class FallbackMenu {
         icon: ['fas', 'upload'],
         routerLink: ['file-upload'],
         show: true,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd193d209d3cd',
@@ -171,6 +183,7 @@ export class FallbackMenu {
         icon: ['fas', 'database'],
         routerLink: ['endpoint-sparql'],
         show: true,
+        numberOfTimesClicked: 0,
       },
 
       {
@@ -185,6 +198,7 @@ export class FallbackMenu {
         icon: ['fas', 'project-diagram'],
         routerLink: ['toolbox', 'rdf'],
         show: true,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2da',
@@ -198,6 +212,7 @@ export class FallbackMenu {
         icon: ['fas', 'calendar-alt'],
         routerLink: ['toolbox', 'date'],
         show: false,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2db',
@@ -211,6 +226,7 @@ export class FallbackMenu {
         icon: ['fas', 'qrcode'],
         routerLink: ['toolbox', 'base64'],
         show: false,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2dc',
@@ -224,6 +240,7 @@ export class FallbackMenu {
         icon: ['fas', 'language'],
         routerLink: ['toolbox', 'pathfinder'],
         show: false,
+        numberOfTimesClicked: 0,
       },
       {
         id: '60083105215dd143d209d2cd',
@@ -237,6 +254,7 @@ export class FallbackMenu {
         icon: ['fas', 'concierge-bell'],
         routerLink: ['services'],
         show: true,
+        numberOfTimesClicked: 0,
       },
     ];
   }

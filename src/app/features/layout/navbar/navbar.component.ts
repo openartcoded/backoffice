@@ -8,7 +8,7 @@ import { SettingsService } from '@core/service/settings.service';
 import { FallbackMenu } from '../sidebar/fallback-menu';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Subscription, firstValueFrom } from 'rxjs';
 import { environment } from '@env/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CacheComponent } from '../cache/cache.component';
@@ -73,10 +73,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
           }
           this.router.events
             .pipe(filter((event) => event instanceof NavigationEnd))
-            .subscribe((event: NavigationStart) => {
+            .subscribe(async (event: NavigationStart) => {
               const link = filteredLinks.find((l) => l.routerLink.join('/') === event.url.substring(1));
               if (link) {
                 this.link = link;
+                const checkLink = link.routerLink.join('/');
+
+                if (checkLink !== '/' && checkLink !== '') {
+                  await firstValueFrom(this.settingsService.clicked(link.id));
+                }
               }
             });
           this.links = filteredLinks;

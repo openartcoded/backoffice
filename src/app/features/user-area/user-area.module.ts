@@ -25,6 +25,7 @@ import { ScriptComponent } from './script/script.component';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NextTasksComponent } from './next-tasks/next-tasks.component';
+import { MostClickedMenuComponent } from './most-clicked-menu/most-clicked-menu.component';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -41,6 +42,7 @@ import { NextTasksComponent } from './next-tasks/next-tasks.component';
     CompanyStampComponent,
     ScriptComponent,
     NextTasksComponent,
+    MostClickedMenuComponent,
   ],
   imports: [
     CommonModule,

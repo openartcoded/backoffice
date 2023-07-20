@@ -1,21 +1,26 @@
 <div class="mt-3">
   <ng-container *ngIf="loaded">
-    <app-next-tasks />
-    <div class="d-lg-flex justify-content-between mt-3">
+    <div class="d-none d-lg-flex justify-content-between">
+      <app-most-clicked-menu />
+      <app-next-tasks />
 
+    </div>
+    <hr>
+    <div class="d-lg-flex justify-content-between mt-3">
       <div class="col col-lg-2 me-2">
-        <app-company-stamp></app-company-stamp>
-        <app-actuator></app-actuator>
+        <app-company-stamp />
+        <app-actuator />
       </div>
 
       <div class="col col-lg-7 me-2">
-        <app-generic-summary></app-generic-summary>
-        <app-script></app-script>
+        <app-generic-summary />
+        <app-script />
+
       </div>
       <div class="col col-lg-3">
         <div class="me-2">
-          <app-memo-date></app-memo-date>
-          <app-todo-list></app-todo-list>
+          <app-memo-date />
+          <app-todo-list />
         </div>
       </div>
 

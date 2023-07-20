@@ -41,6 +41,14 @@ export class SettingsService {
     );
   }
 
+  clicked(id: string): Observable<void> {
+    return this.http.post<void>(`${this.basePath}/clicked?id=${id}`, {});
+  }
+
+  top3(): Observable<MenuLink[]> {
+    return this.http.get<MenuLink[]>(`${this.basePath}/top-3`);
+  }
+
   importAllMenuLinks(menuLinks: MenuLink[]): Observable<void> {
     return this.http.post<void>(`${this.basePath}/import`, menuLinks).pipe(
       tap({

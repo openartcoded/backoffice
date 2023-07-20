@@ -20,7 +20,7 @@ export class AppSettingsComponent implements OnInit {
     @Optional() public activeModal: NgbActiveModal,
     private fileService: FileService,
     private settingsService: SettingsService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.load();
@@ -30,14 +30,14 @@ export class AppSettingsComponent implements OnInit {
   }
   toggleMenuLinkVisibility(menuLink: MenuLink) {
     menuLink.show = !menuLink.show;
-    this.settingsService.updateMenuLinks(menuLink).subscribe((m) => {});
+    this.settingsService.updateMenuLinks(menuLink).subscribe((m) => { });
   }
 
   import() {
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
       const json: any = fileReader.result;
-      this.settingsService.importAllMenuLinks(JSON.parse(json)).subscribe((value) => {});
+      this.settingsService.importAllMenuLinks(JSON.parse(json)).subscribe((value) => { });
     };
     fileReader.readAsText(this.file);
   }
@@ -59,14 +59,17 @@ export class AppSettingsComponent implements OnInit {
     this.load();
   }
 
+  // todo do this on the backend....
   async flipPosition(menuLink: MenuLink, menuLinkBefore: MenuLink) {
     menuLinkBefore.order = menuLinkBefore.order + 1;
     menuLink.order = menuLink.order - 1;
-    menuLinkBefore = await firstValueFrom(this.settingsService.updateMenuLinks(menuLinkBefore));
-    menuLink = await firstValueFrom(this.settingsService.updateMenuLinks(menuLink));
+    await Promise.all([firstValueFrom(this.settingsService.updateMenuLinks(menuLinkBefore)),
+    firstValueFrom(this.settingsService.updateMenuLinks(menuLink))]);
+    this.load();
   }
 
   sortByOrder() {
     return (a, b) => a.order - b.order;
   }
 }
+
