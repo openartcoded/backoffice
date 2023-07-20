@@ -9,7 +9,7 @@
   <div class="d-flex justify-content-between mb-2">
     <div class="w-100 me-1">
       <app-select-portfolio [selectedPortfolio]="selectedPortfolio" [portfolios]="portfolios"
-                            (portfolioChanged)="onPortfolioChanged($event)"></app-select-portfolio>
+        (portfolioChanged)="onPortfolioChanged($event)"></app-select-portfolio>
     </div>
     <div ngbDropdown class="d-inline-block" container="body">
       <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
@@ -33,45 +33,45 @@
   </div>
   <hr>
   <div class="d-block mb-2" *ngIf="selectedPortfolio && filteredTicks">
-    <input type="search" class="form-control" placeholder="Filter..."
-           (search)="filter($event)" (keyup)="filter($event)">
+    <input type="search" class="form-control" placeholder="Filter..." (search)="filter($event)" (keyup)="filter($event)"
+      appAutoFocus>
   </div>
   <div class="d-block" *ngIf="selectedPortfolio">
     <div class="table-responsive">
       <table class="table table-bordered table-hover">
         <thead>
-        <tr>
-          <th>Symbol</th>
-          <th class="d-md-table-cell d-none">Added Date</th>
-          <th class="d-md-table-cell d-none">Initial Price</th>
-          <th>Current Price</th>
-          <th>
-            <div class="d-flex justify-content-between">
-              <span>Result</span>
-            <a class="btn btn-link text-dark p-0" (click)="sortByDelta()">
-              <fa-icon size="xs" [icon]="['fas','arrow-down']" *ngIf="!sortAsc"></fa-icon>
-              <fa-icon size="xs" [icon]="['fas','arrow-up']" *ngIf="sortAsc"></fa-icon>
-            </a>
-            </div>
-          </th>
-        </tr>
+          <tr>
+            <th>Symbol</th>
+            <th class="d-md-table-cell d-none">Added Date</th>
+            <th class="d-md-table-cell d-none">Initial Price</th>
+            <th>Current Price</th>
+            <th>
+              <div class="d-flex justify-content-between">
+                <span>Result</span>
+                <a class="btn btn-link text-dark p-0" (click)="sortByDelta()">
+                  <fa-icon size="xs" [icon]="['fas','arrow-down']" *ngIf="!sortAsc"></fa-icon>
+                  <fa-icon size="xs" [icon]="['fas','arrow-up']" *ngIf="sortAsc"></fa-icon>
+                </a>
+              </div>
+            </th>
+          </tr>
         </thead>
         <tbody>
-        <tr *ngIf="!filteredTicks?.length">
-          <td class="bg-light" colspan="5">No entries</td>
-        </tr>
-        <tr role="button" (click)="navigateToTick(t)" *ngFor="let t of (filteredTicks)">
-          <td>{{t.symbol}}</td>
-          <td class="d-md-table-cell d-none">{{t.addedDate | date: 'dd/MM/yyyy'}}</td>
-          <td class="d-md-table-cell d-none">{{t.priceWhenAdded}}</td>
-          <td *ngIf="!t.loading">{{t.currentPrice}}</td>
-          <td *ngIf="!t.loading" [class.text-success]="t.delta > 0"
-              [class.text-danger]="t.delta < 0">{{t.delta |number:'1.2-2'}}%
-          </td>
-          <td *ngIf="t.loading" colspan="2">
-            <ngb-progressbar [value]="100" [striped]="true" [animated]="true" type="primary"></ngb-progressbar>
-          </td>
-        </tr>
+          <tr *ngIf="!filteredTicks?.length">
+            <td class="bg-light" colspan="5">No entries</td>
+          </tr>
+          <tr role="button" (click)="navigateToTick(t)" *ngFor="let t of (filteredTicks)">
+            <td>{{t.symbol}}</td>
+            <td class="d-md-table-cell d-none">{{t.addedDate | date: 'dd/MM/yyyy'}}</td>
+            <td class="d-md-table-cell d-none">{{t.priceWhenAdded}}</td>
+            <td *ngIf="!t.loading">{{t.currentPrice}}</td>
+            <td *ngIf="!t.loading" [class.text-success]="t.delta > 0" [class.text-danger]="t.delta < 0">{{t.delta
+              |number:'1.2-2'}}%
+            </td>
+            <td *ngIf="t.loading" colspan="2">
+              <ngb-progressbar [value]="100" [striped]="true" [animated]="true" type="primary"></ngb-progressbar>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

@@ -19,7 +19,7 @@
   </div>
   <div class="modal-body" *ngIf="invoiceForm">
     <form [formGroup]="invoiceForm" (ngSubmit)="send()">
-      <ul ngbNav #nav="ngbNav" class="nav-tabs">
+      <ul ngbNav #nav="ngbNav" class="nav-tabs" [keyboard]="'changeWithArrows'">
         <li ngbNavItem>
           <a ngbNavLink>Invoice Info</a>
           <ng-template ngbNavContent>
@@ -41,7 +41,8 @@
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="dateOfInvoice">Date of invoice</label>
                 <div class="col-sm-10">
-                  <input type="date" class="form-control" id="dateOfInvoice" formControlName="dateOfInvoice">
+                  <input type="date" class="form-control" id="dateOfInvoice" formControlName="dateOfInvoice"
+                    appAutoFocus>
                 </div>
               </div>
               <div class="mb-1 row">

@@ -15,7 +15,8 @@
       <div class="mb-2">
         <label class="col-sm-2 col-form-label" for="morningStartTime">Morning Start</label>
         <div class="input-group">
-          <input type="time" class="form-control" id="morningStartTime" formControlName="morningStartTime" />
+          <input type="time" class="form-control" id="morningStartTime" formControlName="morningStartTime"
+            appAutoFocus />
           <button class="btn btn-primary" (click)="setTimeNow($event, 'morningStartTime')"
             [disabled]="form.controls.morningStartTime.disabled">
             <fa-icon icon="user-clock"></fa-icon>

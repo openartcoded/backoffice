@@ -6,7 +6,7 @@
   <div class="modal-body">
     <form class="mt-2" [formGroup]="smsForm" (ngSubmit)="send()" *ngIf="smsForm">
       <div class="mb-1">
-        <input type="text" class="form-control mb-2" formControlName="phoneNumber" placeholder="Phone" />
+        <input type="text" class="form-control mb-2" formControlName="phoneNumber" placeholder="Phone" appAutoFocus />
       </div>
       <div class="mb-1">
         <textarea class="form-control mb-2" [autosize] formControlName="body" placeholder="Body"></textarea>

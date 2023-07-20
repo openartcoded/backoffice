@@ -15,7 +15,7 @@ export class IntroductionComponent implements OnInit {
 
   form: UntypedFormGroup;
 
-  constructor(private fb: UntypedFormBuilder) {}
+  constructor(private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -36,6 +36,7 @@ export class IntroductionComponent implements OnInit {
 
   toggleEditing() {
     this.form.controls.editing.patchValue(!this.editing);
+    this.form.controls.intro.patchValue(this.introduction);
   }
 
   get intro(): string {

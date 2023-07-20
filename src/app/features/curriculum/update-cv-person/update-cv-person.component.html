@@ -3,57 +3,35 @@
     <span class="modal-title text-break">
       Update person
     </span>
-    <button type="button" class="btn-close" aria-label="Close"
-            (click)="activeModal?.dismiss('Cross click')">
-      
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
+
     </button>
   </div>
   <div class="modal-body" *ngIf="form">
     <form [formGroup]="form" (ngSubmit)="submit()">
-      <li class="list-group-item">
-        <input aria-label="Lastname" placeholder="lastname" type="text" id="lastname" formControlName="lastname"
-               class="form-control">
-      </li>
-      <li class="list-group-item">
-        <input aria-label="Firstname" placeholder="firstname" type="text" id="firstname" formControlName="firstname"
-               class="form-control">
-      </li>
-      <li class="list-group-item">
-        <input aria-label="Title" placeholder="title" type="text" id="title" formControlName="title"
-               class="form-control">
-      </li>
-      <li class="list-group-item">
-        <input aria-label="Address" placeholder="address" type="text" id="address" formControlName="address"
-               class="form-control">
-      </li>
-      <li class="list-group-item">
-        <input aria-label="PhoneNumber" placeholder="phoneNumber" type="text" id="phoneNumber"
-               formControlName="phoneNumber" class="form-control">
-      </li>
-      <li class="list-group-item">
-        <input aria-label="EmailAddress" placeholder="emailAddress" type="email" id="emailAddress"
-               formControlName="emailAddress" class="form-control">
-      </li>
-      <li class="list-group-item">
-        <input aria-label="birthdate" placeholder="birthdate" type="date" id="birthdate" formControlName="birthdate"
-               class="form-control">
-      </li>
-      <li class="list-group-item">
-        <input aria-label="website" placeholder="website" type="url" id="website" formControlName="website"
-               class="form-control">
-      </li>
-      <li class="list-group-item">
-        <input aria-label="github" placeholder="githubUrl" type="url" id="githubUrl" formControlName="githubUrl"
-               class="form-control">
-      </li>
-      <li class="list-group-item">
-        <input aria-label="linkedin" placeholder="linkedinUrl" type="url" id="linkedinUrl" formControlName="linkedinUrl"
-               class="form-control">
-      </li>
+      <input aria-label="Lastname" placeholder="lastname" type="text" id="lastname" formControlName="lastname"
+        class="form-control mb-2" appAutoFocus>
+      <input aria-label="Firstname" placeholder="firstname" type="text" id="firstname" formControlName="firstname"
+        class="form-control mb-2">
+      <input aria-label="Title" placeholder="title" type="text" id="title" formControlName="title"
+        class="form-control mb-2">
+      <input aria-label="Address" placeholder="address" type="text" id="address" formControlName="address"
+        class="form-control mb-2">
+      <input aria-label="PhoneNumber" placeholder="phoneNumber" type="text" id="phoneNumber"
+        formControlName="phoneNumber" class="form-control mb-2">
+      <input aria-label="EmailAddress" placeholder="emailAddress" type="email" id="emailAddress"
+        formControlName="emailAddress" class="form-control mb-2">
+      <input aria-label="birthdate" placeholder="birthdate" type="date" id="birthdate" formControlName="birthdate"
+        class="form-control mb-2">
+      <input aria-label="website" placeholder="website" type="url" id="website" formControlName="website"
+        class="form-control mb-2">
+      <input aria-label="github" placeholder="githubUrl" type="url" id="githubUrl" formControlName="githubUrl"
+        class="form-control mb-2">
+      <input aria-label="linkedin" placeholder="linkedinUrl" type="url" id="linkedinUrl" formControlName="linkedinUrl"
+        class="form-control mb-2">
 
       <div class="d-flex justify-content-end  mt-2">
-        <button type="submit" class="btn btn-primary"
-                [disabled]="!form.valid">Submit
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit
         </button>
       </div>
     </form>

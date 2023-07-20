@@ -18,8 +18,9 @@ import { BytesToHumanPipe } from './pipes/bytes-to-human.pipe';
 import { StopPropagationDirective } from './directives/stop.propagation.directive';
 import { MailFormComponent } from './mail-form/mail-form.component';
 import { AutosizeModule } from 'ngx-autosize';
-import { Chips, ChipsModule } from 'primeng/chips';
+import { ChipsModule } from 'primeng/chips';
 import { SmsFormComponent } from './sms-form/sms-form.component';
+import { AutoFocusDirective } from './directives/auto-focus.directive';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { SmsFormComponent } from './sms-form/sms-form.component';
     BytesToHumanPipe,
     MailFormComponent,
     SmsFormComponent,
+    AutoFocusDirective,
   ],
   exports: [
     TitleComponent,
@@ -48,7 +50,7 @@ import { SmsFormComponent } from './sms-form/sms-form.component';
     ImageLoaderComponent,
     StopPropagationDirective,
     TrimPipe,
-    BytesToHumanPipe,
+    BytesToHumanPipe, AutoFocusDirective
   ],
   imports: [
     CommonModule,
