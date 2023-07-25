@@ -31,6 +31,10 @@ export class TimesheetService {
     return this.http.post<Timesheet>(this.basePath + '/generate-invoice?id=' + timesheetId, {});
   }
 
+  public estimateTotalToBeInvoicedThisMonth(): Observable<number> {
+    return this.http.get<number>(this.basePath + "/estimate-total-to-be-invoiced-this-month");
+  }
+
   public saveOrUpdatePeriod(timesheetId: string, period: TimesheetPeriod): Observable<TimesheetPeriod> {
     return this.http.post<TimesheetPeriod>(this.basePath + '/save-period?id=' + timesheetId, period);
   }

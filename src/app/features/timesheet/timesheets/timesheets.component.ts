@@ -3,6 +3,7 @@ import { TimesheetService } from '@core/service/timesheet.service';
 import { Timesheet } from '@core/models/timesheet';
 import { DateUtils } from '@core/utils/date-utils';
 import { Title } from '@angular/platform-browser';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-timesheets',
@@ -14,11 +15,15 @@ export class TimesheetsComponent implements OnInit {
   selectedTimesheetYear: Timesheet[];
   selectedYear: number;
   selectedClientName: string;
+  estimateTotalThisMonth$: Observable<number>;
 
-  constructor(private timesheetService: TimesheetService, private titleService: Title) {}
+
+
+  constructor(private timesheetService: TimesheetService, private titleService: Title) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Timesheets');
+    this.estimateTotalThisMonth$ = this.timesheetService.estimateTotalToBeInvoicedThisMonth();
     this.timesheetService.findAllGroupedByYearAndClientName().subscribe((data) => {
       // TODO typescript doesn't turn it to an actual Map. you cannot use has, get, etc
       this.timesheetsGroupedByYearAndClientName = data || new Map();

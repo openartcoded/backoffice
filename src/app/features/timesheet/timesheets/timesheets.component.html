@@ -1,10 +1,13 @@
 <app-title [uppercase]="true" title="Timesheets"></app-title>
-<div class="d-md-flex justify-content-end pb-2" *ngIf="timesheetsGroupedByYearAndClientName">
-  <button class="btn me-1 mb-1" [class.btn-outline-secondary]="name !== this.selectedClientName"
-    [class.btn-secondary]="name === this.selectedClientName" *ngFor="let name of clientNames"
-    (click)="this.setClient(name)">
-    {{ name }}
-  </button>
+<div class="d-md-flex justify-content-between pb-2" *ngIf="timesheetsGroupedByYearAndClientName">
+  <p class="fw-semibold">Estimate this month: {{estimateTotalThisMonth$ | async| currency: '€'}}</p>
+  <div>
+    <button class="btn me-1 mb-1" [class.btn-outline-secondary]="name !== this.selectedClientName"
+      [class.btn-secondary]="name === this.selectedClientName" *ngFor="let name of clientNames"
+      (click)="this.setClient(name)">
+      {{ name }}
+    </button>
+  </div>
 </div>
 <ng-container *ngIf="timesheetsGroupedByYearAndClientName">
   <div class="alert alert-warning" *ngIf="!years?.length">
