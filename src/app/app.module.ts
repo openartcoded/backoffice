@@ -105,7 +105,7 @@ import { initialize } from './init/app-init.factory';
 import { ConfigInitService } from './init/config-init.service';
 
 PlotlyViaCDNModule.setPlotlyVersion('2.25.1'); // can be `latest` or any version number (i.e.: '1.40.0')
-PlotlyViaCDNModule.setPlotlyBundle('basic');
+PlotlyViaCDNModule.setPlotlyBundle('finance');
 registerLocaleData(localeDe, 'de');
 
 @NgModule({
