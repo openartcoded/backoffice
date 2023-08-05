@@ -6,8 +6,6 @@
     "start": "ng serve",
     "build": "ng build",
     "buildprod": "ng build --configuration production",
-    "dev:ssr": "ng run artcoded-backoffice:serve-ssr",
-    "prerender": "ng run artcoded-backoffice:prerender",
     "format:fix": "pretty-quick --staged",
     "precommit": "run-s format:fix lint",
     "lint": "ng lint"
