@@ -38,9 +38,7 @@
               "node_modules/primeng/resources/primeng.min.css",
               "src/styles.scss"
             ],
-            "scripts": [
-              "node_modules/plotly.js/dist/plotly.min.js"
-            ],
+            "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -133,32 +131,6 @@
             }
           },
           "defaultConfiguration": ""
-        },
-        "serve-ssr": {
-          "builder": "@nguniversal/builders:ssr-dev-server",
-          "options": {
-            "browserTarget": "artcoded-backoffice:build",
-            "serverTarget": "artcoded-backoffice:server"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "artcoded-backoffice:build:production",
-              "serverTarget": "artcoded-backoffice:server:production"
-            }
-          }
-        },
-        "prerender": {
-          "builder": "@nguniversal/builders:prerender",
-          "options": {
-            "browserTarget": "artcoded-backoffice:build:production",
-            "serverTarget": "artcoded-backoffice:server:production",
-            "routes": [
-              "/"
-            ]
-          },
-          "configurations": {
-            "production": {}
-          }
         }
       }
     }

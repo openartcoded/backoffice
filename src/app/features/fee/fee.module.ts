@@ -17,7 +17,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 import { UpdatePriceComponent } from './update-price/update-price.component';
 import { DefaultPriceComponent } from './default-price/default-price.component';
 import { ColorPickerModule } from 'primeng/colorpicker';
-import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.module';
+import { PlotlyViaCDNModule } from 'angular-plotly.js';
 @NgModule({
   declarations: [
     FeePageComponent,
@@ -39,7 +39,7 @@ import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.mo
     NgbCollapseModule,
     FontAwesomeModule,
     NgbTooltipModule,
-    PlotlyUniversalModule,
+    PlotlyViaCDNModule,
     ReactiveFormsModule,
     NgbPaginationModule,
     FormsModule,
@@ -48,4 +48,4 @@ import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.mo
     NgbDropdownModule,
   ],
 })
-export class FeeModule {}
+export class FeeModule { }

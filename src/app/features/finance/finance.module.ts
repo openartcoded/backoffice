@@ -11,7 +11,7 @@ import { TicksComponent } from './ticks/ticks.component';
 import { TickChartComponent } from './tick-chart/tick-chart.component';
 import { SelectPortfolioComponent } from './select-portfolio/select-portfolio.component';
 import { FinanceRoutingModule } from './finance-routing.module';
-import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.module';
+import { PlotlyViaCDNModule } from 'angular-plotly.js';
 
 @NgModule({
   declarations: [
@@ -30,10 +30,10 @@ import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.mo
     ReactiveFormsModule,
     FormsModule,
     FontAwesomeModule,
-    PlotlyUniversalModule,
+    PlotlyViaCDNModule,
     NgbTypeaheadModule,
     NgbProgressbarModule,
     NgbDropdownModule,
   ],
 })
-export class FinanceModule {}
+export class FinanceModule { }

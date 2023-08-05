@@ -17,7 +17,6 @@ import { ActuatorComponent } from './actuator/actuator.component';
 import { ErrorComponent } from './error/error.component';
 import { GenericSummaryComponent } from './generic-summary/generic-summary.component';
 import { DossierSummaryComponent } from './dossier-summary/dossier-summary.component';
-import PlotlyUniversalModule from '@feature/plotly-universal/plotly-universal.module';
 import { Html2canvasUniversalModule } from '@feature/html2canvas-universal/html2canvas-universal.module';
 import { CompanyStampComponent } from './company-stamp/company-stamp.component';
 import { FeeSummaryComponent } from './fee-summary/fee-summary.component';
@@ -26,6 +25,7 @@ import { ScriptComponent } from './script/script.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NextTasksComponent } from './next-tasks/next-tasks.component';
 import { MostClickedMenuComponent } from './most-clicked-menu/most-clicked-menu.component';
+import { PlotlyViaCDNModule } from 'angular-plotly.js';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -53,7 +53,7 @@ import { MostClickedMenuComponent } from './most-clicked-menu/most-clicked-menu.
     FontAwesomeModule,
     NgbCollapseModule,
     FormsModule,
-    PlotlyUniversalModule,
+    PlotlyViaCDNModule,
     NgbAccordionModule,
     AutosizeModule,
     NgxFileDropModule,

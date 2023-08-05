@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { PlotlyViaCDNModule } from 'angular-plotly.js';
+
 import {
   faAddressBook,
   faUser,
@@ -102,6 +104,8 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initialize } from './init/app-init.factory';
 import { ConfigInitService } from './init/config-init.service';
 
+PlotlyViaCDNModule.setPlotlyVersion('2.25.1'); // can be `latest` or any version number (i.e.: '1.40.0')
+PlotlyViaCDNModule.setPlotlyBundle('basic');
 registerLocaleData(localeDe, 'de');
 
 @NgModule({
