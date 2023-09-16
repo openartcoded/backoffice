@@ -42,16 +42,16 @@
     "marked": "^4.3.0",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
-    "ng2-pdf-viewer": "^9.1.5",
+    "ng2-pdf-viewer": "^10.0.0",
     "ngx-autosize": "^2.0.4",
     "ngx-file-drop": "^16.0.0",
     "ngx-highlightjs": "^10.0.0",
     "ngx-markdown-editor": "5.3.3",
     "primeicons": "^6.0.1",
-    "primeng": "^16.2.0",
+    "primeng": "^16.3.0",
     "rxjs": "^7.8.0",
     "validator": "^13.11.0",
-    "zone.js": "^0.13.1"
+    "zone.js": "^0.13.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.0",
