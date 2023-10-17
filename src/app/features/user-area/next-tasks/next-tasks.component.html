@@ -3,7 +3,7 @@
     <a (click)="openTask(task)" class="btn btn-sm me-1" *ngFor="let task of reminderTasks; let i = index"
       [class.text-dark]="i >= 3" [class.bg-info]="i >= 3" [class.bg-dark]="i < 3" [class.text-light]="i < 3">
       <small>{{ task.nextDate | date: 'dd/MM @ HH:mm' }}</small><br />
-      <small class="fw-bold">{{ task.customActionName || task.title | trim: 15 }}</small>
+      <small class="fw-bold">{{ getTaskName(task) }}</small>
     </a>
   </div>
 </ng-container>

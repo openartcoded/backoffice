@@ -8,25 +8,34 @@ import { Observable, firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-next-tasks',
   templateUrl: './next-tasks.component.html',
-  styleUrls: ['./next-tasks.component.scss']
+  styleUrls: ['./next-tasks.component.scss'],
 })
 export class NextTasksComponent implements OnInit {
   reminderTasks$: Observable<ReminderTask[]>;
-  constructor(private reminderTaskService: ReminderTaskService,
-    private modalService: NgbModal) {
-
-  }
+  constructor(
+    private reminderTaskService: ReminderTaskService,
+    private modalService: NgbModal,
+  ) { }
   ngOnInit(): void {
     this.load();
   }
   load() {
     this.reminderTasks$ = this.reminderTaskService.findNextTenTasks();
   }
+
+  getTaskName(task: ReminderTask): string {
+    let name = task.customActionName || task.title;
+    // trim
+    if (name?.length > 15) {
+      name = name.substring(0, 15) + '...';
+    }
+    return name;
+  }
   openTask(task: ReminderTask) {
     const modal = this.modalService.open(TaskDetailComponent, {
       size: 'xl',
       scrollable: true,
-      backdrop: 'static'
+      backdrop: 'static',
     });
     modal.componentInstance.task = task;
     modal.componentInstance.allowedActions$ = this.reminderTaskService.allowedActions();
@@ -40,7 +49,5 @@ export class NextTasksComponent implements OnInit {
       await firstValueFrom(this.reminderTaskService.delete(taskToDelete.id));
       this.load();
     });
-
   }
-
 }
