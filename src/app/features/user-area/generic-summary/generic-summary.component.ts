@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { InvoiceService } from '@core/service/invoice.service';
-import { Observable, of } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { InvoiceSummary, BackendInvoiceSummary } from '@core/models/invoice';
 import { map } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
@@ -13,23 +13,39 @@ import { WindowRefService } from '@core/service/window.service';
   styleUrls: ['./generic-summary.component.scss'],
 })
 export class GenericSummaryComponent implements OnInit, OnDestroy {
-  summary$: Observable<InvoiceSummary>;
+  summary: InvoiceSummary;
+  subscriptions: Subscription[];
   graphsPerClient$: Observable<any[]>;
-  selectedYear: number = DateUtils.getCurrentYear();
+  _selectedYear?: number = null;
   active = 1;
   loaded = true;
   constructor(
     private windowService: WindowRefService,
     private invoiceService: InvoiceService,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) private platformId: any,
   ) { }
 
   ngOnDestroy(): void {
-    this.summary$ = null;
+    this.subscriptions.forEach((elt: Subscription) => {
+      elt.unsubscribe();
+    });
+    this.summary = null;
   }
 
   ngOnInit(): void {
+    this.subscriptions = [];
     this.load();
+  }
+  get selectedYear() {
+    const currentYear = this._selectedYear || DateUtils.getCurrentYear();
+    if ([...this.summary.invoicesGroupByYear.keys()].includes(currentYear)) {
+      return currentYear;
+    } else {
+      return currentYear - 1;
+    }
+  }
+  set selectedYear(year: number) {
+    this._selectedYear = year;
   }
 
   resize(activeItem: number) {
@@ -86,7 +102,6 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
 
     const data = [byClient];
     this.graphsPerClient$ = of([{ data: data, config: config, layout: layout('Invoice/Client') }]);
-
   }
 
   load() {
@@ -120,63 +135,69 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
       callback(l);
       return l;
     };
-    this.summary$ = this.invoiceService.findAllSummaries().pipe(
-      map((invoices) => {
-        const invoicesOrderedByDateAsc = invoices.sort(
-          (a, b) =>
-            DateUtils.toOptionalDate(a.dateOfInvoice).getTime() - DateUtils.toOptionalDate(b.dateOfInvoice).getTime()
-        );
+    this.subscriptions.push(
+      this.invoiceService
+        .findAllSummaries()
+        .pipe(
+          map((invoices) => {
+            const invoicesOrderedByDateAsc = invoices.sort(
+              (a, b) =>
+                DateUtils.toOptionalDate(a.dateOfInvoice).getTime() -
+                DateUtils.toOptionalDate(b.dateOfInvoice).getTime(),
+            );
 
-        const graphData = this.generateGraphData(invoicesOrderedByDateAsc);
-        const average = {
-          name: 'Earnings',
-          x: graphData.map((d) => d.period),
-          y: graphData.map((r) => r.subTotal),
-          type: 'scatter',
-          marker: { color: '#1f77b4' },
-          yaxis: 'y2',
-        };
-        const amountWorked = {
-          name: 'Working days',
-          x: graphData.map((d) => d.period),
-          y: graphData.map((g) => g.amount),
-          marker: { color: '#b6b3c6' },
-          type: 'bar',
-        };
-        const data = [average, amountWorked];
-        const graphs = [{ data: data, config: config, layout: layout('Earnings/Working days') }];
+            const graphData = this.generateGraphData(invoicesOrderedByDateAsc);
+            const average = {
+              name: 'Earnings',
+              x: graphData.map((d) => d.period),
+              y: graphData.map((r) => r.subTotal),
+              type: 'scatter',
+              marker: { color: '#1f77b4' },
+              yaxis: 'y2',
+            };
+            const amountWorked = {
+              name: 'Working days',
+              x: graphData.map((d) => d.period),
+              y: graphData.map((g) => g.amount),
+              marker: { color: '#b6b3c6' },
+              type: 'bar',
+            };
+            const data = [average, amountWorked];
+            const graphs = [{ data: data, config: config, layout: layout('Earnings/Working days') }];
 
-        const invoicesGroupByYear = invoicesOrderedByDateAsc.reduce((group, invoice) => {
-          const dateOfInvoice = new Date(invoice.dateOfInvoice);
-          const year = dateOfInvoice.getFullYear();
-          const { totalAmountOfWork, totalExclVat, numberOfInvoices } = group.get(year) || {
-            totalAmountOfWork: 0,
-            totalExclVat: 0,
-            numberOfInvoices: 0
-          };
+            const invoicesGroupByYear = invoicesOrderedByDateAsc.reduce((group, invoice) => {
+              const dateOfInvoice = new Date(invoice.dateOfInvoice);
+              const year = dateOfInvoice.getFullYear();
+              const { totalAmountOfWork, totalExclVat, numberOfInvoices } = group.get(year) || {
+                totalAmountOfWork: 0,
+                totalExclVat: 0,
+                numberOfInvoices: 0,
+              };
 
-          group.set(year, {
-            totalAmountOfWork: totalAmountOfWork + this.findAmount(invoice),
-            totalExclVat: totalExclVat + invoice.subTotal,
-            numberOfInvoices: numberOfInvoices + 1,
-          });
-          return group;
-        }, new Map());
+              group.set(year, {
+                totalAmountOfWork: totalAmountOfWork + this.findAmount(invoice),
+                totalExclVat: totalExclVat + invoice.subTotal,
+                numberOfInvoices: numberOfInvoices + 1,
+              });
+              return group;
+            }, new Map());
 
-        this.loaded = true;
-        this.makeGraphInvoicePerClient(invoicesOrderedByDateAsc);
-        return {
-          invoicesGroupByYear,
-          graphs,
-          totalInvoices: invoicesOrderedByDateAsc.length,
-          totalAmountOfWork: invoicesOrderedByDateAsc
-            .map(this.findAmount)
-            .reduce((previousValue, currentValue) => previousValue + currentValue, 0),
-          totalExclVat: invoicesOrderedByDateAsc
-            .map((i) => i.subTotal)
-            .reduce((previousValue, currentValue) => previousValue + currentValue, 0),
-        };
-      })
+            this.loaded = true;
+            this.makeGraphInvoicePerClient(invoicesOrderedByDateAsc);
+            return {
+              invoicesGroupByYear,
+              graphs,
+              totalInvoices: invoicesOrderedByDateAsc.length,
+              totalAmountOfWork: invoicesOrderedByDateAsc
+                .map(this.findAmount)
+                .reduce((previousValue, currentValue) => previousValue + currentValue, 0),
+              totalExclVat: invoicesOrderedByDateAsc
+                .map((i) => i.subTotal)
+                .reduce((previousValue, currentValue) => previousValue + currentValue, 0),
+            };
+          }),
+        )
+        .subscribe((sum) => (this.summary = sum)),
     );
   }
 
@@ -208,7 +229,7 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
       })
       .reduce((entryMap, e) => entryMap.set(e.period, [...(entryMap.get(e.period) || []), e]), new Map());
     const sortedAggregateData = Array.from(graphInvoices.values()).sort(
-      (a, b) => new Date(a.dateOfInvoice).getTime() - new Date(b.dateOfInvoice).getTime()
+      (a, b) => new Date(a.dateOfInvoice).getTime() - new Date(b.dateOfInvoice).getTime(),
     );
     return sortedAggregateData.map((v) =>
       v.reduce((previousValue, newValue) => {
@@ -217,7 +238,7 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
           subTotal: (previousValue?.subTotal || 0) + (newValue?.subTotal || 0),
           amount: (previousValue?.amount || 0) + (newValue?.amount || 0),
         } as GraphData;
-      }, {})
+      }, {}),
     );
   }
 }
