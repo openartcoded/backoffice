@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { FileUpload } from '@core/models/file-upload';
 import { MailContextType, MailRequest } from '@core/models/mail-request';
+import { DateUtils } from '@core/utils/date-utils';
 import { EmailsValidator } from '@core/validators/emails.validator';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
 
 @Component({
   selector: 'app-mail-form',
@@ -12,7 +12,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./mail-form.component.scss'],
 })
 export class MailFormComponent implements OnInit {
-
   public mailForm: UntypedFormGroup;
 
   @Input()
@@ -26,11 +25,13 @@ export class MailFormComponent implements OnInit {
   @Input()
   defaultSubject?: string;
 
-
   @Output()
   sendMail: EventEmitter<MailRequest> = new EventEmitter<MailRequest>();
 
-  constructor(private fb: UntypedFormBuilder, public activeModal: NgbActiveModal) { }
+  constructor(
+    private fb: UntypedFormBuilder,
+    public activeModal: NgbActiveModal,
+  ) { }
 
   ngOnInit(): void {
     this.mailForm = this.fb.group(
@@ -38,11 +39,12 @@ export class MailFormComponent implements OnInit {
         to: [this.to || [], [Validators.required]],
         subject: [this.defaultSubject, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
         body: [null, [Validators.required, Validators.minLength(1)]],
+        sendingDate: [null, []],
         bcc: [false, [Validators.required]],
       },
       {
         validators: EmailsValidator('to'),
-      }
+      },
     );
   }
 
@@ -58,13 +60,21 @@ export class MailFormComponent implements OnInit {
   get bcc(): boolean {
     return this.mailForm.get('bcc').value;
   }
+
+  get sendingDate(): Date {
+    return this.mailForm.get('sendingDate').value;
+  }
+
   removeAttachment($event: MouseEvent, a: FileUpload) {
     $event.stopPropagation();
     this.attachments = this.attachments.filter((attachment) => attachment.id !== a.id);
   }
   send() {
+    let sendingDate = this.sendingDate ? DateUtils.getDateFromInput(this.sendingDate).toUTCString() : null;
+
     this.sendMail.emit({
       to: this.mailTo,
+      sendingDate,
       subject: this.subject,
       body: this.body,
       bcc: this.bcc,
@@ -76,6 +86,5 @@ export class MailFormComponent implements OnInit {
     $event.preventDefault();
     const body = this.body?.length ? this.body + ' ' : '';
     this.mailForm.get('body').patchValue(body + v);
-
   }
 }

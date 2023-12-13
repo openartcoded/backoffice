@@ -1,113 +1,100 @@
 <ng-container *ngIf="indicators$ | async as indicators">
   <div class="mb-2">
-    <ngb-accordion [closeOthers]="true" activeIds="backend-info">
-      <ngb-panel id="backend-info" cardClass="p-0">
-        <ng-template ngbPanelTitle let-opened="opened">
-          <strong class="text-uppercase">Backend Info</strong>
-        </ng-template>
-        <ng-template ngbPanelContent>
-          <div class="d-flex justify-content-between">
-            <strong class="text-uppercase">Build Time</strong>
-            <strong>{{ indicators.buildInfo.build.time | date : 'dd/MM/yyyy HH:mm' }}</strong>
+    <div ngbAccordion [closeOthers]="true">
+      <div ngbAccordionItem="buildInfo" #buildInfo="ngbAccordionItem" [collapsed]="false">
+        <div ngbAccordionHeader class="p-0">
+          <button ngbAccordionButton>Backend Info</button>
+        </div>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <div class="d-flex justify-content-between">
+              <strong class="text-uppercase">Build Time</strong>
+              <strong>{{ indicators.buildInfo.build.time | date: 'dd/MM/yyyy HH:mm' }}</strong>
+            </div>
+            <div class="d-flex justify-content-between">
+              <strong class="text-uppercase">Version</strong>
+              <strong>{{ indicators.buildInfo.build.version }}</strong>
+            </div>
+            <div class="d-flex justify-content-between">
+              <strong class="text-uppercase">Uptime</strong>
+              <strong>{{ indicators.buildInfo['camel.uptime'] }}</strong>
+            </div>
           </div>
-          <div class="d-flex justify-content-between">
-            <strong class="text-uppercase">Version</strong>
-            <strong>{{ indicators.buildInfo.build.version }}</strong>
-          </div>
-          <div class="d-flex justify-content-between">
-            <strong class="text-uppercase">Uptime</strong>
-            <strong>{{ indicators.buildInfo['camel.uptime'] }}</strong>
-          </div>
-        </ng-template>
-      </ngb-panel>
-      <ng-container *ngIf="indicators.healthIndicator.components?.diskSpace?.details as diskSpace">
-        <ngb-panel id="disk-space">
-          <ng-template ngbPanelTitle let-opened="opened">
-            <strong class="text-uppercase">Disk Space</strong>
-          </ng-template>
-          <ng-template ngbPanelContent>
+        </div>
+      </div>
+      <div ngbAccordionItem="diskSpace" *ngIf="indicators.healthIndicator.components?.diskSpace?.details as diskSpace">
+        <div ngbAccordionHeader class="p-0">
+          <button ngbAccordionButton>Disk Space</button>
+        </div>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
             <div class="d-flex justify-content-between">
               <strong class="font-weight-bold text-uppercase">Total</strong>
-              <strong>{{ diskSpace.total | bytesToHuman : true }}</strong>
+              <strong>{{ diskSpace.total | bytesToHuman: true }}</strong>
             </div>
             <div class="d-flex justify-content-between">
               <strong class="text-uppercase">Free</strong>
-              <strong>{{ diskSpace.free | bytesToHuman : true }}</strong>
+              <strong>{{ diskSpace.free | bytesToHuman: true }}</strong>
             </div>
-          </ng-template>
-        </ngb-panel>
-      </ng-container>
-      <ng-container *ngIf="indicators.healthIndicator.components?.jms as jms">
-        <ngb-panel id="jms">
-          <ng-template ngbPanelTitle let-opened="opened">
-            <strong class="text-uppercase">JMS</strong>
-          </ng-template>
-          <ng-template ngbPanelContent>
+          </div>
+        </div>
+      </div>
+
+      <div ngbAccordionItem="jms" *ngIf="indicators.healthIndicator.components?.jms as jms">
+        <div ngbAccordionHeader class="p-0">
+          <button ngbAccordionButton>Artemis</button>
+        </div>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
             <div class="d-flex justify-content-between">
               <strong class="text-uppercase">Status</strong>
               <strong>{{ jms.status }}</strong>
             </div>
-          </ng-template>
-        </ngb-panel>
-      </ng-container>
-      <ng-container *ngIf="indicators.healthIndicator.components?.mail as mail">
-        <ngb-panel id="mail">
-          <ng-template ngbPanelTitle let-opened="opened">
-            <strong class="text-uppercase">Mail</strong>
-          </ng-template>
-          <ng-template ngbPanelContent>
+          </div>
+        </div>
+      </div>
+
+      <div ngbAccordionItem="mail" *ngIf="indicators.healthIndicator.components?.mail as mail">
+        <div ngbAccordionHeader class="p-0">
+          <button ngbAccordionButton>Mail</button>
+        </div>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
             <div class="d-flex justify-content-between">
               <strong class="text-uppercase">Status</strong>
               <strong>{{ mail.status }}</strong>
             </div>
-          </ng-template>
-        </ngb-panel>
-      </ng-container>
-      <ng-container *ngIf="indicators.healthIndicator.components?.mongo as mongo">
-        <ngb-panel id="mongo">
-          <ng-template ngbPanelTitle let-opened="opened">
-            <strong class="text-uppercase">Mongo</strong>
-          </ng-template>
-          <ng-template ngbPanelContent>
+          </div>
+        </div>
+      </div>
+
+      <div ngbAccordionItem="mongo" *ngIf="indicators.healthIndicator.components?.mongo as mongo">
+        <div ngbAccordionHeader class="p-0">
+          <button ngbAccordionButton>Mongo</button>
+        </div>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
             <div class="d-flex justify-content-between">
               <strong class="text-uppercase">Status</strong>
               <strong>{{ mongo.status }}</strong>
             </div>
-          </ng-template>
-        </ngb-panel>
-      </ng-container>
-      <ng-container *ngIf="indicators.healthIndicator.components?.redis as redis">
-        <ngb-panel id="redis">
-          <ng-template ngbPanelTitle let-opened="opened">
-            <strong class="text-uppercase">Redis</strong>
-          </ng-template>
-          <ng-template ngbPanelContent>
+          </div>
+        </div>
+      </div>
+
+      <div ngbAccordionItem="redis" *ngIf="indicators.healthIndicator.components?.redis as redis">
+        <div ngbAccordionHeader class="p-0">
+          <button ngbAccordionButton>Redis</button>
+        </div>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
             <div class="d-flex justify-content-between">
               <strong class="text-uppercase">Status</strong>
               <strong>{{ redis.status }}</strong>
             </div>
-          </ng-template>
-        </ngb-panel>
-      </ng-container>
-      <!-- <ng-container *ngIf="healthIndicator.components?.camelHealth as camelHealth">
-            <ngb-panel id="camel">
-              <ng-template ngbPanelTitle let-opened="opened">
-                <strong class="text-uppercase">Camel</strong>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                <div class="d-flex justify-content-between">
-                  <strong class="text-uppercase">Status</strong>
-                  <strong>{{ camelHealth.status }}</strong>
-                </div>
-                <ng-container *ngFor="let detail of camelHealth.details | keyvalue">
-                  <div class="d-flex justify-content-between">
-                    <strong class="font-weight-bold">{{ detail.key }}</strong>
-                    <strong>{{ detail.value }}</strong>
-                  </div>
-                </ng-container>
-              </ng-template>
-            </ngb-panel>
-          </ng-container> -->
-    </ngb-accordion>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </ng-container>

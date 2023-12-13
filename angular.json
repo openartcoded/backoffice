@@ -82,19 +82,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "artcoded-backoffice:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "proxyConfig": "src/proxy.conf.json",
+            "buildTarget": "artcoded-backoffice:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "artcoded-backoffice:build:production"
+              "buildTarget": "artcoded-backoffice:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "artcoded-backoffice:build"
+            "buildTarget": "artcoded-backoffice:build"
           }
         },
         "lint": {

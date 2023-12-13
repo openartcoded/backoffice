@@ -12,13 +12,10 @@
         <input type="text" class="form-control mb-2" formControlName="subject" placeholder="Subject" />
       </div>
       <div class="mb-1 d-flex justify-content-start" *ngIf="context?.size">
-
         <button class="btn btn-outline-secondary me-1" *ngFor="let option of context | keyvalue"
-          (click)="updateBody($event,option.value)">
-          {{option.key}}
+          (click)="updateBody($event, option.value)">
+          {{ option.key }}
         </button>
-
-
       </div>
       <div class="mb-1">
         <textarea class="form-control mb-2" [autosize] formControlName="body" placeholder="Body"></textarea>
@@ -36,6 +33,10 @@
             </div>
           </li>
         </ul>
+      </div>
+      <div class="mb-1">
+        <label class="col-form-label" for="title">Sending date</label>
+        <input type="datetime-local" class="form-control" id="sendingDate" formControlName="sendingDate" />
       </div>
       <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary" [disabled]="!mailForm.valid">Submit</button>
