@@ -3,7 +3,6 @@ import { Memz } from '@core/models/memz';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
-import { FileService } from '@core/service/file.service';
 import { MemzService } from '@core/service/memz.service';
 import { DateUtils } from '@core/utils/date-utils';
 
@@ -24,10 +23,9 @@ export class MemagramEditorComponent implements OnInit {
 
   constructor(
     @Optional() public activeModal: NgbActiveModal,
-    private fileService: FileService,
     private memzService: MemzService,
-    private formBuilder: UntypedFormBuilder
-  ) {}
+    private formBuilder: UntypedFormBuilder,
+  ) { }
 
   ngOnInit(): void {
     this.editorForm = this.createFormGroup(this.meme);
