@@ -10,17 +10,15 @@
     <a class="navbar-brand font-weight-bolder border-0 d-lg-inline-block d-none me-1 pe-0" routerLink="/">
       <span class="text-white text-shadow ms-1 me-1">artcoded</span>
     </a>
-    <ng-template #infoFrontend>
-      v{{version}} ({{ env | lowercase }})
-    </ng-template>
+    <ng-template #infoFrontend> v{{ version }} ({{ env | lowercase }}) </ng-template>
     <button type="button" class="ps-0 ms-0 pe-1 me-0 btn btn-link text-white" [ngbTooltip]="infoFrontend"
       triggers="click:blur">
       <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
     </button>
   </div>
   <div class="d-lg-inline col col-md-3" *ngIf="links">
-    <select [(ngModel)]="link" class="form-select form-control-sm bg-white-transparent"
-      [ngModelOptions]="{ standalone: true }" (ngModelChange)="menuChange()">
+    <select [(ngModel)]="link" class="form-select form-control-sm menuNav" [ngModelOptions]="{ standalone: true }"
+      (ngModelChange)="menuChange()">
       <option [ngValue]="null">--Select--</option>
       <option *ngFor="let link of links" [ngValue]="link">
         {{ link.title | titlecase }}
@@ -29,7 +27,7 @@
   </div>
   <div class="d-lg-inline me-1">
     <a class="btn btn-link text-white no-focus" (click)="openCacheModal()">
-      <fa-icon [icon]="['fas','database']"></fa-icon>
+      <fa-icon [icon]="['fas', 'database']"></fa-icon>
     </a>
     <button (click)="reload()" class="btn btn-link text-white">
       <fa-icon [icon]="['fas', 'sync']"></fa-icon>

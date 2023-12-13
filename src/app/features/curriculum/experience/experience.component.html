@@ -13,7 +13,7 @@
       <div class="d-flex  justify-content-between">
         <strong
           [class.text-primary]="filterExperience?.length > 2 && exp.company.toUpperCase().includes(filterExperience.toUpperCase())">{{exp.title}}
-          @ {{exp.company}}</strong>
+          &#64; {{exp.company}}</strong>
 
         <div class="btn-group">
           <button class="btn btn-link text-dark pt-0 pb-0 ps-0 pe-1" (click)="delete(exp)">
