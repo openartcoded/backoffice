@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { ConfigInitService } from '@init/config-init.service';
 
 @Injectable({
@@ -14,7 +14,7 @@ export class PdfService {
     private http: HttpClient,
     @Inject(DOCUMENT) private document: Document,
     private configService: ConfigInitService,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) private platformId: any,
   ) {
     this.baseUrl = configService.getConfig()['BACKEND_URL'] + '/api/pdf';
   }
@@ -42,5 +42,8 @@ export class PdfService {
           downloadLink.click();
         });
     }
+  }
+  public rotate(id: string, rotation: number) : Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/rotate?rotation=${rotation}&id=${id}`, {});
   }
 }

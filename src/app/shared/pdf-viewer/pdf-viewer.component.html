@@ -1,23 +1,20 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
-    <span class="modal-title text-break">{{title}}</span>
-    <button type="button" class="btn-close" aria-label="Close"
-            (click)="activeModal?.dismiss('Cross click')">
-      
-    </button>
+    <span class="modal-title text-break">{{ title }}</span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
+    <div class="d-flex justify-content-end mb-1">
+      <button class="btn btn-link me-1" (click)="rotate(-90)">
+        <fa-icon class="text-dark" [icon]="['fas', 'arrow-rotate-backward']"></fa-icon>
+      </button>
+      <button class="btn btn-link me-1" (click)="rotate(90)">
+        <fa-icon class="text-dark" [icon]="['fas', 'arrow-rotate-forward']"></fa-icon>
+      </button>
+    </div>
     <ng-container *ngIf="pdfSrc">
-      <pdf-viewer [src]="pdfSrc"
-                  [render-text]="true"
-                  style="display: block;"
-                  [autoresize]="true"
-                  [show-all]="true"
-                  [fit-to-page]="true"
-                  
-      ></pdf-viewer>
+      <pdf-viewer [src]="pdfSrc" [render-text]="true" style="display: block" [autoresize]="true" [show-all]="true"
+        [fit-to-page]="true"></pdf-viewer>
     </ng-container>
-
   </div>
 </ng-container>
-

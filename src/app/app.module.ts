@@ -93,6 +93,8 @@ import {
   faArrowsSplitUpAndLeft,
   faArrowsUpDown,
   faBattery,
+  faArrowRotateForward,
+  faArrowRotateBackward,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
@@ -115,7 +117,8 @@ registerLocaleData(localeDe, 'de');
     LayoutModule,
     KeycloakAngularModule,
     HighlightModule,
-    ServiceWorkerModule.register('safety-worker.js', { // disable ngsw worker
+    ServiceWorkerModule.register('safety-worker.js', {
+      // disable ngsw worker
       enabled: environment.production,
     }),
   ],
@@ -153,6 +156,8 @@ export class AppModule {
       faDatabase,
       faAsterisk,
       faUser,
+      faArrowRotateBackward,
+      faArrowRotateForward,
       faKey,
       faArrowLeft,
       faIdCard,
@@ -236,7 +241,7 @@ export class AppModule {
       faCog,
       faTrash,
       faFilePdf,
-      faTrashRestore
+      faTrashRestore,
     );
   }
 }

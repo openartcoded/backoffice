@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileUpload } from '@core/models/file-upload';
 import { FileService } from '@core/service/file.service';
+import { PdfService } from '@core/service/pdf.service';
 
 @Component({
   selector: 'app-pdf-viewer',
@@ -15,11 +16,22 @@ export class PdfViewerComponent implements OnInit {
   title: string = '';
   pdfSrc: any;
 
-  constructor(public activeModal: NgbActiveModal, private fileService: FileService) {}
+  constructor(
+    public activeModal: NgbActiveModal,
+    private fileService: FileService,
+    private pdfService: PdfService,
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.load();
+  }
+  load() {
     this.fileService
       .toDownloadLink(this.fileService.getDownloadUrl(this.pdf.id))
       .subscribe((link) => (this.pdfSrc = link.href));
+  }
+
+  rotate(deg: number) {
+    this.pdfService.rotate(this.pdf.id, deg).subscribe((_) => this.load());
   }
 }
