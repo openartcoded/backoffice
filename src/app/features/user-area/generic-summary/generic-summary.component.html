@@ -5,7 +5,7 @@
       <p *ngIf="!loaded">loading...</p>
       <ng-container *ngIf="isBrowser() && loaded && summary">
         <ng-container>
-          <div id="plot" class="border me-lg-1 mb-1">
+          <div id="plot1" class="border me-lg-1 mb-1">
             <ng-container *ngFor="let g of summary.graphs; let index = index">
               <plotly-plot [divId]="'plot'" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
               <hr *ngIf="index + 1 < summary.graphs.length" />
@@ -21,7 +21,7 @@
       <p *ngIf="!loaded">loading...</p>
       <ng-container *ngIf="isBrowser() && loaded && graphsPerClient$ | async as graphsPerClient">
         <ng-container>
-          <div id="plot" class="border me-lg-1 mb-1">
+          <div id="plot2" class="border me-lg-1 mb-1">
             <ng-container *ngFor="let g of graphsPerClient; let index = index">
               <plotly-plot [divId]="'plot'" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
             </ng-container>
@@ -52,8 +52,10 @@
       <ul class="mb-1 list-group" *ngIf="summary">
         <li class="list-group-item bg-light">
           <select [(ngModel)]="selectedYear" class="form-select">
-            <option *ngFor="let summaryPerYear of summary.invoicesGroupByYear | keyvalue"
-              [ngValue]="summaryPerYear.key">
+            <option
+              *ngFor="let summaryPerYear of summary.invoicesGroupByYear | keyvalue"
+              [ngValue]="summaryPerYear.key"
+            >
               {{ summaryPerYear.key }}
             </option>
           </select>
@@ -69,7 +71,7 @@
             <strong class="text-uppercase">Total worked (days)</strong>
             <strong class="text-uppercase">{{
               summary.invoicesGroupByYear?.get(selectedYear)?.totalAmountOfWork || 0 | number: '1.2-2'
-              }}</strong>
+            }}</strong>
           </div>
         </li>
         <li class="list-group-item">
@@ -77,7 +79,7 @@
             <strong class="text-uppercase">Total excl. VAT</strong>
             <strong class="text-uppercase">{{
               summary.invoicesGroupByYear?.get(selectedYear)?.totalExclVat || 0 | currency: '€'
-              }}</strong>
+            }}</strong>
           </div>
         </li>
         <li class="list-group-item bg-light">

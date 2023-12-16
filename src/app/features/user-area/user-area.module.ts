@@ -13,7 +13,6 @@ import { AutosizeModule } from 'ngx-autosize';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodoFormComponent } from './todo-form/todo-form.component';
-import { ActuatorComponent } from './actuator/actuator.component';
 import { ErrorComponent } from './error/error.component';
 import { GenericSummaryComponent } from './generic-summary/generic-summary.component';
 import { DossierSummaryComponent } from './dossier-summary/dossier-summary.component';
@@ -34,7 +33,6 @@ import { PlotlyViaCDNModule } from 'angular-plotly.js';
     EditPersonalInfoComponent,
     TodoListComponent,
     TodoFormComponent,
-    ActuatorComponent,
     FeeSummaryComponent,
     GenericSummaryComponent,
     DossierSummaryComponent,
@@ -58,7 +56,7 @@ import { PlotlyViaCDNModule } from 'angular-plotly.js';
     AutosizeModule,
     NgxFileDropModule,
     NgbNavModule,
-    Html2canvasUniversalModule
+    Html2canvasUniversalModule,
   ],
 })
 export class UserAreaModule { }

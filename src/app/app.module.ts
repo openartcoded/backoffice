@@ -106,7 +106,7 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initialize } from './init/app-init.factory';
 import { ConfigInitService } from './init/config-init.service';
 
-PlotlyViaCDNModule.setPlotlyVersion('2.25.1'); // can be `latest` or any version number (i.e.: '1.40.0')
+PlotlyViaCDNModule.setPlotlyVersion('2.27.0'); // can be `latest` or any version number (i.e.: '1.40.0')
 PlotlyViaCDNModule.setPlotlyBundle('finance');
 registerLocaleData(localeDe, 'de');
 

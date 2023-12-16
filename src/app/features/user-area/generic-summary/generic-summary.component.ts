@@ -51,9 +51,7 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
   resize(activeItem: number) {
     if (this.isBrowser() && (activeItem === 1 || activeItem === 3 || activeItem === 4 || activeItem === 5)) {
       this.loaded = false;
-      let timeout: number;
-      if (activeItem === 5) timeout = 200;
-      else timeout = 150;
+      let timeout: number = 200;
       this.windowService.nativeWindow.dispatchEvent(new Event('resize'));
       setTimeout(() => {
         this.loaded = true;
@@ -65,6 +63,7 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
     const config = {
       responsive: true,
       displayModeBar: false,
+      autosize: true,
     };
     const invoicesGroupBClient = invoicesOrderedByDateAsc.reduce((group, invoice) => {
       const sum = group.get(invoice.client) || 0;
@@ -87,7 +86,8 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
             visible: false,
           },
         },
-        title: title,
+        title,
+        autosize: true,
       };
       callback(l);
       return l;
