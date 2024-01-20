@@ -1,4 +1,4 @@
-FROM node:18.16-alpine as builder
+FROM node:20-alpine as builder
 WORKDIR /usr/src/app
 COPY package.json ./
 #RUN npm i --legacy-peer-deps
