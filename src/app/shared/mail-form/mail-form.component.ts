@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { FileUpload } from '@core/models/file-upload';
-import { MailContextType, MailRequest } from '@core/models/mail-request';
+import { MailContextType, MailRequest } from '@core/models/mail';
 import { DateUtils } from '@core/utils/date-utils';
 import { EmailsValidator } from '@core/validators/emails.validator';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';

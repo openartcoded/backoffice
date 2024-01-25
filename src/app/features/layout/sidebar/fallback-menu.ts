@@ -256,6 +256,32 @@ export class FallbackMenu {
         show: true,
         numberOfTimesClicked: 0,
       },
+      {
+        id: 'a39533c8-1a63-4453-b407-deeb1b17bfc2',
+        order: 21,
+        updatedDate: '2022-09-03T11:39:55.314+00:00',
+        title: 'Clients',
+        description: 'Billable clients',
+        routerLinkActiveOptions: {
+          exact: true,
+        },
+        icon: ['fas', 'user'],
+        routerLink: ['billable-clients'],
+        show: true,
+      },
+      {
+        id: '459d134a-6079-4309-8a33-70c53cf077fd',
+        order: 22,
+        updatedDate: '2024-01-25T21:39:55.314+00:00',
+        title: 'Mails',
+        description: 'Mails',
+        routerLinkActiveOptions: {
+          exact: true,
+        },
+        icon: ['fas', 'mail-bulk'],
+        routerLink: ['mails'],
+        show: true,
+      },
     ];
   }
 }

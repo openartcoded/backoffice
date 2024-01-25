@@ -18,7 +18,7 @@ import { firstValueFrom } from 'rxjs';
 import { FileService } from '@core/service/file.service';
 import { MailService } from '@core/service/mail.service';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
-import { MailRequest } from '@core/models/mail-request';
+import { MailRequest } from '@core/models/mail';
 import { ToastService } from '@core/service/toast.service';
 
 @Component({
@@ -50,7 +50,7 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     private feeService: FeeService,
     private fileService: FileService,
     private mailService: MailService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) { }
 
   ngOnInit(): void {
@@ -133,7 +133,7 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     const modalRef = this.modalService.open(FeeDetailComponent, {
       size: 'xl',
       scrollable: true,
-      backdrop: 'static'
+      backdrop: 'static',
     });
     modalRef.componentInstance.fee = f;
     modalRef.componentInstance.feeUpdated.subscribe((_f: any) => {

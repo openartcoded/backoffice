@@ -1,0 +1,105 @@
+<ng-container *ngIf="mail">
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">Mail Job #{{ mail.id }} </span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body" *ngIf="mailForm">
+    <form [formGroup]="mailForm">
+      <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem>
+          <a ngbNavLink>General</a>
+          <ng-template ngbNavContent>
+            <div class="mt-2">
+              <div class="mb-1 row">
+                <label class="col-sm-2 col-form-label" for="mailId">Id</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="mailId" formControlName="mailId" placeholder="Id" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-sm-2 col-form-label" for="mailTos">To</label>
+                <div class="col-sm-10">
+                  <p-chips id="mailTos" formControlName="mailTos" separator=","></p-chips>
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-sm-2 col-form-label" for="mailSubject">Subject</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="mailSubject" formControlName="mailSubject"
+                    placeholder="Name (Minimum 5 characters)" min="5" required="required" autofocus appAutoFocus />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-sm-2 col-form-label" for="mailBody">Body</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="mailBody" formControlName="mailBody" [autosize]
+                    placeholder="Description"></textarea>
+                </div>
+              </div>
+              <div class="mb-1 row" *ngIf="mail.uploadIds">
+                <label class="col-sm-2 col-form-label" for="totalAttachments">Total Attachments</label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control" id="totalAttachments" [value]="mail.uploadIds.length"
+                    disabled />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-sm-2 col-form-label" for="creationDate">Creation Date</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="creationDate" formControlName="creationDate" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-sm-2 col-form-label" for="updatedDate">Updated Date</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="updatedDate" formControlName="updatedDate" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-sm-2 col-form-label" for="sent"> Sent </label>
+                <div class="col-sm-10">
+                  <select class="form-select" formControlName="sent" id="sent">
+                    <option [value]="false">No</option>
+                    <option [value]="true">Yes</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-1 row" *ngIf="mail.sendingDate">
+                <label class="col-sm-2 col-form-label" for="sendingDate">Sending Date</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="sendingDate" formControlName="sendingDate" />
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+        <li ngbNavItem>
+          <a ngbNavLink>Attachments</a>
+          <ng-template ngbNavContent>
+            <div class="mt-2">
+              <div class="bg-light p-2" *ngIf="!uploads?.length">No Content.</div>
+              <ul class="list-group" id="attachments" *ngIf="uploads.length">
+                <li class="list-group-item" *ngFor="let a of uploads">
+                  <div class="d-flex justify-content-between">
+                    <button class="btn btn-link text-break" (click)="downloadAttachment($event, a)">
+                      {{ a.originalFilename }}
+                    </button>
+                    <div class="btn-group">
+                      <button class="btn btn-link" *ngIf="isPdf(a)" (click)="openPdfViewer(a)">
+                        <fa-icon [icon]="['fas', 'file-pdf']" class="text-secondary"></fa-icon>
+                      </button>
+                      <button class="btn btn-link" *ngIf="isImage(a)" (click)="openImageViewer(a)">
+                        <fa-icon [icon]="['fas', 'file-image']" class="text-secondary"></fa-icon>
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
+    </form>
+  </div>
+</ng-container>

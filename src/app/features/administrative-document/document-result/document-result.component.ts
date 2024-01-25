@@ -17,7 +17,7 @@ import { NotificationService } from '@core/service/notification.service';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { OnDestroy } from '@angular/core';
 import { SplitPdfComponent } from '../split-pdf/split-pdf.component';
-import { MailContextType, MailRequest } from '@core/models/mail-request';
+import { MailContextType, MailRequest } from '@core/models/mail';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { ToastService } from '@core/service/toast.service';
 import { MailService } from '@core/service/mail.service';
@@ -45,7 +45,7 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
     private toastService: ToastService,
     private mailService: MailService,
     private dossierService: DossierService,
-    private titleService: Title
+    private titleService: Title,
   ) { }
 
   ngOnInit() {
@@ -83,13 +83,13 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
       .search(this.searchCriteria, event, this.pageSize)
       .pipe(
         tap((page) => {
-          const attachmentIds = page.content?.map(d => d.attachmentId);
-          this.fileService.findByIds(attachmentIds).subscribe(attachments => {
-            attachments.forEach(attachment => {
-              page.content.filter(d => d.attachmentId === attachment.id).forEach(d => d.attachment = attachment);
+          const attachmentIds = page.content?.map((d) => d.attachmentId);
+          this.fileService.findByIds(attachmentIds).subscribe((attachments) => {
+            attachments.forEach((attachment) => {
+              page.content.filter((d) => d.attachmentId === attachment.id).forEach((d) => (d.attachment = attachment));
             });
           });
-        })
+        }),
       )
       .subscribe((data) => (this.adminDocuments = data));
   }

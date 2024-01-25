@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
-import { NgbActiveModal, NgbModal, } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { BillTo, Invoice, InvoiceForm, InvoiceFreemarkerTemplate, InvoiceRow } from '@core/models/invoice';
 import { RateType } from '@core/models/common';
@@ -11,7 +11,7 @@ import { FileService } from '@core/service/file.service';
 import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 import { firstValueFrom } from 'rxjs';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
-import { MailContextType, MailRequest } from '@core/models/mail-request';
+import { MailContextType, MailRequest } from '@core/models/mail';
 import { MailService } from '@core/service/mail.service';
 import { ToastService } from '@core/service/toast.service';
 
@@ -41,7 +41,7 @@ export class InvoiceDetailComponent implements OnInit {
     private fileService: FileService,
     private mailService: MailService,
     private toastService: ToastService,
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: UntypedFormBuilder,
   ) { }
 
   ngOnInit(): void {
@@ -63,7 +63,8 @@ export class InvoiceDetailComponent implements OnInit {
       size: 'lg',
     });
     ngbModalRef.componentInstance.context = context;
-    ngbModalRef.componentInstance.defaultSubject = `Invoice ${this.invoice.newInvoiceNumber || this.invoice.invoiceNumber}`;
+    ngbModalRef.componentInstance.defaultSubject = `Invoice ${this.invoice.newInvoiceNumber || this.invoice.invoiceNumber
+      }`;
     ngbModalRef.componentInstance.to = [this.invoice.billTo?.emailAddress];
 
     ngbModalRef.componentInstance.attachments = [upload];
@@ -89,11 +90,11 @@ export class InvoiceDetailComponent implements OnInit {
     return this.formBuilder.group({
       invoiceNumber: new UntypedFormControl(
         { value: this.invoice.invoiceNumber, disabled: true /* always disabled, coming from backend */ },
-        [Validators.maxLength(9)]
+        [Validators.maxLength(9)],
       ),
       newInvoiceNumber: new UntypedFormControl(
         { value: this.invoice.newInvoiceNumber, disabled: true /* always disabled, coming from backend */ },
-        [Validators.maxLength(9)]
+        [Validators.maxLength(9)],
       ),
 
       freemarkerTemplateId: new UntypedFormControl(
@@ -103,14 +104,14 @@ export class InvoiceDetailComponent implements OnInit {
             : null,
           disabled: this.invoice.locked,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       selectedClient: new UntypedFormControl(
         {
           value: this.clients.find((c) => c.name === this.invoice.billTo?.clientName),
           disabled: this.invoice.locked,
         },
-        []
+        [],
       ),
       maxDaysToPay: new UntypedFormControl({ value: this.invoice.maxDaysToPay, disabled: this.invoice.locked }, [
         Validators.min(1),
@@ -121,7 +122,7 @@ export class InvoiceDetailComponent implements OnInit {
           value: DateUtils.formatInputDate(DateUtils.toDateOrNow(this.invoice.dateOfInvoice)),
           disabled: this.invoice.locked,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       taxRate: new UntypedFormControl({ value: this.invoice.taxRate, disabled: this.invoice.locked }, [
         Validators.required,
@@ -129,7 +130,7 @@ export class InvoiceDetailComponent implements OnInit {
       locked: new UntypedFormControl({ value: this.invoice.locked, disabled: true }, []),
       uploadedManually: new UntypedFormControl(
         { value: this.invoice.uploadedManually, disabled: this.invoice.locked },
-        []
+        [],
       ),
       logicalDelete: new UntypedFormControl({ value: this.invoice.logicalDelete, disabled: true }, []),
       billToVatNumber: new UntypedFormControl(
@@ -137,14 +138,14 @@ export class InvoiceDetailComponent implements OnInit {
           value: this.invoice?.billTo?.vatNumber,
           disabled: this.invoice.locked,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       billToClientName: new UntypedFormControl(
         {
           value: this.invoice?.billTo?.clientName,
           disabled: this.invoice.locked,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       billToCity: new UntypedFormControl({ value: this.invoice?.billTo?.city, disabled: this.invoice.locked }, [
         Validators.required,
@@ -158,7 +159,7 @@ export class InvoiceDetailComponent implements OnInit {
           value: this.invoice?.billTo?.emailAddress,
           disabled: this.invoice.locked,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       invoiceTableForm: new UntypedFormArray(this.createInvoiceTable()),
     });

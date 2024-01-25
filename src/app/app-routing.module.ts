@@ -18,19 +18,20 @@ const routes: Routes = [
     path: 'documents',
     loadChildren: () =>
       import('./features/administrative-document/administrative-document.module').then(
-        (m) => m.AdministrativeDocumentModule
+        (m) => m.AdministrativeDocumentModule,
       ),
   },
   {
     path: 'billable-clients',
-    loadChildren: () =>
-      import('./features/billable-client/billable-client.module').then(
-        (m) => m.BillableClientModule
-      ),
+    loadChildren: () => import('./features/billable-client/billable-client.module').then((m) => m.BillableClientModule),
   },
   {
     path: 'timesheets',
     loadChildren: () => import('./features/timesheet/timesheet.module').then((m) => m.TimesheetModule),
+  },
+  {
+    path: 'mails',
+    loadChildren: () => import('./features/mail/mail.module').then((m) => m.MailModule),
   },
   {
     path: 'services',
@@ -75,17 +76,16 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: '404',
-    
   },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-    useHash: false,
-    initialNavigation: 'enabledNonBlocking'
-}),
+      useHash: false,
+      initialNavigation: 'enabledNonBlocking',
+    }),
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

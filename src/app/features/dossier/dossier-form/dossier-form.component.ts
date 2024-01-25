@@ -70,7 +70,7 @@ export class DossierFormComponent implements OnInit, OnDestroy {
     private invoiceService: InvoiceService,
     private documentService: AdministrativeDocumentService,
     private clientService: BillableClientService,
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
   ) { }
 
   ngOnDestroy(): void {
@@ -135,7 +135,7 @@ export class DossierFormComponent implements OnInit, OnDestroy {
       }
       this.dossier.invoices = invoices;
       this.dossier.invoices.sort(
-        (e1, e2) => new Date(e2.dateOfInvoice).getTime() - new Date(e1.dateOfInvoice).getTime()
+        (e1, e2) => new Date(e2.dateOfInvoice).getTime() - new Date(e1.dateOfInvoice).getTime(),
       );
     } else {
       this.dossier.invoices = [];
@@ -150,7 +150,7 @@ export class DossierFormComponent implements OnInit, OnDestroy {
           value: this.dossier.tvaDue,
           disabled: this.dossier.closed && !this.recallForModification,
         },
-        []
+        [],
       ),
       advancePayments: this.fb.array(this.createAdvancePayments(this.dossier.advancePayments)),
       dossierName: new UntypedFormControl({ value: this.dossier.name, disabled: this.dossier.closed }, [
@@ -165,14 +165,14 @@ export class DossierFormComponent implements OnInit, OnDestroy {
           value: this.dossier.creationDate ? formatDate(this.dossier.creationDate, 'dd/MM/yyyy HH:mm', 'de') : null,
           disabled: true,
         },
-        []
+        [],
       ),
       updatedDate: new UntypedFormControl(
         {
           value: this.dossier.updatedDate ? formatDate(this.dossier.updatedDate, 'dd/MM/yyyy HH:mm', 'de') : null,
           disabled: true,
         },
-        []
+        [],
       ),
       dossierClosed: new UntypedFormControl({ value: this.dossier.closed, disabled: true }, []),
 
@@ -181,14 +181,14 @@ export class DossierFormComponent implements OnInit, OnDestroy {
           value: this.dossier.closedDate ? formatDate(this.dossier.closedDate, 'dd/MM/yyyy HH:mm', 'de') : null,
           disabled: true,
         },
-        []
+        [],
       ),
       dossierRecalledForModification: new UntypedFormControl(
         {
           value: this.dossier.recalledForModification,
           disabled: true,
         },
-        []
+        [],
       ),
 
       dossierRecalledForModificationDate: new UntypedFormControl(
@@ -198,7 +198,7 @@ export class DossierFormComponent implements OnInit, OnDestroy {
             : null,
           disabled: true,
         },
-        []
+        [],
       ),
     });
   }
@@ -271,14 +271,14 @@ export class DossierFormComponent implements OnInit, OnDestroy {
           value: DateUtils.formatInputDate(DateUtils.toDateOrNow(tva.datePaid)),
           disabled: this.dossier.closed && !this.recallForModification,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       advance: new UntypedFormControl(
         {
           value: tva.advance,
           disabled: this.dossier.closed && !this.recallForModification,
         },
-        [Validators.required, Validators.min(1)]
+        [Validators.required, Validators.min(1)],
       ),
     });
   };

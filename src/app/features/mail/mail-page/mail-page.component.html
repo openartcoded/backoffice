@@ -1,0 +1,35 @@
+<app-title title="MAILS"></app-title>
+<ng-container *ngIf="mails">
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th class="fit d-md-table-cell">Sending Date</th>
+          <th class="fit d-md-table-cell">Subject</th>
+          <th class="d-md-table-cell d-none">To</th>
+          <th class="d-md-table-cell">Sent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mail of mails.content" role="button" (click)="openModal(mail)">
+          <td class="fit d-md-table-cell">{{ mail.sendingDate | date: 'dd/MM/yyyy' }}</td>
+          <td class="fit d-md-table-cell">{{ mail.subject }}</td>
+          <td class="d-md-table-cell text-white d-none">
+            <span *ngFor="let to of mail.to" class="badge me-1 mb-1 bg-primary">{{ to }}</span>
+          </td>
+          <td class="fit d-md-table-cell">
+            <input aria-label="disabled" type="checkbox" [checked]="mail.sent" [disabled]="true" />
+          </td>
+        </tr>
+        <tr *ngIf="!mails.content?.length">
+          <td colspan="4">No Content</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-flex justify-content-between mb-2">
+    <ngb-pagination *ngIf="mails?.totalPages > 1" [page]="mails?.pageable?.pageNumber + 1" [pageSize]="mails?.size"
+      [maxSize]="5" [collectionSize]="mails?.totalElements" (pageChange)="load($event)">
+    </ngb-pagination>
+  </div>
+</ng-container>

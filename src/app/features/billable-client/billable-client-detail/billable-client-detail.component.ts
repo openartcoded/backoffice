@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { BillableClient, ContractStatus, getAllDays } from '@core/models/billable-client';
 import { RateType } from '@core/models/common';
 import { FileUpload } from '@core/models/file-upload';
-import { MailContextType, MailRequest } from '@core/models/mail-request';
+import { MailContextType, MailRequest } from '@core/models/mail';
 import { FileService } from '@core/service/file.service';
 import { MailService } from '@core/service/mail.service';
 import { ToastService } from '@core/service/toast.service';
@@ -44,7 +44,7 @@ export class BillableClientDetailComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private modalService: NgbModal,
     private mailService: MailService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) { }
 
   ngOnInit(): void {
@@ -67,7 +67,7 @@ export class BillableClientDetailComponent implements OnInit {
           value: this.client?.emailAddress,
           disabled: false,
         },
-        []
+        [],
       ),
       projectName: new UntypedFormControl({ value: this.client?.projectName, disabled: false }, [Validators.required]),
       defaultWorkingDays: new UntypedFormControl({ value: this.client?.defaultWorkingDays, disabled: false }, [

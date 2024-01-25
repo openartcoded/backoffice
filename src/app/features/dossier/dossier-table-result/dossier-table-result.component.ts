@@ -13,7 +13,7 @@ import { DossierImportFormComponent } from '../dossier-import-form/dossier-impor
 import { Direction, Page, SortCriteria } from '@core/models/page';
 import { MailService } from '@core/service/mail.service';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
-import { MailContextType, MailRequest } from '@core/models/mail-request';
+import { MailContextType, MailRequest } from '@core/models/mail';
 import { firstValueFrom } from 'rxjs';
 import { Invoice } from '@core/models/invoice';
 import { AdministrativeDocument } from '@core/models/administrative-document';
@@ -44,7 +44,7 @@ export class DossierTableResultComponent implements OnInit {
     private toastService: ToastService,
     private windowRefService: WindowRefService,
     private modalService: NgbModal,
-    private mailService: MailService
+    private mailService: MailService,
   ) { }
 
   ngOnInit(): void {
@@ -87,13 +87,13 @@ export class DossierTableResultComponent implements OnInit {
   }
   openDossier(
     doss: Dossier = { name: null, advancePayments: [] },
-    recallForModification: boolean = false
+    recallForModification: boolean = false,
   ): NgbModalRef {
     const dossierUpdatedEmitter: EventEmitter<Dossier> = new EventEmitter<Dossier>();
     const modalRef = this.modalService.open(DossierFormComponent, {
       size: 'xl',
       scrollable: true,
-      backdrop: 'static'
+      backdrop: 'static',
     });
 
     modalRef.componentInstance.dossier = doss;
@@ -168,7 +168,7 @@ export class DossierTableResultComponent implements OnInit {
         this.dossierService.closeActiveDossier().subscribe((d) =>
           this.downloadArchive(d.dossierUploadId, () => {
             this.load();
-          })
+          }),
         );
       }
     }

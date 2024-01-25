@@ -21,7 +21,7 @@ import { BillableClient, ContractStatus } from '@core/models/billable-client';
 import { SortCriteria, Direction } from '@core/models/page';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { MailService } from '@core/service/mail.service';
-import { MailContextType, MailRequest } from '@core/models/mail-request';
+import { MailContextType, MailRequest } from '@core/models/mail';
 @Component({
   selector: 'app-invoice-table-result',
   templateUrl: './invoice-table-result.component.html',
@@ -56,7 +56,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
     private notificationService: NotificationService,
     private dossierService: DossierService,
     private fileService: FileService,
-    private mailService: MailService
+    private mailService: MailService,
   ) { }
 
   ngOnInit() {
