@@ -76,7 +76,7 @@
         <li ngbNavItem>
           <a ngbNavLink>Attachments</a>
           <ng-template ngbNavContent>
-            <div class="mt-2">
+            <div class="mt-2 mb-1">
               <div class="bg-light p-2" *ngIf="!uploads?.length">No Content.</div>
               <ul class="list-group" id="attachments" *ngIf="uploads.length">
                 <li class="list-group-item" *ngFor="let a of uploads">
