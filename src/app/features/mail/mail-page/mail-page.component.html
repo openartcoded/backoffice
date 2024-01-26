@@ -8,6 +8,7 @@
           <th class="fit d-md-table-cell">Subject</th>
           <th class="d-md-table-cell d-none">To</th>
           <th class="d-md-table-cell">Sent</th>
+          <th class="d-md-table-cell">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -19,6 +20,20 @@
           </td>
           <td class="fit d-md-table-cell">
             <input aria-label="disabled" type="checkbox" [checked]="mail.sent" [disabled]="true" />
+          </td>
+          <td class="text-center fit">
+            <div ngbDropdown class="d-inline-block" container="body">
+              <button class="btn btn-outline-secondary" id="dropdownBasic2" ngbDropdownToggle
+                (click)="$event.stopPropagation()"></button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                <button ngbDropdownItem (click)="openModal(mail)">
+                  <fa-icon [icon]="['fas', 'eye']"></fa-icon>&nbsp;Open
+                </button>
+                <button *ngIf="!mail.sent" ngbDropdownItem (click)="delete($event, mail)">
+                  <fa-icon [icon]="['fas', 'trash']"></fa-icon>&nbsp;Delete
+                </button>
+              </div>
+            </div>
           </td>
         </tr>
         <tr *ngIf="!mails.content?.length">

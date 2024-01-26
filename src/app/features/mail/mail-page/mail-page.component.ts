@@ -1,9 +1,12 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MailJob } from '@core/models/mail';
 import { Page } from '@core/models/page';
 import { MailService } from '@core/service/mail.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MailDetailComponent } from '../mail-detail/mail-detail.component';
+import { WindowRefService } from '@core/service/window.service';
+import { isPlatformBrowser } from '@angular/common';
+import { ToastService } from '@core/service/toast.service';
 
 @Component({
   selector: 'app-mail-page',
@@ -23,6 +26,10 @@ export class MailPageComponent implements OnInit {
   constructor(
     private mailService: MailService,
     private modalService: NgbModal,
+
+    private toastService: ToastService,
+    private windowService: WindowRefService,
+    @Inject(PLATFORM_ID) private platformId: any,
   ) { }
   ngOnInit(): void {
     this.load();
@@ -40,6 +47,24 @@ export class MailPageComponent implements OnInit {
       backdrop: 'static',
     });
 
+    modalRef.componentInstance.update.subscribe((m: MailJob) => {
+      this.mailService.update(m).subscribe(() => {
+        modalRef.close();
+        this.toastService.showSuccess('Mail job updated');
+
+        this.load();
+      });
+    });
+
     modalRef.componentInstance.mail = mail;
+  }
+  delete($event: any, m: MailJob) {
+    $event.preventDefault();
+    if (isPlatformBrowser(this.platformId)) {
+      let resp = this.windowService.nativeWindow.confirm('Are you sure you want to delete this row? ');
+      if (resp) {
+        this.mailService.delete(m.id).subscribe(() => this.load());
+      }
+    }
   }
 }

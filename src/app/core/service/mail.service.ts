@@ -22,6 +22,15 @@ export class MailService {
     return this.http.post<void>(`${this.basePath}/send`, data);
   }
 
+  update(job: MailJob): Observable<MailJob> {
+    return this.http.post<MailJob>(`${this.basePath}/update`, job);
+  }
+
+  delete(id: string): Observable<any> {
+    const url = `${this.basePath}/delete?id=${id}`;
+    return this.http.delete<any>(url, {});
+  }
+
   findAll(pageNumber: number, pageSize: number): Observable<Page<MailJob>> {
     const url = `${this.basePath}/find-all?page=${pageNumber - 1}&size=${pageSize}&sort=creationDate,DESC`;
     return this.http.get<Page<MailJob>>(url);

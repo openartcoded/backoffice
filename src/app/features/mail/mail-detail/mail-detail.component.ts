@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Optional } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { formatDate } from '@angular/common';
@@ -17,6 +17,9 @@ import { firstValueFrom } from 'rxjs';
 export class MailDetailComponent implements OnInit {
   @Input()
   mail: MailJob;
+  @Output()
+  update: EventEmitter<MailJob> = new EventEmitter<MailJob>();
+
   mailForm: UntypedFormGroup;
   uploads: FileUpload[];
   constructor(
@@ -59,10 +62,10 @@ export class MailDetailComponent implements OnInit {
     this.uploads = await firstValueFrom(this.fileService.findByIds(this.mail.uploadIds));
     this.mailForm = this.fb.group({
       mailId: new UntypedFormControl({ value: this.mail.id, disabled: true }, []),
-      mailSubject: new UntypedFormControl({ value: this.mail.subject, disabled: true }, []),
-      mailTos: new UntypedFormControl({ value: this.mail.to, disabled: true }, []),
+      mailSubject: new UntypedFormControl({ value: this.mail.subject, disabled: this.mail.sent }, []),
+      mailTos: new UntypedFormControl({ value: this.mail.to, disabled: this.mail.sent }, []),
       sent: new UntypedFormControl({ value: this.mail.sent, disabled: true }, []),
-      mailBody: new UntypedFormControl({ value: this.mail.body, disabled: true }, []),
+      mailBody: new UntypedFormControl({ value: this.mail.body, disabled: this.mail.sent }, []),
       creationDate: new UntypedFormControl(
         {
           value: this.mail.createdDate ? formatDate(this.mail.createdDate, 'dd/MM/yyyy HH:mm', 'de') : null,
@@ -85,5 +88,12 @@ export class MailDetailComponent implements OnInit {
         [],
       ),
     });
+  }
+
+  send() {
+    this.mail.subject = this.mailForm.get('mailSubject').value;
+    this.mail.body = this.mailForm.get('mailBody').value;
+    this.mail.to = this.mailForm.get('mailTos').value;
+    this.update.emit(this.mail);
   }
 }
