@@ -5,7 +5,7 @@
   <p class="" *ngIf="!logicalDelete">
     <span class="text-secondary" *ngIf="activeDossier && !archived">Dossier: {{ activeDossier?.name }} </span>
   </p>
-  <div *ngIf="!logicalDelete" ngbDropdown class="d-inline-block mt-0" container="body">
+  <div *ngIf="!logicalDelete && hasRoleAdmin" ngbDropdown class="d-inline-block mt-0" container="body">
     <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
       <fa-icon icon="exclamation"></fa-icon>&nbsp;Actions
     </button>
@@ -93,7 +93,7 @@
               <span>{{ invoice.newInvoiceNumber || invoice.invoiceNumber }}</span>
               <ng-container *ngIf="invoice.imported">
                 <ng-template #infoFrontend>
-                  Imported on {{ invoice.importedDate | date : 'dd/MM/yyyy HH:mm' }}
+                  Imported on {{ invoice.importedDate | date: 'dd/MM/yyyy HH:mm' }}
                 </ng-template>
                 <button (click)="$event.stopPropagation()" type="button"
                   class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 pe-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
@@ -103,13 +103,13 @@
               </ng-container>
             </div>
           </td>
-          <td class="fit d-md-table-cell d-none">{{ invoice.dateCreation | date : 'dd/MM/yyyy' }}</td>
+          <td class="fit d-md-table-cell d-none">{{ invoice.dateCreation | date: 'dd/MM/yyyy' }}</td>
           <td class="fit d-md-table-cell">{{ invoice.billTo.clientName }}</td>
-          <td class="fit d-md-table-cell">{{ invoice.dateOfInvoice | date : 'dd/MM/yyyy' }}</td>
-          <td class="d-md-table-cell text-primary d-none">{{ invoice.dueDate | date : 'dd/MM/yyyy' }}</td>
-          <td class="d-md-table-cell d-none">{{ invoice.subTotal | currency : '€' }}</td>
-          <td class="d-md-table-cell d-none">{{ invoice.taxes | currency : '€' }}</td>
-          <td class="d-md-table-cell d-none text-danger">{{ invoice.total | currency : '€' }}</td>
+          <td class="fit d-md-table-cell">{{ invoice.dateOfInvoice | date: 'dd/MM/yyyy' }}</td>
+          <td class="d-md-table-cell text-primary d-none">{{ invoice.dueDate | date: 'dd/MM/yyyy' }}</td>
+          <td class="d-md-table-cell d-none">{{ invoice.subTotal | currency: '€' }}</td>
+          <td class="d-md-table-cell d-none">{{ invoice.taxes | currency: '€' }}</td>
+          <td class="d-md-table-cell d-none text-danger">{{ invoice.total | currency: '€' }}</td>
           <td class="text-center fit">
             <div ngbDropdown class="d-inline-block" container="body">
               <button class="btn btn-outline-secondary" id="dropdownBasic2" ngbDropdownToggle
@@ -118,28 +118,29 @@
                 <button [disabled]="!invoice.invoiceUploadId" ngbDropdownItem (click)="download(invoice)">
                   <fa-icon [icon]="['fas', 'download']"></fa-icon>&nbsp;Download
                 </button>
-                <button [disabled]="!invoice.timesheetId" ngbDropdownItem
-                  [routerLink]="['/timesheets/timesheet/'+invoice.timesheetId]">
+                <button [disabled]="!invoice.timesheetId" *ngIf="hasRoleAdmin" ngbDropdownItem
+                  [routerLink]="['/timesheets/timesheet/' + invoice.timesheetId]">
                   <fa-icon [icon]="['fas', 'clock']"></fa-icon>&nbsp;Timesheet
                 </button>
-                <button [disabled]="!invoice.invoiceUploadId" ngbDropdownItem (click)="sendMail(invoice)">
+                <button [disabled]="!invoice.invoiceUploadId" *ngIf="hasRoleAdmin" ngbDropdownItem
+                  (click)="sendMail(invoice)">
                   <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>&nbsp;Send
                 </button>
                 <button ngbDropdownItem (click)="openModal(invoice)">
                   <fa-icon [icon]="['fas', 'eye']"></fa-icon>&nbsp;Open
                 </button>
-                <button *ngIf="activeDossier && !invoice.archived && !invoice.logicalDelete" ngbDropdownItem
-                  (click)="process(invoice)">
+                <button *ngIf="hasRoleAdmin && activeDossier && !invoice.archived && !invoice.logicalDelete"
+                  ngbDropdownItem (click)="process(invoice)">
                   <fa-icon [icon]="['fas', 'cog']"></fa-icon>&nbsp;Process
                 </button>
-                <button ngbDropdownItem (click)="newInvoiceFromTemplate(invoice)">
+                <button *ngIf="hasRoleAdmin" ngbDropdownItem (click)="newInvoiceFromTemplate(invoice)">
                   <fa-icon [icon]="['fas', 'plus']"></fa-icon>&nbsp;From Template
                 </button>
-                <button *ngIf="!invoice.archived && invoices?.content?.length == 1" ngbDropdownItem
+                <button *ngIf="hasRoleAdmin && !invoice.archived && invoices?.content?.length == 1" ngbDropdownItem
                   (click)="delete(invoice)">
                   <fa-icon [icon]="['fas', 'trash']"></fa-icon>&nbsp;Delete
                 </button>
-                <button *ngIf="invoice.logicalDelete" ngbDropdownItem (click)="restore(invoice)">
+                <button *ngIf="hasRoleAdmin && invoice.logicalDelete" ngbDropdownItem (click)="restore(invoice)">
                   <fa-icon [icon]="['fas', 'trash-restore']"></fa-icon>&nbsp;Restore
                 </button>
                 <button ngbDropdownItem [disabled]="!invoice.invoiceUploadId" (click)="openPdfViewer(invoice)">

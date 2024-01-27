@@ -13,12 +13,10 @@
     <a ngbNavLink routerLink="/invoice/unprocessed">Unprocessed</a>
     <ng-template ngbNavContent>
       <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-        <ng-component
-          [ngTemplateOutlet]="fullScreenTemplate"
-          [ngTemplateOutletContext]="{ title: 'Unprocessed' }"
-        ></ng-component>
-        <div class="d-block">
-          <app-invoice-table-result [archived]="false"></app-invoice-table-result>
+        <ng-component [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Unprocessed' }"></ng-component>
+        <div class="d-block" *ngIf="user">
+          <app-invoice-table-result [user]="user" [archived]="false"></app-invoice-table-result>
         </div>
       </div>
     </ng-template>
@@ -27,24 +25,20 @@
     <a ngbNavLink routerLink="/invoice/processed">Processed</a>
     <ng-template ngbNavContent>
       <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-        <ng-component
-          [ngTemplateOutlet]="fullScreenTemplate"
-          [ngTemplateOutletContext]="{ title: 'Processed' }"
-        ></ng-component>
-        <div class="d-block">
-          <app-invoice-table-result [archived]="true"></app-invoice-table-result>
+        <ng-component [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Processed' }"></ng-component>
+        <div class="d-block" *ngIf="user">
+          <app-invoice-table-result [user]="user" [archived]="true"></app-invoice-table-result>
         </div>
       </div>
     </ng-template>
   </li>
-  <li ngbNavItem="deleted-logically">
+  <li ngbNavItem="deleted-logically" *ngIf="user && hasRoleAdmin">
     <a ngbNavLink routerLink="/invoice/deleted-logically">Deleted</a>
     <ng-template ngbNavContent>
       <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-        <ng-component
-          [ngTemplateOutlet]="fullScreenTemplate"
-          [ngTemplateOutletContext]="{ title: 'Deleted Logically' }"
-        ></ng-component>
+        <ng-component [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Deleted Logically' }"></ng-component>
         <div class="d-block">
           <app-invoice-table-result [logicalDelete]="true"></app-invoice-table-result>
         </div>

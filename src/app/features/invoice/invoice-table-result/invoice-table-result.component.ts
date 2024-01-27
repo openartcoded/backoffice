@@ -22,6 +22,7 @@ import { SortCriteria, Direction } from '@core/models/page';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { MailService } from '@core/service/mail.service';
 import { MailContextType, MailRequest } from '@core/models/mail';
+import { User } from '@core/models/user';
 @Component({
   selector: 'app-invoice-table-result',
   templateUrl: './invoice-table-result.component.html',
@@ -39,6 +40,11 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
 
   @Input()
   logicalDelete: boolean;
+  @Input()
+  user: User;
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   @Input()
   archived: boolean;
 
@@ -78,6 +84,9 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   }
 
   async sendMail(invoice: Invoice) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     const upload = await firstValueFrom(this.fileService.findById(invoice.invoiceUploadId));
     const context: Map<string, MailContextType> = new Map();
     context.set('Invoice Ref', invoice.invoiceNumber);
@@ -122,14 +131,23 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   }
 
   newInvoiceFromTemplate(invoice: Invoice) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.invoiceService.newInvoiceFromTemplate(invoice).subscribe((data) => this.openModal(data));
   }
 
   newInvoice() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.invoiceService.newInvoice().subscribe((data) => this.openModal(data));
   }
 
   delete(invoice: Invoice) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     if (isPlatformBrowser(this.platformId)) {
       let areYouSureYouWantToDeleteTheInvoice = `Are you sure you want to delete the invoice (${this.logicalDelete ? 'REALLY' : 'logically'
         }) ?`;
@@ -143,6 +161,9 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   }
 
   restore(invoice: Invoice) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     if (isPlatformBrowser(this.platformId)) {
       let areYouSureYouWantToDeleteTheInvoice = `Are you sure you want to restore this invoice?`;
       let resp = this.windowRefService.nativeWindow.confirm(areYouSureYouWantToDeleteTheInvoice);
@@ -155,6 +176,9 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   }
 
   process(invoice: Invoice) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     if (isPlatformBrowser(this.platformId)) {
       if (this.windowRefService.nativeWindow.confirm('Process this invoice?')) {
         this.dossierService.processInvoice(invoice.id).subscribe((dt) => {
@@ -192,6 +216,9 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   }
 
   templateModal() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.invoiceService.listTemplates().subscribe((templates) => {
       const ngbModalRef = this.modalService.open(TemplateComponent, {
         size: 'lg',

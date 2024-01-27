@@ -2,6 +2,8 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { User } from '@core/models/user';
+import { PersonalInfoService } from '@core/service/personal.info.service';
 
 @Component({
   selector: 'app-invoice-page',
@@ -11,17 +13,26 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class InvoicePageComponent implements OnInit {
   activeId: string;
   fullScreen: boolean;
-
+  user: User;
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
     if (!this.modalService.hasOpenModals()) {
       this.fullScreen = false;
     }
   }
 
-  constructor(public route: ActivatedRoute, private modalService: NgbModal, private titleService: Title) {}
+  constructor(
+    public route: ActivatedRoute,
+    private modalService: NgbModal,
+    private titleService: Title,
+    private personalInfoService: PersonalInfoService,
+  ) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Invoices');
     this.activeId = this.route.snapshot.params.name || 'unprocessed';
+    this.personalInfoService.me().subscribe((u) => (this.user = u));
   }
 }
