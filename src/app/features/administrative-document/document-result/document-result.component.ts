@@ -24,6 +24,8 @@ import { MailService } from '@core/service/mail.service';
 import { firstValueFrom } from 'rxjs';
 import { DossierService } from '@core/service/dossier.service';
 import { Dossier } from '@core/models/dossier';
+import { User } from '@core/models/user';
+import { PersonalInfoService } from '@core/service/personal.info.service';
 
 @Component({
   selector: 'app-document-result',
@@ -35,6 +37,10 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
   pageSize: number = 5;
   searchCriteria: AdministrativeDocumentSearchCriteria;
   activeDossier: Dossier;
+  user: User;
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   constructor(
     private fileService: FileService,
     private administrativeDocumentService: AdministrativeDocumentService,
@@ -42,6 +48,8 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
     private windowRefService: WindowRefService,
     private notificationService: NotificationService,
     private modalService: NgbModal,
+    private personalInfoService: PersonalInfoService,
+
     private toastService: ToastService,
     private mailService: MailService,
     private dossierService: DossierService,
@@ -52,6 +60,8 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
     this.titleService.setTitle('Administrative Documents');
     this.notificationService.subscribe(this);
     this.dossierService.activeDossier().subscribe((dt) => (this.activeDossier = dt));
+    this.personalInfoService.me().subscribe((u) => (this.user = u));
+
     this.search({});
   }
 
@@ -65,6 +75,9 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
   }
 
   delete(ad: AdministrativeDocument) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     if (isPlatformBrowser(this.platformId)) {
       if (this.windowRefService.nativeWindow.confirm('Are you sure you want to delete this document? ')) {
         this.administrativeDocumentService.delete(ad).subscribe((d) => {
@@ -132,6 +145,7 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
   addOrEdit(ad: AdministrativeDocument = { title: '' }) {
     let ref = this.modalService.open(DocumentEditorComponent, { size: 'xl', backdrop: 'static' });
     ref.componentInstance.adminDoc = ad;
+    ref.componentInstance.user = this.user;
     ref.componentInstance.formSubmitted.subscribe((form) => {
       ref.close();
       this.administrativeDocumentService.save(form).subscribe();
@@ -164,6 +178,9 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
     });
   }
   async sendMail(document: AdministrativeDocument) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     const context: Map<string, MailContextType> = new Map();
     const ngbModalRef = this.modalService.open(MailFormComponent, {
       size: 'lg',
@@ -179,6 +196,9 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
   }
 
   addToDossier(document: AdministrativeDocument) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     if (isPlatformBrowser(this.platformId)) {
       if (this.windowRefService.nativeWindow.confirm('Add document to dossier?')) {
         this.dossierService.addDocumentToDossier(document.id).subscribe((dt) => {

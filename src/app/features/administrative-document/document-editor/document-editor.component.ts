@@ -38,15 +38,20 @@ export class DocumentEditorComponent implements OnInit {
     this.form = this.fb.group(
       {
         id: new UntypedFormControl({ disabled: true, value: this.adminDoc.id }, []),
-        title: new UntypedFormControl({ disabled: this.formDisabled, value: this.adminDoc.title }, [
-          Validators.required,
-        ]),
-        description: new UntypedFormControl({ disabled: this.formDisabled, value: this.adminDoc.description }, [
-          Validators.required,
-        ]),
-        tags: new UntypedFormControl({ disabled: this.formDisabled, value: this.adminDoc.tags || [] }, []),
+        title: new UntypedFormControl(
+          { disabled: !this.hasRoleAdmin || this.formDisabled, value: this.adminDoc.title },
+          [Validators.required],
+        ),
+        description: new UntypedFormControl(
+          { disabled: !this.hasRoleAdmin || this.formDisabled, value: this.adminDoc.description },
+          [Validators.required],
+        ),
+        tags: new UntypedFormControl(
+          { disabled: !this.hasRoleAdmin || this.formDisabled, value: this.adminDoc.tags || [] },
+          [],
+        ),
 
-        document: new UntypedFormControl({ disabled: this.formDisabled, value: null }, []),
+        document: new UntypedFormControl({ disabled: !this.hasRoleAdmin || this.formDisabled, value: null }, []),
       },
       {},
     );
@@ -86,10 +91,16 @@ export class DocumentEditorComponent implements OnInit {
   }
 
   set document(fs: File) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.form.get('document').patchValue(fs);
   }
 
   drop(files: NgxFileDropEntry[]) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     for (const droppedFile of files) {
       const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
       fileEntry.file((file: File) => {
@@ -100,6 +111,9 @@ export class DocumentEditorComponent implements OnInit {
   }
 
   submit() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     const submitForm = {
       title: this.form.get('title').value,
       id: this.form.get('id').value,

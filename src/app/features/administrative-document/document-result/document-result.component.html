@@ -1,5 +1,5 @@
 <app-title title="Documents" [uppercase]="true"></app-title>
-<div class="d-flex justify-content-end mb-2">
+<div *ngIf="user && hasRoleAdmin" class="d-flex justify-content-end mb-2">
   <button class="btn btn-outline-primary" (click)="addOrEdit()">
     <fa-icon icon="plus"></fa-icon>
     Add
@@ -26,7 +26,7 @@
           <tr role="button" (click)="openRow(ad)">
             <td class="text-break">{{ ad.title }}</td>
             <td class="fit d-md-table-cell d-none text-break">{{ ad.dateCreation | date: 'dd/MM/yyyy' }}</td>
-            <td class="fit d-md-table-cell d-none text-break">{{ad.attachment?.size | bytesToHuman}}</td>
+            <td class="fit d-md-table-cell d-none text-break">{{ ad.attachment?.size | bytesToHuman }}</td>
             <td class="text-center fit">
               <div ngbDropdown class="d-inline-block" container="body">
                 <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle
@@ -35,7 +35,7 @@
                   <button ngbDropdownItem (click)="addOrEdit(ad)">
                     <fa-icon [icon]="['fas', 'edit']"></fa-icon> Edit
                   </button>
-                  <button (click)="delete(ad)" [disabled]="ad.locked" ngbDropdownItem>
+                  <button *ngIf="hasRoleAdmin" (click)="delete(ad)" [disabled]="ad.locked" ngbDropdownItem>
                     <fa-icon [icon]="['fas', 'trash']"></fa-icon> Delete
                   </button>
                   <ng-container *ngIf="ad.attachment">
@@ -48,10 +48,11 @@
                     <button ngbDropdownItem (click)="openImageViewer(ad.attachment)" *ngIf="isImage(ad.attachment)">
                       <fa-icon [icon]="['fas', 'file-image']"></fa-icon> Open
                     </button>
-                    <button ngbDropdownItem (click)="sendMail(ad)" *ngIf="ad.attachment">
+                    <button ngbDropdownItem (click)="sendMail(ad)" *ngIf="hasRoleAdmin && ad.attachment">
                       <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>&nbsp;Send
                     </button>
-                    <button *ngIf="activeDossier && !ad.locked" ngbDropdownItem (click)="addToDossier(ad)">
+                    <button *ngIf="hasRoleAdmin && activeDossier && !ad.locked" ngbDropdownItem
+                      (click)="addToDossier(ad)">
                       <fa-icon [icon]="['fas', 'cog']"></fa-icon>&nbsp;Add to dossier
                     </button>
                   </ng-container>

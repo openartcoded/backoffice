@@ -1,17 +1,15 @@
 <ng-container *ngIf="form">
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">
-      {{adminDoc?.title ? (!formDisabled ? 'Edit ':'') + adminDoc?.title : 'New Document'}}
+      {{ adminDoc?.title ? (!formDisabled ? 'Edit ' : '') + adminDoc?.title : 'New Document' }}
     </span>
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
-
-    </button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="mb-1">
         <label for="title">Title</label>
-        <input type="text" class="form-control" id="title" formControlName="title">
+        <input type="text" class="form-control" id="title" formControlName="title" />
       </div>
 
       <div class="mb-1">
@@ -28,20 +26,22 @@
         dropZoneClassName="flat bg-light d-block" [multiple]="false">
         <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
           <button id="dd" class="btn btn-primary me-1" type="button"
-            (click)="$event.preventDefault();openFileSelector()" [disabled]="formDisabled"
+            (click)="$event.preventDefault(); openFileSelector()" [disabled]="!hasRoleAdmin || formDisabled"
             *ngIf="!document && !adminDoc?.attachment">
-            <fa-icon [icon]="['fas','upload']"></fa-icon>
+            <fa-icon [icon]="['fas', 'upload']"></fa-icon>
           </button>
           <button class="btn btn-link" [disabled]="formDisabled" *ngIf="document || adminDoc?.attachment"
-            (click)="$event.preventDefault();openFileSelector()">
-            {{document?.name || adminDoc?.attachment?.originalFilename}}
+            (click)="$event.preventDefault(); openFileSelector()" [disabled]="!hasRoleAdmin">
+            {{ document?.name || adminDoc?.attachment?.originalFilename }}
           </button>
         </ng-template>
       </ngx-file-drop>
-      <div class="d-flex justify-content-end  mt-2">
+      <div class="d-flex justify-content-end mt-2">
         <div ngbDropdown *ngIf="adminDoc?.attachment" container="body">
           <button class="btn btn-outline-secondary me-1" id="dropdownBasic1" ngbDropdownToggle stopPropagation
-            (click)="$event?.preventDefault()">Action</button>
+            (click)="$event?.preventDefault()">
+            Action
+          </button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
             <ng-container>
               <button ngbDropdownItem (click)="download(adminDoc.attachment)">
@@ -56,14 +56,13 @@
               </button>
             </ng-container>
           </div>
-
         </div>
 
-        <button type="submit" class="btn btn-primary "
-          [disabled]="!form.valid || (!document && !adminDoc.attachmentId) || formDisabled">Submit
+        <button type="submit" class="btn btn-primary" *ngIf="hasRoleAdmin"
+          [disabled]="!form.valid || (!document && !adminDoc.attachmentId) || formDisabled">
+          Submit
         </button>
       </div>
     </form>
-
   </div>
 </ng-container>
