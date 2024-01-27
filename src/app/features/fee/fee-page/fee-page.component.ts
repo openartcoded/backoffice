@@ -2,6 +2,8 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PersonalInfoService } from '@core/service/personal.info.service';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-fee-page',
@@ -11,6 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class FeePageComponent implements OnInit {
   activeId: string;
   fullScreen: boolean;
+  user: User;
 
   @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
     if (!this.modalService.hasOpenModals()) {
@@ -18,10 +21,16 @@ export class FeePageComponent implements OnInit {
     }
   }
 
-  constructor(public route: ActivatedRoute, private modalService: NgbModal, private titleService: Title) {}
+  constructor(
+    public route: ActivatedRoute,
+    private personalInfoService: PersonalInfoService,
+    private modalService: NgbModal,
+    private titleService: Title,
+  ) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Expenses');
     this.activeId = this.route.snapshot.params.name || 'unprocessed';
+    this.personalInfoService.me().subscribe((u) => (this.user = u));
   }
 }

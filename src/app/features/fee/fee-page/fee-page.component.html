@@ -14,12 +14,10 @@
     <a ngbNavLink routerLink="/fee/unprocessed">Unprocessed</a>
     <ng-template ngbNavContent>
       <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-        <ng-component
-          [ngTemplateOutlet]="fullScreenTemplate"
-          [ngTemplateOutletContext]="{ title: 'Unprocessed' }"
-        ></ng-component>
-        <div class="d-block">
-          <app-fee-table-result [archived]="false"></app-fee-table-result>
+        <ng-component [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Unprocessed' }"></ng-component>
+        <div class="d-block" *ngIf="user">
+          <app-fee-table-result [archived]="false" [user]="user"></app-fee-table-result>
         </div>
       </div>
     </ng-template>
@@ -28,13 +26,11 @@
     <a ngbNavLink routerLink="/fee/processed">Processed</a>
     <ng-template ngbNavContent>
       <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-        <ng-component
-          [ngTemplateOutlet]="fullScreenTemplate"
-          [ngTemplateOutletContext]="{ title: 'Processed' }"
-        ></ng-component>
+        <ng-component [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Processed' }"></ng-component>
 
-        <div class="d-block">
-          <app-fee-table-result [archived]="true"></app-fee-table-result>
+        <div class="d-block" *ngIf="user">
+          <app-fee-table-result [archived]="true" [user]="user"></app-fee-table-result>
         </div>
       </div>
     </ng-template>
@@ -43,13 +39,11 @@
     <a ngbNavLink routerLink="/fee/labels">Labels</a>
     <ng-template ngbNavContent>
       <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-        <ng-component
-          [ngTemplateOutlet]="fullScreenTemplate"
-          [ngTemplateOutletContext]="{ title: 'Labels' }"
-        ></ng-component>
+        <ng-component [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Labels' }"></ng-component>
 
-        <div class="d-block">
-          <app-default-price></app-default-price>
+        <div class="d-block" *ngIf="user">
+          <app-default-price [user]="user"></app-default-price>
         </div>
       </div>
     </ng-template>

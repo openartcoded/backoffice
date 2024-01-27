@@ -4,7 +4,7 @@
     label name. Duplicates label will be simply overriden
   </div>
   <form [formGroup]="form" (submit)="submit()">
-    <div class="d-flex justify-content-end me-1 mb-1">
+    <div class="d-flex justify-content-end me-1 mb-1" *ngIf="hasRoleAdmin">
       <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
     </div>
     <ng-container formArrayName="defaultPrices">
@@ -15,7 +15,7 @@
             <th>Label</th>
             <th>Price HVAT</th>
             <th>VAT</th>
-            <th class="text-center fit">
+            <th class="text-center fit" *ngIf="hasRoleAdmin">
               <button (click)="add($event)" class="btn btn-link me-1">
                 <fa-icon class="text-primary" icon="plus"></fa-icon>
               </button>
@@ -29,14 +29,8 @@
                 <p-colorPicker [autoZIndex]="true" [id]="'colorHex' + i" formControlName="colorHex"></p-colorPicker>
               </td>
               <td>
-                <input
-                  type="text"
-                  (input)="changeTextToUppercase(i)"
-                  pattern="[a-zA-Z0-9]+"
-                  class="form-control form-control-sm"
-                  [id]="'tag' + i"
-                  formControlName="tag"
-                />
+                <input type="text" (input)="changeTextToUppercase(i)" pattern="[a-zA-Z0-9]+"
+                  class="form-control form-control-sm" [id]="'tag' + i" formControlName="tag" />
               </td>
               <td>
                 <div class="input-group input-group-sm mb-3">
@@ -50,7 +44,7 @@
                   <input type="number" class="form-control" [id]="'vat' + i" formControlName="vat" />
                 </div>
               </td>
-              <td class="text-center fit">
+              <td class="text-center fit" *ngIf="hasRoleAdmin">
                 <button class="btn btn-link text-danger" (click)="remove($event, i)" [disabled]="canRemove(i)">
                   <fa-icon [icon]="['fas', 'times']"></fa-icon>
                 </button>

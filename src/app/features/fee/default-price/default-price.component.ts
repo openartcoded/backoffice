@@ -5,6 +5,7 @@ import { Label } from '@core/models/fee';
 import { firstValueFrom, Observable } from 'rxjs';
 import { LabelService } from '@core/service/label.service';
 import { ToastService } from '@core/service/toast.service';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-default-price',
@@ -14,12 +15,18 @@ import { ToastService } from '@core/service/toast.service';
 export class DefaultPriceComponent implements OnInit {
   form: UntypedFormGroup;
   tags: Label[];
+  @Input()
+  user: User;
+
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   constructor(
     @Optional() public activeModal: NgbActiveModal,
     private labelService: LabelService,
     private toastService: ToastService,
-    private fb: UntypedFormBuilder
-  ) {}
+    private fb: UntypedFormBuilder,
+  ) { }
 
   async ngOnInit() {
     this.tags = await firstValueFrom(this.labelService.findAll());
@@ -27,8 +34,12 @@ export class DefaultPriceComponent implements OnInit {
   }
 
   loadForm() {
+    const defaultPrices = [];
+    for (const tag of this.tags.sort((a, b) => a.name.localeCompare(b.name))) {
+      defaultPrices.push(this.convertPrice(tag));
+    }
     this.form = this.fb.group({
-      defaultPrices: this.fb.array(this.tags.sort((a, b) => a.name.localeCompare(b.name)).map(this.convertPrice)),
+      defaultPrices: this.fb.array(defaultPrices),
     });
   }
 
@@ -38,18 +49,27 @@ export class DefaultPriceComponent implements OnInit {
 
   add($event: MouseEvent) {
     $event.preventDefault();
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.defaultPrices.push(
       this.convertPrice({
         id: null,
-      })
+      }),
     );
   }
   remove($event: MouseEvent, idx: number) {
     $event.preventDefault();
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.defaultPrices.removeAt(idx);
   }
   canRemove(idx: number) {
     const group = this.defaultPrices.at(idx);
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     return group.get('id').value?.length;
   }
 
@@ -62,39 +82,42 @@ export class DefaultPriceComponent implements OnInit {
       colorHex: new UntypedFormControl(
         {
           value: price.colorHex,
-          disabled: false,
+          disabled: !this.hasRoleAdmin,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       tag: new UntypedFormControl(
         {
           value: price.name,
-          disabled: price.name?.length,
+          disabled: price.name?.length || !this.hasRoleAdmin,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       priceHVAT: new UntypedFormControl(
         {
           value: price.priceHVAT,
-          disabled: price.noDefaultPrice,
+          disabled: price.noDefaultPrice || !this.hasRoleAdmin,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       vat: new UntypedFormControl(
         {
           value: price.vat,
-          disabled: price.noDefaultPrice,
+          disabled: price.noDefaultPrice || !this.hasRoleAdmin,
         },
-        [Validators.required]
+        [Validators.required],
       ),
     });
   }
-  changeTextToUppercase(idx) {
+  changeTextToUppercase(idx: any) {
     const field = this.defaultPrices.at(idx).get('tag');
     field.patchValue(field.value?.toUpperCase());
   }
 
   async submit() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     const labels = this.defaultPrices.controls?.map((p) => {
       return {
         id: p.get('id').value,

@@ -20,6 +20,7 @@ import { MailService } from '@core/service/mail.service';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { MailRequest } from '@core/models/mail';
 import { ToastService } from '@core/service/toast.service';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-fee-table-result',
@@ -32,7 +33,11 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
   searchCriteria: FeeSearchCriteria;
   fees: Page<Fee>;
   pageSize: number = 5;
-
+  @Input()
+  user: User;
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   tags: Label[];
 
   selectedRows: Fee[] = [];

@@ -6,7 +6,7 @@
     <p>
       Total Elements: <span class="text-danger">{{ fees.totalElements }}</span>
     </p>
-    <div *ngIf="!archived" ngbDropdown class="d-inline-block mt-0" container="body">
+    <div *ngIf="!archived && hasRoleAdmin" ngbDropdown class="d-inline-block mt-0" container="body">
       <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
         <fa-icon icon="exclamation"></fa-icon>&nbsp;Actions
       </button>
@@ -14,23 +14,16 @@
         <button [disabled]="showTagForm || !selectedRows.length" (click)="showTagForm = !showTagForm" ngbDropdownItem>
           <fa-icon [icon]="['fas', 'dot-circle']"></fa-icon>&nbsp;Set Tag
         </button>
-        <button
-          (click)="openProcessValidation()"
-          [disabled]="showTagForm || !selectedRows.length || !activeDossier"
-          ngbDropdownItem
-        >
+        <button (click)="openProcessValidation()" [disabled]="showTagForm || !selectedRows.length || !activeDossier"
+          ngbDropdownItem>
           <fa-icon [icon]="['fas', 'cog']"></fa-icon>&nbsp;Process
         </button>
         <button [disabled]="showTagForm || !selectedRows.length" ngbDropdownItem (click)="deleteFees()">
           <fa-icon [icon]="['fas', 'times']"></fa-icon>&nbsp;Delete
         </button>
         <button ngbDropdownItem (click)="load()"><fa-icon [icon]="['fas', 'sync']"></fa-icon>&nbsp;Reload</button>
-        <button
-          *ngIf="!archived"
-          [disabled]="showTagForm || selectedRows.length > 0"
-          ngbDropdownItem
-          (click)="manualSubmit()"
-        >
+        <button *ngIf="!archived" [disabled]="showTagForm || selectedRows.length > 0" ngbDropdownItem
+          (click)="manualSubmit()">
           <fa-icon [icon]="['fas', 'upload']"></fa-icon>&nbsp;Manual Submit
         </button>
       </div>
@@ -52,16 +45,11 @@
           <th>Subject</th>
           <th class="d-md-table-cell d-none">Date received</th>
           <th class="d-md-table-cell d-none fit">Files</th>
-          <th class="fit"></th>
-          <th class="text-center fit" *ngIf="!archived">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              aria-label="select"
-              (change)="toggleAllRows($event, fees.content)"
-              [checked]="isAllFeesSelected(fees.content)"
-              [disabled]="!fees.content.length"
-            />
+          <th class="fit" *ngIf="hasRoleAdmin"></th>
+          <th class="text-center fit" *ngIf="!archived && hasRoleAdmin">
+            <input type="checkbox" class="form-check-input" aria-label="select"
+              (change)="toggleAllRows($event, fees.content)" [checked]="isAllFeesSelected(fees.content)"
+              [disabled]="!fees.content.length" />
           </th>
         </tr>
       </thead>
@@ -78,26 +66,20 @@
               <div class="d-flex justify-content-between">
                 <span>{{ f.subject }}</span>
                 <ng-container *ngIf="f.imported">
-                  <ng-template #infoFrontend>
-                    Imported on {{ f.importedDate | date : 'dd/MM/yyyy HH:mm' }}
-                  </ng-template>
-                  <button
-                    (click)="$event.stopPropagation()"
-                    type="button"
-                    class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark"
-                    [ngbTooltip]="infoFrontend"
-                    triggers="click:blur"
-                  >
+                  <ng-template #infoFrontend> Imported on {{ f.importedDate | date: 'dd/MM/yyyy HH:mm' }} </ng-template>
+                  <button (click)="$event.stopPropagation()" type="button"
+                    class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
+                    triggers="click:blur">
                     <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
                   </button>
                 </ng-container>
               </div>
             </td>
-            <td class="d-md-table-cell d-none">{{ f.date | date : 'dd/MM/yyyy HH:mm' }}</td>
+            <td class="d-md-table-cell d-none">{{ f.date | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td class="d-md-table-cell d-none text-center fit">
               {{ f.attachmentIds.length }}
             </td>
-            <td class="text-center fit">
+            <td class="text-center fit" *ngIf="hasRoleAdmin">
               <a class="btn btn-link" (click)="sendMail(f, $event)">
                 <fa-icon [icon]="['fas', 'mail-bulk']" />
               </a>
@@ -123,14 +105,8 @@
     </table>
   </div>
   <div class="d-flex justify-content-between mb-2">
-    <ngb-pagination
-      *ngIf="fees && fees.totalPages > 1"
-      [page]="pageNumber"
-      [pageSize]="fees.size"
-      [maxSize]="5"
-      [collectionSize]="fees.totalElements"
-      (pageChange)="load($event)"
-    >
+    <ngb-pagination *ngIf="fees && fees.totalPages > 1" [page]="pageNumber" [pageSize]="fees.size" [maxSize]="5"
+      [collectionSize]="fees.totalElements" (pageChange)="load($event)">
     </ngb-pagination>
   </div>
 </ng-container>
