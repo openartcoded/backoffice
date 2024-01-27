@@ -8,6 +8,8 @@ import { WindowRefService } from '@core/service/window.service';
 import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewerComponent } from '@shared/image-viewer/image-viewer.component';
+import { User } from '@core/models/user';
+import { PersonalInfoService } from '@core/service/personal.info.service';
 
 @Component({
   selector: 'app-file-upload-table',
@@ -19,17 +21,22 @@ export class FileUploadTableComponent implements OnInit {
   pageSize: number = 5;
   searchCriteria: FileUploadSearchCriteria;
 
+  user: User;
   constructor(
     private fileService: FileService,
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
+    private personalInfoService: PersonalInfoService,
     private modalService: NgbModal,
-    private titleService: Title
+    private titleService: Title,
   ) { }
-
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   ngOnInit(): void {
     this.titleService.setTitle('File Uploads');
     this.search({});
+    this.personalInfoService.me().subscribe((u) => (this.user = u));
   }
 
   search(criteria: FileUploadSearchCriteria) {

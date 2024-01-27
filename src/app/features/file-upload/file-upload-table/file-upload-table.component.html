@@ -3,7 +3,7 @@
   (formSubmitted)="search($event)"></app-file-upload-search-form>
 <ng-container *ngIf="fileUploads">
   <div class="d-flex justify-content-end">
-    <strong>Total: {{fileUploads.totalElements}}</strong>
+    <strong>Total: {{ fileUploads.totalElements }}</strong>
   </div>
   <div class="table-responsive">
     <table class="table table-bordered">
@@ -20,7 +20,7 @@
       <tbody>
         <ng-container *ngFor="let upl of fileUploads.content">
           <tr>
-            <td class="text-break">{{ upl?.creationDate | date:'dd/MM/yyyy HH:mm'}}</td>
+            <td class="text-break">{{ upl?.creationDate | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td class="text-break">{{ upl?.originalFilename }}</td>
             <td class="text-break d-md-table-cell d-none">{{ upl?.correlationId }}</td>
             <td class="fit d-md-table-cell d-none text-break">{{ upl?.publicResource ? 'Yes' : 'No' }}</td>
@@ -33,7 +33,7 @@
                     <fa-icon [icon]="['fas', 'download']"></fa-icon>
                     Download
                   </button>
-                  <button (click)="delete(upl)" ngbDropdownItem disabled>
+                  <button *ngIf="user && hasRoleAdmin" (click)="delete(upl)" ngbDropdownItem disabled>
                     <fa-icon [icon]="['fas', 'trash']"></fa-icon>
                     Delete (disabled)
                   </button>
