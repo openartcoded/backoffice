@@ -17,6 +17,7 @@ import { AdministrativeDocumentService } from '@core/service/administrative-docu
 import { AdministrativeDocument } from '@core/models/administrative-document';
 import { DocumentEditorComponent } from '@feature/administrative-document/document-editor/document-editor.component';
 import { FileService } from '@core/service/file.service';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-dossier-form',
@@ -36,6 +37,11 @@ export class DossierFormComponent implements OnInit, OnDestroy {
   recallForModification: boolean = false;
   @Input()
   labels: Label[];
+  @Input()
+  user: User;
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   searchExpense: string;
 
   vatTotal: number = 0;
@@ -294,6 +300,7 @@ export class DossierFormComponent implements OnInit, OnDestroy {
 
   openFeeDetail(f: Fee) {
     const modalRef = this.modalService.open(FeeDetailComponent, { size: 'xl' });
+    modalRef.componentInstance.user = this.user;
     modalRef.componentInstance.fee = f;
   }
 

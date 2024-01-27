@@ -140,6 +140,7 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
       scrollable: true,
       backdrop: 'static',
     });
+    modalRef.componentInstance.user = this.user;
     modalRef.componentInstance.fee = f;
     modalRef.componentInstance.feeUpdated.subscribe((_f: any) => {
       this.load();

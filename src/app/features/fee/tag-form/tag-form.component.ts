@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Label } from '@core/models/fee';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-tag-form',
@@ -20,12 +21,19 @@ export class TagFormComponent implements OnInit {
   isDisabled: boolean;
   @Input()
   hideCancelButton: boolean;
+  @Input()
+  user: User;
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
+  constructor() { }
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   submit() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     if (this.selectedTag) {
       const tag = this.tags.find((l) => l.id === this.selectedTag);
       this.tagSubmitted.emit(tag);

@@ -5,10 +5,8 @@
       fee.subject | titlecase
       }}
       <ng-container *ngIf="fee.imported">
-        <ng-template #infoFrontend>
-          Imported on {{fee.importedDate | date:'dd/MM/yyyy HH:mm'}}
-        </ng-template>
-        <button (click)="$event.stopPropagation();" type="button" class="ps-0 ms-0  me-0 btn btn-link text-dark"
+        <ng-template #infoFrontend> Imported on {{ fee.importedDate | date: 'dd/MM/yyyy HH:mm' }} </ng-template>
+        <button (click)="$event.stopPropagation()" type="button" class="ps-0 ms-0 me-0 btn btn-link text-dark"
           [ngbTooltip]="infoFrontend" triggers="click:blur">
           <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
         </button>
@@ -65,7 +63,8 @@
                       {{ a.originalFilename }}
                     </button>
                     <div class="btn-group">
-                      <button class="btn btn-link" [disabled]="fee.attachmentIds.length <= 1 || fee.archived"
+                      <button *ngIf="hasRoleAdmin" class="btn btn-link"
+                        [disabled]="fee.attachmentIds.length <= 1 || fee.archived"
                         (click)="removeAttachment($event, a)">
                         <fa-icon [icon]="['fas', 'times']" class="text-danger"></fa-icon>
                       </button>
@@ -86,7 +85,8 @@
           <a ngbNavLink>Costs</a>
           <ng-template ngbNavContent>
             <div class="mt-2">
-              <app-update-price [fee]="fee" (updatePriceSubmitted)="updatePrice($event)"></app-update-price>
+              <app-update-price [fee]="fee" [user]="user"
+                (updatePriceSubmitted)="updatePrice($event)"></app-update-price>
             </div>
           </ng-template>
         </li>
@@ -94,8 +94,8 @@
           <a ngbNavLink>Tag</a>
           <ng-template ngbNavContent>
             <div class="mt-2">
-              <app-tag-form [hideCancelButton]="true" [selectedTag]="fee.tagId" [tags]="tags"
-                (tagSubmitted)="updateTag(fee, $event)" [isDisabled]="fee.archived"></app-tag-form>
+              <app-tag-form [hideCancelButton]="true" [selectedTag]="fee.tagId" [tags]="tags" [user]="user"
+                (tagSubmitted)="updateTag(fee, $event)" [isDisabled]="fee.archived || !hasRoleAdmin"></app-tag-form>
             </div>
           </ng-template>
         </li>

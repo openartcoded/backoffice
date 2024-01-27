@@ -9,6 +9,7 @@ import { ImageViewerComponent } from '@shared/image-viewer/image-viewer.componen
 import { LabelService } from '@core/service/label.service';
 import { ToastService } from '@core/service/toast.service';
 import { firstValueFrom } from 'rxjs';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-fee-detail',
@@ -20,7 +21,12 @@ export class FeeDetailComponent implements OnInit {
   fee: Fee;
   @Output()
   feeUpdated: EventEmitter<Fee> = new EventEmitter<Fee>();
+  @Input()
+  user: User;
 
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   tags: Label[];
   constructor(
     @Optional() public activeModal: NgbActiveModal,
@@ -28,8 +34,8 @@ export class FeeDetailComponent implements OnInit {
     private labelService: LabelService,
     private modalService: NgbModal,
     private toastService: ToastService,
-    private fileService: FileService
-  ) {}
+    private fileService: FileService,
+  ) { }
 
   ngOnInit(): void {
     this.load();
@@ -48,7 +54,7 @@ export class FeeDetailComponent implements OnInit {
     this.tags = labels;
   }
 
-  downloadAttachment(evt, a: FileUpload) {
+  downloadAttachment(evt: any, a: FileUpload) {
     evt.stopPropagation();
     this.fileService.download(a);
   }
@@ -64,6 +70,9 @@ export class FeeDetailComponent implements OnInit {
 
   removeAttachment($event: MouseEvent, a: FileUpload) {
     $event.stopPropagation();
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.feeService.removeAttachment(this.fee.id, a.id).subscribe((f) => {
       this.feeUpdated.emit(f);
       this.fee = f;
@@ -98,6 +107,9 @@ export class FeeDetailComponent implements OnInit {
   }
 
   updatePrice(request: FeeUpdatePriceRequest) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.feeService.updatePrice(request.id, request.priceHVAT, request.vat).subscribe((f) => {
       this.fee = f;
       this.load();
@@ -107,6 +119,9 @@ export class FeeDetailComponent implements OnInit {
   }
 
   updateTag(fee: Fee, $event: Label) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.feeService.updateTag([fee.id], $event).subscribe((data) => {
       if (data?.length !== 1) {
         console.error('response not equals to 1!!');

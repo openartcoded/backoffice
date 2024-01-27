@@ -30,7 +30,8 @@
     </div>
   </div>
   <div class="d-block">
-    <app-tag-form [tags]="tags" (tagSubmitted)="saveTag($event)" *ngIf="showTagForm && selectedRows.length">
+    <app-tag-form [user]="user" [tags]="tags" (tagSubmitted)="saveTag($event)"
+      *ngIf="showTagForm && selectedRows.length">
     </app-tag-form>
   </div>
   <div class="d-block pb-2">
