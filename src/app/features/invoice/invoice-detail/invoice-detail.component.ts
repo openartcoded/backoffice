@@ -57,6 +57,9 @@ export class InvoiceDetailComponent implements OnInit {
     this.fileService.findById(this.invoice.invoiceUploadId).subscribe((f) => this.fileService.download(f));
   }
   async sendMail() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     const upload = await firstValueFrom(this.fileService.findById(this.invoice.invoiceUploadId));
     const context: Map<string, MailContextType> = new Map();
     context.set('Invoice Ref', this.invoice.invoiceNumber);
@@ -107,14 +110,14 @@ export class InvoiceDetailComponent implements OnInit {
           value: this.templates.some((templ) => templ.id === this.invoice.freemarkerTemplateId)
             ? this.invoice.freemarkerTemplateId
             : null,
-          disabled: this.invoice.locked,
+          disabled: !this.hasRoleAdmin || this.invoice.locked,
         },
         [Validators.required],
       ),
       selectedClient: new UntypedFormControl(
         {
           value: this.clients.find((c) => c.name === this.invoice.billTo?.clientName),
-          disabled: this.invoice.locked,
+          disabled: !this.hasRoleAdmin || this.invoice.locked,
         },
         [],
       ),
@@ -125,44 +128,50 @@ export class InvoiceDetailComponent implements OnInit {
       dateOfInvoice: new UntypedFormControl(
         {
           value: DateUtils.formatInputDate(DateUtils.toDateOrNow(this.invoice.dateOfInvoice)),
-          disabled: this.invoice.locked,
+          disabled: !this.hasRoleAdmin || this.invoice.locked,
         },
         [Validators.required],
       ),
-      taxRate: new UntypedFormControl({ value: this.invoice.taxRate, disabled: this.invoice.locked }, [
-        Validators.required,
-      ]),
+      taxRate: new UntypedFormControl(
+        { value: this.invoice.taxRate, disabled: !this.hasRoleAdmin || this.invoice.locked },
+        [Validators.required],
+      ),
       locked: new UntypedFormControl({ value: this.invoice.locked, disabled: true }, []),
       uploadedManually: new UntypedFormControl(
-        { value: this.invoice.uploadedManually, disabled: this.invoice.locked },
+        { value: this.invoice.uploadedManually, disabled: !this.hasRoleAdmin || this.invoice.locked },
         [],
       ),
       logicalDelete: new UntypedFormControl({ value: this.invoice.logicalDelete, disabled: true }, []),
       billToVatNumber: new UntypedFormControl(
         {
           value: this.invoice?.billTo?.vatNumber,
-          disabled: this.invoice.locked,
+          disabled: !this.hasRoleAdmin || this.invoice.locked,
         },
         [Validators.required],
       ),
       billToClientName: new UntypedFormControl(
         {
           value: this.invoice?.billTo?.clientName,
-          disabled: this.invoice.locked,
+          disabled: !this.hasRoleAdmin || this.invoice.locked,
         },
         [Validators.required],
       ),
-      billToCity: new UntypedFormControl({ value: this.invoice?.billTo?.city, disabled: this.invoice.locked }, [
-        Validators.required,
-      ]),
-      specialNote: new UntypedFormControl({ value: this.invoice?.specialNote, disabled: this.invoice.locked }, []),
-      billToAddress: new UntypedFormControl({ value: this.invoice?.billTo?.address, disabled: this.invoice.locked }, [
-        Validators.required,
-      ]),
+      billToCity: new UntypedFormControl(
+        { value: this.invoice?.billTo?.city, disabled: !this.hasRoleAdmin || this.invoice.locked },
+        [Validators.required],
+      ),
+      specialNote: new UntypedFormControl(
+        { value: this.invoice?.specialNote, disabled: !this.hasRoleAdmin || this.invoice.locked },
+        [],
+      ),
+      billToAddress: new UntypedFormControl(
+        { value: this.invoice?.billTo?.address, disabled: !this.hasRoleAdmin || this.invoice.locked },
+        [Validators.required],
+      ),
       billToEmailAddress: new UntypedFormControl(
         {
           value: this.invoice?.billTo?.emailAddress,
-          disabled: this.invoice.locked,
+          disabled: !this.hasRoleAdmin || this.invoice.locked,
         },
         [Validators.required],
       ),
@@ -191,6 +200,9 @@ export class InvoiceDetailComponent implements OnInit {
   }
 
   set file(file) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.invoiceForm.get('file').patchValue(file);
   }
   get specialNote() {
@@ -198,10 +210,16 @@ export class InvoiceDetailComponent implements OnInit {
   }
 
   set specialNote(note) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.invoiceForm.get('specialNote').patchValue(note);
   }
 
   drop(files: NgxFileDropEntry[]) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     for (const droppedFile of files) {
       const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
       fileEntry.file((file: File) => {
@@ -217,22 +235,31 @@ export class InvoiceDetailComponent implements OnInit {
         : moment(new Date()).format('YYYY-MM');
 
       return new UntypedFormGroup({
-        nature: new UntypedFormControl({ value: table.nature, disabled: this.invoice.locked }, [Validators.required]),
-        period: new UntypedFormControl({ value: period, disabled: this.invoice.locked }, [Validators.required]),
-        projectName: new UntypedFormControl({ value: table.projectName, disabled: this.invoice.locked }, [
+        nature: new UntypedFormControl({ value: table.nature, disabled: !this.hasRoleAdmin || this.invoice.locked }, [
           Validators.required,
         ]),
-        rate: new UntypedFormControl({ value: table.rate, disabled: this.invoice.locked }, [Validators.required]),
-        rateType: new UntypedFormControl({ value: table.rateType, disabled: this.invoice.locked }, [
+        period: new UntypedFormControl({ value: period, disabled: !this.hasRoleAdmin || this.invoice.locked }, [
           Validators.required,
         ]),
-        amount: new UntypedFormControl({ value: table.amount, disabled: this.invoice.locked }, [
+        projectName: new UntypedFormControl(
+          { value: table.projectName, disabled: !this.hasRoleAdmin || this.invoice.locked },
+          [Validators.required],
+        ),
+        rate: new UntypedFormControl({ value: table.rate, disabled: !this.hasRoleAdmin || this.invoice.locked }, [
+          Validators.required,
+        ]),
+        rateType: new UntypedFormControl(
+          { value: table.rateType, disabled: !this.hasRoleAdmin || this.invoice.locked },
+          [Validators.required],
+        ),
+        amount: new UntypedFormControl({ value: table.amount, disabled: !this.hasRoleAdmin || this.invoice.locked }, [
           Validators.required,
           Validators.min(1),
         ]),
-        amountType: new UntypedFormControl({ value: table.amountType, disabled: this.invoice.locked }, [
-          Validators.required,
-        ]),
+        amountType: new UntypedFormControl(
+          { value: table.amountType, disabled: !this.hasRoleAdmin || this.invoice.locked },
+          [Validators.required],
+        ),
       });
     };
     let arr = this.invoice?.invoiceTable?.length
@@ -247,6 +274,9 @@ export class InvoiceDetailComponent implements OnInit {
   }
 
   send() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     let toSave = {
       invoiceNumber: this.invoice.invoiceNumber /* this.invoiceForm.get('invoiceNumber').value */,
       freemarkerTemplateId: this.invoiceForm.get('freemarkerTemplateId').value,

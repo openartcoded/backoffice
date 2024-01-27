@@ -114,6 +114,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
     const ngbModalRef = this.modalService.open(InvoiceDetailComponent, {
       size: 'xl',
     });
+    ngbModalRef.componentInstance.user = this.user;
     ngbModalRef.componentInstance.invoice = invoice;
     ngbModalRef.componentInstance.templates = templates;
     ngbModalRef.componentInstance.clients = this.clients;
