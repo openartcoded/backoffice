@@ -35,15 +35,17 @@
                 <label class="col-sm-2 col-form-label" for="logo">Logo</label>
                 <div class="col-sm-10">
                   <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropLogo($event)"
-                    dropZoneClassName="flat bg-light d-block" [accept]="'image/*'" [multiple]="false">
+                    dropZoneClassName="flat bg-light d-block border border-gray" [accept]="'image/*'"
+                    [multiple]="false">
                     <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                      <button id="logo" class="btn btn-primary me-1" type="button" (click)="openFileSelector()"
-                        *ngIf="!logoUrl">
+                      <button [disabled]="!hasRoleAdmin" id="logo" class="btn btn-primary me-1" type="button"
+                        (click)="openFileSelector()" *ngIf="!logoUrl">
                         <fa-icon [icon]="['fas', 'upload']"></fa-icon>
                       </button>
-                      <a *ngIf="logoUrl" (click)="openFileSelector()" class="border-0">
+                      <button *ngIf="logoUrl" [disabled]="!hasRoleAdmin" (click)="openFileSelector()"
+                        class="border-0 bg-transparent">
                         <img alt="Cover" [src]="logoUrl" class="img-fluid" width="100px" height="100px" />
-                      </a>
+                      </button>
                     </ng-template>
                   </ngx-file-drop>
                 </div>
@@ -53,15 +55,17 @@
                 <label class="col-sm-2 col-form-label" for="signature">Signature</label>
                 <div class="col-sm-10">
                   <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropSignature($event)"
-                    dropZoneClassName="flat bg-light d-block" [accept]="'image/*'" [multiple]="false">
+                    dropZoneClassName="flat bg-light d-block border border-gray" [accept]="'image/*'"
+                    [multiple]="false">
                     <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                      <button id="signature" class="btn btn-primary me-1" type="button" (click)="openFileSelector()"
-                        *ngIf="!signatureUrl">
+                      <button [disabled]="!hasRoleAdmin" id="signature" class="btn btn-primary me-1" type="button"
+                        (click)="openFileSelector()" *ngIf="!signatureUrl">
                         <fa-icon [icon]="['fas', 'upload']"></fa-icon>
                       </button>
-                      <a *ngIf="signatureUrl" (click)="openFileSelector()" class="border-0">
+                      <button [disabled]="!hasRoleAdmin" *ngIf="signatureUrl" (click)="openFileSelector()"
+                        class="border-0 bg-transparent">
                         <img alt="Cover" [src]="signatureUrl" class="img-fluid" width="100px" height="100px" />
-                      </a>
+                      </button>
                     </ng-template>
                   </ngx-file-drop>
                 </div>
@@ -152,13 +156,13 @@
             <ng-container formArrayName="accountants">
               <div class="mt-2">
                 <div class="d-flex justify-content-end">
-                  <button (click)="addAccountant($event)" class="btn btn-outline-primary mb-1">
+                  <button *ngIf="hasRoleAdmin" (click)="addAccountant($event)" class="btn btn-outline-primary mb-1">
                     <fa-icon [icon]="['fas', 'plus']"></fa-icon>
                     Add
                   </button>
                 </div>
                 <div class="bg-light p-2 mb-1" *ngIf="!accountants.controls.length">No Content.</div>
-                <div class="bg-light p-1 mb-1" *ngFor="let _ of accountants.controls; index as i">
+                <div class="bg-light border border-gray p-2 mb-1" *ngFor="let _ of accountants.controls; index as i">
                   <ng-container [formGroupName]="i">
                     <div class="mb-1 row">
                       <label class="col-sm-2 col-form-label" [for]="'firstName' + i">First Name</label>
@@ -185,7 +189,7 @@
                           formControlName="phoneNumber" />
                       </div>
                     </div>
-                    <div class="d-flex justify-content-end">
+                    <div class="d-flex justify-content-end" *ngIf="this.hasRoleAdmin">
                       <a (click)="removeAccountant($event, i)" class="btn btn-link mt-1 mb-1 d-block">
                         <fa-icon class="text-danger" [icon]="['fas', 'trash']"></fa-icon>
                       </a>
@@ -198,8 +202,8 @@
         </li>
       </ul>
       <div [ngbNavOutlet]="nav"></div>
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+      <div class="d-flex justify-content-end" *ngIf="hasRoleAdmin">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid || !hasRoleAdmin">Submit</button>
       </div>
     </form>
   </div>

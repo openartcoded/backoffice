@@ -6,6 +6,7 @@ import { FileService } from '@core/service/file.service';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { DomSanitizer } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-edit-personal-info',
@@ -15,7 +16,11 @@ import { firstValueFrom } from 'rxjs';
 export class EditPersonalInfoComponent implements OnInit {
   @Input()
   currentPersonalInfo: PersonalInfo;
-
+  @Input()
+  user: User;
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   @Output()
   onSavePersonalInfo: EventEmitter<FormData> = new EventEmitter<FormData>();
 
@@ -27,10 +32,14 @@ export class EditPersonalInfoComponent implements OnInit {
     @Optional() public activeModal: NgbActiveModal,
     private fileService: FileService,
     private domSanitizer: DomSanitizer,
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
   ) { }
 
-  drop($event: NgxFileDropEntry[], onListFile = (file) => { }, onReadFile = (event) => { }) {
+  drop($event: NgxFileDropEntry[], onListFile = (_file: any) => { }, onReadFile = (_event: any) => { }) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
+
     for (const droppedFile of $event) {
       const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
       fileEntry.file((file: File) => {
@@ -49,7 +58,7 @@ export class EditPersonalInfoComponent implements OnInit {
     this.drop(
       $event,
       (file) => (this.logoUpload = file),
-      (event) => (this.logoUrl = event.target.result)
+      (event) => (this.logoUrl = event.target.result),
     );
   }
 
@@ -57,7 +66,7 @@ export class EditPersonalInfoComponent implements OnInit {
     this.drop(
       $event,
       (file) => (this.signatureUpload = file),
-      (event) => (this.signatureUrl = event.target.result)
+      (event) => (this.signatureUrl = event.target.result),
     );
   }
 
@@ -80,79 +89,84 @@ export class EditPersonalInfoComponent implements OnInit {
   async ngOnInit() {
     if (this?.currentPersonalInfo?.logoUploadId) {
       const logo = await firstValueFrom(
-        this.fileService.toDownloadLink(this.fileService.getDownloadUrl(this.currentPersonalInfo.logoUploadId))
+        this.fileService.toDownloadLink(this.fileService.getDownloadUrl(this.currentPersonalInfo.logoUploadId)),
       );
       this.logoUrl = this.domSanitizer.bypassSecurityTrustUrl(logo);
     }
     if (this?.currentPersonalInfo?.signatureUploadId) {
       const signature = await firstValueFrom(
-        this.fileService.toDownloadLink(this.fileService.getDownloadUrl(this.currentPersonalInfo.signatureUploadId))
+        this.fileService.toDownloadLink(this.fileService.getDownloadUrl(this.currentPersonalInfo.signatureUploadId)),
       );
       this.signatureUrl = this.domSanitizer.bypassSecurityTrustUrl(signature);
     }
     this.form = this.fb.group({
-      vatNumber: new UntypedFormControl({ value: this.currentPersonalInfo?.vatNumber, disabled: false }, [
+      vatNumber: new UntypedFormControl({ value: this.currentPersonalInfo?.vatNumber, disabled: !this.hasRoleAdmin }, [
         Validators.required,
       ]),
-      maxDaysToPay: new UntypedFormControl({ value: this.currentPersonalInfo?.maxDaysToPay, disabled: false }, [
+      maxDaysToPay: new UntypedFormControl(
+        { value: this.currentPersonalInfo?.maxDaysToPay, disabled: !this.hasRoleAdmin },
+        [Validators.required, Validators.min(1)],
+      ),
+      financeCharge: new UntypedFormControl(
+        { value: this.currentPersonalInfo?.financeCharge, disabled: !this.hasRoleAdmin },
+        [Validators.required, Validators.min(0)],
+      ),
+      ceoFullName: new UntypedFormControl(
+        { value: this.currentPersonalInfo?.ceoFullName, disabled: !this.hasRoleAdmin },
+        [Validators.required],
+      ),
+      note: new UntypedFormControl({ value: this.currentPersonalInfo?.note, disabled: !this.hasRoleAdmin }, [
         Validators.required,
-        Validators.min(1),
       ]),
-      financeCharge: new UntypedFormControl({ value: this.currentPersonalInfo?.financeCharge, disabled: false }, [
-        Validators.required,
-        Validators.min(0),
-      ]),
-      ceoFullName: new UntypedFormControl({ value: this.currentPersonalInfo?.ceoFullName, disabled: false }, [
-        Validators.required,
-      ]),
-      note: new UntypedFormControl({ value: this.currentPersonalInfo?.note, disabled: false }, [Validators.required]),
       organizationAddress: new UntypedFormControl(
         {
           value: this.currentPersonalInfo?.organizationAddress,
-          disabled: false,
+          disabled: !this.hasRoleAdmin,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       organizationBankAccount: new UntypedFormControl(
         {
           value: this.currentPersonalInfo?.organizationBankAccount,
-          disabled: false,
+          disabled: !this.hasRoleAdmin,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       organizationBankBIC: new UntypedFormControl(
         {
           value: this.currentPersonalInfo?.organizationBankBIC,
-          disabled: false,
+          disabled: !this.hasRoleAdmin,
         },
-        [Validators.required]
+        [Validators.required],
       ),
-      organizationCity: new UntypedFormControl({ value: this.currentPersonalInfo?.organizationCity, disabled: false }, [
-        Validators.required,
-      ]),
+      organizationCity: new UntypedFormControl(
+        { value: this.currentPersonalInfo?.organizationCity, disabled: !this.hasRoleAdmin },
+        [Validators.required],
+      ),
       organizationEmailAddress: new UntypedFormControl(
         {
           value: this.currentPersonalInfo?.organizationEmailAddress,
-          disabled: false,
+          disabled: !this.hasRoleAdmin,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       organizationPostCode: new UntypedFormControl(
         {
           value: this.currentPersonalInfo?.organizationPostCode,
-          disabled: false,
+          disabled: !this.hasRoleAdmin,
         },
-        [Validators.required]
+        [Validators.required],
       ),
-      organizationName: new UntypedFormControl({ value: this.currentPersonalInfo?.organizationName, disabled: false }, [
-        Validators.required,
-      ]),
+      organizationName: new UntypedFormControl(
+        { value: this.currentPersonalInfo?.organizationName, disabled: !this.hasRoleAdmin },
+        [Validators.required],
+      ),
       organizationPhoneNumber: new UntypedFormControl(
         {
           value: this.currentPersonalInfo?.organizationPhoneNumber,
-          disabled: false,
+          disabled: !this.hasRoleAdmin,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       logoUpload: new UntypedFormControl(null, []),
       signatureUpload: new UntypedFormControl(null, []),
@@ -171,11 +185,14 @@ export class EditPersonalInfoComponent implements OnInit {
         firstName: '',
         lastName: '',
         email: '',
-      })
+      }),
     );
   }
 
   removeAccountant($event: MouseEvent, index: number) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     $event.preventDefault();
     this.accountants.removeAt(index);
   }
@@ -189,35 +206,38 @@ export class EditPersonalInfoComponent implements OnInit {
       firstName: new UntypedFormControl(
         {
           value: accountant.firstName,
-          disabled: false,
+          disabled: !this.hasRoleAdmin,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       lastName: new UntypedFormControl(
         {
           value: accountant.lastName,
-          disabled: false,
+          disabled: !this.hasRoleAdmin,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       phoneNumber: new UntypedFormControl(
         {
           value: accountant.phoneNumber,
-          disabled: false,
+          disabled: !this.hasRoleAdmin,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       email: new UntypedFormControl(
         {
           value: accountant.email,
-          disabled: false,
+          disabled: !this.hasRoleAdmin,
         },
-        [Validators.required, Validators.email]
+        [Validators.required, Validators.email],
       ),
     });
   };
 
   send() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     const accountants = this.accountants?.controls?.map((c) => {
       return {
         firstName: c.get('firstName').value,

@@ -48,6 +48,7 @@ export class UserMenuComponent implements OnInit {
       size: 'lg',
       backdrop: 'static',
     });
+    modal.componentInstance.user = this.user;
     modal.componentInstance.currentPersonalInfo = personalInfo;
     modal.componentInstance.onSavePersonalInfo.subscribe(async (formData: any) => {
       //modal.close();
