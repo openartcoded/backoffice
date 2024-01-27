@@ -14,6 +14,7 @@ import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { MailContextType, MailRequest } from '@core/models/mail';
 import { MailService } from '@core/service/mail.service';
 import { ToastService } from '@core/service/toast.service';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-invoice-detail',
@@ -23,7 +24,11 @@ import { ToastService } from '@core/service/toast.service';
 export class InvoiceDetailComponent implements OnInit {
   @Input()
   invoice: Invoice;
-
+  @Input()
+  user: User;
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   @Input()
   templates: InvoiceFreemarkerTemplate[];
 

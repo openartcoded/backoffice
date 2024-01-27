@@ -2,7 +2,7 @@
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">Dossier <{{ dossier.name ? dossier.name : 'New Dossier' }}>
         <ng-container *ngIf="dossier.imported">
-          <ng-template #infoFrontend>Imported on {{ dossier.importedDate | date : 'dd/MM/yyyy HH:mm' }}</ng-template>
+          <ng-template #infoFrontend>Imported on {{ dossier.importedDate | date: 'dd/MM/yyyy HH:mm' }}</ng-template>
           <button (click)="$event.stopPropagation()" type="button" class="ps-0 ms-0 me-0 btn btn-link text-dark"
             [ngbTooltip]="infoFrontend" triggers="click:blur">
             <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
@@ -48,7 +48,7 @@
               <div class="mb-1 row" *ngIf="size$ | async as size">
                 <label class="col-sm-2 col-form-label" for="dossierSize">Size</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="dossierSize" [value]="size|bytesToHuman" disabled />
+                  <input type="text" class="form-control" id="dossierSize" [value]="size | bytesToHuman" disabled />
                 </div>
               </div>
               <div class="mb-1 row" *ngIf="expenses || dossier.invoices">
@@ -84,11 +84,11 @@
                 </div>
               </div>
               <div class="d-flex justify-content-end mt-2">
-                <button (click)="downloadSummary($event)" class="btn btn-outline-success mb-2 me-2"
-                  [disabled]="!dossier.invoiceIds?.length && !dossier.feeIds?.length">
+                <button (click)="downloadSummary($event)" class="btn btn-outline-success mb-2"
+                  [class.me-2]="hasRoleAdmin" [disabled]="!dossier.invoiceIds?.length && !dossier.feeIds?.length">
                   Download Summary
                 </button>
-                <button (click)="send()" class="btn btn-primary mb-2"
+                <button *ngIf="hasRoleAdmin" (click)="send()" class="btn btn-primary mb-2"
                   [disabled]="!dossierForm.valid || (dossier.closed && !recallForModification)">
                   Submit
                 </button>
@@ -102,10 +102,10 @@
             <div class="mt-2">
               <ng-container formArrayName="advancePayments">
                 <div class="alert alert-warning" *ngIf="vatTotal && feeTotalVat">
-                  Estimated VAT: ({{ vatTotal | currency : '€' }} - {{ feeTotalVat | currency : '€' }}) =
-                  {{ vatTotal - feeTotalVat | currency : '€' }}
+                  Estimated VAT: ({{ vatTotal | currency: '€' }} - {{ feeTotalVat | currency: '€' }}) =
+                  {{ vatTotal - feeTotalVat | currency: '€' }}
                 </div>
-                <div class="d-flex justify-content-end">
+                <div class="d-flex justify-content-end" *ngIf="hasRoleAdmin">
                   <button (click)="addAdvancePayment()" class="btn btn-outline-primary mb-1"
                     *ngIf="!dossier.closed || recallForModification">
                     <fa-icon [icon]="['fas', 'plus']"></fa-icon>
@@ -114,7 +114,8 @@
                 </div>
                 <div class="bg-light p-2 mb-1" *ngIf="!advancePayments.controls.length">No Content.</div>
 
-                <div class="bg-light p-1 mb-1" *ngFor="let _ of advancePayments.controls; index as i">
+                <div class="bg-light border border-gray p-1 mb-1"
+                  *ngFor="let _ of advancePayments.controls; index as i">
                   <ng-container [formGroupName]="i">
                     <div class="mb-1 row">
                       <label class="col-sm-2 col-form-label" [for]="'datePaid' + i">Date Paid</label>
@@ -129,7 +130,7 @@
                           placeholder="Advance (in €)" />
                       </div>
                     </div>
-                    <div class="d-flex justify-content-end">
+                    <div class="d-flex justify-content-end" *ngIf="hasRoleAdmin">
                       <a (click)="removeAdvancePayment(i)" class="btn btn-link mt-1 mb-1 d-block"
                         *ngIf="!dossier.closed || recallForModification">
                         <fa-icon class="text-danger" [icon]="['fas', 'trash']"></fa-icon>
@@ -145,7 +146,7 @@
           <a ngbNavLink>Expenses</a>
           <ng-template ngbNavContent>
             <div class="alert alert-warning mt-2" *ngIf="feeTotalExclVat">
-              Total: {{ feeTotalExclVat | currency : '€' }}, VAT: {{ feeTotalVat | currency : '€' }}
+              Total: {{ feeTotalExclVat | currency: '€' }}, VAT: {{ feeTotalVat | currency: '€' }}
             </div>
             <div class="mt-2 mb-1" *ngIf="expenses?.length">
               <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchExpense"
@@ -160,7 +161,7 @@
                       class="btn btn-link" (click)="openFeeDetail(f)">{{ f.subject }} <strong>[{{
                         f.attachmentIds?.length }} ]</strong></a>
                   </div>
-                  <a class="btn btn-link" *ngIf="!dossier.closed" (click)="removeFee($event, f)">
+                  <a class="btn btn-link" *ngIf="!dossier.closed && hasRoleAdmin" (click)="removeFee($event, f)">
                     <fa-icon [icon]="['fas', 'times']" class="text-danger"></fa-icon>
                   </a>
                 </div>
@@ -172,19 +173,20 @@
           <a ngbNavLink>Invoices</a>
           <ng-template ngbNavContent>
             <div class="alert alert-warning mt-2" *ngIf="invoiceTotalExclVat">
-              Total Excl. VAT: {{ invoiceTotalExclVat | currency : '€' }}
+              Total Excl. VAT: {{ invoiceTotalExclVat | currency: '€' }}
             </div>
             <div class="bg-light p-2 mt-2" *ngIf="!dossier.invoices?.length">No Content.</div>
             <ul class="list-group" *ngIf="dossier.invoices?.length" id="invoices">
               <li class="list-group-item" *ngFor="let i of dossier.invoices">
                 <div class="d-flex justify-content-between">
                   <div>
-                    <a class="btn btn-link pe-0 ps-0" (click)="openInvoiceDetail(i)">{{ i.newInvoiceNumber ||
-                      i.invoiceNumber }}</a>
-                    <span class="text-danger">({{ i.billTo?.clientName + ' - ' }}{{ i.subTotal | currency : '€'
+                    <a class="btn btn-link pe-0 ps-0" (click)="openInvoiceDetail(i)">{{
+                      i.newInvoiceNumber || i.invoiceNumber
+                      }}</a>
+                    <span class="text-danger">({{ i.billTo?.clientName + ' - ' }}{{ i.subTotal | currency: '€'
                       }})</span>
                   </div>
-                  <a class="btn btn-link" *ngIf="!dossier.closed" (click)="removeInvoice($event, i)">
+                  <a class="btn btn-link" *ngIf="!dossier.closed && hasRoleAdmin" (click)="removeInvoice($event, i)">
                     <fa-icon [icon]="['fas', 'times']" class="text-danger"></fa-icon>
                   </a>
                 </div>
@@ -202,7 +204,7 @@
                   <div>
                     <a class="btn btn-link pe-0 ps-0" (click)="openDocumentDetail(d)">{{ d.title }}</a>
                   </div>
-                  <a class="btn btn-link" *ngIf="!dossier.closed" (click)="removeDocument($event, d)">
+                  <a class="btn btn-link" *ngIf="!dossier.closed && hasRoleAdmin" (click)="removeDocument($event, d)">
                     <fa-icon [icon]="['fas', 'times']" class="text-danger"></fa-icon>
                   </a>
                 </div>

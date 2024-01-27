@@ -1,5 +1,5 @@
 <ng-container *ngIf="dossiers">
-  <div class="d-flex justify-content-end pb-2 pt-1" *ngIf="!closed">
+  <div class="d-flex justify-content-end pb-2 pt-1" *ngIf="!closed && hasRoleAdmin">
     <div ngbDropdown class="d-inline-block" container="body">
       <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
         <fa-icon icon="exclamation"></fa-icon>
@@ -63,9 +63,7 @@
               <div class="d-flex justify-content-between">
                 <span>{{ d.name }}</span>
                 <ng-container *ngIf="d.imported">
-                  <ng-template #infoFrontend>
-                    Imported on {{ d.importedDate | date : 'dd/MM/yyyy HH:mm' }}
-                  </ng-template>
+                  <ng-template #infoFrontend> Imported on {{ d.importedDate | date: 'dd/MM/yyyy HH:mm' }} </ng-template>
                   <button (click)="$event.stopPropagation()" type="button"
                     class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
                     triggers="click:blur">
@@ -74,15 +72,15 @@
                 </ng-container>
               </div>
             </td>
-            <td>{{ d?.updatedDate | date : 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ d?.updatedDate | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td class="d-md-table-cell d-none">{{ d.feeIds?.length }}</td>
             <td class="d-md-table-cell d-none">{{ d.invoiceIds?.length }}</td>
             <td class="d-md-table-cell d-none">{{ d.description }}</td>
-            <td class="d-md-table-cell d-none" *ngIf="closed">{{ d?.tvaDue || 0 | currency : '€' }}</td>
+            <td class="d-md-table-cell d-none" *ngIf="closed">{{ d?.tvaDue || 0 | currency: '€' }}</td>
             <td *ngIf="!closed" [class.bg-danger]="d?.tvaToBePaid < 0" [class.text-warning]="d?.tvaToBePaid < 0"
               [class.bg-info]="d?.tvaToBePaid > 0" [class.bg-secondary]="d?.tvaToBePaid === 0"
               [class.text-white]="d?.tvaToBePaid >= 0" class="d-md-table-cell d-none">
-              {{ d?.tvaToBePaid | currency : '€' }}
+              {{ d?.tvaToBePaid | currency: '€' }}
             </td>
             <td *ngIf="closed" class="text-center fit">
               <div ngbDropdown class="d-inline-block" container="body">
@@ -93,10 +91,10 @@
                     <fa-icon [icon]="['fas', 'download']"></fa-icon>&nbsp;Download
                   </button>
 
-                  <button ngbDropdownItem (click)="sendMail(d)">
+                  <button *ngIf="hasRoleAdmin" ngbDropdownItem (click)="sendMail(d)">
                     <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>&nbsp;Send
                   </button>
-                  <button ngbDropdownItem (click)="modify(d)">
+                  <button *ngIf="hasRoleAdmin" ngbDropdownItem (click)="modify(d)">
                     <fa-icon [icon]="['fas', 'edit']"></fa-icon>&nbsp;Edit
                   </button>
                 </div>

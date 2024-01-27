@@ -7,6 +7,7 @@ import { FileService } from '@core/service/file.service';
 import { FileUpload } from '@core/models/file-upload';
 import { ImageViewerComponent } from '@shared/image-viewer/image-viewer.component';
 import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-document-editor',
@@ -19,25 +20,35 @@ export class DocumentEditorComponent implements OnInit {
   adminDoc: AdministrativeDocument;
   @Input()
   formDisabled = false;
-
+  @Input()
+  user: User;
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   formSubmitted: EventEmitter<AdministrativeDocumentForm> = new EventEmitter<AdministrativeDocumentForm>();
 
-  constructor(private fb: UntypedFormBuilder,
+  constructor(
+    private fb: UntypedFormBuilder,
     private fileService: FileService,
     private modalService: NgbModal,
-    @Optional() public activeModal: NgbActiveModal) { }
+    @Optional() public activeModal: NgbActiveModal,
+  ) { }
 
   ngOnInit(): void {
     this.form = this.fb.group(
       {
         id: new UntypedFormControl({ disabled: true, value: this.adminDoc.id }, []),
-        title: new UntypedFormControl({ disabled: this.formDisabled, value: this.adminDoc.title }, [Validators.required]),
-        description: new UntypedFormControl({ disabled: this.formDisabled, value: this.adminDoc.description }, [Validators.required]),
+        title: new UntypedFormControl({ disabled: this.formDisabled, value: this.adminDoc.title }, [
+          Validators.required,
+        ]),
+        description: new UntypedFormControl({ disabled: this.formDisabled, value: this.adminDoc.description }, [
+          Validators.required,
+        ]),
         tags: new UntypedFormControl({ disabled: this.formDisabled, value: this.adminDoc.tags || [] }, []),
 
         document: new UntypedFormControl({ disabled: this.formDisabled, value: null }, []),
       },
-      {}
+      {},
     );
   }
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { User } from '@core/models/user';
+import { PersonalInfoService } from '@core/service/personal.info.service';
 
 @Component({
   selector: 'app-dossier-page',
@@ -9,11 +11,17 @@ import { Title } from '@angular/platform-browser';
 })
 export class DossierPageComponent implements OnInit {
   activeId: string;
+  user: User;
+  constructor(
+    public route: ActivatedRoute,
+    private personalInfoService: PersonalInfoService,
 
-  constructor(public route: ActivatedRoute, private titleService: Title) {}
+    private titleService: Title,
+  ) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Dossiers');
     this.activeId = this.route.snapshot.params.name || 'open';
+    this.personalInfoService.me().subscribe((u) => (this.user = u));
   }
 }

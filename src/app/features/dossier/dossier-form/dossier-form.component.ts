@@ -154,18 +154,19 @@ export class DossierFormComponent implements OnInit, OnDestroy {
       tvaDue: new UntypedFormControl(
         {
           value: this.dossier.tvaDue,
-          disabled: this.dossier.closed && !this.recallForModification,
+          disabled: !this.hasRoleAdmin || (this.dossier.closed && !this.recallForModification),
         },
         [],
       ),
       advancePayments: this.fb.array(this.createAdvancePayments(this.dossier.advancePayments)),
-      dossierName: new UntypedFormControl({ value: this.dossier.name, disabled: this.dossier.closed }, [
-        Validators.minLength(5),
-        Validators.maxLength(20),
-      ]),
-      dossierDescription: new UntypedFormControl({ value: this.dossier.description, disabled: this.dossier.closed }, [
-        Validators.maxLength(1024),
-      ]),
+      dossierName: new UntypedFormControl(
+        { value: this.dossier.name, disabled: !this.hasRoleAdmin || this.dossier.closed },
+        [Validators.minLength(5), Validators.maxLength(20)],
+      ),
+      dossierDescription: new UntypedFormControl(
+        { value: this.dossier.description, disabled: !this.hasRoleAdmin || this.dossier.closed },
+        [Validators.maxLength(1024)],
+      ),
       creationDate: new UntypedFormControl(
         {
           value: this.dossier.creationDate ? formatDate(this.dossier.creationDate, 'dd/MM/yyyy HH:mm', 'de') : null,
@@ -220,6 +221,9 @@ export class DossierFormComponent implements OnInit, OnDestroy {
   }
 
   send() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.submitted.emit({
       id: this.dossier.id,
       closed: this.dossier.closed,
@@ -240,6 +244,9 @@ export class DossierFormComponent implements OnInit, OnDestroy {
 
   removeFee($event: MouseEvent, f: Fee) {
     $event.stopPropagation();
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.searchExpense = '';
     this.feeRemoved.emit(f);
   }
@@ -255,10 +262,16 @@ export class DossierFormComponent implements OnInit, OnDestroy {
 
   removeInvoice($event: MouseEvent, i: Invoice) {
     $event.stopPropagation();
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.invoiceRemoved.emit(i);
   }
   removeDocument($event: MouseEvent, a: AdministrativeDocument) {
     $event.stopPropagation();
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.documentRemoved.emit(a);
   }
 
@@ -267,6 +280,9 @@ export class DossierFormComponent implements OnInit, OnDestroy {
   }
 
   addAdvancePayment() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.advancePayments.push(this.convertAdvancePaymentToForm({}));
   }
 
@@ -275,14 +291,14 @@ export class DossierFormComponent implements OnInit, OnDestroy {
       datePaid: new UntypedFormControl(
         {
           value: DateUtils.formatInputDate(DateUtils.toDateOrNow(tva.datePaid)),
-          disabled: this.dossier.closed && !this.recallForModification,
+          disabled: !this.hasRoleAdmin || (this.dossier.closed && !this.recallForModification),
         },
         [Validators.required],
       ),
       advance: new UntypedFormControl(
         {
           value: tva.advance,
-          disabled: this.dossier.closed && !this.recallForModification,
+          disabled: !this.hasRoleAdmin || (this.dossier.closed && !this.recallForModification),
         },
         [Validators.required, Validators.min(1)],
       ),
@@ -290,6 +306,9 @@ export class DossierFormComponent implements OnInit, OnDestroy {
   };
 
   removeAdvancePayment(index: number) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.advancePayments.removeAt(index);
   }
 
@@ -308,6 +327,8 @@ export class DossierFormComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(InvoiceDetailComponent, {
       size: 'xl',
     });
+    modalRef.componentInstance.user = this.user;
+
     modalRef.componentInstance.invoice = i;
     modalRef.componentInstance.templates = [];
     modalRef.componentInstance.clients = this.clients;
@@ -316,6 +337,7 @@ export class DossierFormComponent implements OnInit, OnDestroy {
   async openDocumentDetail(d: AdministrativeDocument) {
     d.attachment = await firstValueFrom(this.fileService.findById(d.attachmentId));
     const modalRef = this.modalService.open(DocumentEditorComponent, { size: 'xl' });
+    modalRef.componentInstance.user = this.user;
     modalRef.componentInstance.adminDoc = d;
     modalRef.componentInstance.formDisabled = true;
   }

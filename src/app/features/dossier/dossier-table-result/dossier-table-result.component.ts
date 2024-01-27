@@ -17,6 +17,7 @@ import { MailContextType, MailRequest } from '@core/models/mail';
 import { firstValueFrom } from 'rxjs';
 import { Invoice } from '@core/models/invoice';
 import { AdministrativeDocument } from '@core/models/administrative-document';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-dossier-table-result',
@@ -28,7 +29,12 @@ export class DossierTableResultComponent implements OnInit {
   closed: boolean;
   dossiers: Page<Dossier>;
   pageSize: number = 5;
+  @Input()
+  user: User;
 
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   sort: SortCriteria = {
     direction: Direction.DESC,
     property: 'updatedDate',
@@ -63,15 +69,24 @@ export class DossierTableResultComponent implements OnInit {
   }
 
   newDossier() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.openDossier();
   }
   newDossierFromPrevious() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.dossierService.fromPrevious().subscribe((dossier: Dossier) => {
       this.openDossier(dossier, false);
     });
   }
 
   importDossier() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     const modalRef = this.modalService.open(DossierImportFormComponent, {
       size: 'sm',
       scrollable: false,
@@ -96,6 +111,7 @@ export class DossierTableResultComponent implements OnInit {
       backdrop: 'static',
     });
 
+    modalRef.componentInstance.user = this.user;
     modalRef.componentInstance.dossier = doss;
     modalRef.componentInstance.size$ = this.dossierService.size(doss.id);
     modalRef.componentInstance.dossierUpdatedEmitter = dossierUpdatedEmitter;
@@ -162,6 +178,9 @@ export class DossierTableResultComponent implements OnInit {
   }
 
   closeActiveDossier() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     if (isPlatformBrowser(this.platformId)) {
       if (this.windowRefService.nativeWindow.confirm('Are you sure you want to close the dossier?')) {
         this.toastService.showSuccess('Dossier closed. Generating ZIP');
@@ -182,6 +201,9 @@ export class DossierTableResultComponent implements OnInit {
   }
 
   async sendMail(dossier: Dossier) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     const upload = await firstValueFrom(this.fileService.findById(dossier.dossierUploadId));
     const context: Map<string, MailContextType> = new Map();
     context.set('Name', dossier.name);
@@ -199,12 +221,18 @@ export class DossierTableResultComponent implements OnInit {
   }
 
   deleteDossier() {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     this.dossierService.deleteActiveDossier().subscribe((_d) => {
       this.load();
     });
   }
 
   modify(d: Dossier) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     if (isPlatformBrowser(this.platformId)) {
       if (this.windowRefService.nativeWindow.confirm('Are you sure you want to modify the dossier?')) {
         this.openDossier(d, true);

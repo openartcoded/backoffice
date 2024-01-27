@@ -6,8 +6,8 @@
       <div class="d-block">
         <app-title title="Open" titleClass="h4" [uppercase]="true"></app-title>
       </div>
-      <div class="d-block">
-        <app-dossier-table-result [closed]="false"></app-dossier-table-result>
+      <div class="d-block" *ngIf="user">
+        <app-dossier-table-result [user]="user" [closed]="false"></app-dossier-table-result>
       </div>
     </ng-template>
   </li>
@@ -17,11 +17,10 @@
       <div class="d-block">
         <app-title title="Closed" titleClass="h4" [uppercase]="true"></app-title>
       </div>
-      <div class="d-block">
-        <app-dossier-table-result [closed]="true"></app-dossier-table-result>
+      <div class="d-block" *ngIf="user">
+        <app-dossier-table-result [user]="user" [closed]="true"></app-dossier-table-result>
       </div>
     </ng-template>
   </li>
-
 </ul>
 <div [ngbNavOutlet]="nav"></div>
