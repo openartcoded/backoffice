@@ -133,7 +133,7 @@
                     formControlName="defaultWorkingDays" display="chip"></p-multiSelect>
                 </div>
               </div>
-              <div class="d-flex justify-content-end">
+              <div class="d-flex justify-content-end" *ngIf="hasRoleAdmin">
                 <button type="submit" class="btn btn-primary" [disabled]="!clientForm.valid">Submit</button>
               </div>
             </form>
