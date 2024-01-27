@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '@core/service/auth.service';
 import { PersonalInfoService } from '@core/service/personal.info.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +10,7 @@ import { firstValueFrom } from 'rxjs';
 import { SmsFormComponent } from '@shared/sms-form/sms-form.component';
 import { SmsService } from '@core/service/sms.service';
 import { Sms } from '@core/models/sms';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-user-menu',
@@ -18,14 +19,19 @@ import { Sms } from '@core/models/sms';
 })
 export class UserMenuComponent implements OnInit {
   frontOfficeUrl: string;
+  @Input()
+  user: User;
 
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   constructor(
     private personalInfoService: PersonalInfoService,
     private configService: ConfigInitService,
     private toastService: ToastService,
     private smsService: SmsService,
     private modalService: NgbModal,
-    private authenticationService: AuthService
+    private authenticationService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -40,7 +46,7 @@ export class UserMenuComponent implements OnInit {
     const personalInfo: PersonalInfo = await firstValueFrom(this.personalInfoService.get());
     const modal = this.modalService.open(EditPersonalInfoComponent, {
       size: 'lg',
-      backdrop: 'static'
+      backdrop: 'static',
     });
     modal.componentInstance.currentPersonalInfo = personalInfo;
     modal.componentInstance.onSavePersonalInfo.subscribe(async (formData: any) => {

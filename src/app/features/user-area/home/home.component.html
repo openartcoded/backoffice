@@ -1,6 +1,6 @@
 <div class="mt-3">
   <ng-container *ngIf="loaded">
-    <div class="d-none d-lg-flex justify-content-between">
+    <div class="d-none d-lg-flex justify-content-between" *ngIf="user && hasRoleAdmin">
       <app-most-clicked-menu />
       <app-next-tasks />
     </div>
@@ -19,7 +19,7 @@
                 </div>
               </div>
             </div>
-            <div ngbAccordionItem="memoDate">
+            <div ngbAccordionItem="memoDate" *ngIf="user && hasRoleAdmin">
               <div ngbAccordionHeader>
                 <button ngbAccordionButton class="p-2">Memo</button>
               </div>
@@ -30,7 +30,7 @@
               </div>
             </div>
 
-            <div ngbAccordionItem="todos">
+            <div ngbAccordionItem="todos" *ngIf="user && hasRoleAdmin">
               <div ngbAccordionHeader>
                 <button ngbAccordionButton class="p-2">Todo</button>
               </div>
@@ -40,7 +40,7 @@
                 </div>
               </div>
             </div>
-            <div ngbAccordionItem="scripts">
+            <div ngbAccordionItem="scripts" *ngIf="user && hasRoleAdmin">
               <div ngbAccordionHeader>
                 <button ngbAccordionButton class="p-2">Scripts</button>
               </div>
@@ -51,7 +51,7 @@
               </div>
             </div>
 
-            <ng-container *ngIf="indicators$ | async as indicators">
+            <ng-container *ngIf="user && hasRoleAdmin && indicators$ | async as indicators">
               <div ngbAccordionItem="buildInfo">
                 <div ngbAccordionHeader>
                   <button ngbAccordionButton class="p-2">Backend Info</button>
@@ -73,10 +73,8 @@
                   </div>
                 </div>
               </div>
-              <div
-                ngbAccordionItem="diskSpace"
-                *ngIf="indicators.healthIndicator.components?.diskSpace?.details as diskSpace"
-              >
+              <div ngbAccordionItem="diskSpace"
+                *ngIf="indicators.healthIndicator.components?.diskSpace?.details as diskSpace">
                 <div ngbAccordionHeader>
                   <button ngbAccordionButton class="p-2">Disk Space</button>
                 </div>

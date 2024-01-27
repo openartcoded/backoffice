@@ -16,6 +16,7 @@ export class FallbackMenu {
         routerLink: [''],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['REGULATOR_OR_ACCOUNTANT', 'ADMIN'],
       },
       {
         id: '60083105215dd143d209d2cb',
@@ -30,6 +31,7 @@ export class FallbackMenu {
         routerLink: ['tasks'],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['ADMIN'],
       },
       {
         id: '60083105215dd143d209d2ca',
@@ -44,6 +46,7 @@ export class FallbackMenu {
         routerLink: ['timesheets'],
         show: false,
         numberOfTimesClicked: 0,
+        roles: ['ADMIN'],
       },
       {
         id: '60083105215dd143d209d2d5',
@@ -58,6 +61,7 @@ export class FallbackMenu {
         routerLink: ['fee'],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['REGULATOR_OR_ACCOUNTANT', 'ADMIN'],
       },
       {
         id: '60083105215dd143d209d2d3',
@@ -72,6 +76,7 @@ export class FallbackMenu {
         routerLink: ['invoice'],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['REGULATOR_OR_ACCOUNTANT', 'ADMIN'],
       },
       {
         id: '60083105215dd143d209d2d4',
@@ -86,6 +91,7 @@ export class FallbackMenu {
         routerLink: ['dossier'],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['REGULATOR_OR_ACCOUNTANT', 'ADMIN'],
       },
       {
         id: '60083105215dd143d209d2cc',
@@ -100,6 +106,7 @@ export class FallbackMenu {
         routerLink: ['documents'],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['REGULATOR_OR_ACCOUNTANT', 'ADMIN'],
       },
       {
         id: '60083105215dd143d209d2d1',
@@ -114,6 +121,7 @@ export class FallbackMenu {
         routerLink: ['blog'],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['ADMIN'],
       },
       {
         id: '60083105215dd143d209d2cf',
@@ -128,6 +136,7 @@ export class FallbackMenu {
         routerLink: ['memzagram'],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['ADMIN'],
       },
       {
         id: '60083105215dd143d209d2ce',
@@ -142,6 +151,7 @@ export class FallbackMenu {
         routerLink: ['cv'],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['ADMIN'],
       },
       {
         id: '60083105215dd143d209d2d6',
@@ -156,6 +166,7 @@ export class FallbackMenu {
         routerLink: ['finance'],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['ADMIN'],
       },
       {
         id: '60083105215dd143d209d2d8',
@@ -170,6 +181,7 @@ export class FallbackMenu {
         routerLink: ['file-upload'],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['REGULATOR_OR_ACCOUNTANT', 'ADMIN'],
       },
       {
         id: '60083105215dd193d209d3cd',
@@ -184,6 +196,7 @@ export class FallbackMenu {
         routerLink: ['endpoint-sparql'],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['ADMIN'],
       },
 
       {
@@ -199,6 +212,7 @@ export class FallbackMenu {
         routerLink: ['toolbox', 'rdf'],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['ADMIN'],
       },
       {
         id: '60083105215dd143d209d2da',
@@ -213,6 +227,7 @@ export class FallbackMenu {
         routerLink: ['toolbox', 'date'],
         show: false,
         numberOfTimesClicked: 0,
+        roles: ['ADMIN'],
       },
       {
         id: '60083105215dd143d209d2db',
@@ -227,6 +242,7 @@ export class FallbackMenu {
         routerLink: ['toolbox', 'base64'],
         show: false,
         numberOfTimesClicked: 0,
+        roles: ['ADMIN'],
       },
       {
         id: '60083105215dd143d209d2dc',
@@ -241,6 +257,7 @@ export class FallbackMenu {
         routerLink: ['toolbox', 'pathfinder'],
         show: false,
         numberOfTimesClicked: 0,
+        roles: ['ADMIN'],
       },
       {
         id: '60083105215dd143d209d2cd',
@@ -255,6 +272,7 @@ export class FallbackMenu {
         routerLink: ['services'],
         show: true,
         numberOfTimesClicked: 0,
+        roles: ['ADMIN'],
       },
       {
         id: 'a39533c8-1a63-4453-b407-deeb1b17bfc2',
@@ -268,6 +286,7 @@ export class FallbackMenu {
         icon: ['fas', 'user'],
         routerLink: ['billable-clients'],
         show: true,
+        roles: ['REGULATOR_OR_ACCOUNTANT', 'ADMIN'],
       },
       {
         id: '459d134a-6079-4309-8a33-70c53cf077fd',
@@ -281,6 +300,7 @@ export class FallbackMenu {
         icon: ['fas', 'mail-bulk'],
         routerLink: ['mails'],
         show: true,
+        roles: ['ADMIN'],
       },
     ];
   }

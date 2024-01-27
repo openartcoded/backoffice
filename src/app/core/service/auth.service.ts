@@ -13,13 +13,16 @@ export class AuthService implements OnDestroy {
   keycloakSubscription: Subscription;
   loggedIn: EventEmitter<any> = new EventEmitter<any>();
   tokenRefreshed: EventEmitter<string> = new EventEmitter<any>();
-  constructor(private keycloakService: KeycloakService, private appInit: ApplicationInitStatus) {
+  constructor(
+    private keycloakService: KeycloakService,
+    private appInit: ApplicationInitStatus,
+  ) {
     this.appInit.donePromise.then(() => this.onInit());
   }
   ngOnDestroy(): void {
     this.keycloakSubscription.unsubscribe();
   }
-  onInit(): any {
+  async onInit() {
     this.keycloakSubscription = this.keycloakService.keycloakEvents$.subscribe(async (e) => {
       if (
         e.type == KeycloakEventType.OnAuthError ||
@@ -57,6 +60,7 @@ export class AuthService implements OnDestroy {
 
   getUser(): User {
     return {
+      authorities: this.keycloakService.getUserRoles(),
       username: this.keycloakService.getUsername(),
     } as User;
   }

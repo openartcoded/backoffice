@@ -4,9 +4,12 @@ import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core
 import { Title } from '@angular/platform-browser';
 import { BackendInfo } from '@core/models/backend.info';
 import { HealthIndicator } from '@core/models/health.indicator';
+import { User } from '@core/models/user';
+import { AuthService } from '@core/service/auth.service';
 import { InfoService } from '@core/service/info.service';
+import { PersonalInfoService } from '@core/service/personal.info.service';
 import { WindowRefService } from '@core/service/window.service';
-import { Observable, Subscription, combineLatest, map } from 'rxjs';
+import { Observable, Subscription, combineLatest, firstValueFrom, map } from 'rxjs';
 
 type Indicators = { buildInfo: BackendInfo; healthIndicator: HealthIndicator };
 @Component({
@@ -17,6 +20,7 @@ type Indicators = { buildInfo: BackendInfo; healthIndicator: HealthIndicator };
 export class HomeComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   indicators$: Observable<Indicators>;
+  user: User;
 
   loaded: boolean = true;
 
@@ -24,6 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private breakPointObserver: BreakpointObserver,
     private infoService: InfoService,
+    private personalInfoService: PersonalInfoService,
     @Inject(PLATFORM_ID) private platformId: any,
     private windowService: WindowRefService,
   ) { }
@@ -32,7 +37,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe();
   }
 
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   async ngOnInit() {
+    this.user = await firstValueFrom(this.personalInfoService.me());
+
     if (isPlatformBrowser(this.platformId)) {
       // WORKAROUND bug plotly responsive
       this.subscription = this.breakPointObserver

@@ -11,4 +11,5 @@ export interface MenuLink {
   icon: IconProp;
   routerLink: any[];
   numberOfTimesClicked?: number;
+  roles: string[];
 }

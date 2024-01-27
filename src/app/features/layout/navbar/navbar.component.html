@@ -26,14 +26,14 @@
     </select>
   </div>
   <div class="d-lg-inline me-1">
-    <a class="btn btn-link text-white no-focus" (click)="openCacheModal()">
+    <a class="btn btn-link text-white no-focus" (click)="openCacheModal()" *ngIf="user && hasRoleAdmin">
       <fa-icon [icon]="['fas', 'database']"></fa-icon>
     </a>
     <button (click)="reload()" class="btn btn-link text-white">
       <fa-icon [icon]="['fas', 'sync']"></fa-icon>
     </button>
-    <app-notification></app-notification>
+    <app-notification *ngIf="user && hasRoleAdmin"></app-notification>
 
-    <app-user-menu></app-user-menu>
+    <app-user-menu *ngIf="user" [user]="user"></app-user-menu>
   </div>
 </nav>

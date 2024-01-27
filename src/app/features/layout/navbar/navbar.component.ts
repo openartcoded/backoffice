@@ -12,6 +12,8 @@ import { Subscription, firstValueFrom } from 'rxjs';
 import { environment } from '@env/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CacheComponent } from '../cache/cache.component';
+import { PersonalInfoService } from '@core/service/personal.info.service';
+import { User } from '@core/models/user';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -23,6 +25,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   env: any;
   navigationSubscriptions: Subscription[] = [];
   links: MenuLink[];
+  user: User;
 
   link: MenuLink;
   version = environment.version;
@@ -30,11 +33,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private configInitService: ConfigInitService,
+    private personalInfoService: PersonalInfoService,
     private settingsService: SettingsService,
     private modalService: NgbModal,
     private router: Router,
     private readonly updates: SwUpdate,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) private platformId: any,
   ) { }
 
   ngOnDestroy(): void {
@@ -47,7 +51,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   openCacheModal() {
-    this.modalService.open(CacheComponent, { size: "sm" });
+    this.modalService.open(CacheComponent, { size: 'sm' });
   }
 
   refreshPwa() {
@@ -59,9 +63,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.navigationSubscriptions.forEach((n) => n.unsubscribe());
     this.navigationSubscriptions = [];
   }
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   ngOnInit(): void {
     this.env = this.configInitService.getConfig()['ENV_TYPE'];
     this.links = FallbackMenu.getDefault().filter((l) => l.show);
+    this.navigationSubscriptions.push(this.personalInfoService.me().subscribe((u) => (this.user = u)));
 
     this.navigationSubscriptions.push(
       this.settingsService._menuLinks.subscribe(
@@ -88,8 +96,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         },
         (err) => {
           console.log(err, 'error loading menu links. fallback to default');
-        }
-      )
+        },
+      ),
     );
   }
 

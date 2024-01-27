@@ -5,7 +5,7 @@ import { SharedModule } from '@shared/shared.module';
 import { NgbCollapseModule, NgbDropdownModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { AdministrativeDocumentRoutingModule } from '@feature/administrative-document/file-upload-routing.module';
+import { AdministrativeDocumentRoutingModule } from '@feature/administrative-document/administrative-document-routing.module';
 import { DocumentEditorComponent } from './document-editor/document-editor.component';
 import { AutosizeModule } from 'ngx-autosize';
 import { NgxFileDropModule } from 'ngx-file-drop';
@@ -30,4 +30,4 @@ import { SplitPdfComponent } from './split-pdf/split-pdf.component';
     NgbDropdownModule,
   ],
 })
-export class AdministrativeDocumentModule {}
+export class AdministrativeDocumentModule { }

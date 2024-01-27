@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PersonalInfo } from '@core/models/personal.info';
 import { ConfigInitService } from '@init/config-init.service';
+import { User } from '@core/models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,10 @@ import { ConfigInitService } from '@init/config-init.service';
 export class PersonalInfoService {
   basePath: string;
 
-  constructor(private http: HttpClient, private configService: ConfigInitService) {
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigInitService,
+  ) {
     this.basePath = `${configService.getConfig()['BACKEND_URL']}/api/personal-info`;
   }
 
@@ -18,6 +22,9 @@ export class PersonalInfoService {
     return this.http.get<PersonalInfo>(this.basePath);
   }
 
+  public me(): Observable<User> {
+    return this.http.get<User>(this.basePath + '/@me');
+  }
   public save(formData: FormData): Observable<PersonalInfo> {
     return this.http.post<PersonalInfo>(this.basePath + '/submit', formData);
   }

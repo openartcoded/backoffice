@@ -9,13 +9,13 @@ const routes: Routes = [
     path: '',
     component: InvoicePageComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: { expectedRole: ['ADMIN'] },
+    data: { expectedRole: ['ADMIN', 'REGULATOR_OR_ACCOUNTANT'] },
   },
   {
     path: ':name',
     component: InvoicePageComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: { expectedRole: ['ADMIN'] },
+    data: { expectedRole: ['ADMIN', 'REGULATOR_OR_ACCOUNTANT'] },
   },
 ];
 
@@ -23,4 +23,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class InvoiceRoutingModule {}
+export class InvoiceRoutingModule { }
