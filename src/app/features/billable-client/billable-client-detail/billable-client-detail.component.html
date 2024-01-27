@@ -2,7 +2,7 @@
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">Client {{ client.name }}
       <ng-container *ngIf="client.imported">
-        <ng-template #infoFrontend> Imported on {{ client.importedDate | date : 'dd/MM/yyyy HH:mm' }} </ng-template>
+        <ng-template #infoFrontend> Imported on {{ client.importedDate | date: 'dd/MM/yyyy HH:mm' }} </ng-template>
         <button (click)="$event.stopPropagation()" type="button"
           class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
           triggers="click:blur">
@@ -144,7 +144,7 @@
         <a ngbNavLink>Documents</a>
         <ng-template ngbNavContent>
           <div class="mt-2">
-            <div class="input-group mb-2">
+            <div *ngIf="hasRoleAdmin" class="input-group mb-2">
               <input type="file" class="form-control" id="inputGroupFile02" (change)="loadFile($event)" />
               <div class="input-group-append">
                 <button class="input-group-text ms-1" id="" (click)="upload()" [disabled]="!file">
@@ -163,7 +163,7 @@
                       {{ a.originalFilename }}
                     </button>
                     <div class="btn-group">
-                      <button class="btn btn-link" (click)="removeDocument($event, a)">
+                      <button *ngIf="hasRoleAdmin" class="btn btn-link" (click)="removeDocument($event, a)">
                         <fa-icon [icon]="['fas', 'times']" class="text-danger"></fa-icon>
                       </button>
                       <button class="btn btn-link" *ngIf="isPdf(a)" (click)="openPdfViewer(a)">
@@ -173,7 +173,7 @@
                         <fa-icon [icon]="['fas', 'file-image']" class="text-secondary"></fa-icon>
                       </button>
 
-                      <button class="btn btn-link" (click)="sendMail(a)">
+                      <button *ngIf="hasRoleAdmin" class="btn btn-link" (click)="sendMail(a)">
                         <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>
                       </button>
                     </div>

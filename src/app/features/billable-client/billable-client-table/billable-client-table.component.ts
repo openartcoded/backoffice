@@ -13,6 +13,8 @@ import { WindowRefService } from '@core/service/window.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { firstValueFrom } from 'rxjs';
 import { BillableClientDetailComponent } from '../billable-client-detail/billable-client-detail.component';
+import { User } from '@core/models/user';
+import { PersonalInfoService } from '@core/service/personal.info.service';
 
 @Component({
   selector: 'app-billable-client-table',
@@ -21,6 +23,10 @@ import { BillableClientDetailComponent } from '../billable-client-detail/billabl
 })
 export class BillableClientTableComponent implements OnInit, OnApplicationEvent {
   currentNgbModalRef: NgbModalRef;
+  user: User;
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
 
   clients: BillableClient[];
   constructor(
@@ -30,13 +36,16 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
     private fileService: FileService,
     private notificationService: NotificationService,
     private metaService: Meta,
+    private personalInfoService: PersonalInfoService,
+
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Clients');
+    this.personalInfoService.me().subscribe((u) => (this.user = u));
     this.metaService.updateTag({
       name: 'description',
       content: 'Manage Clients',
@@ -46,18 +55,16 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
   }
 
   load() {
-    this.billableClientService.findAll().subscribe(
-      (clients) =>
-        (this.clients = clients)
-    );
+    this.billableClientService.findAll().subscribe((clients) => (this.clients = clients));
   }
 
   async addOrEdit(client?: BillableClient) {
     this.currentNgbModalRef = this.modalService.open(BillableClientDetailComponent, {
       size: 'xl',
       scrollable: true,
-      backdrop: 'static'
+      backdrop: 'static',
     });
+    this.currentNgbModalRef.componentInstance.user = this.user;
     let clientToUpdate =
       client ||
       ({
@@ -82,7 +89,7 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
       async (req: { uploadId: string; id: string }) => {
         await firstValueFrom(this.billableClientService.deleteUpload(req.id, req.uploadId));
         this.toastService.showSuccess('Will delete the document in a bit');
-      }
+      },
     );
     this.currentNgbModalRef.componentInstance.onSaveClient.subscribe(async (client: BillableClient) => {
       this.currentNgbModalRef.close();
@@ -97,6 +104,9 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
   }
 
   delete(client: BillableClient) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     if (isPlatformBrowser(this.platformId)) {
       if (this.windowRefService.nativeWindow.confirm('Are you sure you want to delete this client?')) {
         this.billableClientService.delete(client.id).subscribe((_data) => {
@@ -135,7 +145,7 @@ export class BillableClientTableComponent implements OnInit, OnApplicationEvent 
     const filteredEvents = events.filter(
       (event) =>
         event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_ADDED ||
-        event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_DELETED
+        event.type === RegisteredEvent.BILLABLE_CLIENT_UPLOAD_DELETED,
     );
 
     if (filteredEvents && this.currentNgbModalRef) {

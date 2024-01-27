@@ -22,6 +22,9 @@ export class FileUploadTableComponent implements OnInit {
   searchCriteria: FileUploadSearchCriteria;
 
   user: User;
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   constructor(
     private fileService: FileService,
     @Inject(PLATFORM_ID) private platformId: any,
@@ -30,9 +33,7 @@ export class FileUploadTableComponent implements OnInit {
     private modalService: NgbModal,
     private titleService: Title,
   ) { }
-  get hasRoleAdmin(): boolean {
-    return this.user.authorities.includes('ADMIN');
-  }
+
   ngOnInit(): void {
     this.titleService.setTitle('File Uploads');
     this.search({});
@@ -49,6 +50,9 @@ export class FileUploadTableComponent implements OnInit {
   }
 
   delete(upl: FileUpload) {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
     if (isPlatformBrowser(this.platformId)) {
       if (this.windowRefService.nativeWindow.confirm('Are you sure you want to delete this file? ')) {
         this.fileService.delete(upl).subscribe((_d) => {

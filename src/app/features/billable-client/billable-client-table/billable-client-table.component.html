@@ -1,5 +1,5 @@
 <app-title title="Clients" [uppercase]="true"></app-title>
-<div class="d-flex justify-content-end mb-2">
+<div class="d-flex justify-content-end mb-2" *ngIf="user && hasRoleAdmin">
   <button class="btn btn-outline-primary" (click)="addOrEdit(null)">
     <fa-icon icon="plus"></fa-icon>
     Add
@@ -14,7 +14,7 @@
           <th class="d-md-table-cell d-none">Email</th>
           <th class="d-md-table-cell d-none">VAT N°</th>
           <th>Status</th>
-          <th class="fit">actions</th>
+          <th class="fit" *ngIf="user && hasRoleAdmin">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -27,13 +27,9 @@
                   <ng-template #infoFrontend>
                     Imported on {{ client.importedDate | date: 'dd/MM/yyyy HH:mm' }}
                   </ng-template>
-                  <button
-                    (click)="$event.stopPropagation()"
-                    type="button"
-                    class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark"
-                    [ngbTooltip]="infoFrontend"
-                    triggers="click:blur"
-                  >
+                  <button (click)="$event.stopPropagation()" type="button"
+                    class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
+                    triggers="click:blur">
                     <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
                   </button>
                 </ng-container>
@@ -44,14 +40,10 @@
             <td class="text-break" [ngClass]="getContractStatusClasses(client.contractStatus)">
               {{ getContractStatus(client.contractStatus) }}
             </td>
-            <td class="text-center fit">
+            <td class="text-center fit" *ngIf="user && hasRoleAdmin">
               <div ngbDropdown class="d-inline-block" container="body">
-                <button
-                  class="btn btn-outline-secondary"
-                  id="dropdownBasic1"
-                  ngbDropdownToggle
-                  stopPropagation
-                ></button>
+                <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle
+                  stopPropagation></button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                   <button ngbDropdownItem (click)="addOrEdit(client)">
                     <fa-icon [icon]="['fas', 'edit']"></fa-icon> Edit

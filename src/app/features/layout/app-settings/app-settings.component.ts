@@ -5,6 +5,7 @@ import { MenuLink } from '@core/models/settings';
 import { FileService } from '@core/service/file.service';
 import { DateUtils } from '@core/utils/date-utils';
 import { firstValueFrom } from 'rxjs';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-app-settings',
@@ -16,10 +17,12 @@ export class AppSettingsComponent implements OnInit {
   menuLinks: MenuLink[];
   file: any;
 
+  @Input()
+  user: User;
   constructor(
     @Optional() public activeModal: NgbActiveModal,
     private fileService: FileService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) { }
 
   ngOnInit(): void {
@@ -50,7 +53,7 @@ export class AppSettingsComponent implements OnInit {
     this.fileService.createFile(
       JSON.stringify(menuLinks, null, 2),
       'menu' + DateUtils.getCurrentTime() + '.json',
-      'application/json'
+      'application/json',
     );
   }
 
@@ -63,8 +66,10 @@ export class AppSettingsComponent implements OnInit {
   async flipPosition(menuLink: MenuLink, menuLinkBefore: MenuLink) {
     menuLinkBefore.order = menuLinkBefore.order + 1;
     menuLink.order = menuLink.order - 1;
-    await Promise.all([firstValueFrom(this.settingsService.updateMenuLinks(menuLinkBefore)),
-    firstValueFrom(this.settingsService.updateMenuLinks(menuLink))]);
+    await Promise.all([
+      firstValueFrom(this.settingsService.updateMenuLinks(menuLinkBefore)),
+      firstValueFrom(this.settingsService.updateMenuLinks(menuLink)),
+    ]);
     this.load();
   }
 
@@ -72,4 +77,3 @@ export class AppSettingsComponent implements OnInit {
     return (a, b) => a.order - b.order;
   }
 }
-

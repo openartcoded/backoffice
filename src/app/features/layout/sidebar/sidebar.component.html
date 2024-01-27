@@ -6,17 +6,16 @@
       aria-label="Close"></button>
   </div>
   <div class="offcanvas-body px-0 pt-0">
-    <ul *ngIf="links" class="nav flex-column mb-sm-auto mb-0 align-items-md-start align-items-center ">
-      <li *ngFor="let link of links;let index=index" routerLinkActive="active" class=" focusable nav-item w-100"
+    <ul *ngIf="links" class="nav flex-column mb-sm-auto mb-0 align-items-md-start align-items-center">
+      <li *ngFor="let link of links; let index = index" routerLinkActive="active" class="focusable nav-item w-100"
         [routerLinkActiveOptions]="link.routerLinkActiveOptions">
-        <a class="nav-link text-light px-2  text-uppercase text-strong" [routerLink]="link.routerLink">
+        <a class="nav-link text-light px-2 text-uppercase text-strong" [routerLink]="link.routerLink">
           <fa-icon class="fs-4 text-center" [icon]="link.icon"></fa-icon>
-          <span class="ms-1 dtext-none d-sm-inline">&nbsp;{{link.title}}</span>
+          <span class="ms-1 dtext-none d-sm-inline">&nbsp;{{ link.title }}</span>
         </a>
-
       </li>
-      <li class="w-100">
-        <a role="button" class="nav-link  px-2 text-warning" (click)="openSettings()">
+      <li class="w-100" *ngIf="user && hasRoleAdmin">
+        <a role="button" class="nav-link px-2 text-warning" (click)="openSettings()">
           <fa-icon class="fs-4 text-center" icon="toolbox"></fa-icon>
           <span class="ms-1 dtext-none d-sm-inline">&nbsp;Settings</span>
         </a>

@@ -5,10 +5,11 @@ import { filter } from 'rxjs/operators';
 import { ToggleSidebarService } from '@core/service/toggle-sidebar.service';
 import { Subscription } from 'rxjs';
 import { MenuLink } from '@core/models/settings';
-import { FallbackMenu } from './fallback-menu';
 import { SettingsService } from '@core/service/settings.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppSettingsComponent } from '@feature/layout/app-settings/app-settings.component';
+import { PersonalInfoService } from '@core/service/personal.info.service';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,17 +20,23 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   links: MenuLink[];
   search: string;
   subscriptions: Subscription[];
+  user: User;
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
 
   constructor(
     protected authService: AuthService,
     private settingsService: SettingsService,
     private modalService: NgbModal,
     private toggleSidebarService: ToggleSidebarService,
-    private router: Router
-  ) {}
+    private personalInfoService: PersonalInfoService,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
     this.subscriptions = [];
+    this.personalInfoService.me().subscribe((u) => (this.user = u));
     this.loadMenu();
   }
 
@@ -40,14 +47,14 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         if (toggle) {
           focus();
         }
-      })
+      }),
     );
     this.subscriptions.push(
       this.router.events
         .pipe(filter((event) => event instanceof NavigationStart))
         .subscribe((event: NavigationStart) => {
           focus();
-        })
+        }),
     );
   }
 
@@ -64,5 +71,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       size: 'xl',
       scrollable: true,
     });
+    ref.componentInstance.user = this.user;
   }
 }
