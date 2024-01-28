@@ -13,21 +13,27 @@ import { firstValueFrom } from 'rxjs';
   styleUrls: ['./notification.component.scss'],
 })
 export class NotificationComponent implements OnInit, OnApplicationEvent {
-  latests: ArtcodedNotification[] = [];
+  latests: ArtcodedNotification[];
 
-  constructor(private router: Router, private notificationService: NotificationService) {}
+  constructor(
+    private router: Router,
+    private notificationService: NotificationService,
+  ) { }
 
   ngOnInit(): void {
     this.notificationService.subscribe(this);
   }
 
   handle(events: ArtcodedNotification[]) {
+    if (!this.latests?.length) {
+      this.latests = [];
+    }
     this.latests = this.latests
       .filter((latest) => !events.find((evt) => evt.id === latest.id))
       .concat(...events)
       .sort(
         (n1, n2) =>
-          DateUtils.getDateFromInput(n2.receivedDate).getTime() - DateUtils.getDateFromInput(n1.receivedDate).getTime()
+          DateUtils.getDateFromInput(n2.receivedDate).getTime() - DateUtils.getDateFromInput(n1.receivedDate).getTime(),
       );
   }
 

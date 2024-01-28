@@ -40,7 +40,7 @@ export class NotificationService {
 
   private loggedOutSubscription: Subscription;
 
-  private components: OnApplicationEvent[];
+  private components: OnApplicationEvent[] = [];
 
   constructor(
     private http: HttpClient,
@@ -75,7 +75,6 @@ export class NotificationService {
       this.personalInfoService.me().subscribe((user) => {
         if (user.authorities.includes('ADMIN')) {
           console.log('start listening...');
-          this.components = [];
           this.pollingSub = timer(0, 5000)
             .pipe(
               switchMap((_) => {
@@ -119,7 +118,7 @@ export class NotificationService {
     if (!this.pollingSub) {
       this.startListening();
     }
-    this.components?.push(onApplicationEvent);
+    this.components.push(onApplicationEvent);
   }
 
   unsubscribe(onApplicationEvent: OnApplicationEvent): void {
