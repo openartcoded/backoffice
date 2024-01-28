@@ -5,8 +5,8 @@ import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
 
 import { Offcanvas } from 'bootstrap';
-var offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'));
-const offcanvasList = offcanvasElementList.map(function (offcanvasEl) {
+const offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'));
+offcanvasElementList.map(function(offcanvasEl) {
   return new Offcanvas(offcanvasEl);
 });
 
@@ -14,4 +14,4 @@ const offcanvasList = offcanvasElementList.map(function (offcanvasEl) {
   imports: [BrowserAnimationsModule, AppModule],
   bootstrap: [AppComponent],
 })
-export class AppBrowserModule {}
+export class AppBrowserModule { }
