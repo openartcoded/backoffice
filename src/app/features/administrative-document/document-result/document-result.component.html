@@ -9,64 +9,71 @@
     Split
   </button>
 </div>
-<app-document-search-form [searchCriteria]="searchCriteria" (formSubmitted)="search($event)"></app-document-search-form>
-<ng-container *ngIf="adminDocuments">
-  <div class="table-responsive">
-    <table class="table table-sm table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>title</th>
-          <th class="fit d-md-table-cell d-none text-break">creationDate</th>
-          <th class="fit d-md-table-cell d-none text-break">size</th>
-          <th class="fit">actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let ad of adminDocuments.content">
-          <tr role="button" (click)="openRow(ad)">
-            <td class="text-break">{{ ad.title }}</td>
-            <td class="fit d-md-table-cell d-none text-break">{{ ad.dateCreation | date: 'dd/MM/yyyy' }}</td>
-            <td class="fit d-md-table-cell d-none text-break">{{ ad.attachment?.size | bytesToHuman }}</td>
-            <td class="text-center fit">
-              <div ngbDropdown class="d-inline-block" container="body">
-                <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle
-                  stopPropagation></button>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                  <button ngbDropdownItem (click)="addOrEdit(ad)">
-                    <fa-icon [icon]="['fas', 'edit']"></fa-icon> Edit
-                  </button>
-                  <button *ngIf="hasRoleAdmin" (click)="delete(ad)" [disabled]="ad.locked" ngbDropdownItem>
-                    <fa-icon [icon]="['fas', 'trash']"></fa-icon> Delete
-                  </button>
-                  <ng-container *ngIf="ad.attachment">
-                    <button ngbDropdownItem (click)="download(ad.attachment)">
-                      <fa-icon [icon]="['fas', 'download']"></fa-icon> Download
-                    </button>
-                    <button ngbDropdownItem (click)="openPdfViewer(ad.attachment)" *ngIf="isPdf(ad.attachment)">
-                      <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon> Open
-                    </button>
-                    <button ngbDropdownItem (click)="openImageViewer(ad.attachment)" *ngIf="isImage(ad.attachment)">
-                      <fa-icon [icon]="['fas', 'file-image']"></fa-icon> Open
-                    </button>
-                    <button ngbDropdownItem (click)="sendMail(ad)" *ngIf="hasRoleAdmin && ad.attachment">
-                      <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>&nbsp;Send
-                    </button>
-                    <button *ngIf="hasRoleAdmin && activeDossier && !ad.locked" ngbDropdownItem
-                      (click)="addToDossier(ad)">
-                      <fa-icon [icon]="['fas', 'cog']"></fa-icon>&nbsp;Add to dossier
-                    </button>
-                  </ng-container>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
+<div class="row">
+  <div class="col-sm-2 col-12">
+    <app-document-search-form [searchCriteria]="searchCriteria"
+      (formSubmitted)="search($event)"></app-document-search-form>
   </div>
-  <div class="d-flex justify-content-between mb-2">
-    <ngb-pagination *ngIf="adminDocuments.totalPages > 1" [page]="pageNumber" [pageSize]="adminDocuments.size"
-      [maxSize]="pageSize" [collectionSize]="adminDocuments.totalElements" (pageChange)="load($event)">
-    </ngb-pagination>
+  <div class="col-sm-10 col-12">
+    <ng-container *ngIf="adminDocuments">
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>title</th>
+              <th class="fit d-md-table-cell d-none text-break">creationDate</th>
+              <th class="fit d-md-table-cell d-none text-break">size</th>
+              <th class="fit">actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let ad of adminDocuments.content">
+              <tr role="button" (click)="openRow(ad)">
+                <td class="text-break">{{ ad.title }}</td>
+                <td class="fit d-md-table-cell d-none text-break">{{ ad.dateCreation | date: 'dd/MM/yyyy' }}</td>
+                <td class="fit d-md-table-cell d-none text-break">{{ ad.attachment?.size | bytesToHuman }}</td>
+                <td class="text-center fit">
+                  <div ngbDropdown class="d-inline-block" container="body">
+                    <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle
+                      stopPropagation></button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem (click)="addOrEdit(ad)">
+                        <fa-icon [icon]="['fas', 'edit']"></fa-icon> Edit
+                      </button>
+                      <button *ngIf="hasRoleAdmin" (click)="delete(ad)" [disabled]="ad.locked" ngbDropdownItem>
+                        <fa-icon [icon]="['fas', 'trash']"></fa-icon> Delete
+                      </button>
+                      <ng-container *ngIf="ad.attachment">
+                        <button ngbDropdownItem (click)="download(ad.attachment)">
+                          <fa-icon [icon]="['fas', 'download']"></fa-icon> Download
+                        </button>
+                        <button ngbDropdownItem (click)="openPdfViewer(ad.attachment)" *ngIf="isPdf(ad.attachment)">
+                          <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon> Open
+                        </button>
+                        <button ngbDropdownItem (click)="openImageViewer(ad.attachment)" *ngIf="isImage(ad.attachment)">
+                          <fa-icon [icon]="['fas', 'file-image']"></fa-icon> Open
+                        </button>
+                        <button ngbDropdownItem (click)="sendMail(ad)" *ngIf="hasRoleAdmin && ad.attachment">
+                          <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>&nbsp;Send
+                        </button>
+                        <button *ngIf="hasRoleAdmin && activeDossier && !ad.locked" ngbDropdownItem
+                          (click)="addToDossier(ad)">
+                          <fa-icon [icon]="['fas', 'cog']"></fa-icon>&nbsp;Add to dossier
+                        </button>
+                      </ng-container>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex justify-content-end mb-2">
+        <ngb-pagination *ngIf="adminDocuments.totalPages > 1" [page]="pageNumber" [pageSize]="adminDocuments.size"
+          [maxSize]="1" [collectionSize]="adminDocuments.totalElements" (pageChange)="load($event)">
+        </ngb-pagination>
+      </div>
+    </ng-container>
   </div>
-</ng-container>
+</div>

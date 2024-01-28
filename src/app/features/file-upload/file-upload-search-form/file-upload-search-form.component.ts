@@ -17,7 +17,7 @@ export class FileUploadSearchFormComponent implements OnInit {
   @Output()
   formSubmitted: EventEmitter<FileUploadSearchCriteria> = new EventEmitter<FileUploadSearchCriteria>();
 
-  isCollapsed: boolean = true;
+  isCollapsed: boolean = false;
 
   constructor(private fb: UntypedFormBuilder) { }
 

@@ -18,7 +18,7 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
 })
 export class FileUploadTableComponent implements OnInit {
   fileUploads: Page<FileUpload>;
-  pageSize: number = 5;
+  pageSize: number = 10;
   searchCriteria: FileUploadSearchCriteria;
 
   user: User;

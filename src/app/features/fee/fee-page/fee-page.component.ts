@@ -14,7 +14,9 @@ export class FeePageComponent implements OnInit {
   activeId: string;
   fullScreen: boolean;
   user: User;
-
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
     if (!this.modalService.hasOpenModals()) {
       this.fullScreen = false;
@@ -30,7 +32,9 @@ export class FeePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('Expenses');
-    this.activeId = this.route.snapshot.params.name || 'unprocessed';
-    this.personalInfoService.me().subscribe((u) => (this.user = u));
+    this.personalInfoService.me().subscribe((u) => {
+      this.user = u;
+      this.activeId = this.route.snapshot.params.name || (!this.hasRoleAdmin ? 'processed' : 'unprocessed');
+    });
   }
 }

@@ -34,7 +34,7 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
 })
 export class DocumentResultComponent implements OnInit, OnDestroy, OnApplicationEvent {
   adminDocuments: Page<AdministrativeDocument>;
-  pageSize: number = 5;
+  pageSize: number = 10;
   searchCriteria: AdministrativeDocumentSearchCriteria;
   activeDossier: Dossier;
   user: User;

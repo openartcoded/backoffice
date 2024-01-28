@@ -1,12 +1,14 @@
 <div class="mt-3">
-  <ng-container *ngIf="loaded">
-    <div class="d-none d-lg-flex justify-content-between" *ngIf="user && hasRoleAdmin">
-      <app-most-clicked-menu />
-      <app-next-tasks />
-    </div>
-    <hr />
+  <ng-container *ngIf="user && loaded">
+    <ng-container *ngIf="user && hasRoleAdmin">
+      <div class="d-none d-lg-flex justify-content-between">
+        <app-most-clicked-menu />
+        <app-next-tasks />
+      </div>
+      <hr />
+    </ng-container>
     <div class="d-lg-flex justify-content-between mt-3">
-      <div class="col col-lg-3 me-2">
+      <div class="col-lg-3 me-2" *ngIf="hasRoleAdmin">
         <div class="mb-2 pe-2">
           <div ngbAccordion [closeOthers]="true" class="accordion-flush">
             <div ngbAccordionItem="companyStamp" #companyStamp="ngbAccordionItem" [collapsed]="false">
@@ -151,7 +153,7 @@
           </div>
         </div>
       </div>
-      <div class="col col-lg-9 me-2">
+      <div class="me-2" [class.col-lg-9]="hasRoleAdmin" [class.col-lg-12]="!hasRoleAdmin">
         <app-generic-summary />
       </div>
     </div>

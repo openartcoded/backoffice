@@ -24,7 +24,7 @@
 </div>
 <ng-container *ngIf="invoices">
   <div class="table-responsive">
-    <table class="table table-bordered table-hover">
+    <table class="table table-sm table-bordered table-hover">
       <thead>
         <tr>
           <th class="fit d-md-table-cell">N°</th>
@@ -157,9 +157,9 @@
       </tbody>
     </table>
   </div>
-  <div class="d-flex justify-content-between mb-2">
+  <div class="d-flex justify-content-end mb-2">
     <ngb-pagination *ngIf="invoices?.totalPages > 1" [page]="invoices?.pageable?.pageNumber + 1"
-      [pageSize]="invoices?.size" [maxSize]="5" [collectionSize]="invoices?.totalElements" (pageChange)="load($event)">
+      [pageSize]="invoices?.size" [maxSize]="1" [collectionSize]="invoices?.totalElements" (pageChange)="load($event)">
     </ngb-pagination>
   </div>
 </ng-container>

@@ -1,58 +1,60 @@
 <ng-container *ngIf="form && tags">
-  <div class="alert alert-warning">
-    <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>&nbsp;Only alphanumeric & no duplicates are allowed for
-    label name. Duplicates label will be simply overriden
-  </div>
-  <form [formGroup]="form" (submit)="submit()">
-    <div class="d-flex justify-content-end me-1 mb-1" *ngIf="hasRoleAdmin">
-      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
-    </div>
-    <ng-container formArrayName="defaultPrices">
-      <table class="table table-sm table-bordered">
-        <thead>
-          <tr>
-            <th class="fit">Color</th>
-            <th>Label</th>
-            <th>Price HVAT</th>
-            <th>VAT</th>
-            <th class="text-center fit" *ngIf="hasRoleAdmin">
-              <button (click)="add($event)" class="btn btn-link me-1">
-                <fa-icon class="text-primary" icon="plus"></fa-icon>
-              </button>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let _ of defaultPrices.controls; index as i">
-            <ng-container [formGroupName]="i">
-              <td class="text-center fit">
-                <p-colorPicker [autoZIndex]="true" [id]="'colorHex' + i" formControlName="colorHex"></p-colorPicker>
-              </td>
-              <td>
-                <input type="text" (input)="changeTextToUppercase(i)" pattern="[a-zA-Z0-9]+"
-                  class="form-control form-control-sm" [id]="'tag' + i" formControlName="tag" />
-              </td>
-              <td>
-                <div class="input-group input-group-sm mb-3">
-                  <span class="input-group-text" id="inputGroup-sizing-sm">€</span>
-                  <input type="number" class="form-control" [id]="'priceHVAT' + i" formControlName="priceHVAT" />
-                </div>
-              </td>
-              <td>
-                <div class="input-group input-group-sm mb-3">
-                  <span class="input-group-text" id="inputGroup-sizing-sm">€</span>
-                  <input type="number" class="form-control" [id]="'vat' + i" formControlName="vat" />
-                </div>
-              </td>
-              <td class="text-center fit" *ngIf="hasRoleAdmin">
-                <button class="btn btn-link text-danger" (click)="remove($event, i)" [disabled]="canRemove(i)">
-                  <fa-icon [icon]="['fas', 'times']"></fa-icon>
+  <!-- <div class="alert alert-warning"> -->
+  <!--   <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>&nbsp;Only alphanumeric & no duplicates are allowed for -->
+  <!--   label name. Duplicates label will be simply overriden -->
+  <!-- </div> -->
+  <div class="p-2">
+    <form [formGroup]="form" (submit)="submit()">
+      <div class="d-flex justify-content-end me-1 mb-1" *ngIf="hasRoleAdmin">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+      </div>
+      <ng-container formArrayName="defaultPrices">
+        <table class="table table-sm table-bordered">
+          <thead>
+            <tr>
+              <th class="fit">Color</th>
+              <th>Label</th>
+              <th>Price HVAT</th>
+              <th>VAT</th>
+              <th class="text-center fit" *ngIf="hasRoleAdmin">
+                <button (click)="add($event)" class="btn btn-link me-1">
+                  <fa-icon class="text-primary" icon="plus"></fa-icon>
                 </button>
-              </td>
-            </ng-container>
-          </tr>
-        </tbody>
-      </table>
-    </ng-container>
-  </form>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let _ of defaultPrices.controls; index as i">
+              <ng-container [formGroupName]="i">
+                <td class="text-center fit">
+                  <p-colorPicker [autoZIndex]="true" [id]="'colorHex' + i" formControlName="colorHex"></p-colorPicker>
+                </td>
+                <td>
+                  <input type="text" (input)="changeTextToUppercase(i)" pattern="[a-zA-Z0-9]+"
+                    class="form-control form-control-sm" [id]="'tag' + i" formControlName="tag" />
+                </td>
+                <td>
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">€</span>
+                    <input type="number" class="form-control" [id]="'priceHVAT' + i" formControlName="priceHVAT" />
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">€</span>
+                    <input type="number" class="form-control" [id]="'vat' + i" formControlName="vat" />
+                  </div>
+                </td>
+                <td class="text-center fit" *ngIf="hasRoleAdmin">
+                  <button class="btn btn-link text-danger" (click)="remove($event, i)" [disabled]="canRemove(i)">
+                    <fa-icon [icon]="['fas', 'times']"></fa-icon>
+                  </button>
+                </td>
+              </ng-container>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+    </form>
+  </div>
 </ng-container>

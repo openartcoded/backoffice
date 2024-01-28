@@ -1,4 +1,4 @@
-<div class="card mb-2">
+<div class="card flat mb-2">
   <div class="card-header bg-transparent btn btn-click d-flex justify-content-between"
     (click)="isCollapsed = !isCollapsed">
     <strong>Search Form</strong>
@@ -8,40 +8,40 @@
   <div class="card-body" [ngbCollapse]="isCollapsed">
     <form [formGroup]="searchForm" (ngSubmit)="submit()">
       <div class="mb-1 row">
-        <label class="col-sm-2 col-form-label" for="id">Id</label>
-        <div class="col-sm-10">
+        <label class="col-12 col-form-label" for="id">Id</label>
+        <div class="col-12">
           <input type="text" class="form-control" id="id" formControlName="id" placeholder="Id" />
         </div>
       </div>
       <div class="mb-1 row">
-        <label class="col-sm-2 col-form-label" for="correlationId">Correlation Id</label>
-        <div class="col-sm-10">
+        <label class="col-12 col-form-label" for="correlationId">Correlation Id</label>
+        <div class="col-12">
           <input type="text" class="form-control" id="correlationId" formControlName="correlationId"
             placeholder="Correlation Id" />
         </div>
       </div>
       <div class="mb-1 row">
-        <label class="col-sm-2 col-form-label" for="originalFilename">FileName</label>
-        <div class="col-sm-10">
+        <label class="col-12 col-form-label" for="originalFilename">FileName</label>
+        <div class="col-12">
           <input type="text" class="form-control" id="originalFilename" formControlName="originalFilename"
             placeholder="FileName" />
         </div>
       </div>
       <div class="mb-1 row">
-        <label class="col-sm-2 col-form-label" for="dateAfter">From</label>
-        <div class="col-sm-10">
+        <label class="col-12 col-form-label" for="dateAfter">From</label>
+        <div class="col-12">
           <input type="datetime-local" class="form-control" id="dateAfter" formControlName="dateAfter" />
         </div>
       </div>
       <div class="mb-1 row">
-        <label class="col-sm-2 col-form-label" for="dateBefore">To</label>
-        <div class="col-sm-10">
+        <label class="col-12 col-form-label" for="dateBefore">To</label>
+        <div class="col-12">
           <input type="datetime-local" class="form-control" id="dateBefore" formControlName="dateBefore" />
         </div>
       </div>
       <div class="mb-1 row">
-        <label class="col-sm-2 col-form-label" for="publicResource">Public</label>
-        <div class="col-sm-10">
+        <label class="col-12 col-form-label" for="publicResource">Public</label>
+        <div class="col-12">
           <select class="form-select" id="publicResource" formControlName="publicResource">
             <option [ngValue]="null">Select option...</option>
             <option [ngValue]="true">Yes</option>

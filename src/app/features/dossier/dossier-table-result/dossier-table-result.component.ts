@@ -28,7 +28,7 @@ export class DossierTableResultComponent implements OnInit {
   @Input()
   closed: boolean;
   dossiers: Page<Dossier>;
-  pageSize: number = 5;
+  pageSize: number = 10;
   @Input()
   user: User;
 

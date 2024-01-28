@@ -32,7 +32,9 @@ export class InvoicePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('Invoices');
-    this.activeId = this.route.snapshot.params.name || 'unprocessed';
-    this.personalInfoService.me().subscribe((u) => (this.user = u));
+    this.personalInfoService.me().subscribe((u) => {
+      this.user = u;
+      this.activeId = this.route.snapshot.params.name || (!this.hasRoleAdmin ? 'processed' : 'unprocessed');
+    });
   }
 }

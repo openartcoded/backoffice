@@ -1,61 +1,71 @@
 <app-title title="Uploads" [uppercase]="true"></app-title>
-<app-file-upload-search-form [searchCriteria]="searchCriteria"
-  (formSubmitted)="search($event)"></app-file-upload-search-form>
-<ng-container *ngIf="fileUploads">
-  <div class="d-flex justify-content-end">
-    <strong>Total: {{ fileUploads.totalElements }}</strong>
+<div class="d-block mb-2" *ngIf="fileUploads && user && hasRoleAdmin">
+  <strong>Total: {{ fileUploads.totalElements }}</strong>
+</div>
+<div class="row">
+  <div class="col-sm-2 col-12">
+    <app-file-upload-search-form [searchCriteria]="searchCriteria"
+      (formSubmitted)="search($event)"></app-file-upload-search-form>
   </div>
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>creationDate</th>
-          <th>name</th>
-          <th class="d-md-table-cell d-none">correlationId</th>
-          <th class="fit d-md-table-cell d-none">public</th>
-          <th class="fit d-md-table-cell d-none">size</th>
-          <th class="fit">actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let upl of fileUploads.content">
-          <tr>
-            <td class="text-break">{{ upl?.creationDate | date: 'dd/MM/yyyy HH:mm' }}</td>
-            <td class="text-break">{{ upl?.originalFilename }}</td>
-            <td class="text-break d-md-table-cell d-none">{{ upl?.correlationId }}</td>
-            <td class="fit d-md-table-cell d-none text-break">{{ upl?.publicResource ? 'Yes' : 'No' }}</td>
-            <td class="fit d-md-table-cell d-none text-break">{{ upl?.size | bytesToHuman }}</td>
-            <td class="text-center fit">
-              <div ngbDropdown class="d-inline-block" container="body">
-                <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle></button>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                  <button (click)="download(upl)" ngbDropdownItem>
-                    <fa-icon [icon]="['fas', 'download']"></fa-icon>
-                    Download
-                  </button>
-                  <button *ngIf="user && hasRoleAdmin" (click)="delete(upl)" ngbDropdownItem disabled>
-                    <fa-icon [icon]="['fas', 'trash']"></fa-icon>
-                    Delete (disabled)
-                  </button>
-                  <button (click)="openPdfViewer(upl)" *ngIf="isPdf(upl)" ngbDropdownItem>
-                    <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon>
-                    Open
-                  </button>
-                  <button (click)="openImageViewer(upl)" *ngIf="isImage(upl)" ngbDropdownItem>
-                    <fa-icon [icon]="['fas', 'file-image']"></fa-icon>
-                    Open
-                  </button>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
+  <div class="col-sm-10 col-12">
+    <ng-container *ngIf="fileUploads">
+      <div class="d-block">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Creation Date</th>
+                <th>Filename</th>
+                <th class="d-md-table-cell d-none" *ngIf="hasRoleAdmin">correlationId</th>
+                <th class="fit d-md-table-cell d-none">Public</th>
+                <th class="fit d-md-table-cell d-none">Size</th>
+                <th class="fit">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let upl of fileUploads.content">
+                <tr>
+                  <td class="text-break">{{ upl?.creationDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+                  <td class="text-break">{{ upl?.originalFilename }}</td>
+                  <td class="text-break d-md-table-cell d-none" *ngIf="hasRoleAdmin">{{ upl?.correlationId }}</td>
+                  <td class="fit d-md-table-cell d-none text-break">{{ upl?.publicResource ? 'Yes' : 'No' }}</td>
+                  <td class="fit d-md-table-cell d-none text-break">{{ upl?.size | bytesToHuman }}</td>
+                  <td class="text-center fit">
+                    <div ngbDropdown class="d-inline-block" container="body">
+                      <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle></button>
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <button (click)="download(upl)" ngbDropdownItem>
+                          <fa-icon [icon]="['fas', 'download']"></fa-icon>
+                          Download
+                        </button>
+                        <button *ngIf="user && hasRoleAdmin" (click)="delete(upl)" ngbDropdownItem disabled>
+                          <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                          Delete (disabled)
+                        </button>
+                        <button (click)="openPdfViewer(upl)" *ngIf="isPdf(upl)" ngbDropdownItem>
+                          <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon>
+                          Open
+                        </button>
+                        <button (click)="openImageViewer(upl)" *ngIf="isImage(upl)" ngbDropdownItem>
+                          <fa-icon [icon]="['fas', 'file-image']"></fa-icon>
+                          Open
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="d-block">
+        <div class="d-flex justify-content-end mb-2">
+          <ngb-pagination *ngIf="fileUploads.totalPages > 1" [page]="pageNumber" [pageSize]="fileUploads.size"
+            [maxSize]="1" [collectionSize]="fileUploads.totalElements" (pageChange)="load($event)">
+          </ngb-pagination>
+        </div>
+      </div>
+    </ng-container>
   </div>
-  <div class="d-lg-flex justify-content-lg-between mb-2">
-    <ngb-pagination *ngIf="fileUploads.totalPages > 1" [page]="pageNumber" [pageSize]="fileUploads.size" [maxSize]="5"
-      [collectionSize]="fileUploads.totalElements" (pageChange)="load($event)">
-    </ngb-pagination>
-  </div>
-</ng-container>
+</div>

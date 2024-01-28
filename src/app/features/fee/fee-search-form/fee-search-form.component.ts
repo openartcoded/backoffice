@@ -20,9 +20,9 @@ export class FeeSearchFormComponent implements OnInit {
   @Output()
   formSubmitted: EventEmitter<FeeSearchCriteria> = new EventEmitter<FeeSearchCriteria>();
 
-  isCollapsed: boolean = true;
+  isCollapsed: boolean = false;
 
-  constructor(private fb: UntypedFormBuilder) {}
+  constructor(private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({

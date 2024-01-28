@@ -31,7 +31,7 @@ import { User } from '@core/models/user';
 export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   invoices: Page<Invoice>;
   activeDossier: Dossier;
-  pageSize: number = 5;
+  pageSize: number = 10;
 
   sort: SortCriteria = {
     direction: Direction.DESC,

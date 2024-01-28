@@ -3,7 +3,7 @@
     <fa-icon [icon]="['fas', 'times']"></fa-icon>&nbsp;No active dossier!
   </div>
   <div class="d-md-flex justify-content-between pb-2 pt-1">
-    <p>
+    <p *ngIf="hasRoleAdmin">
       Total Elements: <span class="text-danger">{{ fees.totalElements }}</span>
     </p>
     <div *ngIf="!archived && hasRoleAdmin" ngbDropdown class="d-inline-block mt-0" container="body">
@@ -34,80 +34,89 @@
       *ngIf="showTagForm && selectedRows.length">
     </app-tag-form>
   </div>
-  <div class="d-block pb-2">
-    <app-fee-search-form [tags]="tags" [searchCriteria]="searchCriteria" (formSubmitted)="search($event)">
-    </app-fee-search-form>
-  </div>
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover">
-      <thead>
-        <tr>
-          <th class="fit"></th>
-          <th>Subject</th>
-          <th class="d-md-table-cell d-none">Date received</th>
-          <th class="d-md-table-cell d-none fit">Files</th>
-          <th class="fit" *ngIf="hasRoleAdmin"></th>
-          <th class="text-center fit" *ngIf="!archived && hasRoleAdmin">
-            <input type="checkbox" class="form-check-input" aria-label="select"
-              (change)="toggleAllRows($event, fees.content)" [checked]="isAllFeesSelected(fees.content)"
-              [disabled]="!fees.content.length" />
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="bg-light">
-          <td *ngIf="!fees?.content?.length" colspan="6">No entries</td>
-        </tr>
-        <ng-container *ngFor="let f of fees.content">
-          <tr role="button" (click)="openDetail(f)">
-            <td class="fit">
-              <fa-icon [icon]="['fas', 'circle']" [ngStyle]="getStyleForTag(f)"></fa-icon>
-            </td>
-            <td>
-              <div class="d-flex justify-content-between">
-                <span>{{ f.subject }}</span>
-                <ng-container *ngIf="f.imported">
-                  <ng-template #infoFrontend> Imported on {{ f.importedDate | date: 'dd/MM/yyyy HH:mm' }} </ng-template>
-                  <button (click)="$event.stopPropagation()" type="button"
-                    class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
-                    triggers="click:blur">
-                    <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
-                  </button>
-                </ng-container>
-              </div>
-            </td>
-            <td class="d-md-table-cell d-none">{{ f.date | date: 'dd/MM/yyyy HH:mm' }}</td>
-            <td class="d-md-table-cell d-none text-center fit">
-              {{ f.attachmentIds.length }}
-            </td>
-            <td class="text-center fit" *ngIf="hasRoleAdmin">
-              <a class="btn btn-link" (click)="sendMail(f, $event)">
-                <fa-icon [icon]="['fas', 'mail-bulk']" />
-              </a>
-            </td>
-            <td class="text-center fit" (click)="toggleSelectedRow(f, false, $event)" *ngIf="!archived">
-              <input type="checkbox" class="form-check-input" aria-label="select" [checked]="isFeeSelected(f)" />
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-      <tfoot>
-        <tr class="d-none d-md-table-row bg-light">
-          <td colspan="6">
-            <ng-container *ngFor="let t of tags">
-              <a class="btn btn-link pe-1" (click)="filterByTag(t)">
-                <fa-icon [icon]="['fas', 'circle']" [ngStyle]="getStyleForLabel(t)"></fa-icon>
-                <span class="ms-1">{{ t.name | lowercase }}</span>
-              </a>
-            </ng-container>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-  <div class="d-flex justify-content-between mb-2">
-    <ngb-pagination *ngIf="fees && fees.totalPages > 1" [page]="pageNumber" [pageSize]="fees.size" [maxSize]="5"
-      [collectionSize]="fees.totalElements" (pageChange)="load($event)">
-    </ngb-pagination>
+  <div class="row">
+    <div class="col-lg-2 col-12 pb-2">
+      <app-fee-search-form [tags]="tags" [searchCriteria]="searchCriteria" (formSubmitted)="search($event)">
+      </app-fee-search-form>
+    </div>
+    <div class="col-lg-10 col-12">
+      <div class="d-block">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover" [class.table-sm]="hasRoleAdmin">
+            <thead>
+              <tr>
+                <th class="fit"></th>
+                <th>Subject</th>
+                <th class="d-md-table-cell d-none">Date received</th>
+                <th class="d-md-table-cell d-none fit">Files</th>
+                <th class="fit" *ngIf="hasRoleAdmin"></th>
+                <th class="text-center fit" *ngIf="!archived && hasRoleAdmin">
+                  <input type="checkbox" class="form-check-input" aria-label="select"
+                    (change)="toggleAllRows($event, fees.content)" [checked]="isAllFeesSelected(fees.content)"
+                    [disabled]="!fees.content.length" />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bg-light">
+                <td *ngIf="!fees?.content?.length" colspan="6">No entries</td>
+              </tr>
+              <ng-container *ngFor="let f of fees.content">
+                <tr role="button" (click)="openDetail(f)">
+                  <td class="fit">
+                    <fa-icon [icon]="['fas', 'circle']" [ngStyle]="getStyleForTag(f)"></fa-icon>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-between">
+                      <span>{{ f.subject }}</span>
+                      <ng-container *ngIf="f.imported">
+                        <ng-template #infoFrontend>
+                          Imported on {{ f.importedDate | date: 'dd/MM/yyyy HH:mm' }}
+                        </ng-template>
+                        <button (click)="$event.stopPropagation()" type="button"
+                          class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
+                          triggers="click:blur">
+                          <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+                        </button>
+                      </ng-container>
+                    </div>
+                  </td>
+                  <td class="d-md-table-cell d-none">{{ f.date | date: 'dd/MM/yyyy HH:mm' }}</td>
+                  <td class="d-md-table-cell d-none text-center fit">
+                    {{ f.attachmentIds.length }}
+                  </td>
+                  <td class="text-center fit" *ngIf="hasRoleAdmin">
+                    <a class="btn btn-link" (click)="sendMail(f, $event)">
+                      <fa-icon [icon]="['fas', 'mail-bulk']" />
+                    </a>
+                  </td>
+                  <td class="text-center fit" (click)="toggleSelectedRow(f, false, $event)" *ngIf="!archived">
+                    <input type="checkbox" class="form-check-input" aria-label="select" [checked]="isFeeSelected(f)" />
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+            <tfoot>
+              <tr class="d-none d-md-table-row bg-light">
+                <td colspan="6">
+                  <ng-container *ngFor="let t of tags">
+                    <a class="btn btn-link pe-1" (click)="filterByTag(t)">
+                      <fa-icon [icon]="['fas', 'circle']" [ngStyle]="getStyleForLabel(t)"></fa-icon>
+                      <span class="ms-1">{{ t.name | lowercase }}</span>
+                    </a>
+                  </ng-container>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end mb-2">
+        <ngb-pagination *ngIf="fees && fees.totalPages > 1" [page]="pageNumber" [pageSize]="fees.size" [maxSize]="1"
+          [collectionSize]="fees.totalElements" (pageChange)="load($event)">
+        </ngb-pagination>
+      </div>
+    </div>
   </div>
 </ng-container>

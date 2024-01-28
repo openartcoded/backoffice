@@ -32,7 +32,7 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
   archived: boolean;
   searchCriteria: FeeSearchCriteria;
   fees: Page<Fee>;
-  pageSize: number = 5;
+  pageSize: number = 10;
   @Input()
   user: User;
   get hasRoleAdmin(): boolean {

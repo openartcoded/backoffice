@@ -1,52 +1,59 @@
 <ng-template #fullScreenTemplate let-title="title">
-  <div class="d-flex justify-content-between mb-2">
-    <h4 [class.pt-3]="!fullScreen">{{ title }}</h4>
+  <!-- <div class="d-flex justify-content-between mb-2"> -->
+  <!--   <h4 [class.pt-3]="!fullScreen">{{ title }}</h4> -->
+  <!--   <a class="btn btn-link m-0" [class.pt-3]="!fullScreen" (click)="$event.stopPropagation(); fullScreen = !fullScreen"> -->
+  <!--     <fa-icon class="text-dark" [icon]="['fas', 'expand-arrows-alt']"></fa-icon> -->
+  <!--   </a> -->
+  <!-- </div> -->
+  <!-- <hr /> -->
+  <div class="d-flex justify-content-end">
     <a class="btn btn-link m-0" [class.pt-3]="!fullScreen" (click)="$event.stopPropagation(); fullScreen = !fullScreen">
       <fa-icon class="text-dark" [icon]="['fas', 'expand-arrows-alt']"></fa-icon>
     </a>
   </div>
-  <hr />
 </ng-template>
 
 <app-title title="Expenses" [uppercase]="true"></app-title>
-<ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
-  <li ngbNavItem="unprocessed">
-    <a ngbNavLink routerLink="/fee/unprocessed">Unprocessed</a>
-    <ng-template ngbNavContent>
-      <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-        <ng-component [ngTemplateOutlet]="fullScreenTemplate"
-          [ngTemplateOutletContext]="{ title: 'Unprocessed' }"></ng-component>
-        <div class="d-block" *ngIf="user">
-          <app-fee-table-result [archived]="false" [user]="user"></app-fee-table-result>
+<ng-container *ngIf="user">
+  <ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
+    <li ngbNavItem="unprocessed">
+      <a ngbNavLink routerLink="/fee/unprocessed">Unprocessed</a>
+      <ng-template ngbNavContent>
+        <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+          <ng-component [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Unprocessed' }"></ng-component>
+          <div class="d-block" *ngIf="user">
+            <app-fee-table-result [archived]="false" [user]="user"></app-fee-table-result>
+          </div>
         </div>
-      </div>
-    </ng-template>
-  </li>
-  <li ngbNavItem="processed">
-    <a ngbNavLink routerLink="/fee/processed">Processed</a>
-    <ng-template ngbNavContent>
-      <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-        <ng-component [ngTemplateOutlet]="fullScreenTemplate"
-          [ngTemplateOutletContext]="{ title: 'Processed' }"></ng-component>
+      </ng-template>
+    </li>
+    <li ngbNavItem="processed">
+      <a ngbNavLink routerLink="/fee/processed">Processed</a>
+      <ng-template ngbNavContent>
+        <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+          <ng-component [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Processed' }"></ng-component>
 
-        <div class="d-block" *ngIf="user">
-          <app-fee-table-result [archived]="true" [user]="user"></app-fee-table-result>
+          <div class="d-block" *ngIf="user">
+            <app-fee-table-result [archived]="true" [user]="user"></app-fee-table-result>
+          </div>
         </div>
-      </div>
-    </ng-template>
-  </li>
-  <li ngbNavItem="labels">
-    <a ngbNavLink routerLink="/fee/labels">Labels</a>
-    <ng-template ngbNavContent>
-      <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-        <ng-component [ngTemplateOutlet]="fullScreenTemplate"
-          [ngTemplateOutletContext]="{ title: 'Labels' }"></ng-component>
+      </ng-template>
+    </li>
+    <li ngbNavItem="labels">
+      <a ngbNavLink routerLink="/fee/labels">Labels</a>
+      <ng-template ngbNavContent>
+        <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+          <ng-component [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Labels' }"></ng-component>
 
-        <div class="d-block" *ngIf="user">
-          <app-default-price [user]="user"></app-default-price>
+          <div class="d-block" *ngIf="user">
+            <app-default-price [user]="user"></app-default-price>
+          </div>
         </div>
-      </div>
-    </ng-template>
-  </li>
-</ul>
-<div [ngbNavOutlet]="nav"></div>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
+</ng-container>
