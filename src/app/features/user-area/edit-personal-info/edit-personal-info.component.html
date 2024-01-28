@@ -70,6 +70,27 @@
                   </ngx-file-drop>
                 </div>
               </div>
+
+              <div class="mb-1 row">
+                <label class="col-sm-2 col-form-label" for="initial">Initial</label>
+                <div class="col-sm-10">
+                  <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropInitial($event)"
+                    dropZoneClassName="flat bg-light d-block border border-gray" [accept]="'image/*'"
+                    [multiple]="false">
+                    <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                      <button [disabled]="!hasRoleAdmin" id="initial" class="btn btn-primary me-1" type="button"
+                        (click)="openFileSelector()" *ngIf="!initialUrl">
+                        <fa-icon [icon]="['fas', 'upload']"></fa-icon>
+                      </button>
+                      <button [disabled]="!hasRoleAdmin" *ngIf="initialUrl" (click)="openFileSelector()"
+                        class="border-0 bg-transparent">
+                        <img alt="Cover" [src]="initialUrl" class="img-fluid" width="100px" height="100px" />
+                      </button>
+                    </ng-template>
+                  </ngx-file-drop>
+                </div>
+              </div>
+
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="note">Note</label>
                 <div class="col-sm-10">

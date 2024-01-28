@@ -27,6 +27,7 @@ export class EditPersonalInfoComponent implements OnInit {
   form: UntypedFormGroup;
   logoUrl: any;
   signatureUrl: any;
+  initialUrl: any;
 
   constructor(
     @Optional() public activeModal: NgbActiveModal,
@@ -70,6 +71,14 @@ export class EditPersonalInfoComponent implements OnInit {
     );
   }
 
+  dropInitial($event: NgxFileDropEntry[]) {
+    this.drop(
+      $event,
+      (file) => (this.initialUpload = file),
+      (event) => (this.initialUrl = event.target.result),
+    );
+  }
+
   get logoUpload(): File {
     return this.form.get('logoUpload').value;
   }
@@ -86,6 +95,13 @@ export class EditPersonalInfoComponent implements OnInit {
     this.form.get('signatureUpload').patchValue(file);
   }
 
+  get initialUpload(): File {
+    return this.form.get('initialUpload').value;
+  }
+
+  set initialUpload(file: File) {
+    this.form.get('initialUpload').patchValue(file);
+  }
   async ngOnInit() {
     if (this?.currentPersonalInfo?.logoUploadId) {
       const logo = await firstValueFrom(
@@ -98,6 +114,12 @@ export class EditPersonalInfoComponent implements OnInit {
         this.fileService.toDownloadLink(this.fileService.getDownloadUrl(this.currentPersonalInfo.signatureUploadId)),
       );
       this.signatureUrl = this.domSanitizer.bypassSecurityTrustUrl(signature);
+    }
+    if (this?.currentPersonalInfo?.initialUploadId) {
+      const initial = await firstValueFrom(
+        this.fileService.toDownloadLink(this.fileService.getDownloadUrl(this.currentPersonalInfo.initialUploadId)),
+      );
+      this.initialUrl = this.domSanitizer.bypassSecurityTrustUrl(initial);
     }
     this.form = this.fb.group({
       vatNumber: new UntypedFormControl({ value: this.currentPersonalInfo?.vatNumber, disabled: !this.hasRoleAdmin }, [
@@ -170,6 +192,7 @@ export class EditPersonalInfoComponent implements OnInit {
       ),
       logoUpload: new UntypedFormControl(null, []),
       signatureUpload: new UntypedFormControl(null, []),
+      initialUpload: new UntypedFormControl(null, []),
       accountants: this.fb.array(this.createAccountants(this.currentPersonalInfo?.accountants || [])),
     });
   }
@@ -249,6 +272,7 @@ export class EditPersonalInfoComponent implements OnInit {
     const formData = new FormData();
     formData.append('logo', this.logoUpload);
     formData.append('signature', this.signatureUpload);
+    formData.append('initial', this.initialUpload);
     formData.append('vatNumber', this.form.get('vatNumber').value);
     formData.append('ceoFullName', this.form.get('ceoFullName').value);
     formData.append('financeCharge', this.form.get('financeCharge').value);
