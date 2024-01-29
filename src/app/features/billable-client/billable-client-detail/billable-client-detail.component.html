@@ -1,11 +1,16 @@
 <ng-container *ngIf="client">
   <div class="modal-header" *ngIf="activeModal">
-    <span class="modal-title text-break">Client {{ client.name }}
+    <span class="modal-title text-break"
+      >Client {{ client.name }}
       <ng-container *ngIf="client.imported">
         <ng-template #infoFrontend> Imported on {{ client.importedDate | date: 'dd/MM/yyyy HH:mm' }} </ng-template>
-        <button (click)="$event.stopPropagation()" type="button"
-          class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
-          triggers="click:blur">
+        <button
+          (click)="$event.stopPropagation()"
+          type="button"
+          class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark"
+          [ngbTooltip]="infoFrontend"
+          triggers="click:blur"
+        >
           <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
         </button>
       </ng-container>
@@ -22,36 +27,61 @@
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="clientName">Client Name</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="clientName" formControlName="clientName"
-                    placeholder="Client Name" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="clientName"
+                    formControlName="clientName"
+                    placeholder="Client Name"
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="emailAddress">Email</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="emailAddress" formControlName="emailAddress"
-                    placeholder="Email Address" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="emailAddress"
+                    formControlName="emailAddress"
+                    placeholder="Email Address"
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="phoneNumber">Phone</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber"
-                    placeholder="Phone number" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="phoneNumber"
+                    formControlName="phoneNumber"
+                    placeholder="Phone number"
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="vatNumber">Vat Number</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="vatNumber" formControlName="vatNumber"
-                    placeholder="VatNumber" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="vatNumber"
+                    formControlName="vatNumber"
+                    placeholder="VatNumber"
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="address">Address</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="address" formControlName="address"
-                    placeholder="Address" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="address"
+                    formControlName="address"
+                    placeholder="Address"
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
@@ -63,8 +93,13 @@
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="maxDaysToPay">Max Days to pay</label>
                 <div class="col-sm-10">
-                  <input type="number" class="form-control" id="maxDaysToPay" formControlName="maxDaysToPay"
-                    placeholder="Max Days to pay" />
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="maxDaysToPay"
+                    formControlName="maxDaysToPay"
+                    placeholder="Max Days to pay"
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
@@ -119,8 +154,10 @@
                 <div class="col-sm-10">
                   <select class="form-select" formControlName="contractStatus" id="contractStatus">
                     <option [value]="null">Select option...</option>
-                    <option *ngFor="let status of getContractStatus()"
-                      [selected]="status === clientForm.get('contractStatus').value">
+                    <option
+                      *ngFor="let status of getContractStatus()"
+                      [selected]="status === clientForm.get('contractStatus').value"
+                    >
                       {{ status }}
                     </option>
                   </select>
@@ -129,8 +166,15 @@
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="contractStatus">Working days</label>
                 <div class="col-sm-10">
-                  <p-multiSelect styleClass="w-100" [options]="workingDays" optionLabel="name" optionValue="value"
-                    formControlName="defaultWorkingDays" display="chip"></p-multiSelect>
+                  <p-multiSelect
+                    styleClass="w-100"
+                    [maxSelectedLabels]="10"
+                    [options]="workingDays"
+                    optionLabel="name"
+                    optionValue="value"
+                    formControlName="defaultWorkingDays"
+                    display="chip"
+                  ></p-multiSelect>
                 </div>
               </div>
               <div class="d-flex justify-content-end" *ngIf="hasRoleAdmin">

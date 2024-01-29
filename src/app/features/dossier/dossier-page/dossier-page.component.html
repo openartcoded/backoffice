@@ -3,9 +3,6 @@
   <li ngbNavItem="open">
     <a ngbNavLink routerLink="/dossier/open">Open</a>
     <ng-template ngbNavContent>
-      <div class="d-block">
-        <app-title title="Open" titleClass="h4" [uppercase]="true"></app-title>
-      </div>
       <div class="d-block" *ngIf="user">
         <app-dossier-table-result [user]="user" [closed]="false"></app-dossier-table-result>
       </div>
@@ -14,9 +11,6 @@
   <li ngbNavItem="closed">
     <a ngbNavLink routerLink="/dossier/closed">Closed</a>
     <ng-template ngbNavContent>
-      <div class="d-block">
-        <app-title title="Closed" titleClass="h4" [uppercase]="true"></app-title>
-      </div>
       <div class="d-block" *ngIf="user">
         <app-dossier-table-result [user]="user" [closed]="true"></app-dossier-table-result>
       </div>

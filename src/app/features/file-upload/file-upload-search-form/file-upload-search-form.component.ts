@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { FileUploadSearchCriteria } from '@core/models/file-upload';
+import { User } from '@core/models/user';
 import { DateUtils } from '@core/utils/date-utils';
 
+import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-file-upload-search-form',
   templateUrl: './file-upload-search-form.component.html',
@@ -19,6 +21,11 @@ export class FileUploadSearchFormComponent implements OnInit {
 
   isCollapsed: boolean = false;
 
+  @Input()
+  user: User;
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
   constructor(private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void {
@@ -46,7 +53,10 @@ export class FileUploadSearchFormComponent implements OnInit {
     this.searchCriteria.publicResource = this.searchForm.controls.publicResource.value;
 
     if (this.searchForm.controls.dateBefore.value) {
-      this.searchCriteria.dateBefore = DateUtils.getDateFromInput(this.searchForm.controls.dateBefore.value);
+      this.searchCriteria.dateBefore = moment(DateUtils.getDateFromInput(this.searchForm.controls.dateBefore.value))
+        .hours(23)
+        .minutes(59)
+        .toDate();
     } else {
       this.searchCriteria.dateBefore = null;
     }
@@ -54,7 +64,10 @@ export class FileUploadSearchFormComponent implements OnInit {
       this.searchCriteria.originalFilename = this.searchForm.controls.originalFilename.value;
     }
     if (this.searchForm.controls.dateAfter.value) {
-      this.searchCriteria.dateAfter = DateUtils.getDateFromInput(this.searchForm.controls.dateAfter.value);
+      this.searchCriteria.dateAfter = moment(DateUtils.getDateFromInput(this.searchForm.controls.dateAfter.value))
+        .hours(1)
+        .minutes(0)
+        .toDate();
     } else {
       this.searchCriteria.dateAfter = null;
     }

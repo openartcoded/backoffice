@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { AdministrativeDocumentSearchCriteria } from '@core/models/administrative-document';
 import { DateUtils } from '@core/utils/date-utils';
-
+import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-document-search-form',
   templateUrl: './document-search-form.component.html',
@@ -40,8 +40,14 @@ export class DocumentSearchFormComponent implements OnInit {
       ? this.searchForm.controls.description.value.trim()
       : null;
     this.searchCriteria.tags = this.searchForm.controls.tags.value?.length ? this.searchForm.controls.tags.value : null;
-    this.searchCriteria.dateBefore = DateUtils.toOptionalDate(this.searchForm.controls.dateBefore.value);
-    this.searchCriteria.dateAfter = DateUtils.toOptionalDate(this.searchForm.controls.dateAfter.value);
+    this.searchCriteria.dateBefore = moment(DateUtils.getDateFromInput(this.searchForm.controls.dateBefore.value))
+      .hours(23)
+      .minutes(59)
+      .toDate();
+    this.searchCriteria.dateAfter = moment(DateUtils.getDateFromInput(this.searchForm.controls.dateAfter.value))
+      .hours(1)
+      .minutes(0)
+      .toDate();
     this.formSubmitted.emit(this.searchCriteria);
   }
 

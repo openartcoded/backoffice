@@ -1,6 +1,8 @@
 <div class="card flat mb-2">
-  <div class="card-header bg-transparent btn btn-click d-flex justify-content-between"
-    (click)="isCollapsed = !isCollapsed">
+  <div
+    class="card-header bg-transparent btn btn-click d-flex justify-content-between"
+    (click)="isCollapsed = !isCollapsed"
+  >
     <strong>Search Form</strong>
     <fa-icon *ngIf="isCollapsed" [icon]="['fas', 'eye']"></fa-icon>
     <fa-icon *ngIf="!isCollapsed" [icon]="['fas', 'ellipsis-h']"></fa-icon>
@@ -13,30 +15,40 @@
           <input type="text" class="form-control" id="id" formControlName="id" placeholder="Id" />
         </div>
       </div>
-      <div class="mb-1 row">
+      <div class="mb-1 row" *ngIf="hasRoleAdmin">
         <label class="col-12 col-form-label" for="correlationId">Correlation Id</label>
         <div class="col-12">
-          <input type="text" class="form-control" id="correlationId" formControlName="correlationId"
-            placeholder="Correlation Id" />
+          <input
+            type="text"
+            class="form-control"
+            id="correlationId"
+            formControlName="correlationId"
+            placeholder="Correlation Id"
+          />
         </div>
       </div>
       <div class="mb-1 row">
         <label class="col-12 col-form-label" for="originalFilename">FileName</label>
         <div class="col-12">
-          <input type="text" class="form-control" id="originalFilename" formControlName="originalFilename"
-            placeholder="FileName" />
+          <input
+            type="text"
+            class="form-control"
+            id="originalFilename"
+            formControlName="originalFilename"
+            placeholder="FileName"
+          />
         </div>
       </div>
       <div class="mb-1 row">
         <label class="col-12 col-form-label" for="dateAfter">From</label>
         <div class="col-12">
-          <input type="datetime-local" class="form-control" id="dateAfter" formControlName="dateAfter" />
+          <input type="date" class="form-control" id="dateAfter" formControlName="dateAfter" />
         </div>
       </div>
       <div class="mb-1 row">
         <label class="col-12 col-form-label" for="dateBefore">To</label>
         <div class="col-12">
-          <input type="datetime-local" class="form-control" id="dateBefore" formControlName="dateBefore" />
+          <input type="date" class="form-control" id="dateBefore" formControlName="dateBefore" />
         </div>
       </div>
       <div class="mb-1 row">

@@ -1,7 +1,9 @@
 <div>
   <div class="card flat">
-    <div class="card-header bg-transparent btn btn-click d-flex justify-content-between"
-      (click)="isCollapsed = !isCollapsed">
+    <div
+      class="card-header bg-transparent btn btn-click d-flex justify-content-between"
+      (click)="isCollapsed = !isCollapsed"
+    >
       <strong>Search Form</strong>
       <fa-icon *ngIf="isCollapsed" [icon]="['fas', 'eye']"></fa-icon>
       <fa-icon *ngIf="!isCollapsed" [icon]="['fas', 'ellipsis-h']"></fa-icon>
@@ -26,8 +28,13 @@
         <div class="mb-1 row">
           <label class="col-12 col-form-label" for="feeSubject">Subject like</label>
           <div class="col-12">
-            <input type="text" class="form-control" id="feeSubject" formControlName="feeSubject"
-              placeholder="Subject like" />
+            <input
+              type="text"
+              class="form-control"
+              id="feeSubject"
+              formControlName="feeSubject"
+              placeholder="Subject like"
+            />
           </div>
         </div>
         <div class="mb-1 row">
@@ -39,13 +46,13 @@
         <div class="mb-1 row">
           <label class="col-12 col-form-label" for="feeDateAfter">From</label>
           <div class="col-12">
-            <input type="datetime-local" class="form-control" id="feeDateAfter" formControlName="feeDateAfter" />
+            <input type="date" class="form-control" id="feeDateAfter" formControlName="feeDateAfter" />
           </div>
         </div>
         <div class="mb-2 row">
           <label class="col-12 col-form-label" for="feeDateBefore">To</label>
           <div class="col-12">
-            <input type="datetime-local" class="form-control" id="feeDateBefore" formControlName="feeDateBefore" />
+            <input type="date" class="form-control" id="feeDateBefore" formControlName="feeDateBefore" />
           </div>
         </div>
         <hr />
