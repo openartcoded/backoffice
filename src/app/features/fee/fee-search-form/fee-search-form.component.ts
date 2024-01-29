@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { FeeSearchCriteria, Label } from '@core/models/fee';
 import { DateUtils } from '@core/utils/date-utils';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-fee-search-form',
@@ -52,12 +53,18 @@ export class FeeSearchFormComponent implements OnInit {
       this.searchCriteria.body = null;
     }
     if (this.searchForm.controls.feeDateBefore.value) {
-      this.searchCriteria.dateBefore = DateUtils.getDateFromInput(this.searchForm.controls.feeDateBefore.value);
+      this.searchCriteria.dateBefore = moment(DateUtils.getDateFromInput(this.searchForm.controls.feeDateBefore.value))
+        .hours(23)
+        .minutes(59)
+        .toDate();
     } else {
       this.searchCriteria.dateBefore = null;
     }
     if (this.searchForm.controls.feeDateAfter.value) {
-      this.searchCriteria.dateAfter = DateUtils.getDateFromInput(this.searchForm.controls.feeDateAfter.value);
+      this.searchCriteria.dateAfter = moment(DateUtils.getDateFromInput(this.searchForm.controls.feeDateAfter.value))
+        .hours(1)
+        .minutes(0)
+        .toDate();
     } else {
       this.searchCriteria.dateAfter = null;
     }

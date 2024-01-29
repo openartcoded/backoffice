@@ -3,9 +3,12 @@
   <strong>Total: {{ fileUploads.totalElements }}</strong>
 </div>
 <div class="row">
-  <div class="col-sm-2 col-12">
-    <app-file-upload-search-form [searchCriteria]="searchCriteria"
-      (formSubmitted)="search($event)"></app-file-upload-search-form>
+  <div class="col-sm-2 col-12" *ngIf="user">
+    <app-file-upload-search-form
+      [user]="user"
+      [searchCriteria]="searchCriteria"
+      (formSubmitted)="search($event)"
+    ></app-file-upload-search-form>
   </div>
   <div class="col-sm-10 col-12">
     <ng-container *ngIf="fileUploads">
@@ -61,8 +64,14 @@
       </div>
       <div class="d-block">
         <div class="d-flex justify-content-end mb-2">
-          <ngb-pagination *ngIf="fileUploads.totalPages > 1" [page]="pageNumber" [pageSize]="fileUploads.size"
-            [maxSize]="1" [collectionSize]="fileUploads.totalElements" (pageChange)="load($event)">
+          <ngb-pagination
+            *ngIf="fileUploads.totalPages > 1"
+            [page]="pageNumber"
+            [pageSize]="fileUploads.size"
+            [maxSize]="1"
+            [collectionSize]="fileUploads.totalElements"
+            (pageChange)="load($event)"
+          >
           </ngb-pagination>
         </div>
       </div>
