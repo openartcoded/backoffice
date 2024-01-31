@@ -85,10 +85,10 @@
                       {{ a.originalFilename }}
                     </button>
                     <div class="btn-group">
-                      <button class="btn btn-link" *ngIf="isPdf(a)" (click)="openPdfViewer(a)">
+                      <button class="btn btn-link" *ngIf="isPdf(a)" (click)="openPdfViewer($event, a)">
                         <fa-icon [icon]="['fas', 'file-pdf']" class="text-secondary"></fa-icon>
                       </button>
-                      <button class="btn btn-link" *ngIf="isImage(a)" (click)="openImageViewer(a)">
+                      <button class="btn btn-link" *ngIf="isImage(a)" (click)="openImageViewer($event, a)">
                         <fa-icon [icon]="['fas', 'file-image']" class="text-secondary"></fa-icon>
                       </button>
                     </div>

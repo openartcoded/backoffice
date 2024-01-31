@@ -31,7 +31,9 @@ export class MailDetailComponent implements OnInit {
   ngOnInit(): void {
     this.load();
   }
-  openPdfViewer(upl: FileUpload) {
+  openPdfViewer(evt: any, upl: FileUpload) {
+    evt.preventDefault();
+
     const ngbModalRef = this.modalService.open(PdfViewerComponent, {
       size: 'xl',
       scrollable: true,
@@ -40,10 +42,12 @@ export class MailDetailComponent implements OnInit {
     ngbModalRef.componentInstance.title = upl?.originalFilename;
   }
   downloadAttachment(evt: any, a: FileUpload) {
-    evt.stopPropagation();
+    evt.preventDefault();
     this.fileService.download(a);
   }
-  openImageViewer(a: FileUpload) {
+  openImageViewer(evt: any, a: FileUpload) {
+    evt.preventDefault();
+
     let ngbModalRef = this.modalService.open(ImageViewerComponent, {
       size: 'xl',
       scrollable: true,
