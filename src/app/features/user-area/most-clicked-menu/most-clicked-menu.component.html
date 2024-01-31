@@ -1,8 +1,8 @@
 <div *ngIf="links?.length">
-  <a *ngFor="let link of links;let index=index" routerLinkActive="active"
-    [routerLinkActiveOptions]=" link.routerLinkActiveOptions" class="btn btn-sm btn-dark text-white me-1 pb-2"
-    [routerLink]="link.routerLink">
+  <a *ngFor="let link of links; let index = index" routerLinkActive="active"
+    [routerLinkActiveOptions]="link.routerLinkActiveOptions"
+    class="btn btn-sm btn-light border border-gray text-dark me-1 pb-2" [routerLink]="link.routerLink">
     <fa-icon class="fs-4 text-center" [icon]="link.icon"></fa-icon>
-    <span class="ms-1 dtext-none d-sm-inline">&nbsp;{{link.title}}</span>
+    <span class="ms-1 dtext-none d-sm-inline">&nbsp;{{ link.title }}</span>
   </a>
 </div>

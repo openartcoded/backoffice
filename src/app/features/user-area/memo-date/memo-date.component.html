@@ -11,11 +11,10 @@
       <ng-container>
         <ng-container *ngFor="let memo of memoDates">
           <div class="d-flex justify-content-between">
-            <span *ngIf="memo.visible">{{ memo.label }}</span>
-            <span *ngIf="!memo.visible">{{ '*'.repeat(memo.label.length) }}</span>
-            <strong
-              ><span class="d-lg-inline d-none">{{ memo.dateSince | date: 'dd/MM/yyyy' }} - </span
-              >{{ memo.progresses.currentProgress.label | number }} days
+            <span class="text-break" *ngIf="memo.visible">{{ memo.label }}</span>
+            <span class="text-break" *ngIf="!memo.visible">{{ '*'.repeat(5) }}</span>
+            <strong><span class="d-lg-inline d-none text-break">{{ memo.dateSince | date: 'dd/MM/yyyy' }} (</span>{{
+              memo.progresses.currentProgress.label | number }}d)
             </strong>
             <div class="btn-group">
               <button class="btn btn-sm btn-link p-0 me-1" (click)="memo.visible = !memo.visible">
@@ -27,19 +26,13 @@
             </div>
           </div>
           <div class="progress" style="height: 20px" *ngIf="memo.progresses.nextProgress">
-            <div
-              class="progress-bar bg-primary progress-bar-striped progress-bar-animated text-white"
-              role="progressbar"
-              [style]="'width:' + memo.progresses.currentProgress.computedWidth + '%'"
-            >
+            <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated text-white"
+              role="progressbar" [style]="'width:' + memo.progresses.currentProgress.computedWidth + '%'">
               {{ memo.progresses.currentProgress.computedWidth }}
               % - (Goal: {{ memo.progresses.nextProgress.label }})
             </div>
-            <div
-              class="progress-bar bg-secondary text-white"
-              role="progressbar"
-              [style]="'width:' + (100 - memo.progresses.currentProgress.computedWidth) + '%'"
-            ></div>
+            <div class="progress-bar bg-secondary text-white" role="progressbar"
+              [style]="'width:' + (100 - memo.progresses.currentProgress.computedWidth) + '%'"></div>
           </div>
           <div class="progress" style="height: 20px" *ngIf="!memo.progresses.nextProgress">
             <div class="progress-bar bg-success text-white" role="progressbar" [style]="'width:100%'">Success!</div>

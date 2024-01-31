@@ -1,5 +1,14 @@
 import { isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
+  ViewChild,
+} from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PersonalInfo } from '@core/models/personal.info';
 import { FileService } from '@core/service/file.service';
@@ -16,9 +25,10 @@ export class CompanyStampComponent implements OnInit {
   @ViewChild('companyStamp')
   screen: ElementRef;
   personalInfo: PersonalInfo;
+  downloading: boolean;
   logo: any;
 
-  imageName: string = "company_stamp";
+  imageName: string = 'company_stamp';
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('downloadLink') downloadLink: ElementRef;
@@ -28,27 +38,31 @@ export class CompanyStampComponent implements OnInit {
     private html2canvasService: Html2canvasService,
     private personalInfoService: PersonalInfoService,
     private cdr: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformId: any
-  ) {}
+    @Inject(PLATFORM_ID) private platformId: any,
+  ) { }
 
   async ngOnInit() {
     this.personalInfo = await firstValueFrom(this.personalInfoService.get());
     const logoUrl = await firstValueFrom(
-      this.fileService.toDownloadLink(this.fileService.getDownloadUrl(this.personalInfo.logoUploadId))
+      this.fileService.toDownloadLink(this.fileService.getDownloadUrl(this.personalInfo.logoUploadId)),
     );
     this.logo = this.domSanitizer.bypassSecurityTrustUrl(logoUrl.href);
     this.cdr.markForCheck();
-
   }
 
   downloadImage() {
     if (this.isBrowser) {
-      this.html2canvasService.html2canvas(this.screen.nativeElement, { backgroundColor: null}).then((canvas) => {
-        this.canvas.nativeElement.src = canvas.toDataURL();
-        this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
-        this.downloadLink.nativeElement.download = `${this.imageName}.png`;
-        this.downloadLink.nativeElement.click();
-      });
+      this.downloading = true;
+
+      setTimeout(() => {
+        this.html2canvasService.html2canvas(this.screen.nativeElement, { backgroundColor: null }).then((canvas) => {
+          this.canvas.nativeElement.src = canvas.toDataURL();
+          this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
+          this.downloadLink.nativeElement.download = `${this.imageName}.png`;
+          this.downloading = false;
+          this.downloadLink.nativeElement.click();
+        });
+      }, 1);
     }
   }
   get isBrowser() {
