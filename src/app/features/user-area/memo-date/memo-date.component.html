@@ -13,8 +13,9 @@
           <div class="d-flex justify-content-between">
             <span class="text-break" *ngIf="memo.visible">{{ memo.label }}</span>
             <span class="text-break" *ngIf="!memo.visible">{{ '*'.repeat(5) }}</span>
-            <strong><span class="d-lg-inline d-none text-break">{{ memo.dateSince | date: 'dd/MM/yyyy' }} (</span>{{
-              memo.progresses.currentProgress.label | number }}d)
+            <strong><span class="d-lg-inline d-none text-break">{{ memo.dateSince | date: 'dd/MM/yyyy' }} </span>({{
+              memo.progresses.currentProgress.label | number
+              }}d)
             </strong>
             <div class="btn-group">
               <button class="btn btn-sm btn-link p-0 me-1" (click)="memo.visible = !memo.visible">

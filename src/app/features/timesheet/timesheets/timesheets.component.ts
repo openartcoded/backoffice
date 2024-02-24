@@ -17,9 +17,10 @@ export class TimesheetsComponent implements OnInit {
   selectedClientName: string;
   estimateTotalThisMonth$: Observable<number>;
 
-
-
-  constructor(private timesheetService: TimesheetService, private titleService: Title) { }
+  constructor(
+    private timesheetService: TimesheetService,
+    private titleService: Title,
+  ) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('Timesheets');
@@ -33,7 +34,7 @@ export class TimesheetsComponent implements OnInit {
 
   setClient(name: string) {
     this.selectedClientName = name;
-    this.setTimesheetYear(this.currentYear);
+    this.setTimesheetYear(this.selectedYear);
   }
 
   setTimesheetYear(year: number) {
@@ -49,6 +50,33 @@ export class TimesheetsComponent implements OnInit {
     this.selectedYear = year;
   }
 
+  get statsSelectedYear() {
+    if (this.selectedTimesheetYear?.length) {
+      const sumWorkingDays = this.selectedTimesheetYear.map((t) => t.numberOfWorkingDays).reduce((a1, a2) => a1 + a2);
+      const sumWorkingMinutes = this.selectedTimesheetYear
+        .map((t) => t.numberOfMinutesWorked)
+        .reduce((a1, a2) => a1 + a2);
+
+      const calcHourMin = (sumWorkingMinutes: number) => {
+        const workingHours = Math.floor(sumWorkingMinutes / 60);
+        const remainWorkingMin = sumWorkingMinutes % 60;
+        return { workingHours, remainWorkingMin };
+      };
+      let { workingHours, remainWorkingMin } = calcHourMin(sumWorkingMinutes);
+
+      const sumWorkingHours = `${workingHours.toString().padStart(2, '0')}:${remainWorkingMin
+        .toString()
+        .padStart(2, '0')}`;
+
+      let avgWorkingDays = Math.round(sumWorkingDays / this.selectedTimesheetYear.length);
+      let avgMinutes = Math.round(sumWorkingMinutes / this.selectedTimesheetYear.length);
+
+      let { workingHours: avgWh, remainWorkingMin: avgRemainWm } = calcHourMin(avgMinutes);
+      const avgWorkingHours = `${avgWh.toString().padStart(2, '0')}:${avgRemainWm.toString().padStart(2, '0')}`;
+      return { sumWorkingDays, avgWorkingDays, avgWorkingHours, sumWorkingHours };
+    }
+    return null;
+  }
   get currentYear() {
     return DateUtils.getCurrentYear();
   }

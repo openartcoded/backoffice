@@ -1,6 +1,6 @@
 <app-title [uppercase]="true" title="Timesheets"></app-title>
 <div class="d-md-flex justify-content-between pb-2" *ngIf="timesheetsGroupedByYearAndClientName">
-  <p class="fw-semibold">Estimate this month: {{estimateTotalThisMonth$ | async| currency: '€'}}</p>
+  <p class="fw-semibold">Estimate this month: {{ estimateTotalThisMonth$ | async | currency: '€' }}</p>
   <div>
     <button class="btn me-1 mb-1" [class.btn-outline-secondary]="name !== this.selectedClientName"
       [class.btn-secondary]="name === this.selectedClientName" *ngFor="let name of clientNames"
@@ -29,7 +29,7 @@
           <thead>
             <tr>
               <th class="bg-light">Period</th>
-              <th class="fit">Client</th>
+              <!-- <th class="fit">Client</th> -->
               <th class="fit text-center">Closed</th>
               <th class="fit text-center">Working Days</th>
               <th class="fit text-center d-md-table-cell d-none">Hours Worked</th>
@@ -39,15 +39,24 @@
             <tr *ngFor="let timesheet of selectedTimesheetYear" role="button"
               [routerLink]="['timesheet', timesheet.id]">
               <td>{{ timesheet.name }}</td>
-              <td>{{ timesheet.clientName || 'N/A' }}</td>
-              <td class="fit text-center">
+              <!-- <td>{{ timesheet.clientName || 'N/A' }}</td> -->
+              <td class="fit text-center" *ngIf="timesheet.closed">
                 <input type="checkbox" class="form-check-input" aria-label="select" [checked]="timesheet.closed"
                   [disabled]="true" />
               </td>
+              <td class="fit text-center" *ngIf="!timesheet.closed">No</td>
+
               <td class="fit text-center">{{ timesheet.numberOfWorkingDays }}</td>
               <td class="fit text-center d-md-table-cell d-none">{{ timesheet.numberOfHoursWorked }}</td>
             </tr>
           </tbody>
+          <tfoot *ngIf="statsSelectedYear as stat">
+            <tr class="table-secondary d-md-table-row d-none">
+              <td colspan="2" class="text-end fw-bold">Total / Avg</td>
+              <td class="fit text-center table-warning">{{ stat.sumWorkingDays }} / {{ stat.avgWorkingDays }}</td>
+              <td class="fit text-center table-danger">{{ stat.sumWorkingHours }} / {{ stat.avgWorkingHours }}</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
