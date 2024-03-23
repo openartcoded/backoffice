@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { CvService } from '@core/service/cv.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Meta, Title } from '@angular/platform-browser';
@@ -15,6 +14,7 @@ import {
 } from '@core/models/curriculum';
 import { TemplateComponent } from '../template/template.component';
 import { firstValueFrom } from 'rxjs';
+import { ToastService } from '@core/service/toast.service';
 
 @Component({
   selector: 'app-cv-view',
@@ -36,7 +36,8 @@ export class CvViewComponent implements OnInit {
     private modalService: NgbModal,
     private metaService: Meta,
     private cvService: CvService,
-  ) { }
+    private toastService: ToastService,
+  ) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('Curriculum Vitae - BITTICH NORDINE');
@@ -124,16 +125,22 @@ export class CvViewComponent implements OnInit {
     ngbModalRef.componentInstance.templates$ = this.cvService.listTemplates();
     ngbModalRef.componentInstance.cv = this.cv;
     ngbModalRef.componentInstance.onSaveTemplate.subscribe(async (formData) => {
-      ngbModalRef.close();
       await firstValueFrom(this.cvService.addTemplate(formData));
+      ngbModalRef.componentInstance.templates$ = this.cvService.listTemplates();
+      this.toastService.showSuccess('template saved');
     });
     ngbModalRef.componentInstance.onTemplateSetAsDefault.subscribe(async (templ) => {
-      ngbModalRef.close();
       await this.updateDefaultTemplate(templ);
+      ngbModalRef.componentInstance.templates$ = this.cvService.listTemplates();
+      ngbModalRef.componentInstance.cv = this.cv;
+
+      this.toastService.showSuccess('template set as default');
     });
     ngbModalRef.componentInstance.onDeleteTemplate.subscribe(async (template) => {
-      ngbModalRef.close();
       await firstValueFrom(this.cvService.deleteTemplate(template));
+      ngbModalRef.componentInstance.templates$ = this.cvService.listTemplates();
+
+      this.toastService.showSuccess('template deleted');
     });
   }
 }

@@ -35,7 +35,7 @@ export class TemplateComponent implements OnInit {
     private fileService: FileService,
     private fb: UntypedFormBuilder,
     private windowService: WindowRefService,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) private platformId: any,
   ) {}
 
   drop($event: NgxFileDropEntry[]) {
@@ -76,6 +76,7 @@ export class TemplateComponent implements OnInit {
     formData.append('name', this.form.get('name').value);
     this.onSaveTemplate.emit(formData);
     this.form.reset();
+    this.url = null;
   }
 
   removeTemplate($event: any, t: CurriculumFreemarkerTemplate) {

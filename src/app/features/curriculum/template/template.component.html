@@ -1,17 +1,15 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">CV Templates</span>
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
-      
-    </button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body" *ngIf="form">
     <ul ngbNav #nav="ngbNav" class="nav-tabs">
       <li ngbNavItem>
         <a ngbNavLink>Current Templates</a>
         <ng-template ngbNavContent>
-          <ng-container *ngIf="templates$ | async as templates">
-            <ul class="list-group mt-2" id="templates">
+          <ng-container>
+            <ul class="list-group mt-2" id="templates" *ngIf="templates$ | async as templates">
               <li class="list-group-item" *ngFor="let t of templates">
                 <div class="d-flex justify-content-between">
                   <div>
@@ -21,23 +19,14 @@
                     <button class="btn btn-link" (click)="downloadTemplate($event, t)">
                       <fa-icon [icon]="['fas', 'download']" class="text-primary"></fa-icon>
                     </button>
-                    <button
-                      class="btn btn-link"
-                      [disabled]="cv.freemarkerTemplateId === t.id"
-                      (click)="removeTemplate($event, t)"
-                    >
+                    <button class="btn btn-link" [disabled]="cv.freemarkerTemplateId === t.id"
+                      (click)="removeTemplate($event, t)">
                       <fa-icon [icon]="['fas', 'times']" class="text-danger"></fa-icon>
                     </button>
-                    <button
-                      class="btn btn-link"
-                      (click)="setAsDefault($event, t)"
-                      title="Set as default"
-                      [disabled]="cv.freemarkerTemplateId === t.id"
-                    >
-                      <fa-icon
-                        class="text-secondary"
-                        [icon]="['fas', cv.freemarkerTemplateId === t.id ? 'check' : 'rocket']"
-                      ></fa-icon>
+                    <button class="btn btn-link" (click)="setAsDefault($event, t)" title="Set as default"
+                      [disabled]="cv.freemarkerTemplateId === t.id">
+                      <fa-icon class="text-secondary"
+                        [icon]="['fas', cv.freemarkerTemplateId === t.id ? 'check' : 'rocket']"></fa-icon>
                     </button>
                   </div>
                 </div>
@@ -55,33 +44,18 @@
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="name">Name</label>
                 <div class="col-sm-10">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="name"
-                    formControlName="name"
-                    placeholder="Template name"
-                 >
+                  <input type="text" class="form-control" id="name" formControlName="name"
+                    placeholder="Template name" />
                 </div>
               </div>
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="template">Template</label>
                 <div class="col-sm-10">
-                  <ngx-file-drop
-                    dropZoneLabel="Drop files here"
-                    (onFileDrop)="drop($event)"
-                    dropZoneClassName="flat bg-light d-block"
-                    [accept]="'.ftl'"
-                    [multiple]="false"
-                  >
+                  <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event)"
+                    dropZoneClassName="flat bg-light d-block" [accept]="'.ftl'" [multiple]="false">
                     <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                      <button
-                        id="template"
-                        class="btn btn-primary me-1"
-                        type="button"
-                        (click)="openFileSelector()"
-                        *ngIf="!url"
-                      >
+                      <button id="template" class="btn btn-primary me-1" type="button" (click)="openFileSelector()"
+                        *ngIf="!url">
                         <fa-icon [icon]="['fas', 'upload']"></fa-icon>
                       </button>
                       <a *ngIf="url" (click)="openFileSelector()" class="border-0">
