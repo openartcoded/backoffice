@@ -2,6 +2,7 @@ export interface ReminderTask {
   id?: string;
   inAppNotification?: boolean;
   dateCreation?: Date;
+  calendarDate?: Date;
   lastExecutionDate?: Date;
   updatedDate?: Date;
   nextDate?: Date;

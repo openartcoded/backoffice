@@ -2,9 +2,13 @@
 <div class="d-md-flex justify-content-between pb-2" *ngIf="timesheetsGroupedByYearAndClientName">
   <p class="fw-semibold">Estimate this month: {{ estimateTotalThisMonth$ | async | currency: '€' }}</p>
   <div>
-    <button class="btn me-1 mb-1" [class.btn-outline-secondary]="name !== this.selectedClientName"
-      [class.btn-secondary]="name === this.selectedClientName" *ngFor="let name of clientNames"
-      (click)="this.setClient(name)">
+    <button
+      class="btn me-1 mb-1"
+      [class.btn-outline-secondary]="name !== this.selectedClientName"
+      [class.btn-secondary]="name === this.selectedClientName"
+      *ngFor="let name of clientNames"
+      (click)="this.setClient(name)"
+    >
       {{ name }}
     </button>
   </div>
@@ -17,8 +21,13 @@
   <div class="row mb-2">
     <div class="col-lg-3 d-md-inline-block col-12 mb-4">
       <ul class="list-group">
-        <li role="button" class="list-group-item list-group-item-action" *ngFor="let year of years"
-          [class.active]="year === selectedYear" (click)="setTimesheetYear(year)">
+        <li
+          role="button"
+          class="list-group-item list-group-item-action"
+          *ngFor="let year of years"
+          [class.active]="year === selectedYear"
+          (click)="setTimesheetYear(year)"
+        >
           {{ year }}
         </li>
       </ul>
@@ -36,13 +45,21 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let timesheet of selectedTimesheetYear" role="button"
-              [routerLink]="['timesheet', timesheet.id]">
+            <tr
+              *ngFor="let timesheet of selectedTimesheetYear"
+              role="button"
+              [routerLink]="['timesheet', timesheet.id]"
+            >
               <td>{{ timesheet.name }}</td>
               <!-- <td>{{ timesheet.clientName || 'N/A' }}</td> -->
               <td class="fit text-center" *ngIf="timesheet.closed">
-                <input type="checkbox" class="form-check-input" aria-label="select" [checked]="timesheet.closed"
-                  [disabled]="true" />
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  aria-label="select"
+                  [checked]="timesheet.closed"
+                  [disabled]="true"
+                />
               </td>
               <td class="fit text-center" *ngIf="!timesheet.closed">No</td>
 

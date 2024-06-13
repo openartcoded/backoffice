@@ -3,9 +3,11 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { BackendInfo } from '@core/models/backend.info';
+import { Dossier } from '@core/models/dossier';
 import { HealthIndicator } from '@core/models/health.indicator';
 import { User } from '@core/models/user';
 import { AuthService } from '@core/service/auth.service';
+import { DossierService } from '@core/service/dossier.service';
 import { InfoService } from '@core/service/info.service';
 import { PersonalInfoService } from '@core/service/personal.info.service';
 import { WindowRefService } from '@core/service/window.service';
@@ -21,6 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   indicators$: Observable<Indicators>;
   user: User;
+  activeDossier: Dossier;
 
   loaded: boolean = true;
 
@@ -29,6 +32,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private breakPointObserver: BreakpointObserver,
     private infoService: InfoService,
     private personalInfoService: PersonalInfoService,
+    private dossierService: DossierService,
     @Inject(PLATFORM_ID) private platformId: any,
     private windowService: WindowRefService,
   ) { }
@@ -43,6 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.user = await firstValueFrom(this.personalInfoService.me());
 
+    this.dossierService.activeDossier().subscribe((dt) => (this.activeDossier = dt));
     if (isPlatformBrowser(this.platformId)) {
       // WORKAROUND bug plotly responsive
       this.subscription = this.breakPointObserver

@@ -2,7 +2,19 @@
   <ng-container *ngIf="user && loaded">
     <ng-container *ngIf="user && hasRoleAdmin">
       <div class="d-none d-lg-flex justify-content-between">
-        <app-most-clicked-menu />
+        <div class="d-flex justify-content-start">
+          <app-most-clicked-menu />
+          <div>
+            <a
+              routerLink="/dossier"
+              class="btn btn-sm btn-light border border-gray text-danger me-1 pb-2"
+              *ngIf="activeDossier"
+            >
+              <fa-icon class="fs-4 text-center" [icon]="['fas', 'folder']"></fa-icon>
+              <span class="ms-1 text-none d-sm-inline fw-bold">&nbsp;{{ activeDossier.name }}</span>
+            </a>
+          </div>
+        </div>
         <app-next-tasks />
       </div>
       <hr />
@@ -75,8 +87,10 @@
                   </div>
                 </div>
               </div>
-              <div ngbAccordionItem="diskSpace"
-                *ngIf="indicators.healthIndicator.components?.diskSpace?.details as diskSpace">
+              <div
+                ngbAccordionItem="diskSpace"
+                *ngIf="indicators.healthIndicator.components?.diskSpace?.details as diskSpace"
+              >
                 <div ngbAccordionHeader>
                   <button ngbAccordionButton class="p-2">Disk Space</button>
                 </div>

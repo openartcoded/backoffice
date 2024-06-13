@@ -31,9 +31,13 @@ export class NotificationComponent implements OnInit, OnApplicationEvent {
     this.latests = this.latests
       .filter((latest) => !events.find((evt) => evt.id === latest.id))
       .concat(...events)
-      .sort(
-        (n1, n2) =>
-          DateUtils.getDateFromInput(n2.receivedDate).getTime() - DateUtils.getDateFromInput(n1.receivedDate).getTime(),
+      .sort((n1, n2) =>
+        n1.seen && !n2.seen
+          ? 1
+          : n2.seen
+            ? -1
+            : DateUtils.getDateFromInput(n2.receivedDate).getTime() -
+            DateUtils.getDateFromInput(n1.receivedDate).getTime(),
       );
   }
 
@@ -42,7 +46,7 @@ export class NotificationComponent implements OnInit, OnApplicationEvent {
   }
 
   update(n: ArtcodedNotification) {
-    this.notificationService.update(n.id, !n.seen).subscribe((d) => {
+    this.notificationService.update(n.id, !n.seen).subscribe((_) => {
       this.latests.filter((notif) => notif.id === n.id).forEach((notif) => (notif.seen = !n.seen));
       this.notificationService.updateTitle(this.latests);
     });

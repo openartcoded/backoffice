@@ -33,11 +33,14 @@ export class TaskDetailComponent implements OnInit {
     private windowService: WindowRefService,
     private modalService: NgbModal,
     @Inject(PLATFORM_ID) private platformId: any,
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
   ) { }
 
   async ngOnInit() {
     this.allowedActions = await firstValueFrom(this.allowedActions$);
+    const calendarDate = DateUtils.toOptionalDate(this.task?.calendarDate);
+    const calendarDateFormatted = calendarDate ? DateUtils.formatInputDateTime(calendarDate) : null;
+
     const specificDate = DateUtils.toOptionalDate(this.task?.specificDate);
     const specificDateFormatted = specificDate ? DateUtils.formatInputDateTime(specificDate) : null;
     this.form = this.fb.group({
@@ -49,7 +52,14 @@ export class TaskDetailComponent implements OnInit {
           value: specificDateFormatted,
           disabled: false,
         },
-        []
+        [],
+      ),
+      calendarDate: new UntypedFormControl(
+        {
+          value: calendarDateFormatted,
+          disabled: false,
+        },
+        [],
       ),
       cronExpression: new UntypedFormControl({ value: this.task?.cronExpression, disabled: false }, []),
       actionKey: new UntypedFormControl({ value: this.task?.actionKey, disabled: false }, []),
@@ -59,7 +69,7 @@ export class TaskDetailComponent implements OnInit {
           value: this.task?.actionKey ? this.allowedActions.find((action) => action.key === this.task.actionKey) : null,
           disabled: false,
         },
-        []
+        [],
       ),
       actionParameters: this.task?.actionParameters
         ? this.fb.array(this.task?.actionParameters?.map(this.convertParameter))
@@ -70,14 +80,14 @@ export class TaskDetailComponent implements OnInit {
           value: DateUtils.formatInputDateTimeWithCustomFormat(this.task?.nextDate, 'DD/MM/yyyy HH:mm:ss'),
           disabled: true,
         },
-        []
+        [],
       ),
       lastExecutionDate: new UntypedFormControl(
         {
           value: DateUtils.formatInputDateTimeWithCustomFormat(this.task?.lastExecutionDate, 'DD/MM/yyyy HH:mm:ss'),
           disabled: true,
         },
-        []
+        [],
       ),
       updatedDate: new UntypedFormControl({ value: this.task?.updatedDate, disabled: true }, []),
       disabled: new UntypedFormControl({ value: this.task?.disabled || false, disabled: false }, [Validators.required]),
@@ -107,6 +117,7 @@ export class TaskDetailComponent implements OnInit {
         this.form.controls.cronExpression.patchValue(null);
       } else {
         this.form.controls.specificDate.patchValue(null);
+        this.form.controls.calendarDate.patchValue(null);
       }
     });
 
@@ -150,21 +161,21 @@ export class TaskDetailComponent implements OnInit {
           value: parameter.key,
           disabled: true,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       parameterValue: new UntypedFormControl(
         {
           value: parameter.value,
           disabled: false,
         },
-        parameter.required ? [Validators.required] : []
+        parameter.required ? [Validators.required] : [],
       ),
       parameterType: new UntypedFormControl(
         {
           value: parameter.parameterType,
           disabled: true,
         },
-        parameter.required ? [Validators.required] : []
+        parameter.required ? [Validators.required] : [],
       ),
     });
   }
@@ -193,6 +204,7 @@ export class TaskDetailComponent implements OnInit {
 
   send() {
     const specificDate = this.specificDate;
+    const calendarDate = this.calendarDate;
 
     this.onSaveTask.emit({
       id: this.task?.id,
@@ -216,6 +228,7 @@ export class TaskDetailComponent implements OnInit {
       persistResult: this.form.get('persistResult').value,
       cronExpression: !this.hasSpecificDate ? this.cronExpression : null,
       specificDate: this.hasSpecificDate ? DateUtils.dateStrToUtc(specificDate) : null,
+      calendarDate: this.hasSpecificDate && calendarDate ? DateUtils.dateStrToUtc(calendarDate) : null,
       lastExecutionDate: this.task?.lastExecutionDate,
     });
     this.form.reset();
@@ -227,6 +240,10 @@ export class TaskDetailComponent implements OnInit {
 
   get specificDate() {
     return this.form.get('specificDate').value;
+  }
+
+  get calendarDate() {
+    return this.form.get('calendarDate').value;
   }
 
   delete($event: MouseEvent) {
