@@ -6,7 +6,6 @@ import { TaskDetailComponent } from '@feature/tasks/task-detail/task-detail.comp
 import { OnApplicationEvent, RegisteredEvent } from '@core/interface/on-application-event';
 import { NotificationService } from '@core/service/notification.service';
 import { ArtcodedNotification } from '@core/models/artcoded.notification';
-import { CronExpressionHelpComponent } from '@feature/tasks/cron-expression-help/cron-expression-help.component';
 import { ActionResultComponent } from '../action-result/action-result.component';
 import { Title } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
@@ -23,13 +22,14 @@ export class TasksTableComponent implements OnInit, OnApplicationEvent {
   showTasks: boolean = true;
   hideDisabled: boolean = true;
   currentDate: Date;
+  searchTasks?: string;
 
   constructor(
     private reminderTaskService: ReminderTaskService,
     private notificationService: NotificationService,
     private titleService: Title,
-    private modalService: NgbModal
-  ) { }
+    private modalService: NgbModal,
+  ) {}
 
   ngOnInit(): void {
     this.notificationService.subscribe(this);
@@ -41,7 +41,7 @@ export class TasksTableComponent implements OnInit, OnApplicationEvent {
     const modal = this.modalService.open(TaskDetailComponent, {
       size: 'xl',
       scrollable: true,
-      backdrop: 'static'
+      backdrop: 'static',
     });
     modal.componentInstance.task = task;
     modal.componentInstance.allowedActions$ = this.reminderTaskService.allowedActions();
@@ -101,6 +101,20 @@ export class TasksTableComponent implements OnInit, OnApplicationEvent {
     return [...new Set(dates)].map((d) => new Date(d)).sort((a, b) => a.getTime() - b.getTime());
   }
 
+  filterTasksSearch() {
+    if (this.searchTasks?.length) {
+      let tasks = [...this.reminderTasks];
+      const search = this.searchTasks.toLowerCase();
+      this.filteredReminderTasks = tasks?.filter(
+        (t) =>
+          t.title?.toLowerCase()?.includes(search) ||
+          t.description?.toLowerCase()?.includes(search) ||
+          t.customActionName?.toLowerCase()?.includes(search),
+      );
+    } else {
+      this.filterTasks();
+    }
+  }
   filterTasks(date?: Date) {
     let tasks = [...this.reminderTasks];
     if (!this.showTasks) {
