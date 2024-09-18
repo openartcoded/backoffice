@@ -41,7 +41,7 @@
           (click)="filterTasks(date)"
         >
           <div class="d-flex justify-content-between">
-            <span>{{ date | date : 'dd/MM/yyyy' }}</span>
+            <span>{{ date | date: 'dd/MM/yyyy' }}</span>
             <span class="badge bg-warning text-dark rounded-circle" *ngIf="date.getTime() === currentDate?.getTime()">
               {{ filteredReminderTasks.length }}
             </span>
@@ -63,6 +63,14 @@
       </ul>
     </div>
     <div class="col-md-9 col-12 table-responsive">
+      <input
+        type="text"
+        class="form-control mb-2"
+        placeholder="Search"
+        [(ngModel)]="searchTasks"
+        [ngModelOptions]="{ standalone: true }"
+        (ngModelChange)="filterTasksSearch()"
+      />
       <table class="table table-sm table-bordered table-hover table-striped">
         <thead>
           <tr>
@@ -80,7 +88,7 @@
           <ng-container *ngFor="let task of filteredReminderTasks">
             <tr role="button" (click)="openTask(task)">
               <td>{{ task.customActionName || task.title }}</td>
-              <td>{{ task?.nextDate | date : 'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ task?.nextDate | date: 'dd/MM/yyyy HH:mm' }}</td>
               <td class="fit text-center d-md-table-cell d-none">
                 <input aria-label="disabled" type="checkbox" [checked]="task.disabled" [disabled]="true" />
               </td>
