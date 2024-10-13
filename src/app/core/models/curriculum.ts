@@ -1,4 +1,4 @@
-import { FileUpload } from "./file-upload";
+import { FileUpload } from './file-upload';
 
 export interface Curriculum {
   id?: string;
@@ -49,6 +49,7 @@ export interface Skill {
 }
 
 export interface Experience {
+  uuid?: string;
   from: Date;
   to?: Date;
   current: boolean;

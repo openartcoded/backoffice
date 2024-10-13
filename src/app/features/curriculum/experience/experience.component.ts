@@ -4,7 +4,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UpdateExperienceComponent } from '@feature/curriculum/update-experience/update-experience.component';
 import { Experience } from '@core/models/curriculum';
-
+import { v4 as uuid } from 'uuid';
 @Component({
   selector: 'app-experience',
   templateUrl: './experience.component.html',
@@ -23,7 +23,7 @@ export class ExperienceComponent implements OnInit {
   constructor(
     private windowService: WindowRefService,
     private modalService: NgbModal,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) private platformId: any,
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +39,7 @@ export class ExperienceComponent implements OnInit {
         (xp) =>
           xp.title.toUpperCase().includes(fxp) ||
           xp.company.toUpperCase().includes(fxp) ||
-          xp.description.find((des) => des.toUpperCase().includes(fxp))
+          xp.description.find((des) => des.toUpperCase().includes(fxp)),
       );
     }
   }
@@ -68,12 +68,7 @@ export class ExperienceComponent implements OnInit {
   }
 
   compare(exp) {
-    return (e) =>
-      e.title !== exp.title &&
-      e.description !== exp.description &&
-      e.company !== exp.company &&
-      e.from !== exp.from &&
-      e.to !== exp.to;
+    return (e) => e.uuid !== exp.uuid;
   }
 
   add() {
@@ -82,6 +77,7 @@ export class ExperienceComponent implements OnInit {
       company: null,
       title: null,
       from: null,
+      uuid: uuid(),
       to: null,
       description: [],
     });

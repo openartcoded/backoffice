@@ -3,7 +3,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Experience } from '@core/models/curriculum';
 import { DateUtils } from '@core/utils/date-utils';
-
 @Component({
   selector: 'app-update-experience',
   templateUrl: './update-experience.component.html',
@@ -18,7 +17,10 @@ export class UpdateExperienceComponent implements OnInit {
   @Output()
   experienceSubmitted: EventEmitter<Experience> = new EventEmitter<Experience>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
+  constructor(
+    @Optional() public activeModal: NgbActiveModal,
+    private fb: UntypedFormBuilder,
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -30,7 +32,7 @@ export class UpdateExperienceComponent implements OnInit {
       ]),
       to: new UntypedFormControl(
         this.experience.to ? DateUtils.formatInputDate(DateUtils.toOptionalDate(this.experience.to)) : null,
-        []
+        [],
       ),
       description: this.fb.array((this.experience.description || []).map((d) => new UntypedFormControl(d, []))),
     });
@@ -61,6 +63,7 @@ export class UpdateExperienceComponent implements OnInit {
       to: this.current ? null : DateUtils.toOptionalDate(this.form.controls.to.value),
       title: this.form.controls.title.value,
       company: this.form.controls.company.value,
+      uuid: this.experience.uuid,
       current: this.current,
     };
     this.experienceSubmitted.emit(exp);
