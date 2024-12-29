@@ -11,6 +11,7 @@
     "lint": "ng lint"
   },
   "private": true,
+  "typings": "./src/typings.d.ts",
   "dependencies": {
     "@angular/animations": "^17.3.5",
     "@angular/cdk": "^17.3.5",
@@ -42,7 +43,7 @@
     "marked": "^12.0.1",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.45",
-    "ng2-pdf-viewer": "^10.0.0",
+    "ng2-pdf-viewer": "^10.4.0",
     "ngx-autosize": "^2.0.4",
     "ngx-file-drop": "^16.0.0",
     "ngx-highlightjs": "^10.0.0",
