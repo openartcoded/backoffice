@@ -259,8 +259,14 @@
                 <li ngbNavItem *ngIf="ublXML">
                     <a ngbNavLink>Peppol XML</a>
                     <ng-template ngbNavContent>
-
                 <app-pdf-viewer [asModal]="false" [pdf]="ublXML"/>
+                    </ng-template>
+                </li>
+                
+                <li ngbNavItem *ngIf="invoice.invoiceUploadId">
+                    <a ngbNavLink>PDF</a>
+                    <ng-template ngbNavContent>
+                <app-pdf-viewer [asModal]="false" [pdf]="pdf" [showRotateBtn]="false"/>
                     </ng-template>
                 </li>
       </ul>

@@ -4,7 +4,7 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-    <div class="d-flex justify-content-end mb-1" *ngIf="user && hasRoleAdmin && pdf.contentType === 'application/pdf'">
+    <div class="d-flex justify-content-end mb-1" *ngIf="user && hasRoleAdmin && showRotateBtn&& pdf.contentType === 'application/pdf'">
       <button class="btn btn-link me-1" (click)="rotate(-90)">
         <fa-icon class="text-dark" [icon]="['fas', 'arrow-rotate-backward']"></fa-icon>
       </button>
@@ -15,13 +15,16 @@
     <ng-container *ngIf="pdfSrc">
       <pdf-viewer *ngIf="pdf.contentType ==='application/pdf'" [src]="pdfSrc" [render-text]="true" style="display: block" [autoresize]="true" [show-all]="true"
         [fit-to-page]="true"></pdf-viewer>
-<md-editor name="xmlContent" *ngIf="pdf.contentType ==='text/xml'"
+            <ng-container *ngIf="pdf.contentType ==='text/xml'">
+                <app-copy-to-clipboard [textToCopy]="xml" btnClasses="btn btn-outline-secondary mb-1"/>
+<md-editor name="xmlContent" 
                  id="xmlContent"
                  [(ngModel)]="xml"
                  mode="preview"
                  [options]="{showBorder:false}"
-                 height="100%">
-      </md-editor>
+                 height="100%"/>
+            </ng-container>
+
     </ng-container>
   </div>
 </ng-container>

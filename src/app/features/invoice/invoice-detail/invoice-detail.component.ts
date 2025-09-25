@@ -24,6 +24,7 @@ import { FileUpload } from '@core/models/file-upload';
 })
 export class InvoiceDetailComponent implements OnInit {
     ublXML?: FileUpload;
+    pdf?: FileUpload;
     @Input()
     invoice: Invoice;
     @Input()
@@ -55,6 +56,10 @@ export class InvoiceDetailComponent implements OnInit {
         this.invoiceForm = this.createFormGroup();
         if (this.invoice.invoiceUBLId) {
             this.fileService.findById(this.invoice.invoiceUBLId).subscribe(upl => this.ublXML = upl);
+        }
+        if (this.invoice.invoiceUploadId) {
+            this.fileService.findById(this.invoice.invoiceUploadId).subscribe(upl => this.pdf = upl);
+
         }
     }
 

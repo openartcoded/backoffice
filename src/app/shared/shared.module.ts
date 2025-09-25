@@ -24,6 +24,7 @@ import { AutoFocusDirective } from './directives/auto-focus.directive';
 import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 import 'ace-builds/src-min-noconflict/ace';
 import 'ace-builds/src-min-noconflict/mode-markdown';
+import { CopyToClipboardComponent } from './copy-to-clipboard/copy-to-clipboard.component';
 import("marked").then(m => {
     (window as any).marked = m.marked;
 });
@@ -34,6 +35,7 @@ import("marked").then(m => {
         SlugifyPipe,
         SortPipe,
         PdfViewerComponent,
+        CopyToClipboardComponent,
         ImageViewerComponent,
         ImageLoaderComponent,
         TrimPipe,
@@ -45,6 +47,7 @@ import("marked").then(m => {
         AutoFocusDirective,
     ],
     exports: [
+        CopyToClipboardComponent,
         TitleComponent,
         PdfViewerComponent,
         MailFormComponent,
