@@ -16,6 +16,8 @@ import { MailService } from '@core/service/mail.service';
 import { ToastService } from '@core/service/toast.service';
 import { User } from '@core/models/user';
 import { FileUpload } from '@core/models/file-upload';
+import { InvoiceService } from '@core/service/invoice.service';
+import { PeppolValidationResultComponent } from '../peppol-validation-result/peppol-validation-result.component';
 
 @Component({
     selector: 'app-invoice-detail',
@@ -48,6 +50,7 @@ export class InvoiceDetailComponent implements OnInit {
         private modalService: NgbModal,
         private fileService: FileService,
         private mailService: MailService,
+        private invoiceService: InvoiceService,
         private toastService: ToastService,
         private formBuilder: UntypedFormBuilder,
     ) { }
@@ -92,6 +95,15 @@ export class InvoiceDetailComponent implements OnInit {
             await firstValueFrom(this.mailService.send(mailRequest));
             this.toastService.showSuccess('Mail will be send');
         });
+    }
+    async validatePeppol($event: any, invoice: Invoice) {
+        $event.preventDefault();
+        const res = await firstValueFrom(this.invoiceService.validatePeppol(invoice.id));
+        const ngbModalRef = this.modalService.open(PeppolValidationResultComponent, {
+            size: 'lg',
+            scrollable: true,
+        });
+        ngbModalRef.componentInstance.result = res;
     }
 
     openPdfViewer() {

@@ -94,10 +94,13 @@
               </div>
               <div class="mb-1 row" *ngIf="invoice.peppolStatus">
                 <label class="col-sm-2 col-form-label" for="taxes">peppolStatus</label>
-                <div class="col-sm-10">
-                  <input type="text" disabled class="form-control text-info bg-light" id="Peppol Status"
+                <div class="col-sm-9">
+                  <input type="text" disabled class="form-control bg-light" id="Peppol Status"
                     [value]="invoice.peppolStatus" />
                 </div>
+                                  <div class="col-sm-1 d-flex align-items-center">
+                <button class="btn btn-outline-primary btn-sm" (click)="validatePeppol($event,invoice)">Validate</button>
+</div>
               </div>
               <hr />
               <div class="form-check form-check-inline">

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BackendInvoiceSummary, Invoice, InvoiceFreemarkerTemplate } from '@core/models/invoice';
+import { BackendInvoiceSummary, Invoice, InvoiceFreemarkerTemplate, PeppolValidationResult } from '@core/models/invoice';
 import { Direction, Page, SortCriteria } from '@core/models/page';
 import { ConfigInitService } from '@init/config-init.service';
 
@@ -73,6 +73,9 @@ export class InvoiceService {
         return this.http.post<any>(`${this.basePath}/send-to-peppol?id=${id}`, {});
     }
 
+    validatePeppol(id: string) {
+        return this.http.post<PeppolValidationResult>(`${this.basePath}/validate-peppol?id=${id}`, {});
+    }
     listTemplates(): Observable<InvoiceFreemarkerTemplate[]> {
         return this.http.get<InvoiceFreemarkerTemplate[]>(`${this.basePath}/list-templates`, {});
     }

@@ -17,10 +17,10 @@ import { InvoiceTableResultComponent } from './invoice-table-result/invoice-tabl
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { TemplateComponent } from './template/template.component';
 import { AutosizeModule } from 'ngx-autosize';
-import { LMarkdownEditorModule } from 'ngx-markdown-editor';
+import { PeppolValidationResultComponent } from './peppol-validation-result/peppol-validation-result.component';
 
 @NgModule({
-    declarations: [InvoicePageComponent, InvoiceDetailComponent, InvoiceTableResultComponent, TemplateComponent],
+    declarations: [InvoicePageComponent, InvoiceDetailComponent, PeppolValidationResultComponent, InvoiceTableResultComponent, TemplateComponent],
     imports: [
         CommonModule,
         SharedModule,

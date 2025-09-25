@@ -1,0 +1,12 @@
+
+<ng-container>
+  <div class="modal-header" *ngIf="activeModal">
+    <span class="modal-title text-break">Peppol Validation Result</span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="alert" [class.alert-danger]="!result.valid" [class.alert-success]="result.valid">
+            <p>{{result.valid ? "Valid" : result.results}}</p>
+        </div>
+  </div>
+</ng-container>

@@ -57,7 +57,10 @@ export interface Invoice {
     importedDate?: Date;
     specialNote?: string;
 }
-
+export interface PeppolValidationResult {
+    valid: boolean;
+    results: string;
+}
 export interface InvoiceFreemarkerTemplate {
     id?: string;
     name?: string;
