@@ -92,6 +92,13 @@
                     placeholder="Put a note here"></textarea>
                 </div>
               </div>
+              <div class="mb-1 row" *ngIf="invoice.peppolStatus">
+                <label class="col-sm-2 col-form-label" for="taxes">peppolStatus</label>
+                <div class="col-sm-10">
+                  <input type="text" disabled class="form-control text-info bg-light" id="Peppol Status"
+                    [value]="invoice.peppolStatus" />
+                </div>
+              </div>
               <hr />
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" id="uploadedManually"
@@ -184,6 +191,7 @@
             </div>
           </ng-template>
         </li>
+                
         <li ngbNavItem>
           <a ngbNavLink>Invoice Table</a>
           <ng-template ngbNavContent>
@@ -248,6 +256,13 @@
             </div>
           </ng-template>
         </li>
+                <li ngbNavItem *ngIf="ublXML">
+                    <a ngbNavLink>Peppol XML</a>
+                    <ng-template ngbNavContent>
+
+                <app-pdf-viewer [asModal]="false" [pdf]="ublXML"/>
+                    </ng-template>
+                </li>
       </ul>
       <div [ngbNavOutlet]="nav"></div>
       <div class="alert alert-warning" *ngIf="!invoiceForm.valid">

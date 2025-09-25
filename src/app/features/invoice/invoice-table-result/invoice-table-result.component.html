@@ -143,9 +143,17 @@
                 <button *ngIf="hasRoleAdmin && invoice.logicalDelete" ngbDropdownItem (click)="restore(invoice)">
                   <fa-icon [icon]="['fas', 'trash-restore']"></fa-icon>&nbsp;Restore
                 </button>
+                <button *ngIf="hasRoleAdmin && invoice.peppolStatus" [disabled]="invoice.peppolStatus !== 'NOT_SENT'" ngbDropdownItem (click)="sendToPeppol(invoice)">
+                  <fa-icon [icon]="['fas', 'file-invoice']"></fa-icon>&nbsp;Send Peppol
+                </button>
                 <button ngbDropdownItem [disabled]="!invoice.invoiceUploadId" (click)="openPdfViewer(invoice)">
                   <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon>
                   View as PDF
+                </button>
+                
+                <button ngbDropdownItem [disabled]="!invoice.invoiceUBLId" (click)="openXMLViewer(invoice)">
+                  <fa-icon [icon]="['fas', 'file-code']"></fa-icon>
+                  Peppol XML
                 </button>
               </div>
             </div>

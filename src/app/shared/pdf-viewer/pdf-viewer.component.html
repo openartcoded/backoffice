@@ -1,10 +1,10 @@
 <ng-container>
-  <div class="modal-header" *ngIf="activeModal">
+  <div class="modal-header" *ngIf="activeModal && asModal">
     <span class="modal-title text-break">{{ title }}</span>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-    <div class="d-flex justify-content-end mb-1" *ngIf="user && hasRoleAdmin">
+    <div class="d-flex justify-content-end mb-1" *ngIf="user && hasRoleAdmin && pdf.contentType === 'application/pdf'">
       <button class="btn btn-link me-1" (click)="rotate(-90)">
         <fa-icon class="text-dark" [icon]="['fas', 'arrow-rotate-backward']"></fa-icon>
       </button>
@@ -13,8 +13,15 @@
       </button>
     </div>
     <ng-container *ngIf="pdfSrc">
-      <pdf-viewer [src]="pdfSrc" [render-text]="true" style="display: block" [autoresize]="true" [show-all]="true"
+      <pdf-viewer *ngIf="pdf.contentType ==='application/pdf'" [src]="pdfSrc" [render-text]="true" style="display: block" [autoresize]="true" [show-all]="true"
         [fit-to-page]="true"></pdf-viewer>
+<md-editor name="xmlContent" *ngIf="pdf.contentType ==='text/xml'"
+                 id="xmlContent"
+                 [(ngModel)]="xml"
+                 mode="preview"
+                 [options]="{showBorder:false}"
+                 height="100%">
+      </md-editor>
     </ng-container>
   </div>
 </ng-container>
