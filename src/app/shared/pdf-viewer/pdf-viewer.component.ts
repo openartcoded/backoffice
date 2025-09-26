@@ -41,7 +41,7 @@ export class PdfViewerComponent implements OnInit {
             .toDownloadLink(this.fileService.getDownloadUrl(this.pdf.id))
             .subscribe((link) => {
                 this.pdfSrc = link.href;
-                if (this.pdf.contentType === "text/xml") {
+                if (this.pdf.contentType === "text/xml" || this.pdf.contentType === "application/xml") {
                     this.asXML();
                 }
             });

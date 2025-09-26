@@ -15,7 +15,7 @@
     <ng-container *ngIf="pdfSrc">
       <pdf-viewer *ngIf="pdf.contentType ==='application/pdf'" [src]="pdfSrc" [render-text]="true" style="display: block" [autoresize]="true" [show-all]="true"
         [fit-to-page]="true"></pdf-viewer>
-            <ng-container *ngIf="pdf.contentType ==='text/xml'">
+            <ng-container *ngIf="xml && (pdf.contentType ==='text/xml' || pdf.contentType === 'application/xml')">
                 <app-copy-to-clipboard [textToCopy]="xml" btnClasses="btn btn-outline-secondary mb-1"/>
 <md-editor name="xmlContent" 
                  id="xmlContent"

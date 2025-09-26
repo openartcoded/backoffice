@@ -25,6 +25,7 @@ import { PeppolValidationResultComponent } from '../peppol-validation-result/pep
     styleUrls: ['./invoice-detail.component.scss'],
 })
 export class InvoiceDetailComponent implements OnInit {
+    validating = false;
     ublXML?: FileUpload;
     pdf?: FileUpload;
     @Input()
@@ -98,12 +99,14 @@ export class InvoiceDetailComponent implements OnInit {
     }
     async validatePeppol($event: any, invoice: Invoice) {
         $event.preventDefault();
+        this.validating = true;
         const res = await firstValueFrom(this.invoiceService.validatePeppol(invoice.id));
         const ngbModalRef = this.modalService.open(PeppolValidationResultComponent, {
             size: 'lg',
             scrollable: true,
         });
         ngbModalRef.componentInstance.result = res;
+        this.validating = false;
     }
 
     openPdfViewer() {

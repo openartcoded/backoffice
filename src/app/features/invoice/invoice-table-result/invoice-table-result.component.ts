@@ -170,6 +170,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
                 if (resp) {
                     this.invoiceService.sendToPeppol(invoice.id).subscribe(() => {
                         this.load();
+                        this.windowRefService.nativeWindow.alert('Peppol XML sent.');
                     });
                 }
             }
@@ -197,6 +198,11 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
         }
         if (isPlatformBrowser(this.platformId)) {
             if (this.windowRefService.nativeWindow.confirm('Process this invoice?')) {
+                if (invoice.peppolStatus === "NOT_SENT") {
+                    if (!this.windowRefService.nativeWindow.confirm("You didn't send the Peppol XML. Are you sure?")) {
+                        return;
+                    }
+                }
                 this.dossierService.processInvoice(invoice.id).subscribe((dt) => {
                     this.load();
                 });
