@@ -30,6 +30,7 @@ export interface BackendInvoiceSummary {
 
 export interface Invoice {
     id?: string;
+    structuredReference?: string;
     timesheetId?: string;
     seqInvoiceNumber?: number;
     peppolStatus?: PeppolStatus;

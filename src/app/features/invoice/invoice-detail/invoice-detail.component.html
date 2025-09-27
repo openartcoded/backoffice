@@ -74,6 +74,14 @@
                     [value]="invoice.total | currency: '€'" placeholder="total" />
                 </div>
               </div>
+                            
+              <div class="mb-1 row" *ngIf="invoice.structuredReference">
+                <label class="col-sm-2 col-form-label" for="structuredReference">Bank Reference</label>
+                <div class="col-sm-10">
+                  <input type="text" disabled class="form-control text-warning bg-dark" id="structuredReference"
+                    [value]="invoice.structuredReference"/>
+                </div>
+              </div>
               <ng-container *ngIf="templates">
                 <div class="mb-1 row" *ngIf="templates.length">
                   <label class="col-sm-2 col-form-label" for="freemarkerTemplateId">Template</label>
