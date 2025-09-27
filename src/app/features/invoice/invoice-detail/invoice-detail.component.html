@@ -42,15 +42,10 @@
                 </div>
               </div>
               <div class="mb-1 row">
-                <label class="col-sm-2 col-form-label" for="taxRate">Tax Rate</label>
+                <label class="col-sm-2 col-form-label" for="taxRate">Tax Rate %</label>
                 <div class="col-sm-10">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <div class="input-group-text">%</div>
-                    </div>
                     <input type="number" class="form-control" id="taxRate" formControlName="taxRate"
                       placeholder="Tax Rate" />
-                  </div>
                 </div>
               </div>
               <div class="mb-1 row" *ngIf="invoice.subTotal">
@@ -100,14 +95,14 @@
                     placeholder="Put a note here"></textarea>
                 </div>
               </div>
-              <div class="mb-1 row" *ngIf="invoice.peppolStatus">
+              <div class="mb-1 row" *ngIf="invoice.peppolStatus && invoice.peppolStatus !== 'OLD'">
                 <label class="col-sm-2 col-form-label" for="taxes">peppolStatus</label>
                 <div class="col-sm-9">
                   <input type="text" disabled class="form-control bg-light" id="Peppol Status"
                     [value]="invoice.peppolStatus" />
                 </div>
                                   <div class="col-sm-1 d-flex align-items-center">
-                <button class="btn btn-outline-primary btn-sm" (click)="validatePeppol($event,invoice)">Validate</button>
+                <button  class="btn btn-outline-primary btn-sm" (click)="validatePeppol($event,invoice)">Validate</button>
 </div>
               </div>
               <hr />

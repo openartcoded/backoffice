@@ -36,6 +36,7 @@ export class PdfViewerComponent implements OnInit {
     ngOnInit() {
         this.load();
     }
+
     load() {
         this.fileService
             .toDownloadLink(this.fileService.getDownloadUrl(this.pdf.id))
@@ -53,7 +54,13 @@ export class PdfViewerComponent implements OnInit {
         if (!res.ok) return 'Error';
         const blob = await res.blob();
         const xml = await blob.text();
-        this.xml = "```xml\n" + xml + "\n```";
+        this.xml = xml;
+    }
+    get markdown() {
+        if (!this.xml) {
+            return null;
+        }
+        return "```xml\n" + this.xml + "\n```";
     }
 
     rotate(deg: number) {
