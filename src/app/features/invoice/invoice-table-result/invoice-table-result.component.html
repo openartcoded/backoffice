@@ -83,11 +83,14 @@
           <th class="d-md-table-cell d-none">SubTotal</th>
           <th class="d-md-table-cell d-none">Taxes</th>
           <th class="d-md-table-cell d-none">Total</th>
+          <th class="d-md-table-cell d-none">Peppol Status</th>
           <th class="fit">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let invoice of invoices.content" role="button" (click)="openModal(invoice)">
+                <ng-container *ngFor="let invoice of invoices.content">
+                    
+        <tr [class.table-warning]="invoice.creditNote"  (click)="openModal(invoice)"  role="button">
           <td class="fit d-md-table-cell">
             <div class="d-flex justify-content-between">
               <span>{{ invoice.newInvoiceNumber || invoice.invoiceNumber }}</span>
@@ -110,6 +113,8 @@
           <td class="d-md-table-cell d-none">{{ invoice.subTotal | currency: '€' }}</td>
           <td class="d-md-table-cell d-none">{{ invoice.taxes | currency: '€' }}</td>
           <td class="d-md-table-cell d-none text-danger">{{ invoice.total | currency: '€' }}</td>
+          <td class="d-md-table-cell d-none">{{ invoice.peppolStatus  }}</td>
+
           <td class="text-center fit">
             <div ngbDropdown class="d-inline-block" container="body">
               <button class="btn btn-outline-secondary" id="dropdownBasic2" ngbDropdownToggle
@@ -136,6 +141,7 @@
                   ngbDropdownItem (click)="process(invoice)">
                   <fa-icon [icon]="['fas', 'cog']"></fa-icon>&nbsp;Process
                 </button>
+
                 <button *ngIf="hasRoleAdmin" ngbDropdownItem (click)="newInvoiceFromTemplate(invoice)">
                   <fa-icon [icon]="['fas', 'plus']"></fa-icon>&nbsp;From Template
                 </button>
@@ -156,12 +162,18 @@
                   <fa-icon [icon]="['fas', 'file-code']"></fa-icon>
                   Peppol XML
                 </button>
+                <button ngbDropdownItem *ngIf="invoice.archived && !invoice.logicalDelete && !invoice.creditNote && !invoice.uploadedManually" (click)="makeCreditNote(invoice)">
+                  <fa-icon [icon]="['fas', 'cog']"></fa-icon>
+                  Make credit note
+                </button>
               </div>
             </div>
           </td>
         </tr>
-        <tr *ngIf="!invoices.content?.length">
-          <td colspan="9">No Content</td>
+                
+
+                </ng-container>        <tr *ngIf="!invoices.content?.length">
+          <td colspan="10">No Content</td>
         </tr>
       </tbody>
     </table>

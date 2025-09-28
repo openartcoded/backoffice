@@ -131,6 +131,12 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
             });
         });
     }
+    makeCreditNote(invoice: Invoice) {
+        this.invoiceService.makeCreditNote(invoice).subscribe((inv) => {
+
+            this.toastService.showSuccess('Credit note created. Will be generated soon');
+        });
+    }
 
     newInvoiceFromTemplate(invoice: Invoice) {
         if (!this.hasRoleAdmin) {
@@ -170,7 +176,8 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
                 if (resp) {
                     this.invoiceService.sendToPeppol(invoice.id).subscribe(() => {
                         this.load();
-                        this.windowRefService.nativeWindow.alert('Peppol XML sent.');
+                        this.toastService.showSuccess('peppol xml sent');
+
                     });
                 }
             }

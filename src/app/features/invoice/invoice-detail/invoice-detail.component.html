@@ -1,6 +1,6 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
-    <span class="modal-title text-break">Invoice <{{ invoice.newInvoiceNumber || invoice.invoiceNumber || 'New' }}>
+    <span class="modal-title text-break">{{invoice.creditNote ?'Credit Note':'Invoice'}} <{{ invoice.newInvoiceNumber || invoice.invoiceNumber || 'New' }}>
         <ng-container *ngIf="invoice.imported">
           <ng-template #infoFrontend> Imported on {{ invoice.importedDate | date: 'dd/MM/yyyy HH:mm' }} </ng-template>
           <button (click)="$event.stopPropagation()" type="button"
@@ -17,25 +17,33 @@
     <form [formGroup]="invoiceForm" (ngSubmit)="send()">
       <ul ngbNav #nav="ngbNav" class="nav-tabs" [keyboard]="'changeWithArrows'">
         <li ngbNavItem>
-          <a ngbNavLink>Invoice Info</a>
+          <a ngbNavLink>{{invoice.creditNote ?'Credit Note':'Invoice'}} Info</a>
           <ng-template ngbNavContent>
             <div class="mt-2">
               <div class="mb-1 row">
-                <label class="col-sm-2 col-form-label" for="newInvoiceNumber">Invoice number</label>
+                <label class="col-sm-2 col-form-label" for="newInvoiceNumber">{{invoice.creditNote ?'Credit Note':'Invoice'}} number</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="newInvoiceNumber" formControlName="newInvoiceNumber"
-                    placeholder="Invoice number" />
+                    placeholder="number" />
                 </div>
               </div>
               <div class="mb-1 row">
-                <label class="col-sm-2 col-form-label" for="invoiceNumber">Invoice reference</label>
+                <label class="col-sm-2 col-form-label" for="invoiceNumber">{{invoice.creditNote ?'Credit Note':'Invoice'}} reference</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="invoiceNumber" formControlName="invoiceNumber"
-                    placeholder="Invoice reference" required="required" />
+                    placeholder="reference" required="required" />
+                </div>
+              </div>
+                            
+              <div class="mb-1 row" *ngIf="invoice.creditNoteInvoiceReference">
+                <label class="col-sm-2 col-form-label" for="creditNoteInvoiceReferenceNumber">Invoice reference</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="creditNoteInvoiceReferenceNumber" formControlName="creditNoteInvoiceReference"
+                    placeholder="reference" required="required" />
                 </div>
               </div>
               <div class="mb-1 row">
-                <label class="col-sm-2 col-form-label" for="dateOfInvoice">Date of invoice</label>
+                <label class="col-sm-2 col-form-label" for="dateOfInvoice">Date of {{invoice.creditNote ?'Credit Note':'Invoice'}}</label>
                 <div class="col-sm-10">
                   <input type="date" class="form-control" id="dateOfInvoice" formControlName="dateOfInvoice"
                     appAutoFocus />

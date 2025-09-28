@@ -42,6 +42,9 @@ export class InvoiceService {
         return this.http.post<Invoice>(`${this.basePath}/save`, data);
     }
 
+    makeCreditNote(data: Invoice): Observable<Invoice> {
+        return this.http.post<Invoice>(`${this.basePath}/make-credit-note?id=${data.id}`, {});
+    }
     uploadedManually(invoice: Invoice, manualUploadFile: File): Observable<Invoice> {
         let formData = new FormData();
         formData.append('id', invoice.id);

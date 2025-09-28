@@ -125,6 +125,8 @@ export class InvoiceDetailComponent implements OnInit {
                 { value: this.invoice.invoiceNumber, disabled: true /* always disabled, coming from backend */ },
                 [Validators.maxLength(9)],
             ),
+            creditNote: new UntypedFormControl({ value: this.invoice.creditNote, disabled: true }, []),
+            creditNoteInvoiceReference: new UntypedFormControl({ value: this.invoice.creditNoteInvoiceReference, disabled: true }, []),
             newInvoiceNumber: new UntypedFormControl(
                 { value: this.invoice.newInvoiceNumber, disabled: true /* always disabled, coming from backend */ },
                 [Validators.maxLength(9)],
@@ -150,6 +152,7 @@ export class InvoiceDetailComponent implements OnInit {
                 Validators.min(1),
             ]),
             file: new UntypedFormControl(null, []),
+
             dateOfInvoice: new UntypedFormControl(
                 {
                     value: DateUtils.formatInputDate(DateUtils.toDateOrNow(this.invoice.dateOfInvoice)),
