@@ -25,6 +25,9 @@ export class BillableClientDetailComponent implements OnInit {
     client: BillableClient;
 
     @Input()
+    demoMode: boolean;
+
+    @Input()
     user: User;
     get hasRoleAdmin(): boolean {
         return this.user.authorities.includes('ADMIN');
@@ -210,6 +213,7 @@ export class BillableClientDetailComponent implements OnInit {
             scrollable: true,
         });
         ngbModalRef.componentInstance.pdf = a;
+        ngbModalRef.componentInstance.demoMode = this.demoMode;
         ngbModalRef.componentInstance.title = a?.originalFilename;
     }
 

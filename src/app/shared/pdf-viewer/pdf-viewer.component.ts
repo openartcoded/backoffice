@@ -15,6 +15,8 @@ export class PdfViewerComponent implements OnInit {
     @Input()
     pdf: FileUpload;
     @Input()
+    demoMode: boolean = false;
+    @Input()
     showRotateBtn = true;
     @Input()
     asModal = true;

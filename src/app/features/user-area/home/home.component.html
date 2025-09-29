@@ -1,7 +1,7 @@
 <div class="mt-3">
-  <ng-container *ngIf="user && loaded">
+  <ng-container *ngIf="user &&personalInfo && loaded">
     <ng-container *ngIf="user && hasRoleAdmin">
-      <div class="d-none d-lg-flex justify-content-between">
+      <div class="d-none d-lg-flex justify-content-between" [class.blur-modal]="personalInfo.demoMode">
         <div class="d-flex justify-content-start">
           <app-most-clicked-menu />
           <div>
@@ -19,7 +19,7 @@
       </div>
       <hr />
     </ng-container>
-    <div class="d-lg-flex justify-content-between mt-3">
+    <div class="d-lg-flex justify-content-between mt-3" [class.blur-modal]="personalInfo.demoMode">
       <div class="col-lg-2 me-2" *ngIf="hasRoleAdmin">
         <div class="mb-2 pe-2">
           <div ngbAccordion [closeOthers]="true" class="accordion-flush">

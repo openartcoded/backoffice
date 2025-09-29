@@ -10,125 +10,131 @@ import { ActionResultComponent } from '../action-result/action-result.component'
 import { Title } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
 import * as moment from 'moment';
+import { PersonalInfoService } from '@core/service/personal.info.service';
 
 @Component({
-  selector: 'app-tasks-table',
-  templateUrl: './tasks-table.component.html',
-  styleUrls: ['./tasks-table.component.scss'],
+    selector: 'app-tasks-table',
+    templateUrl: './tasks-table.component.html',
+    styleUrls: ['./tasks-table.component.scss'],
 })
 export class TasksTableComponent implements OnInit, OnApplicationEvent {
-  reminderTasks: ReminderTask[];
-  filteredReminderTasks: ReminderTask[];
-  showTasks: boolean = true;
-  hideDisabled: boolean = true;
-  currentDate: Date;
-  searchTasks?: string;
+    reminderTasks: ReminderTask[];
+    filteredReminderTasks: ReminderTask[];
+    showTasks: boolean = true;
+    hideDisabled: boolean = true;
+    currentDate: Date;
+    searchTasks?: string;
+    demoMode: boolean;
 
-  constructor(
-    private reminderTaskService: ReminderTaskService,
-    private notificationService: NotificationService,
-    private titleService: Title,
-    private modalService: NgbModal,
-  ) {}
+    constructor(
+        private reminderTaskService: ReminderTaskService,
+        private notificationService: NotificationService,
+        private titleService: Title,
+        private modalService: NgbModal,
+        private personalInfoService: PersonalInfoService,
+    ) { }
 
-  ngOnInit(): void {
-    this.notificationService.subscribe(this);
-    this.titleService.setTitle('Tasks');
-    this.load();
-  }
+    ngOnInit(): void {
+        this.notificationService.subscribe(this);
+        this.titleService.setTitle('Tasks');
+        this.load();
+        this.personalInfoService.get().subscribe(p => this.demoMode = p.demoMode);
 
-  async openTask(task: ReminderTask = { title: '', description: '', disabled: false }) {
-    const modal = this.modalService.open(TaskDetailComponent, {
-      size: 'xl',
-      scrollable: true,
-      backdrop: 'static',
-    });
-    modal.componentInstance.task = task;
-    modal.componentInstance.allowedActions$ = this.reminderTaskService.allowedActions();
-    modal.componentInstance.onSaveTask.subscribe(async (taskToSave) => {
-      modal.close();
-      await firstValueFrom(this.reminderTaskService.save(taskToSave));
-    });
-    modal.componentInstance.onDeleteTask.subscribe(async (taskToDelete) => {
-      modal.close();
-      await firstValueFrom(this.reminderTaskService.delete(taskToDelete.id));
-    });
-  }
-
-  async load() {
-    this.reminderTasks = await firstValueFrom(this.reminderTaskService.findAll());
-    const dates = this.nextDates;
-    if (dates?.length) {
-      this.filterTasks(dates[0]);
-    } else {
-      this.filterTasks(null);
     }
-  }
 
-  handle(events: ArtcodedNotification[]) {
-    this.load();
-  }
-
-  ngOnDestroy(): void {
-    this.notificationService.unsubscribe(this);
-  }
-
-  shouldHandle(event: ArtcodedNotification): boolean {
-    return (
-      !event.seen &&
-      (event.type === RegisteredEvent.REMINDER_TASK_ADD_OR_UPDATE ||
-        event.type === RegisteredEvent.REMINDER_TASK_DELETE)
-    );
-  }
-
-  shouldMarkEventAsSeenAfterConsumed(): boolean {
-    return true;
-  }
-
-  openActionResult(task: ReminderTask, $event: any) {
-    $event.stopPropagation();
-    const modal = this.modalService.open(ActionResultComponent, {
-      size: 'xl',
-      scrollable: true,
-    });
-    modal.componentInstance.actionKey = task.actionKey;
-  }
-
-  get nextDates() {
-    const dates = (this.reminderTasks || [])
-      .filter((t) => t.nextDate)
-      .map((t) => moment(new Date(t.nextDate)).startOf('day').add(2, 'hour').toDate().getTime());
-    return [...new Set(dates)].map((d) => new Date(d)).sort((a, b) => a.getTime() - b.getTime());
-  }
-
-  filterTasksSearch() {
-    if (this.searchTasks?.length) {
-      let tasks = [...this.reminderTasks];
-      const search = this.searchTasks.toLowerCase();
-      this.filteredReminderTasks = tasks?.filter(
-        (t) =>
-          t.title?.toLowerCase()?.includes(search) ||
-          t.description?.toLowerCase()?.includes(search) ||
-          t.customActionName?.toLowerCase()?.includes(search),
-      );
-    } else {
-      this.filterTasks();
+    async openTask(task: ReminderTask = { title: '', description: '', disabled: false }) {
+        const modal = this.modalService.open(TaskDetailComponent, {
+            size: 'xl',
+            scrollable: true,
+            backdrop: 'static',
+        });
+        modal.componentInstance.task = task;
+        modal.componentInstance.demoMode = this.demoMode;
+        modal.componentInstance.allowedActions$ = this.reminderTaskService.allowedActions();
+        modal.componentInstance.onSaveTask.subscribe(async (taskToSave) => {
+            modal.close();
+            await firstValueFrom(this.reminderTaskService.save(taskToSave));
+        });
+        modal.componentInstance.onDeleteTask.subscribe(async (taskToDelete) => {
+            modal.close();
+            await firstValueFrom(this.reminderTaskService.delete(taskToDelete.id));
+        });
     }
-  }
-  filterTasks(date?: Date) {
-    let tasks = [...this.reminderTasks];
-    if (!this.showTasks) {
-      tasks = tasks.filter((task) => !task.actionKey);
+
+    async load() {
+        this.reminderTasks = await firstValueFrom(this.reminderTaskService.findAll());
+        const dates = this.nextDates;
+        if (dates?.length) {
+            this.filterTasks(dates[0]);
+        } else {
+            this.filterTasks(null);
+        }
     }
-    if (this.hideDisabled) {
-      tasks = tasks.filter((task) => !task.disabled);
+
+    handle(events: ArtcodedNotification[]) {
+        this.load();
     }
-    this.currentDate = date;
-    if (date) {
-      tasks = tasks.filter((t) => {
-        return !t.nextDate || moment(new Date(t.nextDate)).format('D/MM/yyyy') === moment(date).format('D/MM/yyyy');
-      });
+
+    ngOnDestroy(): void {
+        this.notificationService.unsubscribe(this);
     }
-    this.filteredReminderTasks = tasks;
-  }
+
+    shouldHandle(event: ArtcodedNotification): boolean {
+        return (
+            !event.seen &&
+            (event.type === RegisteredEvent.REMINDER_TASK_ADD_OR_UPDATE ||
+                event.type === RegisteredEvent.REMINDER_TASK_DELETE)
+        );
+    }
+
+    shouldMarkEventAsSeenAfterConsumed(): boolean {
+        return true;
+    }
+
+    openActionResult(task: ReminderTask, $event: any) {
+        $event.stopPropagation();
+        const modal = this.modalService.open(ActionResultComponent, {
+            size: 'xl',
+            scrollable: true,
+        });
+        modal.componentInstance.actionKey = task.actionKey;
+    }
+
+    get nextDates() {
+        const dates = (this.reminderTasks || [])
+            .filter((t) => t.nextDate)
+            .map((t) => moment(new Date(t.nextDate)).startOf('day').add(2, 'hour').toDate().getTime());
+        return [...new Set(dates)].map((d) => new Date(d)).sort((a, b) => a.getTime() - b.getTime());
+    }
+
+    filterTasksSearch() {
+        if (this.searchTasks?.length) {
+            let tasks = [...this.reminderTasks];
+            const search = this.searchTasks.toLowerCase();
+            this.filteredReminderTasks = tasks?.filter(
+                (t) =>
+                    t.title?.toLowerCase()?.includes(search) ||
+                    t.description?.toLowerCase()?.includes(search) ||
+                    t.customActionName?.toLowerCase()?.includes(search),
+            );
+        } else {
+            this.filterTasks();
+        }
+    }
+    filterTasks(date?: Date) {
+        let tasks = [...this.reminderTasks];
+        if (!this.showTasks) {
+            tasks = tasks.filter((task) => !task.actionKey);
+        }
+        if (this.hideDisabled) {
+            tasks = tasks.filter((task) => !task.disabled);
+        }
+        this.currentDate = date;
+        if (date) {
+            tasks = tasks.filter((t) => {
+                return !t.nextDate || moment(new Date(t.nextDate)).format('D/MM/yyyy') === moment(date).format('D/MM/yyyy');
+            });
+        }
+        this.filteredReminderTasks = tasks;
+    }
 }

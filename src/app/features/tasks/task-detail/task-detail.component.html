@@ -3,7 +3,7 @@
     <span class="modal-title text-break">{{ task?.customActionName || task?.title || 'New Task' }}</span>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body" *ngIf="form">
+  <div class="modal-body" *ngIf="form" [class.blur-modal]="demoMode">
     <form [formGroup]="form" (ngSubmit)="send()">
       <div class="mb-1 row" *ngIf="!hasAction">
         <label class="col-sm-2 col-form-label" for="title">Title</label>

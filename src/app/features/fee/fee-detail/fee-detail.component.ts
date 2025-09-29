@@ -19,6 +19,8 @@ import { User } from '@core/models/user';
 export class FeeDetailComponent implements OnInit {
     @Input()
     fee: Fee;
+    @Input()
+    demoMode: boolean;
     @Output()
     feeUpdated: EventEmitter<Fee> = new EventEmitter<Fee>();
     @Input()

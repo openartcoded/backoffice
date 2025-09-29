@@ -130,6 +130,9 @@ export class EditPersonalInfoComponent implements OnInit {
             vatNumber: new UntypedFormControl({ value: this.currentPersonalInfo?.vatNumber, disabled: !this.hasRoleAdmin }, [
                 Validators.required,
             ]),
+            demoMode: new UntypedFormControl({ value: this.currentPersonalInfo?.demoMode, disabled: !this.hasRoleAdmin }, [
+                Validators.required,
+            ]),
             maxDaysToPay: new UntypedFormControl(
                 { value: this.currentPersonalInfo?.maxDaysToPay, disabled: !this.hasRoleAdmin },
                 [Validators.required, Validators.min(1)],
@@ -283,6 +286,7 @@ export class EditPersonalInfoComponent implements OnInit {
         formData.append('initial', this.initialUpload);
         formData.append('countryCode', this.countryCode);
         formData.append('vatNumber', this.form.get('vatNumber').value);
+        formData.append('demoMode', this.form.get('demoMode').value);
         formData.append('ceoFullName', this.form.get('ceoFullName').value);
         formData.append('financeCharge', this.form.get('financeCharge').value);
         formData.append('note', this.form.get('note').value);

@@ -14,7 +14,7 @@
     </span>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" [class.blur-modal]="demoMode">
     <form>
       <ul ngbNav #nav="ngbNav" class="nav-tabs">
         <li ngbNavItem>

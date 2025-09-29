@@ -3,7 +3,7 @@
     <span class="modal-title text-break">Mail Job #{{ mail.id }} </span>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body" *ngIf="mailForm">
+  <div class="modal-body" *ngIf="mailForm" [class.blur-modal]="demoMode">
     <form [formGroup]="mailForm" (ngSubmit)="send()">
       <ul ngbNav #nav="ngbNav" class="nav-tabs">
         <li ngbNavItem>

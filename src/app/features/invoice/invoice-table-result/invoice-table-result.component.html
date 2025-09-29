@@ -22,7 +22,7 @@
     </div>
   </div>
 </div>
-<ng-container *ngIf="invoices">
+<ng-container *ngIf="invoices && personalInfo">
   <div class="table-responsive">
     <table class="table table-sm table-bordered table-hover">
       <thead>
@@ -88,9 +88,9 @@
         </tr>
       </thead>
       <tbody>
-                <ng-container *ngFor="let invoice of invoices.content">
+    <ng-container *ngFor="let invoice of invoices.content">
                     
-        <tr [class.table-warning]="invoice.creditNote"  (click)="openModal(invoice)"  role="button">
+        <tr [class.blur-text]="personalInfo.demoMode" [class.table-warning]="invoice.creditNote"  (click)="openModal(invoice)"  role="button">
           <td class="fit d-md-table-cell">
             <div class="d-flex justify-content-between">
               <span>{{ invoice.newInvoiceNumber || invoice.invoiceNumber }}</span>
@@ -162,7 +162,7 @@
                   <fa-icon [icon]="['fas', 'file-code']"></fa-icon>
                   Peppol XML
                 </button>
-                <button ngbDropdownItem *ngIf="invoice.archived && !invoice.logicalDelete && !invoice.creditNote && !invoice.uploadedManually" (click)="makeCreditNote(invoice)">
+                <button ngbDropdownItem *ngIf="invoice.archived && !invoice.logicalDelete && !invoice.creditNote && !invoice.uploadedManually && !invoice.creditNoteId" (click)="makeCreditNote(invoice)">
                   <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                   Make credit note
                 </button>

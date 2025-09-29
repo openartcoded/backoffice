@@ -6,7 +6,7 @@
   </button>
 </div>
 <ng-container *ngIf="clients">
-  <div class="table-responsive">
+  <div class="table-responsive" [class.blur-modal]="demoMode">
     <table class="table table-sm table-bordered table-hover">
       <thead>
         <tr>

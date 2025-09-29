@@ -7,7 +7,7 @@
       (timesheet.clientName ? ' (' + timesheet.clientName + ')' : '')
     ">
   </app-title>
-  <div class="d-flex justify-content-between pb-2">
+  <div class="d-flex justify-content-between pb-2" >
     <a routerLink="/timesheets" class="btn btn-outline-primary me-1">
       <fa-icon [icon]="['fas', 'arrow-left']"></fa-icon>
       Back
@@ -54,7 +54,7 @@
   <div class="d-flex justify-content-end pb-2">
     <strong>{{ timesheet.numberOfWorkingDays }} working days, {{ timesheet.numberOfHoursWorked }}h</strong>
   </div>
-  <div class="row mb-2">
+  <div class="row mb-2" [class.blur-modal]="demoMode">
     <div class="col-lg-3 d-md-inline-block col-12 mb-4">
       <ul class="list-group">
         <li role="button" class="list-group-item list-group-item-action" *ngFor="let t of tags" (click)="setFilter(t)"

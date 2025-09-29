@@ -3,7 +3,7 @@
     <span class="modal-title text-break">{{ title }}</span>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" [class.blur-modal]="demoMode">
     <div class="d-flex justify-content-end mb-1" *ngIf="user && hasRoleAdmin && showRotateBtn&& pdf.contentType === 'application/pdf'">
       <button class="btn btn-link me-1" (click)="rotate(-90)">
         <fa-icon class="text-dark" [icon]="['fas', 'arrow-rotate-backward']"></fa-icon>

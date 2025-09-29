@@ -23,209 +23,212 @@ import { ToastService } from '@core/service/toast.service';
 import { User } from '@core/models/user';
 
 @Component({
-  selector: 'app-fee-table-result',
-  templateUrl: './fee-table-result.component.html',
-  styleUrls: ['./fee-table-result.component.scss'],
+    selector: 'app-fee-table-result',
+    templateUrl: './fee-table-result.component.html',
+    styleUrls: ['./fee-table-result.component.scss'],
 })
 export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
-  @Input()
-  archived: boolean;
-  searchCriteria: FeeSearchCriteria;
-  fees: Page<Fee>;
-  pageSize: number = 10;
-  @Input()
-  user: User;
-  get hasRoleAdmin(): boolean {
-    return this.user.authorities.includes('ADMIN');
-  }
-  tags: Label[];
-
-  selectedRows: Fee[] = [];
-
-  showTagForm: boolean;
-  activeDossier: Dossier;
-
-  constructor(
-    private dossierService: DossierService,
-    private modalService: NgbModal,
-    @Inject(PLATFORM_ID) private platformId: any,
-    private windowRefService: WindowRefService,
-    private notificationService: NotificationService,
-    private labelService: LabelService,
-    private feeService: FeeService,
-    private fileService: FileService,
-    private mailService: MailService,
-    private toastService: ToastService,
-  ) { }
-
-  ngOnInit(): void {
-    this.dossierService.activeDossier().subscribe((dt) => (this.activeDossier = dt));
-    if (!this.archived) {
-      this.notificationService.subscribe(this);
+    @Input()
+    archived: boolean;
+    searchCriteria: FeeSearchCriteria;
+    fees: Page<Fee>;
+    pageSize: number = 10;
+    @Input()
+    user: User;
+    @Input()
+    demoMode: boolean;
+    get hasRoleAdmin(): boolean {
+        return this.user.authorities.includes('ADMIN');
     }
-    this.search({
-      archived: this.archived,
-    });
-    this.labelService.findAll().subscribe((labels) => (this.tags = labels));
-  }
+    tags: Label[];
 
-  search(criteria: FeeSearchCriteria) {
-    this.searchCriteria = criteria;
-    this.selectedRows = [];
-    this.load();
-  }
+    selectedRows: Fee[] = [];
 
-  load(event: number = 1) {
-    this.feeService.search(this.searchCriteria, event, this.pageSize).subscribe((data) => {
-      this.fees = data;
-    });
-  }
+    showTagForm: boolean;
+    activeDossier: Dossier;
 
-  get pageNumber() {
-    return this?.fees?.pageable?.pageNumber + 1;
-  }
+    constructor(
+        private dossierService: DossierService,
+        private modalService: NgbModal,
+        @Inject(PLATFORM_ID) private platformId: any,
+        private windowRefService: WindowRefService,
+        private notificationService: NotificationService,
+        private labelService: LabelService,
+        private feeService: FeeService,
+        private fileService: FileService,
+        private mailService: MailService,
+        private toastService: ToastService,
+    ) { }
 
-  toggleSelectedRow(fee: Fee, force = false, evt = null) {
-    evt?.stopPropagation();
-    if (this.isFeeSelected(fee) || force) {
-      this.selectedRows = this.selectedRows.filter((f) => f.id !== fee.id);
-    } else {
-      this.selectedRows.push(fee);
-    }
-  }
-
-  toggleAllRows(toggle: any, fees: Fee[]) {
-    if (toggle?.target?.checked) {
-      this.selectedRows = [...this.selectedRows, ...fees];
-    } else {
-      fees.forEach((f) => this.toggleSelectedRow(f, true));
-    }
-  }
-
-  isFeeSelected(fee: Fee) {
-    return this.selectedRows.some((f) => f.id === fee.id);
-  }
-
-  isAllFeesSelected(content: Fee[]) {
-    return content.every((r) => this.selectedRows.some((x) => x.id === r.id));
-  }
-
-  getStyleForTag(f: Fee) {
-    const label = this.tags.find((l) => l.name === f.tag);
-    if (!label) {
-      return { color: '#FFFFFF' };
-    }
-    return { color: label.colorHex };
-  }
-
-  getStyleForLabel(label: Label) {
-    return { color: label.colorHex };
-  }
-
-  saveTag($event: Label) {
-    this.showTagForm = false;
-    if (!$event) {
-      return;
-    }
-    let tagIds = this.selectedRows.map((r) => r.id);
-    this.feeService.updateTag(tagIds, $event).subscribe((_data) => {
-      this.search(this.searchCriteria);
-    });
-  }
-
-  openDetail(f: Fee) {
-    this.toggleAllRows(null, this.fees.content);
-    const modalRef = this.modalService.open(FeeDetailComponent, {
-      size: 'xl',
-      scrollable: true,
-      backdrop: 'static',
-    });
-    modalRef.componentInstance.user = this.user;
-    modalRef.componentInstance.fee = f;
-    modalRef.componentInstance.feeUpdated.subscribe((_f: any) => {
-      this.load();
-    });
-  }
-
-  filterByTag(t: Label) {
-    const criteria = {
-      tag: t.name,
-      archived: this.archived,
-    } as FeeSearchCriteria;
-    this.search(criteria);
-  }
-
-  openProcessValidation() {
-    const modalRef = this.modalService.open(FeeProcessValidationComponent);
-    modalRef.componentInstance.selectedFees = this.selectedRows;
-    modalRef.componentInstance.labels = this.tags;
-    modalRef.componentInstance.activeDossier = this.activeDossier;
-    modalRef.componentInstance.selectedFeeRemoved.subscribe((f: Fee) => {
-      this.toggleSelectedRow(f, true);
-      if (this.selectedRows.length === 0) {
-        modalRef.close();
-      }
-    });
-    modalRef.componentInstance.processValidated.subscribe((fees: Fee[]) => {
-      this.dossierService.processFees(fees.map((f) => f.id)).subscribe((_dt) => {
-        modalRef.close();
-        this.selectedRows = [];
-        this.load();
-      });
-    });
-  }
-
-  async deleteFees() {
-    if (isPlatformBrowser(this.platformId)) {
-      if (this.windowRefService.nativeWindow.confirm('Are you sure you want to delete the selected fees?')) {
-        for (const fee of this.selectedRows) {
-          await firstValueFrom(this.feeService.delete(fee));
+    ngOnInit(): void {
+        this.dossierService.activeDossier().subscribe((dt) => (this.activeDossier = dt));
+        if (!this.archived) {
+            this.notificationService.subscribe(this);
         }
-        this.search(this.searchCriteria);
-      }
+        this.search({
+            archived: this.archived,
+        });
+        this.labelService.findAll().subscribe((labels) => (this.tags = labels));
     }
-  }
 
-  manualSubmit() {
-    const modalRef = this.modalService.open(ManualSubmitComponent, {
-      size: 'lg',
-    });
-    //manualFormSubmitted
-    modalRef.componentInstance.manualFormSubmitted.subscribe((form: any) => {
-      modalRef.close();
-      this.feeService.manualSubmit(form).subscribe((_fee) => {
+    search(criteria: FeeSearchCriteria) {
+        this.searchCriteria = criteria;
         this.selectedRows = [];
         this.load();
-      });
-    });
-  }
+    }
 
-  async sendMail(fee: Fee, event: MouseEvent) {
-    event.stopPropagation();
-    const uploads = await firstValueFrom(this.fileService.findByIds(fee.attachmentIds));
-    const ngbModalRef = this.modalService.open(MailFormComponent, {
-      size: 'md',
-    });
-    ngbModalRef.componentInstance.attachments = uploads;
-    ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
-      ngbModalRef.close();
-      await firstValueFrom(this.mailService.send(mailRequest));
-      this.toastService.showSuccess('Mail will be send');
-    });
-  }
-  handle(_events: ArtcodedNotification[]) {
-    this.load();
-  }
+    load(event: number = 1) {
+        this.feeService.search(this.searchCriteria, event, this.pageSize).subscribe((data) => {
+            this.fees = data;
+        });
+    }
 
-  ngOnDestroy(): void {
-    this.notificationService.unsubscribe(this);
-  }
+    get pageNumber() {
+        return this?.fees?.pageable?.pageNumber + 1;
+    }
 
-  shouldHandle(event: ArtcodedNotification): boolean {
-    return !event.seen && event.type === RegisteredEvent.NEW_FEE;
-  }
+    toggleSelectedRow(fee: Fee, force = false, evt = null) {
+        evt?.stopPropagation();
+        if (this.isFeeSelected(fee) || force) {
+            this.selectedRows = this.selectedRows.filter((f) => f.id !== fee.id);
+        } else {
+            this.selectedRows.push(fee);
+        }
+    }
 
-  shouldMarkEventAsSeenAfterConsumed(): boolean {
-    return true;
-  }
+    toggleAllRows(toggle: any, fees: Fee[]) {
+        if (toggle?.target?.checked) {
+            this.selectedRows = [...this.selectedRows, ...fees];
+        } else {
+            fees.forEach((f) => this.toggleSelectedRow(f, true));
+        }
+    }
+
+    isFeeSelected(fee: Fee) {
+        return this.selectedRows.some((f) => f.id === fee.id);
+    }
+
+    isAllFeesSelected(content: Fee[]) {
+        return content.every((r) => this.selectedRows.some((x) => x.id === r.id));
+    }
+
+    getStyleForTag(f: Fee) {
+        const label = this.tags.find((l) => l.name === f.tag);
+        if (!label) {
+            return { color: '#FFFFFF' };
+        }
+        return { color: label.colorHex };
+    }
+
+    getStyleForLabel(label: Label) {
+        return { color: label.colorHex };
+    }
+
+    saveTag($event: Label) {
+        this.showTagForm = false;
+        if (!$event) {
+            return;
+        }
+        let tagIds = this.selectedRows.map((r) => r.id);
+        this.feeService.updateTag(tagIds, $event).subscribe((_data) => {
+            this.search(this.searchCriteria);
+        });
+    }
+
+    openDetail(f: Fee) {
+        this.toggleAllRows(null, this.fees.content);
+        const modalRef = this.modalService.open(FeeDetailComponent, {
+            size: 'xl',
+            scrollable: true,
+            backdrop: 'static',
+        });
+        modalRef.componentInstance.user = this.user;
+        modalRef.componentInstance.demoMode = this.demoMode;
+        modalRef.componentInstance.fee = f;
+        modalRef.componentInstance.feeUpdated.subscribe((_f: any) => {
+            this.load();
+        });
+    }
+
+    filterByTag(t: Label) {
+        const criteria = {
+            tag: t.name,
+            archived: this.archived,
+        } as FeeSearchCriteria;
+        this.search(criteria);
+    }
+
+    openProcessValidation() {
+        const modalRef = this.modalService.open(FeeProcessValidationComponent);
+        modalRef.componentInstance.selectedFees = this.selectedRows;
+        modalRef.componentInstance.labels = this.tags;
+        modalRef.componentInstance.activeDossier = this.activeDossier;
+        modalRef.componentInstance.selectedFeeRemoved.subscribe((f: Fee) => {
+            this.toggleSelectedRow(f, true);
+            if (this.selectedRows.length === 0) {
+                modalRef.close();
+            }
+        });
+        modalRef.componentInstance.processValidated.subscribe((fees: Fee[]) => {
+            this.dossierService.processFees(fees.map((f) => f.id)).subscribe((_dt) => {
+                modalRef.close();
+                this.selectedRows = [];
+                this.load();
+            });
+        });
+    }
+
+    async deleteFees() {
+        if (isPlatformBrowser(this.platformId)) {
+            if (this.windowRefService.nativeWindow.confirm('Are you sure you want to delete the selected fees?')) {
+                for (const fee of this.selectedRows) {
+                    await firstValueFrom(this.feeService.delete(fee));
+                }
+                this.search(this.searchCriteria);
+            }
+        }
+    }
+
+    manualSubmit() {
+        const modalRef = this.modalService.open(ManualSubmitComponent, {
+            size: 'lg',
+        });
+        //manualFormSubmitted
+        modalRef.componentInstance.manualFormSubmitted.subscribe((form: any) => {
+            modalRef.close();
+            this.feeService.manualSubmit(form).subscribe((_fee) => {
+                this.selectedRows = [];
+                this.load();
+            });
+        });
+    }
+
+    async sendMail(fee: Fee, event: MouseEvent) {
+        event.stopPropagation();
+        const uploads = await firstValueFrom(this.fileService.findByIds(fee.attachmentIds));
+        const ngbModalRef = this.modalService.open(MailFormComponent, {
+            size: 'md',
+        });
+        ngbModalRef.componentInstance.attachments = uploads;
+        ngbModalRef.componentInstance.sendMail.subscribe(async (mailRequest: MailRequest) => {
+            ngbModalRef.close();
+            await firstValueFrom(this.mailService.send(mailRequest));
+            this.toastService.showSuccess('Mail will be send');
+        });
+    }
+    handle(_events: ArtcodedNotification[]) {
+        this.load();
+    }
+
+    ngOnDestroy(): void {
+        this.notificationService.unsubscribe(this);
+    }
+
+    shouldHandle(event: ArtcodedNotification): boolean {
+        return !event.seen && event.type === RegisteredEvent.NEW_FEE;
+    }
+
+    shouldMarkEventAsSeenAfterConsumed(): boolean {
+        return true;
+    }
 }

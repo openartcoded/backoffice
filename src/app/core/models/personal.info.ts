@@ -20,6 +20,7 @@ export interface PersonalInfo {
     initialUploadId?: string;
     maxDaysToPay?: number;
     accountants?: Accountant[];
+    demoMode?: boolean;
 }
 export interface Accountant {
     firstName: string;

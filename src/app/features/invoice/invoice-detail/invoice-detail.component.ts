@@ -25,11 +25,14 @@ import { PeppolValidationResultComponent } from '../peppol-validation-result/pep
     styleUrls: ['./invoice-detail.component.scss'],
 })
 export class InvoiceDetailComponent implements OnInit {
+
     validating = false;
     ublXML?: FileUpload;
     pdf?: FileUpload;
     @Input()
     invoice: Invoice;
+    @Input()
+    demoMode: boolean;
     @Input()
     user: User;
     get hasRoleAdmin(): boolean {

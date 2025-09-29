@@ -23,6 +23,8 @@ import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { MailService } from '@core/service/mail.service';
 import { MailContextType, MailRequest } from '@core/models/mail';
 import { User } from '@core/models/user';
+import { PersonalInfoService } from '@core/service/personal.info.service';
+import { PersonalInfo } from '@core/models/personal.info';
 @Component({
     selector: 'app-invoice-table-result',
     templateUrl: './invoice-table-result.component.html',
@@ -32,6 +34,8 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
     invoices: Page<Invoice>;
     activeDossier: Dossier;
     pageSize: number = 10;
+
+    personalInfo?: PersonalInfo;
 
     sort: SortCriteria = {
         direction: Direction.DESC,
@@ -63,11 +67,13 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
         private dossierService: DossierService,
         private fileService: FileService,
         private mailService: MailService,
+        private personalInfoService: PersonalInfoService,
     ) { }
 
     ngOnInit() {
         this.dossierService.activeDossier().subscribe((dt) => (this.activeDossier = dt));
         this.notificationService.subscribe(this);
+        this.personalInfoService.get().subscribe(p => this.personalInfo = p);
         this.load();
     }
 
@@ -116,6 +122,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
             scrollable: true,
         });
         ngbModalRef.componentInstance.user = this.user;
+        ngbModalRef.componentInstance.demoMode = this.personalInfo?.demoMode;
         ngbModalRef.componentInstance.invoice = invoice;
         ngbModalRef.componentInstance.templates = templates;
         ngbModalRef.componentInstance.clients = this.clients;

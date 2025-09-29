@@ -13,7 +13,12 @@ body {
 .flat {
   border-radius: 0;
 }
-
+.blur-text * {
+  filter: blur(var(--blur-amount, 3.4px));
+}
+.blur-modal * {
+  filter: blur(var(--blur-amount, 1.4px));
+}
 .text-break {
   word-break: break-all;
 }
@@ -81,4 +86,7 @@ button:focus {
 .table th.fit {
   white-space: nowrap;
   width: 1%;
+}
+.artcoded-navbar-color {
+  background-color: #3b5784;
 }

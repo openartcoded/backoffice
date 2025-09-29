@@ -1,5 +1,5 @@
 <app-title [uppercase]="true" title="Timesheets"></app-title>
-<div class="d-md-flex justify-content-between pb-2" *ngIf="timesheetsGroupedByYearAndClientName">
+<div [class.blur-text]="demoMode" class="d-md-flex justify-content-between pb-2" *ngIf="timesheetsGroupedByYearAndClientName">
   <p class="fw-semibold">Estimate this month: {{ estimateTotalThisMonth$ | async | currency: '€' }}</p>
   <div>
     <button
@@ -18,7 +18,7 @@
     <fa-icon icon="info"></fa-icon>
     No content.
   </div>
-  <div class="row mb-2">
+  <div [class.blur-modal]="demoMode" class="row mb-2">
     <div class="col-lg-3 d-md-inline-block col-12 mb-4">
       <ul class="list-group">
         <li

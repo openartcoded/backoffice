@@ -12,9 +12,9 @@
     </a>
   </div>
 </ng-template>
-
+;
 <app-title title="Expenses" [uppercase]="true"></app-title>
-<ng-container *ngIf="user">
+<ng-container *ngIf="user && demoMode">
   <ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
     <li ngbNavItem="unprocessed">
       <a ngbNavLink routerLink="/fee/unprocessed">Unprocessed</a>
@@ -22,8 +22,8 @@
         <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
           <ng-component [ngTemplateOutlet]="fullScreenTemplate"
             [ngTemplateOutletContext]="{ title: 'Unprocessed' }"></ng-component>
-          <div class="d-block" *ngIf="user">
-            <app-fee-table-result [archived]="false" [user]="user"></app-fee-table-result>
+          <div class="d-block" *ngIf="user demoMode">
+            <app-fee-table-result [archived]="false" [user]="user" [demoMode]="demoMode"></app-fee-table-result>
           </div>
         </div>
       </ng-template>
@@ -35,8 +35,8 @@
           <ng-component [ngTemplateOutlet]="fullScreenTemplate"
             [ngTemplateOutletContext]="{ title: 'Processed' }"></ng-component>
 
-          <div class="d-block" *ngIf="user">
-            <app-fee-table-result [archived]="true" [user]="user"></app-fee-table-result>
+          <div class="d-block" *ngIf="user && demoMode">
+            <app-fee-table-result [archived]="true" [user]="user" [demoMode]="demoMode"></app-fee-table-result>
           </div>
         </div>
       </ng-template>

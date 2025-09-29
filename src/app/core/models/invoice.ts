@@ -31,6 +31,7 @@ export interface BackendInvoiceSummary {
 export interface Invoice {
     id?: string;
     creditNote?: boolean;
+    creditNoteId?: string;
     creditNoteInvoiceReference?: string;
     structuredReference?: string;
     timesheetId?: string;

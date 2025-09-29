@@ -1,7 +1,7 @@
 <app-title title="MAILS"></app-title>
 <ng-container *ngIf="mails">
   <div class="table-responsive">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" [class.blur-modal]="demoMode">
       <thead>
         <tr>
           <th class="fit d-md-table-cell">Sending Date</th>
