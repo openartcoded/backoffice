@@ -11,7 +11,7 @@ import {
   NgbTooltipModule,
   NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '@shared/shared.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -26,36 +26,30 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 import { ToastsContainer } from './toasts/toasts-container';
 import { CacheComponent } from './cache/cache.component';
 
-@NgModule({
-  declarations: [
-    SidebarComponent,
-    NavbarComponent,
-    PwaModalComponent,
-    NotificationComponent,
-    AppSettingsComponent,
-    ToastsContainer,
-    UserMenuComponent,
-    CacheComponent,
-  ],
-  exports: [NavbarComponent, SidebarComponent, ToastsContainer],
-  imports: [
-    CommonModule,
-    NgbNavModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    NgbTypeaheadModule,
-    AutosizeModule,
-    NgbCollapseModule,
-    NgbToastModule,
-    RouterModule,
-    SharedModule,
-    FontAwesomeModule,
-    NgxFileDropModule,
-    NgbTooltipModule,
-    NgbDropdownModule,
-    NgbPopoverModule,
-    ScrollingModule,
-    FormsModule,
-  ],
-})
+@NgModule({ declarations: [
+        SidebarComponent,
+        NavbarComponent,
+        PwaModalComponent,
+        NotificationComponent,
+        AppSettingsComponent,
+        ToastsContainer,
+        UserMenuComponent,
+        CacheComponent,
+    ],
+    exports: [NavbarComponent, SidebarComponent, ToastsContainer], imports: [CommonModule,
+        NgbNavModule,
+        ReactiveFormsModule,
+        NgbTypeaheadModule,
+        AutosizeModule,
+        NgbCollapseModule,
+        NgbToastModule,
+        RouterModule,
+        SharedModule,
+        FontAwesomeModule,
+        NgxFileDropModule,
+        NgbTooltipModule,
+        NgbDropdownModule,
+        NgbPopoverModule,
+        ScrollingModule,
+        FormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class LayoutModule {}

@@ -9,7 +9,7 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
@@ -17,7 +17,6 @@
     "module": "es2022",
     "lib": ["es2020", "dom"],
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
     "paths": {
       "@core/*": ["./src/app/core/*"],
       "@shared/*": ["./src/app/shared/*"],
