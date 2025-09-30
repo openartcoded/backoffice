@@ -23,6 +23,7 @@ import { PeppolValidationResultComponent } from '../peppol-validation-result/pep
     selector: 'app-invoice-detail',
     templateUrl: './invoice-detail.component.html',
     styleUrls: ['./invoice-detail.component.scss'],
+    standalone: false
 })
 export class InvoiceDetailComponent implements OnInit {
 

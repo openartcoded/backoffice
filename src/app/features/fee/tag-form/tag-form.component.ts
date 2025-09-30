@@ -3,9 +3,10 @@ import { Label } from '@core/models/fee';
 import { User } from '@core/models/user';
 
 @Component({
-  selector: 'app-tag-form',
-  templateUrl: './tag-form.component.html',
-  styleUrls: ['./tag-form.component.scss'],
+    selector: 'app-tag-form',
+    templateUrl: './tag-form.component.html',
+    styleUrls: ['./tag-form.component.scss'],
+    standalone: false
 })
 export class TagFormComponent implements OnInit {
   @Input()

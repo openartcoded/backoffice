@@ -8,9 +8,10 @@ import { DateUtils } from '@core/utils/date-utils';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-notification',
-  templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss'],
+    selector: 'app-notification',
+    templateUrl: './notification.component.html',
+    styleUrls: ['./notification.component.scss'],
+    standalone: false
 })
 export class NotificationComponent implements OnInit, OnApplicationEvent {
   latests: ArtcodedNotification[];

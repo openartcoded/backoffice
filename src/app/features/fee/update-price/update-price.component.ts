@@ -4,9 +4,10 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { User } from '@core/models/user';
 
 @Component({
-  selector: 'app-update-price',
-  templateUrl: './update-price.component.html',
-  styleUrls: ['./update-price.component.scss'],
+    selector: 'app-update-price',
+    templateUrl: './update-price.component.html',
+    styleUrls: ['./update-price.component.scss'],
+    standalone: false
 })
 export class UpdatePriceComponent implements OnInit {
   @Input()

@@ -5,9 +5,10 @@ import { PhoneValidator } from '@core/validators/phone.validator';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-sms-form',
-  templateUrl: './sms-form.component.html',
-  styleUrls: ['./sms-form.component.scss']
+    selector: 'app-sms-form',
+    templateUrl: './sms-form.component.html',
+    styleUrls: ['./sms-form.component.scss'],
+    standalone: false
 })
 export class SmsFormComponent implements OnInit {
   public smsForm: UntypedFormGroup;

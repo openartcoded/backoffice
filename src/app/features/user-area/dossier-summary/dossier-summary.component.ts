@@ -5,9 +5,10 @@ import { DossierService } from '@core/service/dossier.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-dossier-summary',
-  templateUrl: './dossier-summary.component.html',
-  styleUrls: ['./dossier-summary.component.scss'],
+    selector: 'app-dossier-summary',
+    templateUrl: './dossier-summary.component.html',
+    styleUrls: ['./dossier-summary.component.scss'],
+    standalone: false
 })
 export class DossierSummaryComponent implements OnInit, OnDestroy {
   dossierSummaries: DossierSummary[];

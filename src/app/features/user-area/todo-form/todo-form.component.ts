@@ -7,9 +7,10 @@ import { ToastService } from '@core/service/toast.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-todo-form',
-  templateUrl: './todo-form.component.html',
-  styleUrls: ['./todo-form.component.scss'],
+    selector: 'app-todo-form',
+    templateUrl: './todo-form.component.html',
+    styleUrls: ['./todo-form.component.scss'],
+    standalone: false
 })
 export class TodoFormComponent implements OnInit {
   form: UntypedFormGroup;

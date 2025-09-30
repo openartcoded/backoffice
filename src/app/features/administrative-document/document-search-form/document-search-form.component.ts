@@ -7,6 +7,7 @@ import moment from 'moment-timezone';
     selector: 'app-document-search-form',
     templateUrl: './document-search-form.component.html',
     styleUrls: ['./document-search-form.component.scss'],
+    standalone: false
 })
 export class DocumentSearchFormComponent implements OnInit {
     searchForm: UntypedFormGroup;

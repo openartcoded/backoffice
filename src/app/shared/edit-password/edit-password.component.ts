@@ -4,9 +4,10 @@ import { MatchPasswordsValidator } from '@core/validators';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-edit-password',
-  templateUrl: './edit-password.component.html',
-  styleUrls: ['./edit-password.component.scss'],
+    selector: 'app-edit-password',
+    templateUrl: './edit-password.component.html',
+    styleUrls: ['./edit-password.component.scss'],
+    standalone: false
 })
 export class EditPasswordComponent implements OnInit {
   public editorForm: UntypedFormGroup;

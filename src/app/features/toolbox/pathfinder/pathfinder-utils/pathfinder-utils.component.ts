@@ -4,9 +4,10 @@ import { XPathService } from '@core/service/xpath.service';
 import { Meta, Title } from '@angular/platform-browser';
 import {JSONPath} from 'jsonpath-plus';
 @Component({
-  selector: 'app-pathfinder-utils',
-  templateUrl: './pathfinder-utils.component.html',
-  styleUrls: ['./pathfinder-utils.component.scss'],
+    selector: 'app-pathfinder-utils',
+    templateUrl: './pathfinder-utils.component.html',
+    styleUrls: ['./pathfinder-utils.component.scss'],
+    standalone: false
 })
 export class PathfinderUtilsComponent implements OnInit {
   @Input()

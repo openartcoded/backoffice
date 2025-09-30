@@ -7,9 +7,10 @@ import { map } from 'rxjs/operators';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-file-to-file',
-  templateUrl: './file-to-file.component.html',
-  styleUrls: ['./file-to-file.component.scss'],
+    selector: 'app-file-to-file',
+    templateUrl: './file-to-file.component.html',
+    styleUrls: ['./file-to-file.component.scss'],
+    standalone: false
 })
 export class FileToFileComponent implements OnInit {
   fileToFileForm: UntypedFormGroup;

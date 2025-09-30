@@ -9,6 +9,7 @@ import moment from 'moment-timezone';
     selector: 'app-file-upload-search-form',
     templateUrl: './file-upload-search-form.component.html',
     styleUrls: ['./file-upload-search-form.component.scss'],
+    standalone: false
 })
 export class FileUploadSearchFormComponent implements OnInit {
     searchForm: UntypedFormGroup;

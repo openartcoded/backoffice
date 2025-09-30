@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-finance-page',
-  templateUrl: './finance-page.component.html',
-  styleUrls: ['./finance-page.component.scss'],
+    selector: 'app-finance-page',
+    templateUrl: './finance-page.component.html',
+    styleUrls: ['./finance-page.component.scss'],
+    standalone: false
 })
 export class FinancePageComponent implements OnInit {
   activeId: string;

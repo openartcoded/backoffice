@@ -15,6 +15,7 @@ import { User } from '@core/models/user';
     selector: 'app-fee-detail',
     templateUrl: './fee-detail.component.html',
     styleUrls: ['./fee-detail.component.scss'],
+    standalone: false
 })
 export class FeeDetailComponent implements OnInit {
     @Input()

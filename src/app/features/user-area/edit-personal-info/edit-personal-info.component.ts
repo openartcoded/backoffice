@@ -12,6 +12,7 @@ import { User } from '@core/models/user';
     selector: 'app-edit-personal-info',
     templateUrl: './edit-personal-info.component.html',
     styleUrls: ['./edit-personal-info.component.scss'],
+    standalone: false
 })
 export class EditPersonalInfoComponent implements OnInit {
     @Input()
@@ -302,6 +303,7 @@ export class EditPersonalInfoComponent implements OnInit {
         formData.append('accountants', JSON.stringify(accountants));
 
         this.onSavePersonalInfo.emit(formData);
+
         // this.form.reset();
     }
 }

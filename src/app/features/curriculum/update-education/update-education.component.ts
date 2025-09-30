@@ -5,9 +5,10 @@ import { ScholarHistory } from '@core/models/curriculum';
 import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
-  selector: 'app-update-education',
-  templateUrl: './update-education.component.html',
-  styleUrls: ['./update-education.component.scss'],
+    selector: 'app-update-education',
+    templateUrl: './update-education.component.html',
+    styleUrls: ['./update-education.component.scss'],
+    standalone: false
 })
 export class UpdateEducationComponent implements OnInit {
   form: UntypedFormGroup;

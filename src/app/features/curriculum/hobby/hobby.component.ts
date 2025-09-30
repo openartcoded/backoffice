@@ -5,9 +5,10 @@ import { UpdateHobbyComponent } from '@feature/curriculum/update-hobby/update-ho
 import { Hobby } from '@core/models/curriculum';
 
 @Component({
-  selector: 'app-hobby',
-  templateUrl: './hobby.component.html',
-  styleUrls: ['./hobby.component.scss'],
+    selector: 'app-hobby',
+    templateUrl: './hobby.component.html',
+    styleUrls: ['./hobby.component.scss'],
+    standalone: false
 })
 export class HobbyComponent implements OnInit {
   @Input()

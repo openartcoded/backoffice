@@ -13,6 +13,7 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
     selector: 'app-mail-page',
     templateUrl: './mail-page.component.html',
     styleUrl: './mail-page.component.scss',
+    standalone: false
 })
 export class MailPageComponent implements OnInit {
     pageSize: number = 5;

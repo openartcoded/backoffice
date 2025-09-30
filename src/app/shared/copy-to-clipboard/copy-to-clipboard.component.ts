@@ -6,7 +6,8 @@ import { WindowRefService } from '@core/service/window.service';
 @Component({
     selector: 'app-copy-to-clipboard',
     templateUrl: './copy-to-clipboard.component.html',
-    styleUrl: './copy-to-clipboard.component.scss'
+    styleUrl: './copy-to-clipboard.component.scss',
+    standalone: false
 })
 export class CopyToClipboardComponent {
     @Input()

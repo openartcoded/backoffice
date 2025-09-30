@@ -5,9 +5,10 @@ import { Dossier } from '@core/models/dossier';
 import { LabelService } from '@core/service/label.service';
 
 @Component({
-  selector: 'app-fee-process-validation',
-  templateUrl: './fee-process-validation.component.html',
-  styleUrls: ['./fee-process-validation.component.scss'],
+    selector: 'app-fee-process-validation',
+    templateUrl: './fee-process-validation.component.html',
+    styleUrls: ['./fee-process-validation.component.scss'],
+    standalone: false
 })
 export class FeeProcessValidationComponent implements OnInit {
   @Input()

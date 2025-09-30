@@ -6,9 +6,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TodoFormComponent } from '@feature/user-area/todo-form/todo-form.component';
 
 @Component({
-  selector: 'app-todo-list',
-  templateUrl: './todo-list.component.html',
-  styleUrls: ['./todo-list.component.scss'],
+    selector: 'app-todo-list',
+    templateUrl: './todo-list.component.html',
+    styleUrls: ['./todo-list.component.scss'],
+    standalone: false
 })
 export class TodoListComponent implements OnInit {
   isCollapsed: boolean = false;

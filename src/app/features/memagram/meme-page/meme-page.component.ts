@@ -15,9 +15,10 @@ import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-meme-page',
-  templateUrl: './meme-page.component.html',
-  styleUrls: ['./meme-page.component.scss'],
+    selector: 'app-meme-page',
+    templateUrl: './meme-page.component.html',
+    styleUrls: ['./meme-page.component.scss'],
+    standalone: false
 })
 export class MemePageComponent implements OnInit, OnApplicationEvent {
   memzPage: Page<Memz>;

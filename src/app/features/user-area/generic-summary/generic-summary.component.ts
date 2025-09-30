@@ -8,9 +8,10 @@ import { DateUtils } from '@core/utils/date-utils';
 import { WindowRefService } from '@core/service/window.service';
 
 @Component({
-  selector: 'app-generic-summary',
-  templateUrl: './generic-summary.component.html',
-  styleUrls: ['./generic-summary.component.scss'],
+    selector: 'app-generic-summary',
+    templateUrl: './generic-summary.component.html',
+    styleUrls: ['./generic-summary.component.scss'],
+    standalone: false
 })
 export class GenericSummaryComponent implements OnInit, OnDestroy {
   summary: InvoiceSummary;

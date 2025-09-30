@@ -6,9 +6,10 @@ import { isPlatformBrowser } from '@angular/common';
 import { UpdateCvPersonalProjectComponent } from '@feature/curriculum/update-cv-personal-project/update-cv-personal-project.component';
 
 @Component({
-  selector: 'app-cv-personal-project',
-  templateUrl: './cv-personal-project.component.html',
-  styleUrls: ['./cv-personal-project.component.scss'],
+    selector: 'app-cv-personal-project',
+    templateUrl: './cv-personal-project.component.html',
+    styleUrls: ['./cv-personal-project.component.scss'],
+    standalone: false
 })
 export class CvPersonalProjectComponent {
   @Input()

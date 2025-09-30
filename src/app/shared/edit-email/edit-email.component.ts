@@ -3,9 +3,10 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-edit-email',
-  templateUrl: './edit-email.component.html',
-  styleUrls: ['./edit-email.component.scss'],
+    selector: 'app-edit-email',
+    templateUrl: './edit-email.component.html',
+    styleUrls: ['./edit-email.component.scss'],
+    standalone: false
 })
 export class EditEmailComponent implements OnInit {
   public editorForm: UntypedFormGroup;

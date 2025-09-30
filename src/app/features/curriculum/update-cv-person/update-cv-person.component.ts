@@ -5,9 +5,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
-  selector: 'app-update-cv-person',
-  templateUrl: './update-cv-person.component.html',
-  styleUrls: ['./update-cv-person.component.scss'],
+    selector: 'app-update-cv-person',
+    templateUrl: './update-cv-person.component.html',
+    styleUrls: ['./update-cv-person.component.scss'],
+    standalone: false
 })
 export class UpdateCvPersonComponent implements OnInit {
   form: UntypedFormGroup;

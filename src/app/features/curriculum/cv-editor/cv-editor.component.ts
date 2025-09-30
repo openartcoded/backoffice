@@ -6,9 +6,10 @@ import { FileService } from '@core/service/file.service';
 import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
-  selector: 'app-cv-editor',
-  templateUrl: './cv-editor.component.html',
-  styleUrls: ['./cv-editor.component.scss'],
+    selector: 'app-cv-editor',
+    templateUrl: './cv-editor.component.html',
+    styleUrls: ['./cv-editor.component.scss'],
+    standalone: false
 })
 export class CvEditorComponent implements OnInit {
   editedCv: any;

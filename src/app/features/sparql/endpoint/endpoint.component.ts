@@ -20,53 +20,56 @@ const DEFAULT_QUERY = `  PREFIX owl: <http://www.w3.org/2002/07/owl#>
 `;
 
 @Component({
-  selector: "app-endpoint",
-  templateUrl: "./endpoint.component.html",
-  styleUrls: ["./endpoint.component.scss"],
+    selector: "app-endpoint",
+    templateUrl: "./endpoint.component.html",
+    styleUrls: ["./endpoint.component.scss"],
+    standalone: false
 })
 export class EndpointComponent implements OnInit {
-  constructor(
-    private configService: ConfigInitService,
-    private authService: AuthService,
-    private titleService: Title,
+    constructor(
+        private configService: ConfigInitService,
+        private authService: AuthService,
+        private titleService: Title,
 
-  ) {}
-  token: string;
+    ) { }
+    token: string;
 
-  async ngOnInit() {
-    this.titleService.setTitle("Sparql Endpoint");
-    import("@triply/yasgui").then((m: any) => {
-      const Yasgui: any = m.default;
-      const element = document?.getElementById("yasgui");
-      const endpointUrl = this.configService.getConfig()["SPARQL_ENDPOINT"];
-      const defaultQuery =
-        this.configService.getConfig()["SPARQL_DEFAULT_QUERY"] || DEFAULT_QUERY;
-      Yasgui.Yasqe.defaults.value = defaultQuery;
-      this.authService.tokenRefreshed.subscribe((token) => {
-        this.token = token;
-      });
-      this.token = this.authService.token;
-      const yasgui = new Yasgui(element, {
-        requestConfig: {
-          endpoint: endpointUrl,
-          defaultGraphs: [],
-          method: "POST",
-          headers: () => ({
-            Authorization: this.token,
-          }),
-        },
-        autofocus: true,
-      });
-      yasgui.on("query", (y, tab) => {
-        tab.getYasr().on("drawn", async (yasr) => {
-          if (yasr.results?.hasError()) {
-            const err = yasr.results.getError();
-            if (err.status === 403 || err.status === 401) {
-              console.error("something went wrong");
-            }
-          }
+    async ngOnInit() {
+        this.titleService.setTitle("Sparql Endpoint");
+        await Promise.all([
+            import('@zazuko/yasgui'),
+        ]).then(([module]) => {
+            const Yasgui: any = module.default;
+            const element = document?.getElementById("yasgui");
+            const endpointUrl = this.configService.getConfig()["SPARQL_ENDPOINT"];
+            const defaultQuery =
+                this.configService.getConfig()["SPARQL_DEFAULT_QUERY"] || DEFAULT_QUERY;
+            Yasgui.Yasqe.defaults.value = defaultQuery;
+            this.authService.tokenRefreshed.subscribe((token) => {
+                this.token = token;
+            });
+            this.token = this.authService.token;
+            const yasgui = new Yasgui(element, {
+                requestConfig: {
+                    endpoint: endpointUrl,
+                    defaultGraphs: [],
+                    method: "POST",
+                    headers: () => ({
+                        Authorization: this.token,
+                    }),
+                },
+                autofocus: true,
+            });
+            yasgui.on("query", (y, tab) => {
+                tab.getYasr().on("drawn", async (yasr) => {
+                    if (yasr.results?.hasError()) {
+                        const err = yasr.results.getError();
+                        if (err.status === 403 || err.status === 401) {
+                            console.error("something went wrong");
+                        }
+                    }
+                });
+            });
         });
-      });
-    });
-  }
+    }
 }

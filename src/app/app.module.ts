@@ -1,4 +1,4 @@
-import { APP_ID, APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
+import { APP_ID, LOCALE_ID, NgModule, inject, provideAppInitializer } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -6,7 +6,7 @@ import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { PlotlyViaCDNModule } from 'angular-plotly.js';
-
+import Aura from '@primeng/themes/aura';
 import {
     faAddressBook,
     faUser,
@@ -108,6 +108,8 @@ import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initialize } from './init/app-init.factory';
 import { ConfigInitService } from './init/config-init.service';
+import { provideProtractorTestingSupport } from '@angular/platform-browser';
+import { providePrimeNG } from 'primeng/config';
 
 PlotlyViaCDNModule.setPlotlyVersion('2.28.0'); // can be `latest` or any version number (i.e.: '1.40.0')
 PlotlyViaCDNModule.setPlotlyBundle('finance');
@@ -126,15 +128,18 @@ registerLocaleData(localeDe, 'de');
         }),
     ],
     providers: [
+        providePrimeNG({
+            theme: {
+                preset: Aura
+            }
+        }),
         { provide: APP_ID, useValue: 'serverApp' },
         { provide: LOCALE_ID, useValue: 'de' },
         ConfigInitService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: initialize,
-            multi: true,
-            deps: [KeycloakService, ConfigInitService],
-        },
+        provideAppInitializer(() => {
+            const initializerFn = (initialize)(inject(KeycloakService), inject(ConfigInitService));
+            return initializerFn();
+        }),
         {
             provide: HIGHLIGHT_OPTIONS,
             useValue: {

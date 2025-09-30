@@ -5,9 +5,10 @@ import { FormContact } from '@core/models/form-contact';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-form-contact-table',
-  templateUrl: './form-contact-table.component.html',
-  styleUrls: ['./form-contact-table.component.scss'],
+    selector: 'app-form-contact-table',
+    templateUrl: './form-contact-table.component.html',
+    styleUrls: ['./form-contact-table.component.scss'],
+    standalone: false
 })
 export class FormContactTableComponent implements OnInit {
   formContacts$: Observable<FormContact[]>;

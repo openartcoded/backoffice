@@ -10,9 +10,10 @@ import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 import { User } from '@core/models/user';
 
 @Component({
-  selector: 'app-document-editor',
-  templateUrl: './document-editor.component.html',
-  styleUrls: ['./document-editor.component.scss'],
+    selector: 'app-document-editor',
+    templateUrl: './document-editor.component.html',
+    styleUrls: ['./document-editor.component.scss'],
+    standalone: false
 })
 export class DocumentEditorComponent implements OnInit {
   form: UntypedFormGroup;

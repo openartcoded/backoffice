@@ -6,9 +6,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-action-result',
-  templateUrl: './action-result.component.html',
-  styleUrls: ['./action-result.component.scss'],
+    selector: 'app-action-result',
+    templateUrl: './action-result.component.html',
+    styleUrls: ['./action-result.component.scss'],
+    standalone: false
 })
 export class ActionResultComponent implements OnInit {
   @Input()

@@ -5,9 +5,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BillableClient } from '@core/models/billable-client';
 
 @Component({
-  selector: 'app-timesheet-settings',
-  templateUrl: './timesheet-settings.component.html',
-  styleUrls: ['./timesheet-settings.component.scss'],
+    selector: 'app-timesheet-settings',
+    templateUrl: './timesheet-settings.component.html',
+    styleUrls: ['./timesheet-settings.component.scss'],
+    standalone: false
 })
 export class TimesheetSettingsComponent implements OnInit {
   @Output()

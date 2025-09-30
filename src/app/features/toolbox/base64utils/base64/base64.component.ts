@@ -5,9 +5,10 @@ import { WindowRefService } from '@core/service/window.service';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
-  selector: 'app-base64',
-  templateUrl: './base64.component.html',
-  styleUrls: ['./base64.component.scss'],
+    selector: 'app-base64',
+    templateUrl: './base64.component.html',
+    styleUrls: ['./base64.component.scss'],
+    standalone: false
 })
 export class Base64Component implements OnInit {
   @Input()

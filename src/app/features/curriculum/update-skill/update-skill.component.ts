@@ -4,9 +4,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Skill } from '@core/models/curriculum';
 
 @Component({
-  selector: 'app-update-skill',
-  templateUrl: './update-skill.component.html',
-  styleUrls: ['./update-skill.component.scss'],
+    selector: 'app-update-skill',
+    templateUrl: './update-skill.component.html',
+    styleUrls: ['./update-skill.component.scss'],
+    standalone: false
 })
 export class UpdateSkillComponent implements OnInit {
   form: UntypedFormGroup;

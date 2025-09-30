@@ -32,6 +32,7 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
     selector: 'app-timesheet-detail',
     templateUrl: './timesheet-detail.component.html',
     styleUrls: ['./timesheet-detail.component.scss'],
+    standalone: false
 })
 export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     timesheet: Timesheet;

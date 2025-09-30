@@ -10,6 +10,7 @@ import { User } from '@core/models/user';
     selector: 'app-pdf-viewer',
     templateUrl: './pdf-viewer.component.html',
     styleUrls: ['./pdf-viewer.component.scss'],
+    standalone: false
 })
 export class PdfViewerComponent implements OnInit {
     @Input()

@@ -6,9 +6,10 @@ import { User } from '@core/models/user';
 import { PersonalInfoService } from '@core/service/personal.info.service';
 
 @Component({
-  selector: 'app-invoice-page',
-  templateUrl: './invoice-page.component.html',
-  styleUrls: ['./invoice-page.component.scss'],
+    selector: 'app-invoice-page',
+    templateUrl: './invoice-page.component.html',
+    styleUrls: ['./invoice-page.component.scss'],
+    standalone: false
 })
 export class InvoicePageComponent implements OnInit {
   activeId: string;

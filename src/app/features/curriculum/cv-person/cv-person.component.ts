@@ -4,9 +4,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UpdateCvPersonComponent } from '@feature/curriculum/update-cv-person/update-cv-person.component';
 
 @Component({
-  selector: 'app-cv-person',
-  templateUrl: './cv-person.component.html',
-  styleUrls: ['./cv-person.component.scss'],
+    selector: 'app-cv-person',
+    templateUrl: './cv-person.component.html',
+    styleUrls: ['./cv-person.component.scss'],
+    standalone: false
 })
 export class CvPersonComponent {
   @Input()

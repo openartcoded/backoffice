@@ -19,6 +19,7 @@ import { firstValueFrom } from 'rxjs';
     selector: 'app-billable-client-detail',
     templateUrl: './billable-client-detail.component.html',
     styleUrls: ['./billable-client-detail.component.scss'],
+    standalone: false
 })
 export class BillableClientDetailComponent implements OnInit {
     @Input()

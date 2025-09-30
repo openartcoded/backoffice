@@ -4,9 +4,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Hobby } from '@core/models/curriculum';
 
 @Component({
-  selector: 'app-update-hobby',
-  templateUrl: './update-hobby.component.html',
-  styleUrls: ['./update-hobby.component.scss'],
+    selector: 'app-update-hobby',
+    templateUrl: './update-hobby.component.html',
+    styleUrls: ['./update-hobby.component.scss'],
+    standalone: false
 })
 export class UpdateHobbyComponent implements OnInit {
   form: UntypedFormGroup;

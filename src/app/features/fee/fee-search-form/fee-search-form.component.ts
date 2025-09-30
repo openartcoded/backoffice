@@ -8,6 +8,7 @@ import moment from 'moment-timezone';
     selector: 'app-fee-search-form',
     templateUrl: './fee-search-form.component.html',
     styleUrls: ['./fee-search-form.component.scss'],
+    standalone: false
 })
 export class FeeSearchFormComponent implements OnInit {
     searchForm: UntypedFormGroup;

@@ -10,6 +10,7 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
     selector: 'app-timesheets',
     templateUrl: './timesheets.component.html',
     styleUrls: ['./timesheets.component.scss'],
+    standalone: false
 })
 export class TimesheetsComponent implements OnInit {
     timesheetsGroupedByYearAndClientName: Map<number, Map<string, Timesheet[]>>;

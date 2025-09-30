@@ -13,6 +13,7 @@ import { ToastService } from '@core/service/toast.service';
     selector: 'app-memo-date',
     templateUrl: './memo-date.component.html',
     styleUrls: ['./memo-date.component.scss'],
+    standalone: false
 })
 export class MemoDateComponent implements OnInit {
     memoDates: MemoDate[];

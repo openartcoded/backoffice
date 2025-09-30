@@ -7,9 +7,10 @@ import { isPlatformBrowser } from '@angular/common';
 import { DownloadCvRequest } from '@core/models/curriculum';
 
 @Component({
-  selector: 'app-cv-download-request',
-  templateUrl: './cv-download-request.component.html',
-  styleUrls: ['./cv-download-request.component.scss'],
+    selector: 'app-cv-download-request',
+    templateUrl: './cv-download-request.component.html',
+    styleUrls: ['./cv-download-request.component.scss'],
+    standalone: false
 })
 export class CvDownloadRequestComponent implements OnInit {
   cvDownloadRequests: DownloadCvRequest[];

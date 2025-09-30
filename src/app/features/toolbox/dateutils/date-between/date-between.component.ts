@@ -10,6 +10,7 @@ import { DateUtils } from '@core/utils/date-utils';
     selector: 'app-date-between',
     templateUrl: './date-between.component.html',
     styleUrls: ['./date-between.component.scss'],
+    standalone: false
 })
 export class DateBetweenComponent implements OnInit {
     dateBetweenForm: UntypedFormGroup;

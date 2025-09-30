@@ -20,6 +20,7 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
     selector: 'app-billable-client-table',
     templateUrl: './billable-client-table.component.html',
     styleUrls: ['./billable-client-table.component.scss'],
+    standalone: false
 })
 export class BillableClientTableComponent implements OnInit, OnApplicationEvent {
     currentNgbModalRef: NgbModalRef;

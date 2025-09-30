@@ -10,6 +10,7 @@ import moment from 'moment-timezone';
     selector: 'app-period-form',
     templateUrl: './period-form.component.html',
     styleUrls: ['./period-form.component.scss'],
+    standalone: false
 })
 export class PeriodFormComponent implements OnInit {
     periodTypeClass = PeriodType;

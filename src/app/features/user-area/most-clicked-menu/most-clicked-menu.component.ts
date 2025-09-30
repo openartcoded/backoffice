@@ -6,9 +6,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-most-clicked-menu',
-  templateUrl: './most-clicked-menu.component.html',
-  styleUrls: ['./most-clicked-menu.component.scss']
+    selector: 'app-most-clicked-menu',
+    templateUrl: './most-clicked-menu.component.html',
+    styleUrls: ['./most-clicked-menu.component.scss'],
+    standalone: false
 })
 export class MostClickedMenuComponent implements OnInit, OnDestroy {
   links: MenuLink[];

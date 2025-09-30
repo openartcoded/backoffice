@@ -1,28 +1,43 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "compileOnSave": false,
-  "angularCompilerOptions": {
-    "strictTemplates": true
-  },
-  "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "target": "es2022",
-    "module": "es2022",
-    "lib": ["es2020", "dom"],
-    "resolveJsonModule": true,
-    "paths": {
-      "@core/*": ["./src/app/core/*"],
-      "@shared/*": ["./src/app/shared/*"],
-      "@init/*": ["./src/app/init/*"],
-      "@env/*": ["./src/environments/*"],
-      "@feature/*": ["./src/app/features/*"]
+    "compileOnSave": false,
+    "angularCompilerOptions": {
+        "strictTemplates": true
+    },
+    "compilerOptions": {
+        "baseUrl": "./",
+        "skipLibCheck": true,
+        "outDir": "./dist/out-tsc",
+        "sourceMap": true,
+        "declaration": false,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "moduleResolution": "node",
+        "importHelpers": true,
+        "target": "es2022",
+        "module": "es2022",
+        "types": [],
+        "lib": [
+            "es2022",
+            "dom"
+        ],
+        "resolveJsonModule": true,
+        "paths": {
+            "@core/*": [
+                "./src/app/core/*"
+            ],
+            "@shared/*": [
+                "./src/app/shared/*"
+            ],
+            "@init/*": [
+                "./src/app/init/*"
+            ],
+            "@env/*": [
+                "./src/environments/*"
+            ],
+            "@feature/*": [
+                "./src/app/features/*"
+            ]
+        }
     }
-  }
 }

@@ -16,6 +16,7 @@ export interface QuoteResult {
     selector: 'app-ticks',
     templateUrl: './ticks.component.html',
     styleUrls: ['./ticks.component.scss'],
+    standalone: false
 })
 export class TicksComponent implements OnInit {
     detailUrl: string = 'https://finance.yahoo.com/quote/';

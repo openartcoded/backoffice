@@ -12,6 +12,7 @@ import { CronExpressionHelpComponent } from '../cron-expression-help/cron-expres
     selector: 'app-task-detail',
     templateUrl: './task-detail.component.html',
     styleUrls: ['./task-detail.component.scss'],
+    standalone: false
 })
 export class TaskDetailComponent implements OnInit {
     @Input()

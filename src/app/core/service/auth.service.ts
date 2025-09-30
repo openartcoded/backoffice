@@ -1,67 +1,66 @@
 import { ApplicationInitStatus, EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { User } from '@core/models/user';
-import { KeycloakEventType, KeycloakService } from 'keycloak-angular';
+import { KeycloakEventType, KeycloakEventTypeLegacy, KeycloakService } from 'keycloak-angular';
 import { Subscription } from 'rxjs';
-import { WindowRefService } from './window.service';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
-  private _token: string;
-  loggedOut: EventEmitter<any> = new EventEmitter<any>();
-  keycloakSubscription: Subscription;
-  loggedIn: EventEmitter<any> = new EventEmitter<any>();
-  tokenRefreshed: EventEmitter<string> = new EventEmitter<any>();
-  constructor(
-    private keycloakService: KeycloakService,
-    private appInit: ApplicationInitStatus,
-  ) {
-    this.appInit.donePromise.then(() => this.onInit());
-  }
-  ngOnDestroy(): void {
-    this.keycloakSubscription.unsubscribe();
-  }
-  async onInit() {
-    this.keycloakSubscription = this.keycloakService.keycloakEvents$.subscribe(async (e) => {
-      if (
-        e.type == KeycloakEventType.OnAuthError ||
-        e.type == KeycloakEventType.OnAuthLogout ||
-        e.type == KeycloakEventType.OnAuthRefreshError
-      ) {
-        this.loggedOut.emit();
-      }
-      if (e.type == KeycloakEventType.OnAuthSuccess || e.type == KeycloakEventType.OnAuthRefreshSuccess) {
-        await this.refreshToken();
-      }
-      if (e.type == KeycloakEventType.OnTokenExpired) {
-        this.keycloakService.updateToken(180);
-      }
-    });
-  }
-
-  get token() {
-    if (!this._token) {
-      this.refreshToken();
+    private _token: string;
+    loggedOut: EventEmitter<any> = new EventEmitter<any>();
+    keycloakSubscription: Subscription;
+    loggedIn: EventEmitter<any> = new EventEmitter<any>();
+    tokenRefreshed: EventEmitter<string> = new EventEmitter<any>();
+    constructor(
+        private keycloakService: KeycloakService,
+        private appInit: ApplicationInitStatus,
+    ) {
+        this.appInit.donePromise.then(() => this.onInit());
     }
-    return this._token;
-  }
+    ngOnDestroy(): void {
+        this.keycloakSubscription.unsubscribe();
+    }
+    async onInit() {
+        this.keycloakSubscription = this.keycloakService.keycloakEvents$.subscribe(async (e) => {
+            if (
+                e.type == KeycloakEventTypeLegacy.OnAuthError ||
+                e.type == KeycloakEventTypeLegacy.OnAuthLogout ||
+                e.type == KeycloakEventTypeLegacy.OnAuthRefreshError
+            ) {
+                this.loggedOut.emit();
+            }
+            if (e.type == KeycloakEventTypeLegacy.OnAuthSuccess || e.type == KeycloakEventTypeLegacy.OnAuthRefreshSuccess) {
+                await this.refreshToken();
+            }
+            if (e.type == KeycloakEventTypeLegacy.OnTokenExpired) {
+                this.keycloakService.updateToken(180);
+            }
+        });
+    }
 
-  async refreshToken() {
-    const t = await this.keycloakService.getToken();
-    this._token = 'Bearer ' + t;
-    this.loggedIn.emit();
-    this.tokenRefreshed.emit(this._token);
-  }
+    get token() {
+        if (!this._token) {
+            this.refreshToken();
+        }
+        return this._token;
+    }
 
-  logout(redirect: boolean = true): void {
-    this.keycloakService.logout(redirect ? '' : null);
-  }
+    async refreshToken() {
+        const t = await this.keycloakService.getToken();
+        this._token = 'Bearer ' + t;
+        this.loggedIn.emit();
+        this.tokenRefreshed.emit(this._token);
+    }
 
-  getUser(): User {
-    return {
-      authorities: this.keycloakService.getUserRoles(),
-      username: this.keycloakService.getUsername(),
-    } as User;
-  }
+    logout(redirect: boolean = true): void {
+        this.keycloakService.logout(redirect ? '' : null);
+    }
+
+    getUser(): User {
+        return {
+            authorities: this.keycloakService.getUserRoles(),
+            username: this.keycloakService.getUsername(),
+        } as User;
+    }
 }

@@ -4,9 +4,10 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { SwUpdate } from '@angular/service-worker';
 
 @Component({
-  selector: 'app-pwa-modal',
-  templateUrl: './pwa-modal.component.html',
-  styleUrls: ['./pwa-modal.component.scss'],
+    selector: 'app-pwa-modal',
+    templateUrl: './pwa-modal.component.html',
+    styleUrls: ['./pwa-modal.component.scss'],
+    standalone: false
 })
 export class PwaModalComponent implements OnInit {
   constructor(

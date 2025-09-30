@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-rdf-manipulation',
-  templateUrl: './rdf-manipulation.component.html',
-  styleUrls: ['./rdf-manipulation.component.scss'],
+    selector: 'app-rdf-manipulation',
+    templateUrl: './rdf-manipulation.component.html',
+    styleUrls: ['./rdf-manipulation.component.scss'],
+    standalone: false
 })
 export class RdfManipulationComponent implements OnInit {
   activeId: string;

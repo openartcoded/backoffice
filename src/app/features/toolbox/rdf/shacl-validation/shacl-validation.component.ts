@@ -6,9 +6,10 @@ import { map } from 'rxjs/operators';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-shacl-validation',
-  templateUrl: './shacl-validation.component.html',
-  styleUrls: ['./shacl-validation.component.scss'],
+    selector: 'app-shacl-validation',
+    templateUrl: './shacl-validation.component.html',
+    styleUrls: ['./shacl-validation.component.scss'],
+    standalone: false
 })
 export class ShaclValidationComponent implements OnInit {
   allowedExtensions: string;

@@ -23,6 +23,7 @@ import { User } from '@core/models/user';
     selector: 'app-dossier-table-result',
     templateUrl: './dossier-table-result.component.html',
     styleUrls: ['./dossier-table-result.component.scss'],
+    standalone: false
 })
 export class DossierTableResultComponent implements OnInit {
     @Input()

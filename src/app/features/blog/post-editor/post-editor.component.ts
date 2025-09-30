@@ -10,9 +10,10 @@ import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { firstValueFrom, interval, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-post-editor',
-  templateUrl: './post-editor.component.html',
-  styleUrls: ['./post-editor.component.scss'],
+    selector: 'app-post-editor',
+    templateUrl: './post-editor.component.html',
+    styleUrls: ['./post-editor.component.scss'],
+    standalone: false
 })
 export class PostEditorComponent implements OnInit, OnDestroy {
   @Input()

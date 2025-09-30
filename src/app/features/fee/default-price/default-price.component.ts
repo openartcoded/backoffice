@@ -8,9 +8,10 @@ import { ToastService } from '@core/service/toast.service';
 import { User } from '@core/models/user';
 
 @Component({
-  selector: 'app-default-price',
-  templateUrl: './default-price.component.html',
-  styleUrls: ['./default-price.component.scss'],
+    selector: 'app-default-price',
+    templateUrl: './default-price.component.html',
+    styleUrls: ['./default-price.component.scss'],
+    standalone: false
 })
 export class DefaultPriceComponent implements OnInit {
   form: UntypedFormGroup;

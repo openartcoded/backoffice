@@ -5,9 +5,10 @@ import { formatDate } from '@angular/common';
 import { Portfolio } from '@core/models/portfolio';
 
 @Component({
-  selector: 'app-portfolio-form',
-  templateUrl: './portfolio-form.component.html',
-  styleUrls: ['./portfolio-form.component.scss'],
+    selector: 'app-portfolio-form',
+    templateUrl: './portfolio-form.component.html',
+    styleUrls: ['./portfolio-form.component.scss'],
+    standalone: false
 })
 export class PortfolioFormComponent implements OnInit {
   portfolioForm: UntypedFormGroup;

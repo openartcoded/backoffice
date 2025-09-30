@@ -7,9 +7,10 @@ import { EmailsValidator } from '@core/validators/emails.validator';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-mail-form',
-  templateUrl: './mail-form.component.html',
-  styleUrls: ['./mail-form.component.scss'],
+    selector: 'app-mail-form',
+    templateUrl: './mail-form.component.html',
+    styleUrls: ['./mail-form.component.scss'],
+    standalone: false
 })
 export class MailFormComponent implements OnInit {
   public mailForm: UntypedFormGroup;

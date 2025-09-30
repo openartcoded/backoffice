@@ -6,9 +6,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-cache',
-  templateUrl: './cache.component.html',
-  styleUrls: ['./cache.component.scss']
+    selector: 'app-cache',
+    templateUrl: './cache.component.html',
+    styleUrls: ['./cache.component.scss'],
+    standalone: false
 })
 export class CacheComponent implements OnInit {
 

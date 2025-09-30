@@ -29,6 +29,7 @@ import { PersonalInfo } from '@core/models/personal.info';
     selector: 'app-invoice-table-result',
     templateUrl: './invoice-table-result.component.html',
     styleUrls: ['./invoice-table-result.component.scss'],
+    standalone: false
 })
 export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
     invoices: Page<Invoice>;

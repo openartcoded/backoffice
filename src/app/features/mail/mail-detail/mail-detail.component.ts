@@ -13,6 +13,7 @@ import { firstValueFrom } from 'rxjs';
     selector: 'app-mail-detail',
     templateUrl: './mail-detail.component.html',
     styleUrl: './mail-detail.component.scss',
+    standalone: false
 })
 export class MailDetailComponent implements OnInit {
     @Input()

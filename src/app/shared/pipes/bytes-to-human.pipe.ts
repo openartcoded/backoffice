@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'bytesToHuman'
+    name: 'bytesToHuman',
+    standalone: false
 })
 export class BytesToHumanPipe implements PipeTransform {
 

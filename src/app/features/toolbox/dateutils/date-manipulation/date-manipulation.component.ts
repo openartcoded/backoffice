@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-date-manipulation',
-  templateUrl: './date-manipulation.component.html',
-  styleUrls: ['./date-manipulation.component.scss'],
+    selector: 'app-date-manipulation',
+    templateUrl: './date-manipulation.component.html',
+    styleUrls: ['./date-manipulation.component.scss'],
+    standalone: false
 })
 export class DateManipulationComponent implements OnInit {
   activeId: string;

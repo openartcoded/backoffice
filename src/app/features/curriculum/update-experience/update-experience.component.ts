@@ -4,9 +4,10 @@ import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGr
 import { Experience } from '@core/models/curriculum';
 import { DateUtils } from '@core/utils/date-utils';
 @Component({
-  selector: 'app-update-experience',
-  templateUrl: './update-experience.component.html',
-  styleUrls: ['./update-experience.component.scss'],
+    selector: 'app-update-experience',
+    templateUrl: './update-experience.component.html',
+    styleUrls: ['./update-experience.component.scss'],
+    standalone: false
 })
 export class UpdateExperienceComponent implements OnInit {
   form: UntypedFormGroup;

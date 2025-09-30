@@ -26,6 +26,7 @@ import { User } from '@core/models/user';
     selector: 'app-fee-table-result',
     templateUrl: './fee-table-result.component.html',
     styleUrls: ['./fee-table-result.component.scss'],
+    standalone: false
 })
 export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     @Input()

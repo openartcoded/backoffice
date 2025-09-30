@@ -4,9 +4,10 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-update-cv-personal-project',
-  templateUrl: './update-cv-personal-project.component.html',
-  styleUrls: ['./update-cv-personal-project.component.scss'],
+    selector: 'app-update-cv-personal-project',
+    templateUrl: './update-cv-personal-project.component.html',
+    styleUrls: ['./update-cv-personal-project.component.scss'],
+    standalone: false
 })
 export class UpdateCvPersonalProjectComponent implements OnInit {
   form: UntypedFormGroup;

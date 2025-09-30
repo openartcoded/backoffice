@@ -11,6 +11,7 @@ import { DateUtils } from '@core/utils/date-utils';
     selector: 'app-how-many',
     templateUrl: './how-many.component.html',
     styleUrls: ['./how-many.component.scss'],
+    standalone: false
 })
 export class HowManyComponent implements OnInit {
     howManyForm: UntypedFormGroup;

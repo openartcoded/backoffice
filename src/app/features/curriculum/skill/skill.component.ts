@@ -6,9 +6,10 @@ import { UpdateSkillComponent } from '@feature/curriculum/update-skill/update-sk
 import { Skill } from '@core/models/curriculum';
 
 @Component({
-  selector: 'app-skill',
-  templateUrl: './skill.component.html',
-  styleUrls: ['./skill.component.scss'],
+    selector: 'app-skill',
+    templateUrl: './skill.component.html',
+    styleUrls: ['./skill.component.scss'],
+    standalone: false
 })
 export class SkillComponent implements OnInit {
   @Input()

@@ -7,13 +7,13 @@ import { SharedModule } from '@shared/shared.module';
 
 
 @NgModule({
-  declarations: [
-    EndpointComponent
-  ],
-  imports: [
-    CommonModule, 
-    SparqlRoutingModule,
-    SharedModule,
-  ]
+    declarations: [
+        EndpointComponent
+    ],
+    imports: [
+        CommonModule,
+        SparqlRoutingModule,
+        SharedModule,
+    ],
 })
 export class SparqlModule { }

@@ -12,9 +12,10 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
 import { User } from '@core/models/user';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.scss'],
+    standalone: false
 })
 export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   links: MenuLink[];

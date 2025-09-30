@@ -9,6 +9,7 @@ import { DateUtils } from '@core/utils/date-utils';
     selector: 'app-business-days',
     templateUrl: './business-days.component.html',
     styleUrls: ['./business-days.component.scss'],
+    standalone: false
 })
 export class BusinessDaysComponent implements OnInit {
     businessDaysForm: UntypedFormGroup;

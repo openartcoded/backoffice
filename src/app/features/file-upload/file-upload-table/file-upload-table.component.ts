@@ -15,6 +15,7 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
     selector: 'app-file-upload-table',
     templateUrl: './file-upload-table.component.html',
     styleUrls: ['./file-upload-table.component.scss'],
+    standalone: false
 })
 export class FileUploadTableComponent implements OnInit {
     fileUploads: Page<FileUpload>;

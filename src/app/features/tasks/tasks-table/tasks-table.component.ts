@@ -16,6 +16,7 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
     selector: 'app-tasks-table',
     templateUrl: './tasks-table.component.html',
     styleUrls: ['./tasks-table.component.scss'],
+    standalone: false
 })
 export class TasksTableComponent implements OnInit, OnApplicationEvent {
     reminderTasks: ReminderTask[];

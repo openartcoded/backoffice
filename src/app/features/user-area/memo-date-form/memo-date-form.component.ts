@@ -6,9 +6,10 @@ import { MemoDate } from '@core/models/memo-date';
 import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
-  selector: 'app-memo-date-form',
-  templateUrl: './memo-date-form.component.html',
-  styleUrls: ['./memo-date-form.component.scss'],
+    selector: 'app-memo-date-form',
+    templateUrl: './memo-date-form.component.html',
+    styleUrls: ['./memo-date-form.component.scss'],
+    standalone: false
 })
 export class MemoDateFormComponent implements OnInit {
   addDateMemoForm: UntypedFormGroup;

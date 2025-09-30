@@ -7,9 +7,10 @@ import { MemzService } from '@core/service/memz.service';
 import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
-  selector: 'app-memagram-editor',
-  templateUrl: './memagram-editor.component.html',
-  styleUrls: ['./memagram-editor.component.scss'],
+    selector: 'app-memagram-editor',
+    templateUrl: './memagram-editor.component.html',
+    styleUrls: ['./memagram-editor.component.scss'],
+    standalone: false
 })
 export class MemagramEditorComponent implements OnInit {
   @Input()

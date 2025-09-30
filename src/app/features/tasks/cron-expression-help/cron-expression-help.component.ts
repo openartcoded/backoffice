@@ -4,9 +4,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-cron-expression-help',
-  templateUrl: './cron-expression-help.component.html',
-  styleUrls: ['./cron-expression-help.component.scss'],
+    selector: 'app-cron-expression-help',
+    templateUrl: './cron-expression-help.component.html',
+    styleUrls: ['./cron-expression-help.component.scss'],
+    standalone: false
 })
 export class CronExpressionHelpComponent implements OnInit {
   cronExpression: string = null;

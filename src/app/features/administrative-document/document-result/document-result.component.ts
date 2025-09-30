@@ -31,6 +31,7 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
     selector: 'app-document-result',
     templateUrl: './document-result.component.html',
     styleUrls: ['./document-result.component.scss'],
+    standalone: false
 })
 export class DocumentResultComponent implements OnInit, OnDestroy, OnApplicationEvent {
     adminDocuments: Page<AdministrativeDocument>;

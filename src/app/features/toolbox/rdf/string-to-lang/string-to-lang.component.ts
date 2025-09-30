@@ -7,9 +7,10 @@ import { WindowRefService } from '@core/service/window.service';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
-  selector: 'app-string-to-lang',
-  templateUrl: './string-to-lang.component.html',
-  styleUrls: ['./string-to-lang.component.scss'],
+    selector: 'app-string-to-lang',
+    templateUrl: './string-to-lang.component.html',
+    styleUrls: ['./string-to-lang.component.scss'],
+    standalone: false
 })
 export class StringToLangComponent implements OnInit {
   stringToLangForm: UntypedFormGroup;

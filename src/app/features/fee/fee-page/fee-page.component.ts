@@ -9,6 +9,7 @@ import { User } from '@core/models/user';
     selector: 'app-fee-page',
     templateUrl: './fee-page.component.html',
     styleUrls: ['./fee-page.component.scss'],
+    standalone: false
 })
 export class FeePageComponent implements OnInit {
     activeId: string;

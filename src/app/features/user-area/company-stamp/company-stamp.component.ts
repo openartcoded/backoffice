@@ -17,9 +17,10 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-company-stamp',
-  templateUrl: './company-stamp.component.html',
-  styleUrls: ['./company-stamp.component.scss'],
+    selector: 'app-company-stamp',
+    templateUrl: './company-stamp.component.html',
+    styleUrls: ['./company-stamp.component.scss'],
+    standalone: false
 })
 export class CompanyStampComponent implements OnInit {
   @ViewChild('companyStamp')

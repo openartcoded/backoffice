@@ -6,7 +6,7 @@ import { ConfigInitService } from '@init/config-init.service';
 import { MenuLink } from '@core/models/settings';
 import { SettingsService } from '@core/service/settings.service';
 import { FallbackMenu } from '../sidebar/fallback-menu';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Subscription, firstValueFrom } from 'rxjs';
 import { environment } from '@env/environment';
@@ -18,6 +18,7 @@ import { User } from '@core/models/user';
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.scss'],
+    standalone: false
 })
 export class NavbarComponent implements OnInit, OnDestroy {
     @Output('toggleExpand')

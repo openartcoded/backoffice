@@ -23,6 +23,7 @@ import { User } from '@core/models/user';
     selector: 'app-dossier-form',
     templateUrl: './dossier-form.component.html',
     styleUrls: ['./dossier-form.component.scss'],
+    standalone: false
 })
 export class DossierFormComponent implements OnInit, OnDestroy {
     dossierUpdatedSubscription: Subscription;

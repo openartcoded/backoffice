@@ -9,9 +9,10 @@ import { isPlatformBrowser } from '@angular/common';
 import { WindowRefService } from '@core/service/window.service';
 
 @Component({
-  selector: 'app-template',
-  templateUrl: './template.component.html',
-  styleUrls: ['./template.component.scss'],
+    selector: 'app-template',
+    templateUrl: './template.component.html',
+    styleUrls: ['./template.component.scss'],
+    standalone: false
 })
 export class TemplateComponent implements OnInit {
   @Input()

@@ -5,9 +5,10 @@ import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { FeeManualForm } from '@core/models/fee';
 
 @Component({
-  selector: 'app-manual-submit',
-  templateUrl: './manual-submit.component.html',
-  styleUrls: ['./manual-submit.component.scss'],
+    selector: 'app-manual-submit',
+    templateUrl: './manual-submit.component.html',
+    styleUrls: ['./manual-submit.component.scss'],
+    standalone: false
 })
 export class ManualSubmitComponent implements OnInit {
   manualSubmitForm: UntypedFormGroup;

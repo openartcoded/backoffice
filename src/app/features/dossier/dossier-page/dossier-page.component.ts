@@ -8,6 +8,7 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
     selector: 'app-dossier-page',
     templateUrl: './dossier-page.component.html',
     styleUrls: ['./dossier-page.component.scss'],
+    standalone: false
 })
 export class DossierPageComponent implements OnInit {
     activeId: string;

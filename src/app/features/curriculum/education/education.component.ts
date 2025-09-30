@@ -6,9 +6,10 @@ import { UpdateEducationComponent } from '@feature/curriculum/update-education/u
 import { ScholarHistory } from '@core/models/curriculum';
 
 @Component({
-  selector: 'app-education',
-  templateUrl: './education.component.html',
-  styleUrls: ['./education.component.scss'],
+    selector: 'app-education',
+    templateUrl: './education.component.html',
+    styleUrls: ['./education.component.scss'],
+    standalone: false
 })
 export class EducationComponent {
   @Input()

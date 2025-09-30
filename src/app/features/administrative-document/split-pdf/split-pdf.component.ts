@@ -3,9 +3,10 @@ import { PdfService } from '@core/service/pdf.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-split-pdf',
-  templateUrl: './split-pdf.component.html',
-  styleUrls: ['./split-pdf.component.scss'],
+    selector: 'app-split-pdf',
+    templateUrl: './split-pdf.component.html',
+    styleUrls: ['./split-pdf.component.scss'],
+    standalone: false
 })
 export class SplitPdfComponent implements OnInit {
   file: File;
