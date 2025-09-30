@@ -4,7 +4,7 @@ import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGr
 import { BillTo, Invoice, InvoiceForm, InvoiceFreemarkerTemplate, InvoiceRow } from '@core/models/invoice';
 import { RateType } from '@core/models/common';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
-import * as moment from 'moment';
+import moment from 'moment';
 import { DateUtils } from '@core/utils/date-utils';
 import { BillableClient } from '@core/models/billable-client';
 import { FileService } from '@core/service/file.service';

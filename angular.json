@@ -22,11 +22,12 @@
                             "highlight.js"
                         ],
                         "outputPath": {
-                          "base": "dist/artcoded-backoffice"
+                            "base": "dist/artcoded-backoffice"
                         },
                         "index": "src/index.html",
                         "polyfills": [
-                          "src/polyfills.ts"
+                            "src/polyfills.ts",
+                            "@angular/localize/init"
                         ],
                         "tsConfig": "tsconfig.app.json",
                         "assets": [
@@ -39,6 +40,7 @@
                             "node_modules/primeicons/primeicons.css",
                             "node_modules/primeng/resources/themes/saga-blue/theme.css",
                             "node_modules/primeng/resources/primeng.min.css",
+                            "node_modules/@triply/yasgui/build/yasgui.min.css",
                             "src/styles.scss"
                         ],
                         "scripts": [],

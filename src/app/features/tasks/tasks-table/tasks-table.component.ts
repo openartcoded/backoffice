@@ -9,7 +9,7 @@ import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { ActionResultComponent } from '../action-result/action-result.component';
 import { Title } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
-import * as moment from 'moment';
+import moment from 'moment';
 import { PersonalInfoService } from '@core/service/personal.info.service';
 
 @Component({
