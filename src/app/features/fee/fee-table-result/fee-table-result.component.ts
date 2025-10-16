@@ -30,6 +30,8 @@ import { User } from '@core/models/user';
 })
 export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     @Input()
+    bookmarked: boolean;
+    @Input()
     archived: boolean;
     searchCriteria: FeeSearchCriteria;
     fees: Page<Fee>;
@@ -68,10 +70,17 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
         }
         this.search({
             archived: this.archived,
+            bookmarked: this.bookmarked,
         });
         this.labelService.findAll().subscribe((labels) => (this.tags = labels));
     }
-
+    toggleBookmark($event: MouseEvent, fee: Fee) {
+        $event.stopPropagation();
+        this.feeService.toggleBookmarked(fee.id).subscribe(invoice => {
+            this.toastService.showSuccess('Bookmark toggled. Reload...');
+            this.load();
+        });
+    }
     search(criteria: FeeSearchCriteria) {
         this.searchCriteria = criteria;
         this.selectedRows = [];

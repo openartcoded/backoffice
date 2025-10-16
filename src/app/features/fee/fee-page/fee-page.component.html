@@ -53,6 +53,19 @@
         </div>
       </ng-template>
     </li>
+         <li ngbNavItem="bookmarks">
+      <a ngbNavLink routerLink="/fee/bookmarks"><fa-icon [classList]="'text-warning'" [icon]="['fas', 'star']"/>Bookmarks</a>
+      <ng-template ngbNavContent>
+        <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+          <ng-component [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Bookmarks' }"></ng-component>
+
+          <div class="d-block" *ngIf="user">
+            <app-fee-table-result [bookmarked]="true" [user]="user" [demoMode]="demoMode"></app-fee-table-result>
+          </div>
+        </div>
+      </ng-template>
+    </li>
   </ul>
   <div [ngbNavOutlet]="nav"></div>
 </ng-container>
