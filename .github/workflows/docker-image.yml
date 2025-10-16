@@ -29,7 +29,10 @@ jobs:
             - name: Install dependencies
               run: npm i
             - name: Build app
-              run: npm run buildprod
+              run: |
+                  npm run buildprod
+                  mkdir -p /app
+                  mv dist/artcoded-backoffice/browser /app
             - name: Build and push
               uses: docker/build-push-action@v5
               with:
