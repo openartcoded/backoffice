@@ -44,6 +44,8 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
     };
 
     @Input()
+    bookmarked: boolean;
+    @Input()
     logicalDelete: boolean;
     @Input()
     user: User;
@@ -80,7 +82,7 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
 
     load(event: number = 1) {
         this.invoiceService
-            .search(this.archived, this.logicalDelete, event, this.pageSize, this.sort)
+            .search(this.archived, this.logicalDelete, event, this.pageSize, this.sort, this.bookmarked)
             .subscribe((invoices) => {
                 this.invoices = invoices;
             });
@@ -139,9 +141,15 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
             });
         });
     }
+    toggleBookmark($event: MouseEvent, invoice: Invoice) {
+        $event.stopPropagation();
+        this.invoiceService.toggleBookmarked(invoice.id).subscribe(invoice => {
+            this.toastService.showSuccess('Bookmark toggled. Reload...');
+            this.load();
+        });
+    }
     makeCreditNote(invoice: Invoice) {
         this.invoiceService.makeCreditNote(invoice).subscribe((inv) => {
-
             this.toastService.showSuccess('Credit note created. Will be generated soon');
         });
     }

@@ -1,11 +1,11 @@
-<div class="alert alert-danger" *ngIf="!archived && !activeDossier && !logicalDelete">
+<div class="alert alert-danger" *ngIf="!bookmarked && !archived && !activeDossier && !logicalDelete">
   <fa-icon [icon]="['fas', 'times']"></fa-icon>&nbsp;No active dossier!
 </div>
 <div class="d-flex justify-content-between mb-2">
-  <p class="" *ngIf="!logicalDelete">
+  <p *ngIf="!bookmarked && !logicalDelete">
     <span class="text-secondary" *ngIf="activeDossier && !archived">Dossier: {{ activeDossier?.name }} </span>
   </p>
-  <div *ngIf="!logicalDelete && hasRoleAdmin" ngbDropdown class="d-inline-block mt-0" container="body">
+  <div *ngIf="!bookmarked && !logicalDelete && hasRoleAdmin" ngbDropdown class="d-inline-block mt-0" container="body">
     <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
       <fa-icon icon="exclamation"></fa-icon>&nbsp;Actions
     </button>
@@ -85,6 +85,7 @@
           <th class="d-md-table-cell d-none">Total</th>
           <th class="d-md-table-cell d-none">Peppol Status</th>
           <th class="fit">Action</th>
+        <th class="fit"></th>
         </tr>
       </thead>
       <tbody>
@@ -169,6 +170,9 @@
               </div>
             </div>
           </td>
+                                  <td class="text-center fit">
+                            <button class="btn btn-link" (click)="toggleBookmark($event,invoice)" [class.text-muted]="!invoice.bookmarked" [class.text-warning]="invoice.bookmarked"><fa-icon [icon]="['fas', 'star']"/></button>
+                                    </td>
         </tr>
                 
 

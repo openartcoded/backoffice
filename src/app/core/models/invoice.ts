@@ -49,6 +49,8 @@ export interface Invoice {
     archived?: boolean;
     freemarkerTemplateId?: string;
     logicalDelete?: boolean;
+    bookmarked?: boolean; // 2025-10-16 21:52 experiment
+    bookmarkedDate?: Date;
     uploadedManually?: boolean;
     invoiceUploadId?: string;
     invoiceUBLId?: string;

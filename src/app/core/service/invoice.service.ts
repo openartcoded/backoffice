@@ -20,9 +20,17 @@ export class InvoiceService {
         logicalDelete: boolean = false,
         pageNumber: number,
         pageSize: number,
-        sortCriteria: SortCriteria
+        sortCriteria: SortCriteria,
+        bookmarked: boolean = false,
     ): Observable<Page<Invoice>> {
         const direction = Direction[sortCriteria.direction];
+        if (bookmarked) {
+            return this.http.get<Page<Invoice>>(
+                `${this.basePath}/bookmarked?page=${pageNumber - 1
+                }&size=${pageSize}&sort=${sortCriteria.property},${direction}`,
+                {}
+            );
+        }
         return this.http.post<Page<Invoice>>(
             `${this.basePath}/page?archived=${archived}&logical=${logicalDelete}&page=${pageNumber - 1
             }&size=${pageSize}&sort=${sortCriteria.property},${direction}`,
@@ -34,6 +42,14 @@ export class InvoiceService {
         return this.http.post<Invoice[]>(`${this.basePath}/find-all-summaries`, {});
     }
 
+    getBookmarked(pageNumber: number,
+        pageSize: number,
+    ): Observable<Page<Invoice>> {
+        return this.http.get<Page<Invoice>>(`${this.basePath}/bookmarked?page=${pageNumber - 1}&size=${pageSize}`);
+    }
+    toggleBookmarked(id: string) {
+        return this.http.post<void>(`${this.basePath}/toggle-bookmarked?id=${id}`, {});
+    }
     newInvoiceFromTemplate(invoice: Invoice): Observable<Invoice> {
         return this.http.post<Invoice>(`${this.basePath}/from-template?id=${invoice.id}`, {});
     }
