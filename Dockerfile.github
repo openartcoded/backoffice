@@ -1,6 +1,6 @@
 FROM nginx:stable-alpine
 COPY replace_placeholder.sh /
-COPY $HOME/compiled /usr/share/nginx/html
+COPY ./compiled /usr/share/nginx/html
 EXPOSE 80
 
 ENTRYPOINT [ "sh", "/replace_placeholder.sh" ]
