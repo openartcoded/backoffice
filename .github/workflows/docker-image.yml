@@ -28,6 +28,7 @@ jobs:
                   node-version: 22
             - name: Install dependencies
               run: npm i
+              working-directory: .
             - name: Build app
               run: |
                   npm run buildprod
