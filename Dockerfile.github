@@ -1,0 +1,7 @@
+FROM nginx:stable-alpine
+COPY replace_placeholder.sh /
+COPY dist/artcoded-backoffice/browser /usr/share/nginx/html
+EXPOSE 80
+
+ENTRYPOINT [ "sh", "/replace_placeholder.sh" ]
+CMD ["nginx", "-g", "daemon off;"]
