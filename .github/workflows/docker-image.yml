@@ -26,11 +26,13 @@ jobs:
                   node-version: 22
             - name: Install dependencies
               run: npm i
+              working-directory: .
             - name: Build app
               run: |
                   npm run buildprod
                   mkdir -p compiled
                   mv dist/artcoded-backoffice/browser compiled
+              working-directory: .
             - name: Build and push
               uses: docker/build-push-action@v5
               with:
