@@ -35,6 +35,6 @@ jobs:
               with:
                   context: .
                   file: Dockerfile.github
-                  platforms: linux/amd64 #,linux/arm64
+                  platforms: linux/amd64,linux/arm64
                   push: true
                   tags: nbittich/back-office:latest
