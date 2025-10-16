@@ -1,7 +1,7 @@
 <app-title title="GALLERY"></app-title>
 <div class=" d-flex justify-content-between ">
-  <ngb-pagination *ngIf="memzPage?.totalPages > 1" [page]="pageNumber" [pageSize]="memzPage.size"
-    [maxSize]="defaultPageSize" [collectionSize]="memzPage.totalElements" (pageChange)="load($event)">
+  <ngb-pagination *ngIf="memzPage?.page?.totalPages > 1" [page]="pageNumber" [pageSize]="memzPage?.page?.size"
+    [maxSize]="defaultPageSize" [collectionSize]="memzPage?.page?.totalElements" (pageChange)="load($event)">
   </ngb-pagination>
   <div>
     <a class="btn text-primary" (click)="openFormModal()">
@@ -14,7 +14,7 @@
 </div>
 
 
-<ng-container *ngIf="memzPage?.size > 0">
+<ng-container *ngIf="memzPage?.page?.size > 0">
   <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="false">
     <ng-template ngbSlide *ngFor="let memz of memzPage.content">
       <div class="image-carousel-overlay">
@@ -38,6 +38,6 @@
 
 
 </ng-container>
-<ng-container *ngIf="!memzPage || memzPage.empty">
+<ng-container *ngIf="!memzPage || memzPage?.page?.size === 0">
   No content.
 </ng-container>

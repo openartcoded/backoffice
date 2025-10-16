@@ -13,8 +13,8 @@
       </button>
     </div>
     <ng-container *ngIf="pdfSrc">
-      <pdf-viewer *ngIf="pdf.contentType ==='application/pdf'" [src]="pdfSrc" [render-text]="true" style="display: block" [autoresize]="true" [show-all]="true"
-        [fit-to-page]="true"></pdf-viewer>
+      <ng2-pdfjs-viewer    [responsiveBreakpoint]="768" iframeBorder="0" *ngIf="pdf.contentType ==='application/pdf'" [pdfSrc]="pdfSrc" [showSpinner]="true"   [theme]="'light'" [customCSS]="'h-100 w-100 bg-danger'" 
+        />
             <ng-container *ngIf="xml && (pdf.contentType ==='text/xml' || pdf.contentType === 'application/xml')">
                 <app-copy-to-clipboard [textToCopy]="xml" btnClasses="btn btn-outline-secondary mb-1"/>
 <md-editor name="xmlContent" 

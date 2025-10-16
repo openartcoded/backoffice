@@ -91,7 +91,7 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
     }
 
     get pageNumber() {
-        return this?.adminDocuments?.pageable?.pageNumber + 1;
+        return this?.adminDocuments?.page?.number + 1;
     }
 
     load(event: number = 1) {

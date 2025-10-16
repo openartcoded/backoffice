@@ -70,8 +70,8 @@
         </table>
       </div>
       <div class="d-flex justify-content-end mb-2">
-        <ngb-pagination *ngIf="adminDocuments.totalPages > 1" [page]="pageNumber" [pageSize]="adminDocuments.size"
-          [maxSize]="1" [collectionSize]="adminDocuments.totalElements" (pageChange)="load($event)">
+        <ngb-pagination *ngIf="adminDocuments.page.totalPages > 1" [page]="pageNumber" [pageSize]="adminDocuments.page.size"
+          [maxSize]="1" [collectionSize]="adminDocuments.page.totalElements" (pageChange)="load($event)">
         </ngb-pagination>
       </div>
     </ng-container>

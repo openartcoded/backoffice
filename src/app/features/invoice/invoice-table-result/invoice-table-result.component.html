@@ -179,8 +179,8 @@
     </table>
   </div>
   <div class="d-flex justify-content-end mb-2">
-    <ngb-pagination *ngIf="invoices?.totalPages > 1" [page]="invoices?.pageable?.pageNumber + 1"
-      [pageSize]="invoices?.size" [maxSize]="1" [collectionSize]="invoices?.totalElements" (pageChange)="load($event)">
+    <ngb-pagination *ngIf="invoices?.page?.totalPages > 1" [page]="invoices?.page?.number + 1"
+      [pageSize]="invoices?.page?.size" [maxSize]="1" [collectionSize]="invoices?.page?.totalElements" (pageChange)="load($event)">
     </ngb-pagination>
   </div>
 </ng-container>

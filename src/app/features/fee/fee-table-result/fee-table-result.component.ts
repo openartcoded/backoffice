@@ -85,7 +85,7 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     }
 
     get pageNumber() {
-        return this?.fees?.pageable?.pageNumber + 1;
+        return this?.fees?.page?.number + 1;
     }
 
     toggleSelectedRow(fee: Fee, force = false, evt = null) {

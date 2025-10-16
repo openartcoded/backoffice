@@ -4,7 +4,7 @@
   </div>
   <div class="d-md-flex justify-content-between pb-2 pt-1">
     <p *ngIf="hasRoleAdmin">
-      Total Elements: <span class="text-danger">{{ fees.totalElements }}</span>
+      Total Elements: <span class="text-danger">{{ fees.page.totalElements }}</span>
     </p>
     <div *ngIf="!archived && hasRoleAdmin" ngbDropdown class="d-inline-block mt-0" container="body">
       <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
@@ -113,8 +113,8 @@
       </div>
 
       <div class="d-flex justify-content-end mb-2">
-        <ngb-pagination *ngIf="fees && fees.totalPages > 1" [page]="pageNumber" [pageSize]="fees.size" [maxSize]="1"
-          [collectionSize]="fees.totalElements" (pageChange)="load($event)">
+        <ngb-pagination *ngIf="fees && fees.page.totalPages > 1" [page]="pageNumber" [pageSize]="fees.page.size" [maxSize]="1"
+          [collectionSize]="fees.page.totalElements" (pageChange)="load($event)">
         </ngb-pagination>
       </div>
     </div>

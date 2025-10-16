@@ -67,7 +67,7 @@ export class FileUploadTableComponent implements OnInit {
     }
 
     get pageNumber() {
-        return this?.fileUploads?.pageable?.pageNumber + 1;
+        return this?.fileUploads?.page?.number + 1;
     }
 
     load(event: number = 1) {

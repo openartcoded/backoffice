@@ -43,8 +43,8 @@
     </table>
   </div>
   <div class="d-flex justify-content-between mb-2">
-    <ngb-pagination *ngIf="mails?.totalPages > 1" [page]="mails?.pageable?.pageNumber + 1" [pageSize]="mails?.size"
-      [maxSize]="5" [collectionSize]="mails?.totalElements" (pageChange)="load($event)">
+    <ngb-pagination *ngIf="mails?.page?.totalPages > 1" [page]="mails?.page?.number + 1" [pageSize]="mails?.page?.size"
+      [maxSize]="5" [collectionSize]="mails?.page?.totalElements" (pageChange)="load($event)">
     </ngb-pagination>
   </div>
 </ng-container>

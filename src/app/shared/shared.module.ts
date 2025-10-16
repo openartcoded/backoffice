@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TitleComponent } from './title/title.component';
 import { SlugifyPipe } from '@core/pipe/slugify-pipe';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { PdfJsViewerModule } from "ng2-pdfjs-viewer";
 import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 import { ImageLoaderComponent } from './image-loader/image-loader.component';
 import { SortPipe } from '@core/pipe/sort-pipe';
@@ -70,7 +70,7 @@ import("marked").then(m => {
         LMarkdownEditorModule,
         FormsModule,
         ReactiveFormsModule,
-        PdfViewerModule,
+        PdfJsViewerModule,
     ],
     providers: [SlugifyPipe, SortPipe],
 })

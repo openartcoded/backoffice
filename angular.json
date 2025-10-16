@@ -34,6 +34,11 @@
                             "src/favicon.ico",
                             "src/robots.txt",
                             "src/assets",
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/ng2-pdfjs-viewer/pdfjs",
+                                "output": "/assets/pdfjs"
+                            },
                             "src/manifest.webmanifest"
                         ],
                         "styles": [

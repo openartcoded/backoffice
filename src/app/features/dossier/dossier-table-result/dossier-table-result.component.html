@@ -131,11 +131,11 @@
   </div>
   <div class="d-flex justify-content-end mb-2">
     <ngb-pagination
-      *ngIf="dossiers?.totalPages > 1"
-      [page]="dossiers?.pageable?.pageNumber + 1"
-      [pageSize]="dossiers?.size"
+      *ngIf="dossiers?.page?.totalPages > 1"
+      [page]="dossiers?.page?.number + 1"
+      [pageSize]="dossiers?.page?.size"
       [maxSize]="1"
-      [collectionSize]="dossiers?.totalElements"
+      [collectionSize]="dossiers?.page?.totalElements"
       (pageChange)="load($event)"
     >
     </ngb-pagination>

@@ -46,8 +46,8 @@
                 </li>
             </ul>
             <div class="d-flex justify-content-between mt-1">
-                <ngb-pagination *ngIf="actionResults?.totalPages > 1" [page]="actionResults?.pageable?.pageNumber + 1"
-                    [pageSize]="actionResults?.size" [maxSize]="5" [collectionSize]="actionResults?.totalElements"
+                <ngb-pagination *ngIf="actionResults?.page?.totalPages > 1" [page]="actionResults?.page?.number + 1"
+                    [pageSize]="actionResults?.page?.size" [maxSize]="5" [collectionSize]="actionResults?.page?.totalElements"
                     (pageChange)="load($event)">
                 </ngb-pagination>
             </div>
