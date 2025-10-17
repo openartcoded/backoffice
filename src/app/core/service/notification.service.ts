@@ -49,7 +49,7 @@ export class NotificationService {
     private configService: ConfigInitService,
     private personalInfoService: PersonalInfoService,
     private authService: AuthService,
-  ) { }
+  ) {}
 
   latests(): Observable<ArtcodedNotification[]> {
     return this.http.get<ArtcodedNotification[]>(
@@ -129,10 +129,10 @@ export class NotificationService {
     this.unseenCount = notifications?.filter((n) => !n.seen).length || 0;
     this.titleService.setTitle(
       (this.unseenCount === 0 ? '' : `(${this.unseenCount})`) +
-      this.titleService
-        .getTitle()
-        .replace(/\([\d]+\)/g, '')
-        .trim(),
+        this.titleService
+          .getTitle()
+          .replace(/\([\d]+\)/g, '')
+          .trim(),
     );
   }
 

@@ -2,7 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DocumentResultComponent } from './document-result/document-result.component';
 import { SharedModule } from '@shared/shared.module';
-import { NgbCollapseModule, NgbDropdownModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCollapseModule,
+  NgbDropdownModule,
+  NgbModalModule,
+  NgbNavModule,
+  NgbPaginationModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AdministrativeDocumentRoutingModule } from '@feature/administrative-document/administrative-document-routing.module';
@@ -12,12 +18,21 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 import { ChipsModule } from 'primeng/chips';
 import { DocumentSearchFormComponent } from './document-search-form/document-search-form.component';
 import { SplitPdfComponent } from './split-pdf/split-pdf.component';
+import { RouterModule } from '@angular/router';
+import { DocumentMainPageComponent } from './document-main-page/document-main-page.component';
 
 @NgModule({
-  declarations: [DocumentResultComponent, DocumentEditorComponent, DocumentSearchFormComponent, SplitPdfComponent],
+  declarations: [
+    DocumentResultComponent,
+    DocumentMainPageComponent,
+    DocumentEditorComponent,
+    DocumentSearchFormComponent,
+    SplitPdfComponent,
+  ],
   imports: [
     CommonModule,
     SharedModule,
+    NgbModalModule,
     NgbPaginationModule,
     AdministrativeDocumentRoutingModule,
     FormsModule,
@@ -26,8 +41,10 @@ import { SplitPdfComponent } from './split-pdf/split-pdf.component';
     AutosizeModule,
     NgxFileDropModule,
     ChipsModule,
+    RouterModule,
     NgbCollapseModule,
+    NgbNavModule,
     NgbDropdownModule,
   ],
 })
-export class AdministrativeDocumentModule { }
+export class AdministrativeDocumentModule {}

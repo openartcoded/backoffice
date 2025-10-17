@@ -15,58 +15,58 @@ import { Observable, Subscription, combineLatest, firstValueFrom, map } from 'rx
 
 type Indicators = { buildInfo: BackendInfo; healthIndicator: HealthIndicator };
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss'],
-    standalone: false
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+  standalone: false,
 })
 export class HomeComponent implements OnInit, OnDestroy {
-    private subscription: Subscription;
-    indicators$: Observable<Indicators>;
-    user: User;
-    activeDossier: Dossier;
+  private subscription: Subscription;
+  indicators$: Observable<Indicators>;
+  user: User;
+  activeDossier: Dossier;
 
-    personalInfo: PersonalInfo;
-    loaded: boolean = true;
+  personalInfo: PersonalInfo;
+  loaded: boolean = true;
 
-    constructor(
-        private titleService: Title,
-        private breakPointObserver: BreakpointObserver,
-        private infoService: InfoService,
-        private personalInfoService: PersonalInfoService,
-        private dossierService: DossierService,
-        @Inject(PLATFORM_ID) private platformId: any,
-        private windowService: WindowRefService,
-    ) { }
+  constructor(
+    private titleService: Title,
+    private breakPointObserver: BreakpointObserver,
+    private infoService: InfoService,
+    private personalInfoService: PersonalInfoService,
+    private dossierService: DossierService,
+    @Inject(PLATFORM_ID) private platformId: any,
+    private windowService: WindowRefService,
+  ) {}
 
-    ngOnDestroy(): void {
-        this.subscription?.unsubscribe();
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
+
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
+  async ngOnInit() {
+    this.user = await firstValueFrom(this.personalInfoService.me());
+    this.personalInfo = await firstValueFrom(this.personalInfoService.get());
+
+    this.dossierService.activeDossier().subscribe((dt) => (this.activeDossier = dt));
+    if (isPlatformBrowser(this.platformId)) {
+      // WORKAROUND bug plotly responsive
+      this.subscription = this.breakPointObserver
+        .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
+        .subscribe(() => {
+          this.loaded = false;
+          this.windowService.nativeWindow.dispatchEvent(new Event('resize'));
+          setTimeout(() => {
+            this.loaded = true;
+          }, 150);
+        });
+      this.indicators$ = combineLatest([this.infoService.getBuildInfo(), this.infoService.getHealth()]).pipe(
+        map(([buildInfo, healthIndicator]) => ({ buildInfo, healthIndicator })),
+      );
     }
 
-    get hasRoleAdmin(): boolean {
-        return this.user.authorities.includes('ADMIN');
-    }
-    async ngOnInit() {
-        this.user = await firstValueFrom(this.personalInfoService.me());
-        this.personalInfo = await firstValueFrom(this.personalInfoService.get());
-
-        this.dossierService.activeDossier().subscribe((dt) => (this.activeDossier = dt));
-        if (isPlatformBrowser(this.platformId)) {
-            // WORKAROUND bug plotly responsive
-            this.subscription = this.breakPointObserver
-                .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
-                .subscribe(() => {
-                    this.loaded = false;
-                    this.windowService.nativeWindow.dispatchEvent(new Event('resize'));
-                    setTimeout(() => {
-                        this.loaded = true;
-                    }, 150);
-                });
-            this.indicators$ = combineLatest([this.infoService.getBuildInfo(), this.infoService.getHealth()]).pipe(
-                map(([buildInfo, healthIndicator]) => ({ buildInfo, healthIndicator })),
-            );
-        }
-
-        this.titleService.setTitle('Artcoded BackOffice');
-    }
+    this.titleService.setTitle('Artcoded BackOffice');
+  }
 }

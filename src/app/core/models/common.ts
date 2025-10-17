@@ -1,4 +1,4 @@
 export enum RateType {
-    DAYS,
-    HOURS,
-  }
+  DAYS,
+  HOURS,
+}

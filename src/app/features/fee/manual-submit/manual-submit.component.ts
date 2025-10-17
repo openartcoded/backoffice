@@ -5,16 +5,19 @@ import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { FeeManualForm } from '@core/models/fee';
 
 @Component({
-    selector: 'app-manual-submit',
-    templateUrl: './manual-submit.component.html',
-    styleUrls: ['./manual-submit.component.scss'],
-    standalone: false
+  selector: 'app-manual-submit',
+  templateUrl: './manual-submit.component.html',
+  styleUrls: ['./manual-submit.component.scss'],
+  standalone: false,
 })
 export class ManualSubmitComponent implements OnInit {
   manualSubmitForm: UntypedFormGroup;
   manualFormSubmitted: EventEmitter<FeeManualForm> = new EventEmitter<FeeManualForm>();
 
-  constructor(private fb: UntypedFormBuilder, @Optional() public activeModal: NgbActiveModal) {}
+  constructor(
+    private fb: UntypedFormBuilder,
+    @Optional() public activeModal: NgbActiveModal,
+  ) {}
 
   ngOnInit(): void {
     this.manualSubmitForm = this.fb.group(
@@ -23,7 +26,7 @@ export class ManualSubmitComponent implements OnInit {
         body: new UntypedFormControl('', [Validators.required]),
         files: new UntypedFormControl(null, []),
       },
-      {}
+      {},
     );
   }
 

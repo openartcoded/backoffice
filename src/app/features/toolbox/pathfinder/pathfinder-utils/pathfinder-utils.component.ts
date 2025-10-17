@@ -2,12 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { XPathService } from '@core/service/xpath.service';
 import { Meta, Title } from '@angular/platform-browser';
-import {JSONPath} from 'jsonpath-plus';
+import { JSONPath } from 'jsonpath-plus';
 @Component({
-    selector: 'app-pathfinder-utils',
-    templateUrl: './pathfinder-utils.component.html',
-    styleUrls: ['./pathfinder-utils.component.scss'],
-    standalone: false
+  selector: 'app-pathfinder-utils',
+  templateUrl: './pathfinder-utils.component.html',
+  styleUrls: ['./pathfinder-utils.component.scss'],
+  standalone: false,
 })
 export class PathfinderUtilsComponent implements OnInit {
   @Input()
@@ -93,7 +93,7 @@ export class PathfinderUtilsComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private titleService: Title,
     private metaService: Meta,
-    private xpathService: XPathService
+    private xpathService: XPathService,
   ) {}
 
   ngOnInit(): void {
@@ -110,14 +110,15 @@ export class PathfinderUtilsComponent implements OnInit {
     };
     this.inputForm = this.fb.group(
       {
-        expression: new UntypedFormControl(this.pathType === 'application/json' ? this.defaultJsonPath : this.defaultXmlPath, [
-          Validators.required,
-        ]),
+        expression: new UntypedFormControl(
+          this.pathType === 'application/json' ? this.defaultJsonPath : this.defaultXmlPath,
+          [Validators.required],
+        ),
         data: new UntypedFormControl(this.pathType === 'application/json' ? this.defaultJson : this.defaultXml, [
           Validators.required,
         ]),
       },
-      {}
+      {},
     );
   }
 
@@ -125,18 +126,16 @@ export class PathfinderUtilsComponent implements OnInit {
     try {
       if (this.pathType === 'application/json') {
         const json = JSON.parse(this.inputForm.controls.data.value);
-        this.result = JSONPath(
-          {
-           path: this.inputForm.controls.expression.value,
-           json
-          }
-        );
+        this.result = JSONPath({
+          path: this.inputForm.controls.expression.value,
+          json,
+        });
       } else {
         this.xpathService
           .evaluate(this.inputForm.controls.expression.value, this.inputForm.controls.data.value)
           .subscribe(
             (resp) => (this.result = resp),
-            (err) => console.error(err)
+            (err) => console.error(err),
           );
       }
     } catch (e) {

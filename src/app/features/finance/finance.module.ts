@@ -36,4 +36,4 @@ import { PlotlyViaCDNModule } from 'angular-plotly.js';
     NgbDropdownModule,
   ],
 })
-export class FinanceModule { }
+export class FinanceModule {}

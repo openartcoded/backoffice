@@ -7,11 +7,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InvoiceDetailComponent } from './invoice-detail/invoice-detail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-    NgbDatepickerModule,
-    NgbDropdownModule,
-    NgbPaginationModule,
-    NgbNavModule,
-    NgbTooltipModule,
+  NgbDatepickerModule,
+  NgbDropdownModule,
+  NgbPaginationModule,
+  NgbNavModule,
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { InvoiceTableResultComponent } from './invoice-table-result/invoice-table-result.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
@@ -20,22 +20,28 @@ import { AutosizeModule } from 'ngx-autosize';
 import { PeppolValidationResultComponent } from './peppol-validation-result/peppol-validation-result.component';
 
 @NgModule({
-    declarations: [InvoicePageComponent, InvoiceDetailComponent, PeppolValidationResultComponent, InvoiceTableResultComponent, TemplateComponent],
-    imports: [
-        CommonModule,
-        SharedModule,
-        InvoiceRoutingModule,
-        FontAwesomeModule,
-        ReactiveFormsModule,
-        NgbDatepickerModule,
-        AutosizeModule,
-        NgbTooltipModule,
-        NgbDropdownModule,
-        FormsModule,
-        NgbPaginationModule,
-        NgbNavModule,
-        NgxFileDropModule,
-    ],
-    providers: [{ provide: LOCALE_ID, useValue: 'de' }],
+  declarations: [
+    InvoicePageComponent,
+    InvoiceDetailComponent,
+    PeppolValidationResultComponent,
+    InvoiceTableResultComponent,
+    TemplateComponent,
+  ],
+  imports: [
+    CommonModule,
+    SharedModule,
+    InvoiceRoutingModule,
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    NgbDatepickerModule,
+    AutosizeModule,
+    NgbTooltipModule,
+    NgbDropdownModule,
+    FormsModule,
+    NgbPaginationModule,
+    NgbNavModule,
+    NgxFileDropModule,
+  ],
+  providers: [{ provide: LOCALE_ID, useValue: 'de' }],
 })
-export class InvoiceModule { }
+export class InvoiceModule {}

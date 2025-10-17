@@ -12,8 +12,11 @@
         <input type="text" class="form-control mb-2" formControlName="subject" placeholder="Subject" />
       </div>
       <div class="mb-1 d-flex justify-content-start" *ngIf="context?.size">
-        <button class="btn btn-outline-secondary me-1" *ngFor="let option of context | keyvalue"
-          (click)="updateBody($event, option.value)">
+        <button
+          class="btn btn-outline-secondary me-1"
+          *ngFor="let option of context | keyvalue"
+          (click)="updateBody($event, option.value)"
+        >
           {{ option.key }}
         </button>
       </div>

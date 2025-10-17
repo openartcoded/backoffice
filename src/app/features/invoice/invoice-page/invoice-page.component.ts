@@ -6,10 +6,10 @@ import { User } from '@core/models/user';
 import { PersonalInfoService } from '@core/service/personal.info.service';
 
 @Component({
-    selector: 'app-invoice-page',
-    templateUrl: './invoice-page.component.html',
-    styleUrls: ['./invoice-page.component.scss'],
-    standalone: false
+  selector: 'app-invoice-page',
+  templateUrl: './invoice-page.component.html',
+  styleUrls: ['./invoice-page.component.scss'],
+  standalone: false,
 })
 export class InvoicePageComponent implements OnInit {
   activeId: string;
@@ -29,7 +29,7 @@ export class InvoicePageComponent implements OnInit {
     private modalService: NgbModal,
     private titleService: Title,
     private personalInfoService: PersonalInfoService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('Invoices');

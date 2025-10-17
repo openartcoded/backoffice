@@ -9,10 +9,10 @@ import { DateUtils } from '@core/utils/date-utils';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-post-detail',
-    templateUrl: './post-detail.component.html',
-    styleUrls: ['./post-detail.component.scss'],
-    standalone: false
+  selector: 'app-post-detail',
+  templateUrl: './post-detail.component.html',
+  styleUrls: ['./post-detail.component.scss'],
+  standalone: false,
 })
 export class PostDetailComponent implements OnInit {
   post: Post;
@@ -24,7 +24,7 @@ export class PostDetailComponent implements OnInit {
     private titleService: Title,
     @Inject(DOCUMENT) private document: any,
     private metaService: Meta,
-    private blogService: BlogService
+    private blogService: BlogService,
   ) {}
 
   ngOnInit(): void {

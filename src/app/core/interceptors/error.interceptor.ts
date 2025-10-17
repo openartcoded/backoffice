@@ -7,7 +7,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthService, private modalService: NgbModal) {}
+  constructor(
+    private authenticationService: AuthService,
+    private modalService: NgbModal,
+  ) {}
 
   intercept<T>(request: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
     return next.handle(request).pipe(
@@ -20,7 +23,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           const errorMessage = err.error || err.message || err.statusText || 'An error occurred';
         }
         return throwError(err);
-      })
+      }),
     );
   }
 }

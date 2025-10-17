@@ -6,17 +6,17 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-next-tasks',
-    templateUrl: './next-tasks.component.html',
-    styleUrls: ['./next-tasks.component.scss'],
-    standalone: false
+  selector: 'app-next-tasks',
+  templateUrl: './next-tasks.component.html',
+  styleUrls: ['./next-tasks.component.scss'],
+  standalone: false,
 })
 export class NextTasksComponent implements OnInit {
   reminderTasks$: Observable<ReminderTask[]>;
   constructor(
     private reminderTaskService: ReminderTaskService,
     private modalService: NgbModal,
-  ) { }
+  ) {}
   ngOnInit(): void {
     this.load();
   }

@@ -4,10 +4,10 @@ import { WindowRefService } from '@core/service/window.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
-    selector: 'app-tick-chart',
-    templateUrl: './tick-chart.component.html',
-    styleUrls: ['./tick-chart.component.scss'],
-    standalone: false
+  selector: 'app-tick-chart',
+  templateUrl: './tick-chart.component.html',
+  styleUrls: ['./tick-chart.component.scss'],
+  standalone: false,
 })
 export class TickChartComponent implements OnInit {
   @Input()
@@ -26,7 +26,7 @@ export class TickChartComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
     private windowService: WindowRefService,
-    private breakPointObserver: BreakpointObserver
+    private breakPointObserver: BreakpointObserver,
   ) {}
 
   ngOnInit() {

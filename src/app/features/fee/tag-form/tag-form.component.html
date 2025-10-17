@@ -3,8 +3,14 @@
   <div class="card-body">
     <div class="mb-1">
       <label for="tagSelect">Select a tag &nbsp;</label>
-      <select class="form-select" id="tagSelect" [(ngModel)]="selectedTag" name="tagSelect" required="required"
-        [disabled]="isDisabled">
+      <select
+        class="form-select"
+        id="tagSelect"
+        [(ngModel)]="selectedTag"
+        name="tagSelect"
+        required="required"
+        [disabled]="isDisabled"
+      >
         <option *ngFor="let t of tags" [ngValue]="t.id">{{ t.name | titlecase }}</option>
       </select>
     </div>

@@ -4,11 +4,18 @@ import { FileUploadTableComponent } from './file-upload-table/file-upload-table.
 import { SharedModule } from '@shared/shared.module';
 import { FileUploadRoutingModule } from './file-upload-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbCollapseModule, NgbDropdownModule, NgbPaginationModule,  } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCollapseModule,
+  NgbDropdownModule,
+  NgbModalModule,
+  NgbNavModule,
+  NgbPaginationModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileUploadSearchFormComponent } from './file-upload-search-form/file-upload-search-form.component';
+import { FileUploadPageComponent } from './file-upload-page/file-upload-page.component';
 @NgModule({
-  declarations: [FileUploadTableComponent, FileUploadSearchFormComponent],
+  declarations: [FileUploadTableComponent, FileUploadSearchFormComponent, FileUploadPageComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -19,6 +26,8 @@ import { FileUploadSearchFormComponent } from './file-upload-search-form/file-up
     NgbCollapseModule,
     ReactiveFormsModule,
     NgbDropdownModule,
+    NgbModalModule,
+    NgbNavModule,
   ],
 })
 export class FileUploadModule {}

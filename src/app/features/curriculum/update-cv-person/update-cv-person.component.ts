@@ -5,10 +5,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
-    selector: 'app-update-cv-person',
-    templateUrl: './update-cv-person.component.html',
-    styleUrls: ['./update-cv-person.component.scss'],
-    standalone: false
+  selector: 'app-update-cv-person',
+  templateUrl: './update-cv-person.component.html',
+  styleUrls: ['./update-cv-person.component.scss'],
+  standalone: false,
 })
 export class UpdateCvPersonComponent implements OnInit {
   form: UntypedFormGroup;
@@ -19,7 +19,10 @@ export class UpdateCvPersonComponent implements OnInit {
   @Output()
   personUpdated: EventEmitter<Person> = new EventEmitter<Person>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
+  constructor(
+    @Optional() public activeModal: NgbActiveModal,
+    private fb: UntypedFormBuilder,
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -29,70 +32,70 @@ export class UpdateCvPersonComponent implements OnInit {
           value: this.person.address,
           disabled: false,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       emailAddress: new UntypedFormControl(
         {
           value: this.person.emailAddress,
           disabled: false,
         },
-        [Validators.required, Validators.email]
+        [Validators.required, Validators.email],
       ),
       firstname: new UntypedFormControl(
         {
           value: this.person.firstname,
           disabled: false,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       lastname: new UntypedFormControl(
         {
           value: this.person.lastname,
           disabled: false,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       title: new UntypedFormControl(
         {
           value: this.person.title,
           disabled: false,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       githubUrl: new UntypedFormControl(
         {
           value: this.person.githubUrl,
           disabled: false,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       linkedinUrl: new UntypedFormControl(
         {
           value: this.person.linkedinUrl,
           disabled: false,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       website: new UntypedFormControl(
         {
           value: this.person.website,
           disabled: false,
         },
-        []
+        [],
       ),
       phoneNumber: new UntypedFormControl(
         {
           value: this.person.phoneNumber,
           disabled: false,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       birthdate: new UntypedFormControl(
         {
           value: DateUtils.formatInputDate(DateUtils.toDateOrNow(this.person.birthdate)),
           disabled: false,
         },
-        [Validators.required]
+        [Validators.required],
       ),
     });
   }

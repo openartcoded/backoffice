@@ -14,7 +14,7 @@ export class RdfService {
     private http: HttpClient,
     @Inject(DOCUMENT) private document: Document,
     private configService: ConfigInitService,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) private platformId: any,
   ) {
     this.baseUrl = configService.getConfig()['BACKEND_URL'] + '/api/toolbox/public/rdf';
   }

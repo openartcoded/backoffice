@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-    selector: 'app-introduction',
-    templateUrl: './introduction.component.html',
-    styleUrls: ['./introduction.component.scss'],
-    standalone: false
+  selector: 'app-introduction',
+  templateUrl: './introduction.component.html',
+  styleUrls: ['./introduction.component.scss'],
+  standalone: false,
 })
 export class IntroductionComponent implements OnInit {
   @Input()
@@ -16,7 +16,7 @@ export class IntroductionComponent implements OnInit {
 
   form: UntypedFormGroup;
 
-  constructor(private fb: UntypedFormBuilder) { }
+  constructor(private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -26,7 +26,7 @@ export class IntroductionComponent implements OnInit {
           value: this.introduction,
           disabled: false,
         },
-        [Validators.required, Validators.minLength(5)]
+        [Validators.required, Validators.minLength(5)],
       ),
     });
   }

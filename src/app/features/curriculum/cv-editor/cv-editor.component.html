@@ -1,8 +1,7 @@
 <app-title title="IMPORT/EXPORT"></app-title>
 <div *ngIf="editedCv">
   <div class="input-group mb-3">
-      <input type="file" class="form-control" id="inputGroupFile02" (change)="load($event)"
-             accept="application/json">
+    <input type="file" class="form-control" id="inputGroupFile02" (change)="load($event)" accept="application/json" />
     <div class="input-group-append">
       <button class="input-group-text" id="" (click)="import()" [disabled]="!file">Import</button>
     </div>

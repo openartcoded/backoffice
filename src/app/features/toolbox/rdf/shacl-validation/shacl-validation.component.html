@@ -1,49 +1,49 @@
 <form [formGroup]="shaclForm" (ngSubmit)="submit()" *ngIf="shaclForm">
   <div class="mb-1">
     <label for="sd">Model to validate</label>
-    <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event,'modelFile')"
-                   dropZoneClassName="flat bg-light d-block"
-                   [accept]="allowedExtensions"
-                   [multiple]="false">
+    <ngx-file-drop
+      dropZoneLabel="Drop files here"
+      (onFileDrop)="drop($event, 'modelFile')"
+      dropZoneClassName="flat bg-light d-block"
+      [accept]="allowedExtensions"
+      [multiple]="false"
+    >
       <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
         <button id="sd" class="btn btn-primary me-1" type="button" (click)="openFileSelector()">
-          <fa-icon [icon]="['fas','upload']"></fa-icon>
+          <fa-icon [icon]="['fas', 'upload']"></fa-icon>
         </button>
       </ng-template>
     </ngx-file-drop>
-    <p>{{modelFile?.name}}</p>
+    <p>{{ modelFile?.name }}</p>
   </div>
   <div class="mb-1">
     <label for="dd">Shacl shapes</label>
-    <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event,'shaclFile')"
-                   dropZoneClassName="flat bg-light d-block"
-                   [accept]="allowedExtensions"
-                   [multiple]="false">
+    <ngx-file-drop
+      dropZoneLabel="Drop files here"
+      (onFileDrop)="drop($event, 'shaclFile')"
+      dropZoneClassName="flat bg-light d-block"
+      [accept]="allowedExtensions"
+      [multiple]="false"
+    >
       <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
         <button id="dd" class="btn btn-primary me-1" type="button" (click)="openFileSelector()">
-          <fa-icon [icon]="['fas','upload']"></fa-icon>
+          <fa-icon [icon]="['fas', 'upload']"></fa-icon>
         </button>
       </ng-template>
     </ngx-file-drop>
-    <p>{{shaclFile?.name}}</p>
+    <p>{{ shaclFile?.name }}</p>
   </div>
 
   <div class="d-flex justify-content-end">
-    <button type="submit" class="btn btn-primary  mb-sm-2"
-            [disabled]="!shaclForm.valid">Validate
-    </button>
+    <button type="submit" class="btn btn-primary mb-sm-2" [disabled]="!shaclForm.valid">Validate</button>
   </div>
 </form>
 <div class="alert alert-danger mt-2" *ngIf="!valid && errorMessage">
-  <p>
-    <fa-icon [icon]="['fas','exclamation-triangle']"></fa-icon>&nbsp;NOT VALID:
-  </p>
+  <p><fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>&nbsp;NOT VALID:</p>
   <pre><code>
     {{errorMessage}}
   </code></pre>
 </div>
 <div class="alert alert-success mt-2" *ngIf="valid">
-  <p>
-    <fa-icon [icon]="['fas','check']"></fa-icon>&nbsp;VALID
-  </p>
+  <p><fa-icon [icon]="['fas', 'check']"></fa-icon>&nbsp;VALID</p>
 </div>

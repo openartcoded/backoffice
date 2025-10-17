@@ -2,12 +2,18 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RoleGuard } from '@core/guards/role.guard';
 import { AuthGuard } from '@core/guards/auth.guard';
-import { FileUploadTableComponent } from './file-upload-table/file-upload-table.component';
+import { FileUploadPageComponent } from './file-upload-page/file-upload-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: FileUploadTableComponent,
+    component: FileUploadPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: ['ADMIN', 'REGULATOR_OR_ACCOUNTANT'] },
+  },
+  {
+    path: ':name',
+    component: FileUploadPageComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: { expectedRole: ['ADMIN', 'REGULATOR_OR_ACCOUNTANT'] },
   },
@@ -17,4 +23,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class FileUploadRoutingModule { }
+export class FileUploadRoutingModule {}

@@ -22,6 +22,7 @@ export interface Dossier {
   dossierUploadId?: string;
   imported?: boolean;
   importedDate?: Date;
+  bookmarked?: boolean;
 }
 
 export interface TvaAdvancePayment {

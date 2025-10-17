@@ -9,7 +9,10 @@ import { Observable } from 'rxjs';
 })
 export class LabelService {
   private backendUrl: string;
-  constructor(private http: HttpClient, private configService: ConfigInitService) {
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigInitService,
+  ) {
     this.backendUrl = `${this.configService.getConfig()['BACKEND_URL']}`;
   }
 

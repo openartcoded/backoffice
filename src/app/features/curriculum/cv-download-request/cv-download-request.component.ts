@@ -7,10 +7,10 @@ import { isPlatformBrowser } from '@angular/common';
 import { DownloadCvRequest } from '@core/models/curriculum';
 
 @Component({
-    selector: 'app-cv-download-request',
-    templateUrl: './cv-download-request.component.html',
-    styleUrls: ['./cv-download-request.component.scss'],
-    standalone: false
+  selector: 'app-cv-download-request',
+  templateUrl: './cv-download-request.component.html',
+  styleUrls: ['./cv-download-request.component.scss'],
+  standalone: false,
 })
 export class CvDownloadRequestComponent implements OnInit {
   cvDownloadRequests: DownloadCvRequest[];
@@ -19,7 +19,7 @@ export class CvDownloadRequestComponent implements OnInit {
     private titleService: Title,
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
-    private cvService: CvService
+    private cvService: CvService,
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +28,9 @@ export class CvDownloadRequestComponent implements OnInit {
   }
 
   load() {
-    this.cvService.getDownloadCvRequests().subscribe(cvDownloadRequests=> this.cvDownloadRequests = cvDownloadRequests);
+    this.cvService
+      .getDownloadCvRequests()
+      .subscribe((cvDownloadRequests) => (this.cvDownloadRequests = cvDownloadRequests));
   }
 
   delete(cvDr: DownloadCvRequest) {

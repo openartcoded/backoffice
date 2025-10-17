@@ -8,11 +8,12 @@ import { Script } from '@core/models/script';
   providedIn: 'root',
 })
 export class ScriptService {
-  constructor(private http: HttpClient, private configService: ConfigInitService) { }
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigInitService,
+  ) {}
 
   public getLoadedScripts(): Observable<Script[]> {
     return this.http.post<Script[]>(`${this.configService.getConfig()['BACKEND_URL']}/api/script`, {});
   }
-
-
 }

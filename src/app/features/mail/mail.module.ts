@@ -26,4 +26,4 @@ import { ChipsModule } from 'primeng/chips';
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'de' }],
 })
-export class MailModule { }
+export class MailModule {}

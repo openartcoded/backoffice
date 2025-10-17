@@ -6,21 +6,24 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'app-most-clicked-menu',
-    templateUrl: './most-clicked-menu.component.html',
-    styleUrls: ['./most-clicked-menu.component.scss'],
-    standalone: false
+  selector: 'app-most-clicked-menu',
+  templateUrl: './most-clicked-menu.component.html',
+  styleUrls: ['./most-clicked-menu.component.scss'],
+  standalone: false,
 })
 export class MostClickedMenuComponent implements OnInit, OnDestroy {
   links: MenuLink[];
   subscription: Subscription;
-  constructor(private settingsService: SettingsService, private router: Router,
-    private modalService: NgbModal) { }
+  constructor(
+    private settingsService: SettingsService,
+    private router: Router,
+    private modalService: NgbModal,
+  ) {}
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
   ngOnInit(): void {
-    this.subscription = this.settingsService.top3().subscribe(links => {
+    this.subscription = this.settingsService.top3().subscribe((links) => {
       this.links = links;
     });
   }
@@ -35,9 +38,6 @@ export class MostClickedMenuComponent implements OnInit, OnDestroy {
       } else if (event.code === 'Digit3' && this.links?.length > 2 && !this.modalService.hasOpenModals()) {
         this.router.navigate(this.links[2].routerLink);
       }
-
     }
   }
-
-
 }

@@ -10,10 +10,10 @@ import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { firstValueFrom, interval, Subscription } from 'rxjs';
 
 @Component({
-    selector: 'app-post-editor',
-    templateUrl: './post-editor.component.html',
-    styleUrls: ['./post-editor.component.scss'],
-    standalone: false
+  selector: 'app-post-editor',
+  templateUrl: './post-editor.component.html',
+  styleUrls: ['./post-editor.component.scss'],
+  standalone: false,
 })
 export class PostEditorComponent implements OnInit, OnDestroy {
   @Input()
@@ -29,7 +29,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
     private formBuilder: UntypedFormBuilder,
     private blogService: BlogService,
     private fileService: FileService,
-    @Optional() public activeModal: NgbActiveModal
+    @Optional() public activeModal: NgbActiveModal,
   ) {
     this.doUpload = this.doUpload.bind(this); // This is very important.
   }
@@ -47,8 +47,8 @@ export class PostEditorComponent implements OnInit, OnDestroy {
               isImg: isImg,
             } as UploadResult,
           ];
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -109,7 +109,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
   save(
     callback = (data) => {
       console.log('saving...');
-    }
+    },
   ) {
     let formData = new FormData();
     formData.append('id', this.post.id);

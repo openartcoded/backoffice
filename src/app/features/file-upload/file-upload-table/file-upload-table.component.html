@@ -11,7 +11,7 @@
     ></app-file-upload-search-form>
   </div>
   <div class="col-sm-10 col-12">
-    <ng-container *ngIf="fileUploads">
+    <ng-container *ngIf="fileUploads && correlationLinks">
       <div class="d-block">
         <div class="table-responsive" [class.blur-modal]="demoMode">
           <table class="table table-bordered">
@@ -19,20 +19,35 @@
               <tr>
                 <th>Creation Date</th>
                 <th>Filename</th>
-                <th class="d-md-table-cell d-none" *ngIf="hasRoleAdmin">correlationId</th>
+                <th class="d-md-table-cell d-none" *ngIf="hasRoleAdmin">Correlation</th>
                 <th class="fit d-md-table-cell d-none">Public</th>
                 <th class="fit d-md-table-cell d-none">Size</th>
+                <th class="fit"></th>
                 <th class="fit">Actions</th>
               </tr>
             </thead>
             <tbody>
+              <tr *ngIf="!fileUploads.content?.length">
+                <td [colSpan]="6">No content</td>
+              </tr>
               <ng-container *ngFor="let upl of fileUploads.content">
                 <tr>
                   <td class="text-break">{{ upl?.creationDate | date: 'dd/MM/yyyy HH:mm' }}</td>
                   <td class="text-break">{{ upl?.originalFilename }}</td>
-                  <td class="text-break d-md-table-cell d-none" *ngIf="hasRoleAdmin">{{ upl?.correlationId }}</td>
+                  <td class="text-break d-md-table-cell d-none" *ngIf="hasRoleAdmin">
+                    {{ correlationLinks[upl?.correlationId] || upl?.correlationId }}
+                  </td>
                   <td class="fit d-md-table-cell d-none text-break">{{ upl?.publicResource ? 'Yes' : 'No' }}</td>
                   <td class="fit d-md-table-cell d-none text-break">{{ upl?.size | bytesToHuman }}</td>
+                  <td class="text-center fit">
+                    <a
+                      class="btn btn-link"
+                      (click)="toggleBookmark($event, upl)"
+                      [class.text-muted]="!upl.bookmarked"
+                      [class.text-warning]="upl.bookmarked"
+                      ><fa-icon [icon]="['fas', 'star']"
+                    /></a>
+                  </td>
                   <td class="text-center fit">
                     <div ngbDropdown class="d-inline-block" container="body">
                       <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle></button>

@@ -1,6 +1,6 @@
 <ng-container *ngIf="dossiers">
   <div class="pb-2 pt-1">
-    <div class="d-flex justify-content-end" *ngIf="!closed && hasRoleAdmin">
+    <div class="d-flex justify-content-end" *ngIf="!closed && !bookmarked && hasRoleAdmin">
       <div ngbDropdown class="d-inline-block" container="body">
         <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
           <fa-icon icon="exclamation"></fa-icon>
@@ -60,12 +60,13 @@
           <th class="d-md-table-cell d-none">Description</th>
           <th class="d-md-table-cell d-none" *ngIf="!closed">Tva Delta</th>
           <th class="d-md-table-cell d-none" *ngIf="closed">Tva Due</th>
+          <th class="fit"></th>
           <th class="fit" *ngIf="closed">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr class="bg-light">
-          <td *ngIf="!dossiers?.content?.length" [attr.colspan]="closed ? '7' : '6'">No entries</td>
+          <td *ngIf="!dossiers?.content?.length" [attr.colspan]="closed ? '8' : '7'">No entries</td>
         </tr>
         <ng-container *ngFor="let d of dossiers.content">
           <tr role="button" (click)="openDossier(d)">
@@ -101,6 +102,17 @@
               class="d-md-table-cell d-none"
             >
               {{ d?.tvaToBePaid | currency: '€' }}
+            </td>
+
+            <td class="text-center fit">
+              <button
+                class="btn btn-link"
+                (click)="toggleBookmark($event, d)"
+                [class.text-muted]="!d.bookmarked"
+                [class.text-warning]="d.bookmarked"
+              >
+                <fa-icon [icon]="['fas', 'star']" />
+              </button>
             </td>
             <td *ngIf="closed" class="text-center fit">
               <div ngbDropdown class="d-inline-block" container="body">

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class Html2canvasService {
   private static _html2canvas: any;
-  constructor() { }
+  constructor() {}
 
   static set html2canvas(library: any) {
     Html2canvasService._html2canvas = library;

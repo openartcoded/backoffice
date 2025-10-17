@@ -10,7 +10,11 @@ import { ConfigInitService } from '@init/config-init.service';
 })
 export class CvService {
   basePath: string;
-  constructor(private http: HttpClient, private fileService: FileService, private configService: ConfigInitService) {
+  constructor(
+    private http: HttpClient,
+    private fileService: FileService,
+    private configService: ConfigInitService,
+  ) {
     this.basePath = `${this.configService.getConfig()['BACKEND_URL']}/api/cv`;
   }
 

@@ -4,63 +4,63 @@ import { KeycloakEventType, KeycloakEventTypeLegacy, KeycloakService } from 'key
 import { Subscription } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
-    private _token: string;
-    loggedOut: EventEmitter<any> = new EventEmitter<any>();
-    keycloakSubscription: Subscription;
-    loggedIn: EventEmitter<any> = new EventEmitter<any>();
-    tokenRefreshed: EventEmitter<string> = new EventEmitter<any>();
-    constructor(
-        private keycloakService: KeycloakService,
-        private appInit: ApplicationInitStatus,
-    ) {
-        this.appInit.donePromise.then(() => this.onInit());
-    }
-    ngOnDestroy(): void {
-        this.keycloakSubscription.unsubscribe();
-    }
-    async onInit() {
-        this.keycloakSubscription = this.keycloakService.keycloakEvents$.subscribe(async (e) => {
-            if (
-                e.type == KeycloakEventTypeLegacy.OnAuthError ||
-                e.type == KeycloakEventTypeLegacy.OnAuthLogout ||
-                e.type == KeycloakEventTypeLegacy.OnAuthRefreshError
-            ) {
-                this.loggedOut.emit();
-            }
-            if (e.type == KeycloakEventTypeLegacy.OnAuthSuccess || e.type == KeycloakEventTypeLegacy.OnAuthRefreshSuccess) {
-                await this.refreshToken();
-            }
-            if (e.type == KeycloakEventTypeLegacy.OnTokenExpired) {
-                this.keycloakService.updateToken(180);
-            }
-        });
-    }
+  private _token: string;
+  loggedOut: EventEmitter<any> = new EventEmitter<any>();
+  keycloakSubscription: Subscription;
+  loggedIn: EventEmitter<any> = new EventEmitter<any>();
+  tokenRefreshed: EventEmitter<string> = new EventEmitter<any>();
+  constructor(
+    private keycloakService: KeycloakService,
+    private appInit: ApplicationInitStatus,
+  ) {
+    this.appInit.donePromise.then(() => this.onInit());
+  }
+  ngOnDestroy(): void {
+    this.keycloakSubscription.unsubscribe();
+  }
+  async onInit() {
+    this.keycloakSubscription = this.keycloakService.keycloakEvents$.subscribe(async (e) => {
+      if (
+        e.type == KeycloakEventTypeLegacy.OnAuthError ||
+        e.type == KeycloakEventTypeLegacy.OnAuthLogout ||
+        e.type == KeycloakEventTypeLegacy.OnAuthRefreshError
+      ) {
+        this.loggedOut.emit();
+      }
+      if (e.type == KeycloakEventTypeLegacy.OnAuthSuccess || e.type == KeycloakEventTypeLegacy.OnAuthRefreshSuccess) {
+        await this.refreshToken();
+      }
+      if (e.type == KeycloakEventTypeLegacy.OnTokenExpired) {
+        this.keycloakService.updateToken(180);
+      }
+    });
+  }
 
-    get token() {
-        if (!this._token) {
-            this.refreshToken();
-        }
-        return this._token;
+  get token() {
+    if (!this._token) {
+      this.refreshToken();
     }
+    return this._token;
+  }
 
-    async refreshToken() {
-        const t = await this.keycloakService.getToken();
-        this._token = 'Bearer ' + t;
-        this.loggedIn.emit();
-        this.tokenRefreshed.emit(this._token);
-    }
+  async refreshToken() {
+    const t = await this.keycloakService.getToken();
+    this._token = 'Bearer ' + t;
+    this.loggedIn.emit();
+    this.tokenRefreshed.emit(this._token);
+  }
 
-    logout(redirect: boolean = true): void {
-        this.keycloakService.logout(redirect ? '' : null);
-    }
+  logout(redirect: boolean = true): void {
+    this.keycloakService.logout(redirect ? '' : null);
+  }
 
-    getUser(): User {
-        return {
-            authorities: this.keycloakService.getUserRoles(),
-            username: this.keycloakService.getUsername(),
-        } as User;
-    }
+  getUser(): User {
+    return {
+      authorities: this.keycloakService.getUserRoles(),
+      username: this.keycloakService.getUsername(),
+    } as User;
+  }
 }

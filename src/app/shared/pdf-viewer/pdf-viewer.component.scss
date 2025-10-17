@@ -1,11 +1,9 @@
 pdf-viewer {
-    height: 80vh;
+  height: 80vh;
 }
 ::ng-deep .md-editor-container {
   border: 0 !important;
 }
-
-
 
 ::ng-deep .ng2-pdfjs-viewer-container iframe {
   height: 80vh;

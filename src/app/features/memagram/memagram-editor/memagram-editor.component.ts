@@ -7,10 +7,10 @@ import { MemzService } from '@core/service/memz.service';
 import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
-    selector: 'app-memagram-editor',
-    templateUrl: './memagram-editor.component.html',
-    styleUrls: ['./memagram-editor.component.scss'],
-    standalone: false
+  selector: 'app-memagram-editor',
+  templateUrl: './memagram-editor.component.html',
+  styleUrls: ['./memagram-editor.component.scss'],
+  standalone: false,
 })
 export class MemagramEditorComponent implements OnInit {
   @Input()
@@ -26,7 +26,7 @@ export class MemagramEditorComponent implements OnInit {
     @Optional() public activeModal: NgbActiveModal,
     private memzService: MemzService,
     private formBuilder: UntypedFormBuilder,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.editorForm = this.createFormGroup(this.meme);

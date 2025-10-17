@@ -33,7 +33,7 @@ export class ConfigInitService {
           } else {
             return of(null);
           }
-        })
+        }),
       );
   }
 

@@ -1,0 +1,44 @@
+<ng-template #fullScreenTemplate let-title="title">
+  <div class="d-flex justify-content-end">
+    <a class="btn btn-link m-0" [class.pt-3]="!fullScreen" (click)="$event.stopPropagation(); fullScreen = !fullScreen">
+      <fa-icon class="text-dark" [icon]="['fas', 'expand-arrows-alt']"></fa-icon>
+    </a>
+  </div>
+</ng-template>
+<app-title title="Documents" [uppercase]="true"></app-title>
+<ng-container *ngIf="user">
+  <ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
+    <li ngbNavItem="home">
+      <a ngbNavLink routerLink="/documents/home">Search</a>
+      <ng-template ngbNavContent>
+        <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+          <ng-component
+            [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Documents' }"
+          ></ng-component>
+          <div class="d-block" *ngIf="user">
+            <app-document-result [bookmarked]="false" />
+          </div>
+        </div>
+      </ng-template>
+    </li>
+    <li ngbNavItem="bookmarks">
+      <a ngbNavLink routerLink="/documents/bookmarks"
+        ><fa-icon [classList]="'text-warning'" [icon]="['fas', 'star']" />Bookmarks</a
+      >
+      <ng-template ngbNavContent>
+        <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+          <ng-component
+            [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Bookmarks' }"
+          ></ng-component>
+
+          <div class="d-block" *ngIf="user">
+            <app-document-result [bookmarked]="true" />
+          </div>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
+</ng-container>

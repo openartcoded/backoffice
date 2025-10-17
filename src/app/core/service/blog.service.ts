@@ -16,7 +16,7 @@ export class BlogService {
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: any,
     private configService: ConfigInitService,
-    private fileService: FileService
+    private fileService: FileService,
   ) {}
 
   save(formData: FormData): Observable<Post> {
@@ -40,7 +40,7 @@ export class BlogService {
       `${
         this.configService.getConfig()['BACKEND_URL']
       }/api/blog/public-search?page=${page}&size=${pageSize}&sort=updatedDate,DESC`,
-      criteria
+      criteria,
     );
   }
 
@@ -49,7 +49,7 @@ export class BlogService {
       `${
         this.configService.getConfig()['BACKEND_URL']
       }/api/blog/admin-search?page=${page}&size=${pageSize}&sort=updatedDate,DESC`,
-      criteria
+      criteria,
     );
   }
 
@@ -71,7 +71,7 @@ export class BlogService {
 
   generatePdf(post: Post) {
     this.fileService.downloadLink(
-      `${this.configService.getConfig()['BACKEND_URL']}/api/blog/generate-pdf?id=${post.id}`
+      `${this.configService.getConfig()['BACKEND_URL']}/api/blog/generate-pdf?id=${post.id}`,
     );
   }
 }

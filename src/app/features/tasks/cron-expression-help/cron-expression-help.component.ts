@@ -4,16 +4,19 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-cron-expression-help',
-    templateUrl: './cron-expression-help.component.html',
-    styleUrls: ['./cron-expression-help.component.scss'],
-    standalone: false
+  selector: 'app-cron-expression-help',
+  templateUrl: './cron-expression-help.component.html',
+  styleUrls: ['./cron-expression-help.component.scss'],
+  standalone: false,
 })
 export class CronExpressionHelpComponent implements OnInit {
   cronExpression: string = null;
   valid?: boolean = null;
-  
-  constructor(@Optional() public activeModal: NgbActiveModal, private reminderTaskService: ReminderTaskService) {}
+
+  constructor(
+    @Optional() public activeModal: NgbActiveModal,
+    private reminderTaskService: ReminderTaskService,
+  ) {}
 
   ngOnInit(): void {}
 

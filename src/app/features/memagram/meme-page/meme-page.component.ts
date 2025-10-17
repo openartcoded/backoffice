@@ -15,104 +15,104 @@ import { ArtcodedNotification } from '@core/models/artcoded.notification';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-meme-page',
-    templateUrl: './meme-page.component.html',
-    styleUrls: ['./meme-page.component.scss'],
-    standalone: false
+  selector: 'app-meme-page',
+  templateUrl: './meme-page.component.html',
+  styleUrls: ['./meme-page.component.scss'],
+  standalone: false,
 })
 export class MemePageComponent implements OnInit, OnApplicationEvent {
-    memzPage: Page<Memz>;
-    defaultPageSize: number = 12;
+  memzPage: Page<Memz>;
+  defaultPageSize: number = 12;
 
-    constructor(
-        private memzService: MemzService,
-        private modalService: NgbModal,
-        private domSanitizer: DomSanitizer,
-        private notificationService: NotificationService,
-        private fileService: FileService,
-        private titleService: Title,
-        private windowService: WindowRefService,
-        @Inject(PLATFORM_ID) private platformId: any
-    ) { }
+  constructor(
+    private memzService: MemzService,
+    private modalService: NgbModal,
+    private domSanitizer: DomSanitizer,
+    private notificationService: NotificationService,
+    private fileService: FileService,
+    private titleService: Title,
+    private windowService: WindowRefService,
+    @Inject(PLATFORM_ID) private platformId: any,
+  ) {}
 
-    ngOnInit(): void {
-        this.titleService.setTitle('Gallery');
-        this.notificationService.subscribe(this);
-        this.load();
+  ngOnInit(): void {
+    this.titleService.setTitle('Gallery');
+    this.notificationService.subscribe(this);
+    this.load();
+  }
+
+  edit($event, memz: Memz) {
+    $event.stopPropagation();
+    this.openFormModal(memz);
+  }
+
+  delete($event, memz: Memz) {
+    $event.stopPropagation();
+    if (isPlatformBrowser(this.platformId)) {
+      let resp = this.windowService.nativeWindow.confirm('Are you sure you want to delete this row? ');
+      if (resp) {
+        this.memzService.delete(memz).subscribe((d) => {});
+      }
     }
+  }
 
-    edit($event, memz: Memz) {
-        $event.stopPropagation();
-        this.openFormModal(memz);
-    }
+  async openFormModal(meme: Memz = {} as Memz) {
+    const modalRef = this.modalService.open(MemagramEditorComponent, {
+      size: 'xl',
+    });
+    modalRef.componentInstance.meme = meme;
+    modalRef.componentInstance.saved.subscribe((meme) => {
+      // this.load();
+    });
+  }
 
-    delete($event, memz: Memz) {
-        $event.stopPropagation();
-        if (isPlatformBrowser(this.platformId)) {
-            let resp = this.windowService.nativeWindow.confirm('Are you sure you want to delete this row? ');
-            if (resp) {
-                this.memzService.delete(memz).subscribe((d) => { });
+  load(event: number = 1): void {
+    this.memzService
+      .adminFindAll(event - 1, this.defaultPageSize)
+      .pipe(
+        tap((page) => {
+          page.content.forEach(async (memz) => {
+            if (memz.visible) {
+              memz.imageLink = this.fileService.getPublicDownloadUrl(memz.imageUploadId);
+              memz.thumbnailLink = this.fileService.getPublicDownloadUrl(memz.thumbnailUploadId);
+            } else {
+              let thumbnailLink = await firstValueFrom(
+                this.fileService.toDownloadLink(this.fileService.getDownloadUrl(memz.thumbnailUploadId)),
+              );
+              memz.thumbnailLink = this.domSanitizer.bypassSecurityTrustUrl(thumbnailLink.href);
+              let imageLink = await firstValueFrom(
+                this.fileService.toDownloadLink(this.fileService.getDownloadUrl(memz.imageUploadId)),
+              );
+              memz.imageLink = this.domSanitizer.bypassSecurityTrustUrl(imageLink.href);
             }
-        }
-    }
+          });
+        }),
+      )
+      .subscribe((page) => (this.memzPage = page));
+  }
 
-    async openFormModal(meme: Memz = {} as Memz) {
-        const modalRef = this.modalService.open(MemagramEditorComponent, {
-            size: 'xl',
-        });
-        modalRef.componentInstance.meme = meme;
-        modalRef.componentInstance.saved.subscribe((meme) => {
-            // this.load();
-        });
-    }
+  get pageNumber() {
+    return this?.memzPage?.page?.number + 1;
+  }
 
-    load(event: number = 1): void {
-        this.memzService
-            .adminFindAll(event - 1, this.defaultPageSize)
-            .pipe(
-                tap((page) => {
-                    page.content.forEach(async (memz) => {
-                        if (memz.visible) {
-                            memz.imageLink = this.fileService.getPublicDownloadUrl(memz.imageUploadId);
-                            memz.thumbnailLink = this.fileService.getPublicDownloadUrl(memz.thumbnailUploadId);
-                        } else {
-                            let thumbnailLink = await firstValueFrom(
-                                this.fileService.toDownloadLink(this.fileService.getDownloadUrl(memz.thumbnailUploadId))
-                            );
-                            memz.thumbnailLink = this.domSanitizer.bypassSecurityTrustUrl(thumbnailLink.href);
-                            let imageLink = await firstValueFrom(
-                                this.fileService.toDownloadLink(this.fileService.getDownloadUrl(memz.imageUploadId))
-                            );
-                            memz.imageLink = this.domSanitizer.bypassSecurityTrustUrl(imageLink.href);
-                        }
-                    });
-                })
-            )
-            .subscribe((page) => (this.memzPage = page));
-    }
+  handle(events: ArtcodedNotification[]) {
+    this.load();
+  }
 
-    get pageNumber() {
-        return this?.memzPage?.page?.number + 1;
-    }
+  shouldHandle(event: ArtcodedNotification): boolean {
+    return (
+      !event.seen &&
+      (event.type === RegisteredEvent.MEMZ_SET_VISIBLE ||
+        event.type === RegisteredEvent.MEMZ_ADDED ||
+        event.type === RegisteredEvent.MEMZ_DELETED)
+    );
+  }
 
-    handle(events: ArtcodedNotification[]) {
-        this.load();
-    }
+  ngOnDestroy(): void {
+    this.notificationService.unsubscribe(this);
+  }
 
-    shouldHandle(event: ArtcodedNotification): boolean {
-        return (
-            !event.seen &&
-            (event.type === RegisteredEvent.MEMZ_SET_VISIBLE ||
-                event.type === RegisteredEvent.MEMZ_ADDED ||
-                event.type === RegisteredEvent.MEMZ_DELETED)
-        );
-    }
-
-    ngOnDestroy(): void {
-        this.notificationService.unsubscribe(this);
-    }
-
-    shouldMarkEventAsSeenAfterConsumed(): boolean {
-        return true;
-    }
+  shouldMarkEventAsSeenAfterConsumed(): boolean {
+    return true;
+  }
 }

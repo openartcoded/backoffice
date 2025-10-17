@@ -17,10 +17,10 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-company-stamp',
-    templateUrl: './company-stamp.component.html',
-    styleUrls: ['./company-stamp.component.scss'],
-    standalone: false
+  selector: 'app-company-stamp',
+  templateUrl: './company-stamp.component.html',
+  styleUrls: ['./company-stamp.component.scss'],
+  standalone: false,
 })
 export class CompanyStampComponent implements OnInit {
   @ViewChild('companyStamp')
@@ -40,7 +40,7 @@ export class CompanyStampComponent implements OnInit {
     private personalInfoService: PersonalInfoService,
     private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: any,
-  ) { }
+  ) {}
 
   async ngOnInit() {
     this.personalInfo = await firstValueFrom(this.personalInfoService.get());

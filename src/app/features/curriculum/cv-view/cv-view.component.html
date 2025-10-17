@@ -29,8 +29,10 @@
           <a target="_blank" [href]="person?.githubUrl" class="m-0">
             <span class="text-dark"><fa-icon [icon]="['fab', 'github']"></fa-icon></span>
           </a>
-          <app-introduction (onIntroductionUpdated)="updateIntroduction($event)"
-            [introduction]="introduction"></app-introduction>
+          <app-introduction
+            (onIntroductionUpdated)="updateIntroduction($event)"
+            [introduction]="introduction"
+          ></app-introduction>
         </div>
       </div>
     </ng-template>
@@ -50,8 +52,10 @@
     <ng-template ngbNavContent>
       <div class="d-block mb-2">
         <ng-container *ngIf="personalProjects">
-          <app-cv-personal-project [personalProjects]="personalProjects"
-            (personalProjectsUpdated)="updatePersonalProjects($event)"></app-cv-personal-project>
+          <app-cv-personal-project
+            [personalProjects]="personalProjects"
+            (personalProjectsUpdated)="updatePersonalProjects($event)"
+          ></app-cv-personal-project>
         </ng-container>
       </div>
     </ng-template>
@@ -76,8 +80,10 @@
     <a ngbNavLink>Education</a>
     <ng-template ngbNavContent>
       <ng-container *ngIf="scholarHistories">
-        <app-education [scholarHistories]="scholarHistories"
-          (scholarHistoriesUpdated)="updateScholarHistories($event)"></app-education>
+        <app-education
+          [scholarHistories]="scholarHistories"
+          (scholarHistoriesUpdated)="updateScholarHistories($event)"
+        ></app-education>
       </ng-container>
     </ng-template>
   </li>

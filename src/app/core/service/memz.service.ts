@@ -12,7 +12,7 @@ export class MemzService {
   constructor(
     private http: HttpClient,
     private configService: ConfigInitService,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) private platformId: any,
   ) {}
 
   save(formData: FormData): Observable<Memz> {
@@ -24,7 +24,7 @@ export class MemzService {
       `${
         this.configService.getConfig()['BACKEND_URL']
       }/api/memzagram/public?page=${page}&size=${pageSize}&sort=updatedDate,DESC`,
-      {}
+      {},
     );
   }
 
@@ -33,7 +33,7 @@ export class MemzService {
       `${
         this.configService.getConfig()['BACKEND_URL']
       }/api/memzagram/all?page=${page}&size=${pageSize}&sort=updatedDate,DESC`,
-      {}
+      {},
     );
   }
 

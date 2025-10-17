@@ -59,4 +59,4 @@ import { PlotlyViaCDNModule } from 'angular-plotly.js';
     Html2canvasUniversalModule,
   ],
 })
-export class UserAreaModule { }
+export class UserAreaModule {}

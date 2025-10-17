@@ -4,7 +4,10 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body" [class.blur-modal]="demoMode">
-    <div class="d-flex justify-content-end mb-1" *ngIf="user && hasRoleAdmin && showRotateBtn&& pdf.contentType === 'application/pdf'">
+    <div
+      class="d-flex justify-content-end mb-1"
+      *ngIf="user && hasRoleAdmin && showRotateBtn && pdf.contentType === 'application/pdf'"
+    >
       <button class="btn btn-link me-1" (click)="rotate(-90)">
         <fa-icon class="text-dark" [icon]="['fas', 'arrow-rotate-backward']"></fa-icon>
       </button>
@@ -13,18 +16,27 @@
       </button>
     </div>
     <ng-container *ngIf="pdfSrc">
-      <ng2-pdfjs-viewer  [urlValidation]="false"  [responsiveBreakpoint]="768" iframeBorder="0" *ngIf="pdf.contentType ==='application/pdf'" [pdfSrc]="pdfSrc" [showSpinner]="true"   [theme]="'light'" [customCSS]="'h-100 w-100 bg-danger'" 
+      <ng2-pdfjs-viewer
+        [urlValidation]="false"
+        [responsiveBreakpoint]="768"
+        iframeBorder="0"
+        *ngIf="pdf.contentType === 'application/pdf'"
+        [pdfSrc]="pdfSrc"
+        [showSpinner]="true"
+        [theme]="'light'"
+        [customCSS]="'h-100 w-100 bg-danger'"
+      />
+      <ng-container *ngIf="xml && (pdf.contentType === 'text/xml' || pdf.contentType === 'application/xml')">
+        <app-copy-to-clipboard [textToCopy]="xml" btnClasses="btn btn-outline-secondary mb-1" />
+        <md-editor
+          name="xmlContent"
+          id="xmlContent"
+          [(ngModel)]="markdown"
+          mode="preview"
+          [options]="{ showBorder: false }"
+          height="100%"
         />
-            <ng-container *ngIf="xml && (pdf.contentType ==='text/xml' || pdf.contentType === 'application/xml')">
-                <app-copy-to-clipboard [textToCopy]="xml" btnClasses="btn btn-outline-secondary mb-1"/>
-<md-editor name="xmlContent" 
-                 id="xmlContent"
-                 [(ngModel)]="markdown"
-                 mode="preview"
-                 [options]="{showBorder:false}"
-                 height="100%"/>
-            </ng-container>
-
+      </ng-container>
     </ng-container>
   </div>
 </ng-container>

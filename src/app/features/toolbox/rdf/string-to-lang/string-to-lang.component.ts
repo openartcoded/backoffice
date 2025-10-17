@@ -7,10 +7,10 @@ import { WindowRefService } from '@core/service/window.service';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
-    selector: 'app-string-to-lang',
-    templateUrl: './string-to-lang.component.html',
-    styleUrls: ['./string-to-lang.component.scss'],
-    standalone: false
+  selector: 'app-string-to-lang',
+  templateUrl: './string-to-lang.component.html',
+  styleUrls: ['./string-to-lang.component.scss'],
+  standalone: false,
 })
 export class StringToLangComponent implements OnInit {
   stringToLangForm: UntypedFormGroup;
@@ -23,7 +23,7 @@ export class StringToLangComponent implements OnInit {
     private metaService: Meta,
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
-    private rdfService: RdfService
+    private rdfService: RdfService,
   ) {}
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class StringToLangComponent implements OnInit {
         selectedLanguage: new UntypedFormControl('', [Validators.required]),
         rdfInput: new UntypedFormControl('', [Validators.required]),
       },
-      {}
+      {},
     );
   }
 
@@ -62,7 +62,7 @@ export class StringToLangComponent implements OnInit {
         (res) => {
           this.result = res;
         },
-        (error) => this.windowRefService.nativeWindow.alert('error: ' + error.error)
+        (error) => this.windowRefService.nativeWindow.alert('error: ' + error.error),
       );
     }
   }

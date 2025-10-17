@@ -13,14 +13,16 @@
   </div>
 </ng-template>
 <app-title title="Expenses" [uppercase]="true"></app-title>
-<ng-container *ngIf="user" >
+<ng-container *ngIf="user">
   <ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
     <li ngbNavItem="unprocessed">
       <a ngbNavLink routerLink="/fee/unprocessed">Unprocessed</a>
       <ng-template ngbNavContent>
         <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-          <ng-component [ngTemplateOutlet]="fullScreenTemplate"
-            [ngTemplateOutletContext]="{ title: 'Unprocessed' }"></ng-component>
+          <ng-component
+            [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Unprocessed' }"
+          ></ng-component>
           <div class="d-block" *ngIf="user">
             <app-fee-table-result [archived]="false" [user]="user" [demoMode]="demoMode"></app-fee-table-result>
           </div>
@@ -31,10 +33,12 @@
       <a ngbNavLink routerLink="/fee/processed">Processed</a>
       <ng-template ngbNavContent>
         <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-          <ng-component [ngTemplateOutlet]="fullScreenTemplate"
-            [ngTemplateOutletContext]="{ title: 'Processed' }"></ng-component>
+          <ng-component
+            [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Processed' }"
+          ></ng-component>
 
-          <div class="d-block" *ngIf="user ">
+          <div class="d-block" *ngIf="user">
             <app-fee-table-result [archived]="true" [user]="user" [demoMode]="demoMode"></app-fee-table-result>
           </div>
         </div>
@@ -44,8 +48,10 @@
       <a ngbNavLink routerLink="/fee/labels">Labels</a>
       <ng-template ngbNavContent>
         <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-          <ng-component [ngTemplateOutlet]="fullScreenTemplate"
-            [ngTemplateOutletContext]="{ title: 'Labels' }"></ng-component>
+          <ng-component
+            [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Labels' }"
+          ></ng-component>
 
           <div class="d-block" *ngIf="user">
             <app-default-price [user]="user"></app-default-price>
@@ -53,12 +59,16 @@
         </div>
       </ng-template>
     </li>
-         <li ngbNavItem="bookmarks">
-      <a ngbNavLink routerLink="/fee/bookmarks"><fa-icon [classList]="'text-warning'" [icon]="['fas', 'star']"/>Bookmarks</a>
+    <li ngbNavItem="bookmarks">
+      <a ngbNavLink routerLink="/fee/bookmarks"
+        ><fa-icon [classList]="'text-warning'" [icon]="['fas', 'star']" />Bookmarks</a
+      >
       <ng-template ngbNavContent>
         <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
-          <ng-component [ngTemplateOutlet]="fullScreenTemplate"
-            [ngTemplateOutletContext]="{ title: 'Bookmarks' }"></ng-component>
+          <ng-component
+            [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Bookmarks' }"
+          ></ng-component>
 
           <div class="d-block" *ngIf="user">
             <app-fee-table-result [bookmarked]="true" [user]="user" [demoMode]="demoMode"></app-fee-table-result>

@@ -9,8 +9,9 @@ export interface AdministrativeDocument {
   tags?: string[];
   attachmentId?: string;
   attachment?: FileUpload;
+  //2025-10-16 23:48 introduced as an experiment in invoice and fee, genearlized elsewhere
+  bookmarked?: boolean;
   locked?: boolean;
-
 }
 
 export interface AdministrativeDocumentSearchCriteria {
@@ -20,6 +21,7 @@ export interface AdministrativeDocumentSearchCriteria {
   title?: string;
   description?: string;
   tags?: string[];
+  bookmarked: boolean;
 }
 
 export interface AdministrativeDocumentForm {

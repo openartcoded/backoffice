@@ -1,13 +1,9 @@
 <ng-container *ngIf="post">
   <div class="modal-header" *ngIf="post.title && activeModal">
-    <span class="modal-title text-break">{{post.title | titlecase}}</span>
-    <button type="button" class="btn-close" aria-label="Close"
-            (click)="activeModal?.dismiss('Cross click')">
-      
-    </button>
+    <span class="modal-title text-break">{{ post.title | titlecase }}</span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-
     <form class="mt-2" [formGroup]="editorForm" (ngSubmit)="send()" *ngIf="editorForm">
       <ul ngbNav #nav="ngbNav" class="nav-tabs">
         <li ngbNavItem>
@@ -15,13 +11,16 @@
           <ng-template ngbNavContent>
             <div class="mb-1">
               <label class="col-form-label" for="title">Title</label>
-              <input type="text" class="form-control" id="title" formControlName="title"
-                     placeholder="Title">
+              <input type="text" class="form-control" id="title" formControlName="title" placeholder="Title" />
             </div>
             <div class="mb-1">
               <label class="col-form-label" for="description">Description</label>
-              <textarea class="form-control" id="description" formControlName="description"
-                        placeholder="Description"></textarea>
+              <textarea
+                class="form-control"
+                id="description"
+                formControlName="description"
+                placeholder="Description"
+              ></textarea>
             </div>
             <div class="mb-1">
               <label for="tags">Tags</label>
@@ -29,26 +28,27 @@
             </div>
             <div class="mb-1">
               <label for="sd">Cover image</label>
-              <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event)"
-                             dropZoneClassName="flat bg-light d-block"
-                             [accept]="'image/*'"
-                             [multiple]="false">
+              <ngx-file-drop
+                dropZoneLabel="Drop files here"
+                (onFileDrop)="drop($event)"
+                dropZoneClassName="flat bg-light d-block"
+                [accept]="'image/*'"
+                [multiple]="false"
+              >
                 <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
                   <button id="sd" class="btn btn-primary me-1" type="button" (click)="openFileSelector()" *ngIf="!url">
-                    <fa-icon [icon]="['fas','upload']"></fa-icon>
+                    <fa-icon [icon]="['fas', 'upload']"></fa-icon>
                   </button>
                   <a *ngIf="url" (click)="openFileSelector()" class="border-0">
-                    <img alt="Cover" [src]="url" class="img-fluid" width="100px" height="100px">
+                    <img alt="Cover" [src]="url" class="img-fluid" width="100px" height="100px" />
                   </a>
                 </ng-template>
               </ngx-file-drop>
             </div>
-            <hr>
+            <hr />
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="draft" formControlName="draft">
-              <label class="form-check-label" for="draft">
-                Draft
-              </label>
+              <input class="form-check-input" type="checkbox" id="draft" formControlName="draft" />
+              <label class="form-check-label" for="draft"> Draft </label>
             </div>
           </ng-template>
         </li>
@@ -56,23 +56,22 @@
           <a ngbNavLink>Editor</a>
           <ng-template ngbNavContent>
             <div class="mb-1 zindex-tooltip">
-              <md-editor id="htmlContent"
-                         [upload]="doUpload"
-                         formControlName="htmlContent"
-                         [options]="{showBorder: false}"
-                         [height]="'60vh'">
+              <md-editor
+                id="htmlContent"
+                [upload]="doUpload"
+                formControlName="htmlContent"
+                [options]="{ showBorder: false }"
+                [height]="'60vh'"
+              >
               </md-editor>
             </div>
-
           </ng-template>
         </li>
       </ul>
       <div [ngbNavOutlet]="nav"></div>
       <div class="d-flex justify-content-end">
-        <button type="submit" class="btn  btn-primary" [disabled]="!editorForm.valid">Submit</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!editorForm.valid">Submit</button>
       </div>
     </form>
-
   </div>
 </ng-container>
-

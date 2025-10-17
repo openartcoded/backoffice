@@ -8,10 +8,10 @@ import { DateUtils } from '@core/utils/date-utils';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-notification',
-    templateUrl: './notification.component.html',
-    styleUrls: ['./notification.component.scss'],
-    standalone: false
+  selector: 'app-notification',
+  templateUrl: './notification.component.html',
+  styleUrls: ['./notification.component.scss'],
+  standalone: false,
 })
 export class NotificationComponent implements OnInit, OnApplicationEvent {
   latests: ArtcodedNotification[];
@@ -19,7 +19,7 @@ export class NotificationComponent implements OnInit, OnApplicationEvent {
   constructor(
     private router: Router,
     private notificationService: NotificationService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.notificationService.subscribe(this);
@@ -38,7 +38,7 @@ export class NotificationComponent implements OnInit, OnApplicationEvent {
           : n2.seen
             ? -1
             : DateUtils.getDateFromInput(n2.receivedDate).getTime() -
-            DateUtils.getDateFromInput(n1.receivedDate).getTime(),
+              DateUtils.getDateFromInput(n1.receivedDate).getTime(),
       );
   }
 

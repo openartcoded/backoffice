@@ -1,23 +1,35 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">Cron Expression Helper</span>
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
-
-    </button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-    <div class="d-flex justify-content-start" [class.mb-1]="valid ===null">
-      <input class="form-control me-1" type="text" placeholder="Insert Cron expression to validate"
-        [(ngModel)]="cronExpression" [ngModelOptions]="{ standalone: true }">
-      <button class="btn btn-outline-primary" [disabled]="cronExpression?.length === 0" (click)="validateCronExpression()">Validate</button>
+    <div class="d-flex justify-content-start" [class.mb-1]="valid === null">
+      <input
+        class="form-control me-1"
+        type="text"
+        placeholder="Insert Cron expression to validate"
+        [(ngModel)]="cronExpression"
+        [ngModelOptions]="{ standalone: true }"
+      />
+      <button
+        class="btn btn-outline-primary"
+        [disabled]="cronExpression?.length === 0"
+        (click)="validateCronExpression()"
+      >
+        Validate
+      </button>
     </div>
 
     <ng-container *ngIf="valid !== null">
-      <p class="text-end" [class.text-success]="valid" [class.text-danger]="!valid">{{valid ? 'Valid' : 'Invalid'}}</p>
+      <p class="text-end" [class.text-success]="valid" [class.text-danger]="!valid">
+        {{ valid ? 'Valid' : 'Invalid' }}
+      </p>
     </ng-container>
 
     <p>The string has six single space-separated time and date fields:</p>
-    <pre> ┌───────────── second (0-59)
+    <pre>
+ ┌───────────── second (0-59)
  │ ┌───────────── minute (0 - 59)
  │ │ ┌───────────── hour (0 - 23)
  │ │ │ ┌───────────── day of the month (1 - 31)
@@ -26,32 +38,28 @@
  │ │ │ │ │ │          (0 or 7 is Sunday, or MON-SUN)
  │ │ │ │ │ │
  * * * * * *
- </pre>
-    <p>The following rules apply:
-    </p>
+ </pre
+    >
+    <p>The following rules apply:</p>
     <ul>
       <li>
-        A field may be an asterisk (<code>*</code>), which always stands for
-        "first-last". For the "day of the month" or "day of the week" fields, a
-        question mark (<code>?</code>) may be used instead of an asterisk.
+        A field may be an asterisk (<code>*</code>), which always stands for "first-last". For the "day of the month" or
+        "day of the week" fields, a question mark (<code>?</code>) may be used instead of an asterisk.
       </li>
       <li>
-        Ranges of numbers are expressed by two numbers separated with a hyphen
-        (<code>-</code>). The specified range is inclusive.
-      </li>
-      <li>Following a range (or <code>*</code>) with <code>/n</code> specifies
-        the interval of the number's value through the range.
+        Ranges of numbers are expressed by two numbers separated with a hyphen (<code>-</code>). The specified range is
+        inclusive.
       </li>
       <li>
-        English names can also be used for the "month" and "day of week" fields.
-        Use the first three letters of the particular day or month (case does not
-        matter).
+        Following a range (or <code>*</code>) with <code>/n</code> specifies the interval of the number's value through
+        the range.
       </li>
-
-
+      <li>
+        English names can also be used for the "month" and "day of week" fields. Use the first three letters of the
+        particular day or month (case does not matter).
+      </li>
     </ul>
-    <p>Example expressions:
-    </p>
+    <p>Example expressions:</p>
     <ul>
       <li><code>"0 0 * * * *"</code> = the top of every hour of every day.</li>
       <li><code>"*/10 * * * * *"</code> = every ten seconds.</li>

@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 
 import { Offcanvas } from 'bootstrap';
 const offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'));
-offcanvasElementList.map(function(offcanvasEl) {
+offcanvasElementList.map(function (offcanvasEl) {
   return new Offcanvas(offcanvasEl);
 });
 
@@ -14,4 +14,4 @@ offcanvasElementList.map(function(offcanvasEl) {
   imports: [BrowserAnimationsModule, AppModule],
   bootstrap: [AppComponent],
 })
-export class AppBrowserModule { }
+export class AppBrowserModule {}

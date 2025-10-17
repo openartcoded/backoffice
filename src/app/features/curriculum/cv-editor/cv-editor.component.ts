@@ -6,10 +6,10 @@ import { FileService } from '@core/service/file.service';
 import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
-    selector: 'app-cv-editor',
-    templateUrl: './cv-editor.component.html',
-    styleUrls: ['./cv-editor.component.scss'],
-    standalone: false
+  selector: 'app-cv-editor',
+  templateUrl: './cv-editor.component.html',
+  styleUrls: ['./cv-editor.component.scss'],
+  standalone: false,
 })
 export class CvEditorComponent implements OnInit {
   editedCv: any;
@@ -19,7 +19,7 @@ export class CvEditorComponent implements OnInit {
     private cvService: CvService,
     private fileService: FileService,
     private titleService: Title,
-    private router: Router
+    private router: Router,
   ) {}
 
   get cv() {

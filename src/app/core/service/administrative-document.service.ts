@@ -15,18 +15,21 @@ import { ConfigInitService } from '@init/config-init.service';
 export class AdministrativeDocumentService {
   private baseUrl: string;
 
-  constructor(private http: HttpClient, configService: ConfigInitService) {
+  constructor(
+    private http: HttpClient,
+    configService: ConfigInitService,
+  ) {
     this.baseUrl = `${configService.getConfig()['BACKEND_URL']}/api/administrative-document`;
   }
 
   search(
     criteria: AdministrativeDocumentSearchCriteria,
     pageNumber: number,
-    pageSize: number
+    pageSize: number,
   ): Observable<Page<AdministrativeDocument>> {
     return this.http.post<Page<AdministrativeDocument>>(
       `${this.baseUrl}/search?page=${pageNumber - 1}&size=${pageSize}&sort=dateCreation,DESC`,
-      criteria
+      criteria,
     );
   }
   findByIds(ids: string[]): Observable<AdministrativeDocument[]> {
@@ -49,7 +52,9 @@ export class AdministrativeDocumentService {
   delete(ad: AdministrativeDocument) {
     return this.http.delete<void>(`${this.baseUrl}?id=${ad.id}`, {});
   }
-
+  toggleBookmarked(id: string) {
+    return this.http.post<void>(`${this.baseUrl}/toggle-bookmarked?id=${id}`, {});
+  }
   findById(id: string): Observable<AdministrativeDocument> {
     return this.http.post<AdministrativeDocument>(`${this.baseUrl}/find-by-id?id=${id}`, {});
   }

@@ -1,9 +1,7 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">Invoice Templates</span>
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
-      
-    </button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body" *ngIf="form">
     <ul ngbNav #nav="ngbNav" class="nav-tabs">
@@ -46,7 +44,7 @@
                     id="name"
                     formControlName="name"
                     placeholder="Template name"
-                  >
+                  />
                 </div>
               </div>
               <div class="mb-1 row">

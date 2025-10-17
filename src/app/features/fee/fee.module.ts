@@ -3,7 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FeePageComponent } from './fee-page/fee-page.component';
 import { SharedModule } from '@shared/shared.module';
 import { FeeRoutingModule } from './fee-routing.module';
-import { NgbCollapseModule, NgbDropdownModule, NgbNavModule, NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCollapseModule,
+  NgbDropdownModule,
+  NgbNavModule,
+  NgbPaginationModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { FeeSearchFormComponent } from './fee-search-form/fee-search-form.component';
 import { FeeTableResultComponent } from './fee-table-result/fee-table-result.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -48,4 +54,4 @@ import { PlotlyViaCDNModule } from 'angular-plotly.js';
     NgbDropdownModule,
   ],
 })
-export class FeeModule { }
+export class FeeModule {}

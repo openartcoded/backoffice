@@ -3,33 +3,29 @@
   border: none !important;
 }
 
-
 .active .nav-link {
   color: #ffffff;
 }
 
-.focusable:not(.active):hover{
+.focusable:not(.active):hover {
   background-color: #5f556e !important;
-  opacity: .9;
+  opacity: 0.9;
   border: none !important;
   color: #ffffff !important;
   outline: none !important;
   box-shadow: none !important;
 }
 
-  
-.sidebar{
+.sidebar {
   width: 200px; // TODO temp solution
 }
 
-
 @media (max-width: 1200px) {
-  .dtext-none{
+  .dtext-none {
     display: none !important;
   }
   .sidebar {
     max-width: 48px;
     text-align: center;
   }
-
 }

@@ -7,7 +7,7 @@
     <form [formGroup]="form" (ngSubmit)="clear()">
       <select aria-label="Cache" class="form-select mb-2" name="cache" id="cache" formControlName="cache">
         <option [ngValue]="null">--Select--</option>
-        <option *ngFor="let c of cacheNames" [ngValue]="c">{{c}}</option>
+        <option *ngFor="let c of cacheNames" [ngValue]="c">{{ c }}</option>
       </select>
       <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>

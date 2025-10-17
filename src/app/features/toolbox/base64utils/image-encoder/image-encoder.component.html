@@ -1,17 +1,20 @@
 <form [formGroup]="base64Form" (ngSubmit)="submit()" *ngIf="base64Form">
   <div class="mb-1">
     <label for="sd">Image to convert</label>
-    <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="drop($event)"
-                   dropZoneClassName="flat bg-light d-block"
-                   [accept]="'image/*'"
-                   [multiple]="false">
+    <ngx-file-drop
+      dropZoneLabel="Drop files here"
+      (onFileDrop)="drop($event)"
+      dropZoneClassName="flat bg-light d-block"
+      [accept]="'image/*'"
+      [multiple]="false"
+    >
       <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
         <button id="sd" class="btn btn-primary me-1" type="button" (click)="openFileSelector()">
-          <fa-icon [icon]="['fas','upload']"></fa-icon>
+          <fa-icon [icon]="['fas', 'upload']"></fa-icon>
         </button>
       </ng-template>
     </ngx-file-drop>
-    <p>{{fileImage?.name}}</p>
+    <p>{{ fileImage?.name }}</p>
   </div>
 
   <div class="d-flex justify-content-end">
@@ -19,7 +22,6 @@
   </div>
 </form>
 <div class="d-block mt-2 mb-2" *ngIf="result">
-  <textarea class="form-control" rows="10" disabled="disabled">{{result}}</textarea>
-  <img [src]="result" class="img-fluid mt-2 mb-2">
+  <textarea class="form-control" rows="10" disabled="disabled">{{ result }}</textarea>
+  <img [src]="result" class="img-fluid mt-2 mb-2" />
 </div>
-

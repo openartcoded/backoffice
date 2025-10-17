@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Portfolio } from '@core/models/portfolio';
 
 @Component({
-    selector: 'app-select-portfolio',
-    templateUrl: './select-portfolio.component.html',
-    styleUrls: ['./select-portfolio.component.scss'],
-    standalone: false
+  selector: 'app-select-portfolio',
+  templateUrl: './select-portfolio.component.html',
+  styleUrls: ['./select-portfolio.component.scss'],
+  standalone: false,
 })
 export class SelectPortfolioComponent implements OnInit {
   @Input()

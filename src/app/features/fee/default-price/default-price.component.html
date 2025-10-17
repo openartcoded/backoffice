@@ -30,8 +30,14 @@
                   <p-colorPicker [autoZIndex]="true" [id]="'colorHex' + i" formControlName="colorHex"></p-colorPicker>
                 </td>
                 <td>
-                  <input type="text" (input)="changeTextToUppercase(i)" pattern="[a-zA-Z0-9]+"
-                    class="form-control form-control-sm" [id]="'tag' + i" formControlName="tag" />
+                  <input
+                    type="text"
+                    (input)="changeTextToUppercase(i)"
+                    pattern="[a-zA-Z0-9]+"
+                    class="form-control form-control-sm"
+                    [id]="'tag' + i"
+                    formControlName="tag"
+                  />
                 </td>
                 <td>
                   <div class="input-group input-group-sm">

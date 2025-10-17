@@ -3,10 +3,10 @@ import { Label } from '@core/models/fee';
 import { User } from '@core/models/user';
 
 @Component({
-    selector: 'app-tag-form',
-    templateUrl: './tag-form.component.html',
-    styleUrls: ['./tag-form.component.scss'],
-    standalone: false
+  selector: 'app-tag-form',
+  templateUrl: './tag-form.component.html',
+  styleUrls: ['./tag-form.component.scss'],
+  standalone: false,
 })
 export class TagFormComponent implements OnInit {
   @Input()
@@ -27,9 +27,9 @@ export class TagFormComponent implements OnInit {
   get hasRoleAdmin(): boolean {
     return this.user.authorities.includes('ADMIN');
   }
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   submit() {
     if (!this.hasRoleAdmin) {

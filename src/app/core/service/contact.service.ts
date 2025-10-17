@@ -8,7 +8,10 @@ import { ConfigInitService } from '@init/config-init.service';
   providedIn: 'root',
 })
 export class ContactService {
-  constructor(private http: HttpClient, private configService: ConfigInitService) {}
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigInitService,
+  ) {}
 
   public getCurriculum(): Observable<any> {
     return this.http.get<any>(`${this.configService.getConfig()['BACKEND_URL']}/api/cv`);
@@ -17,7 +20,7 @@ export class ContactService {
   public findAll(): Observable<FormContact[]> {
     return this.http.post<FormContact[]>(
       `${this.configService.getConfig()['BACKEND_URL']}/api/form-contact/find-all`,
-      {}
+      {},
     );
   }
 

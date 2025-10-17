@@ -6,26 +6,24 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-cache',
-    templateUrl: './cache.component.html',
-    styleUrls: ['./cache.component.scss'],
-    standalone: false
+  selector: 'app-cache',
+  templateUrl: './cache.component.html',
+  styleUrls: ['./cache.component.scss'],
+  standalone: false,
 })
 export class CacheComponent implements OnInit {
-
   form: UntypedFormGroup;
   cacheNames$: Observable<string[]>;
-  constructor(@Optional() public activeModal: NgbActiveModal,
+  constructor(
+    @Optional() public activeModal: NgbActiveModal,
     private fb: UntypedFormBuilder,
     private toastService: ToastService,
-    private cacheService: CacheService) {
-  }
+    private cacheService: CacheService,
+  ) {}
   ngOnInit(): void {
     this.cacheNames$ = this.cacheService.findAll();
     this.form = this.fb.group({
-      cache: new UntypedFormControl({ value: null, disabled: false }, [
-        Validators.required,
-      ]),
+      cache: new UntypedFormControl({ value: null, disabled: false }, [Validators.required]),
     });
   }
   async clear() {

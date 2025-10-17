@@ -6,10 +6,10 @@ import { map } from 'rxjs/operators';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
-    selector: 'app-shacl-validation',
-    templateUrl: './shacl-validation.component.html',
-    styleUrls: ['./shacl-validation.component.scss'],
-    standalone: false
+  selector: 'app-shacl-validation',
+  templateUrl: './shacl-validation.component.html',
+  styleUrls: ['./shacl-validation.component.scss'],
+  standalone: false,
 })
 export class ShaclValidationComponent implements OnInit {
   allowedExtensions: string;
@@ -21,7 +21,7 @@ export class ShaclValidationComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private titleService: Title,
     private metaService: Meta,
-    private rdfService: RdfService
+    private rdfService: RdfService,
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +41,7 @@ export class ShaclValidationComponent implements OnInit {
             modelFile: new UntypedFormControl(null, [Validators.required]),
             shaclFile: new UntypedFormControl(null, [Validators.required]),
           },
-          {}
+          {},
         );
       });
   }
@@ -93,7 +93,7 @@ export class ShaclValidationComponent implements OnInit {
       (error) => {
         this.errorMessage = error.error;
         this.shaclForm.reset();
-      }
+      },
     );
   }
 }

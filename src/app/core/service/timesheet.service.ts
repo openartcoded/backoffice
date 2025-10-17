@@ -11,7 +11,10 @@ import { ConfigInitService } from '@init/config-init.service';
 export class TimesheetService {
   basePath: string;
 
-  constructor(private http: HttpClient, private configService: ConfigInitService) {
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigInitService,
+  ) {
     this.basePath = `${this.configService.getConfig()['BACKEND_URL']}/api/timesheet`;
   }
 
@@ -32,7 +35,7 @@ export class TimesheetService {
   }
 
   public estimateTotalToBeInvoicedThisMonth(): Observable<number> {
-    return this.http.get<number>(this.basePath + "/estimate-total-to-be-invoiced-this-month");
+    return this.http.get<number>(this.basePath + '/estimate-total-to-be-invoiced-this-month');
   }
 
   public saveOrUpdatePeriod(timesheetId: string, period: TimesheetPeriod): Observable<TimesheetPeriod> {

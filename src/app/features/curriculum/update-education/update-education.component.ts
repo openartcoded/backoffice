@@ -5,10 +5,10 @@ import { ScholarHistory } from '@core/models/curriculum';
 import { DateUtils } from '@core/utils/date-utils';
 
 @Component({
-    selector: 'app-update-education',
-    templateUrl: './update-education.component.html',
-    styleUrls: ['./update-education.component.scss'],
-    standalone: false
+  selector: 'app-update-education',
+  templateUrl: './update-education.component.html',
+  styleUrls: ['./update-education.component.scss'],
+  standalone: false,
 })
 export class UpdateEducationComponent implements OnInit {
   form: UntypedFormGroup;
@@ -19,7 +19,10 @@ export class UpdateEducationComponent implements OnInit {
   @Output()
   scholarHistorySubmitted: EventEmitter<ScholarHistory> = new EventEmitter<ScholarHistory>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
+  constructor(
+    @Optional() public activeModal: NgbActiveModal,
+    private fb: UntypedFormBuilder,
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -31,7 +34,7 @@ export class UpdateEducationComponent implements OnInit {
       ]),
       to: new UntypedFormControl(
         this.scholarHistory.to ? DateUtils.formatInputDate(DateUtils.toOptionalDate(this.scholarHistory.to)) : null,
-        []
+        [],
       ),
     });
   }

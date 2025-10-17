@@ -3,9 +3,7 @@
     <span class="modal-title text-break">
       {{ experience?.title || 'New Experience' }}
     </span>
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
-      
-    </button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body" *ngIf="form">
     <form [formGroup]="form" (ngSubmit)="send()">
@@ -17,34 +15,34 @@
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="title">Title</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="title" formControlName="title">
+                  <input type="text" class="form-control" id="title" formControlName="title" />
                 </div>
               </div>
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="company">Company</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="company" formControlName="company">
+                  <input type="text" class="form-control" id="company" formControlName="company" />
                 </div>
               </div>
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="from">From</label>
                 <div class="col-sm-10">
-                  <input type="date" class="form-control" id="from" formControlName="from">
+                  <input type="date" class="form-control" id="from" formControlName="from" />
                 </div>
               </div>
               <div class="mb-1 row" *ngIf="!current">
                 <label class="col-sm-2 col-form-label" for="to">To</label>
                 <div class="col-sm-10">
-                  <input type="date" class="form-control" id="to" formControlName="to">
+                  <input type="date" class="form-control" id="to" formControlName="to" />
                 </div>
               </div>
-              <hr>
-            <div class="d-flex justify-content-start">
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="current" formControlName="current">
-                <label class="form-check-label" for="current"> Current </label>
+              <hr />
+              <div class="d-flex justify-content-start">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="current" formControlName="current" />
+                  <label class="form-check-label" for="current"> Current </label>
+                </div>
               </div>
-            </div>
             </div>
           </ng-template>
         </li>
@@ -60,7 +58,7 @@
                     </button>
                   </li>
                   <li class="list-group-item text-right" *ngFor="let control of description.controls; index as i">
-                    <input class="form-control" [id]="'desc' + i" [formControl]="$any(control)">
+                    <input class="form-control" [id]="'desc' + i" [formControl]="$any(control)" />
                     <div class="d-flex justify-content-end">
                       <button (click)="delete($event, i)" class="btn btn-link">
                         <fa-icon class="text-danger" icon="trash"></fa-icon>

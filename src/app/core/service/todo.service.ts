@@ -10,7 +10,10 @@ import { ConfigInitService } from '@init/config-init.service';
 export class TodoService {
   basePath: string;
 
-  constructor(private http: HttpClient, private configService: ConfigInitService) {
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigInitService,
+  ) {
     this.basePath = `${this.configService.getConfig()['BACKEND_URL']}/api/todo`;
   }
 

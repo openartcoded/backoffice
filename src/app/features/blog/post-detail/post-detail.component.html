@@ -1,34 +1,34 @@
 <ng-container *ngIf="post">
   <div class="border-0 mb-3 mt-3 ms-0 me-0">
-    <img [src]="getCoverUrl()" class="cover bg-light" alt="...">
+    <img [src]="getCoverUrl()" class="cover bg-light" alt="..." />
     <article class="d-block mt-3">
-      <h4>{{post.title | titlecase}}</h4>
+      <h4>{{ post.title | titlecase }}</h4>
       <div class="d-inline">
         <button class="btn btn-link text-dark p-0 pe-1" (click)="generatePdf()">
-          <fa-icon [icon]="['fas','file-pdf']"></fa-icon>
+          <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon>
         </button>
-        <small class="text-muted">Last updated: {{post.updatedDate | date: 'dd/MM/yyyy HH:mm'}},
-          Views: {{post.countViews}} <a class="btn btn-link" (click)="resetCount()">Reset count</a>
+        <small class="text-muted"
+          >Last updated: {{ post.updatedDate | date: 'dd/MM/yyyy HH:mm' }}, Views: {{ post.countViews }}
+          <a class="btn btn-link" (click)="resetCount()">Reset count</a>
         </small>
       </div>
 
-      <hr>
+      <hr />
 
-      <md-editor name="htmlContent"
-                 id="htmlContent"
-                 [(ngModel)]="post.content"
-                 mode="preview"
-                 [options]="{showBorder:false}"
-                 height="100%">
+      <md-editor
+        name="htmlContent"
+        id="htmlContent"
+        [(ngModel)]="post.content"
+        mode="preview"
+        [options]="{ showBorder: false }"
+        height="100%"
+      >
       </md-editor>
       <ng-container>
         <div class="d-block">
-
-      <span class="badge bg-primary p-1 me-1 mb-1"
-            *ngFor="let t of post.tags">#{{t}}</span>
+          <span class="badge bg-primary p-1 me-1 mb-1" *ngFor="let t of post.tags">#{{ t }}</span>
         </div>
       </ng-container>
     </article>
   </div>
 </ng-container>
-

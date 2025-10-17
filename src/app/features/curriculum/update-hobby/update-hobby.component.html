@@ -1,11 +1,7 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
-    <span class="modal-title text-break">
-      Hobbies
-    </span>
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
-
-    </button>
+    <span class="modal-title text-break"> Hobbies </span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body" *ngIf="form">
     <form [formGroup]="form" (ngSubmit)="send()">
@@ -16,29 +12,39 @@
               <fa-icon class="text-primary" icon="plus"></fa-icon>
             </button>
           </li>
-          <li class="list-group-item d-flex justify-content-between"
-            *ngFor="let control of hobbiesArray.controls; index as i">
+          <li
+            class="list-group-item d-flex justify-content-between"
+            *ngFor="let control of hobbiesArray.controls; index as i"
+          >
+            <input
+              type="text"
+              [autosize]
+              class="form-control"
+              [id]="'desc' + i"
+              [formControl]="$any(control)"
+              *ngIf="i === 0"
+              appAutoFocus
+            />
 
-            <input type="text" [autosize] class="form-control" [id]="'desc'+i" [formControl]="$any(control)"
-              *ngIf="i === 0" appAutoFocus>
+            <input
+              type="text"
+              [autosize]
+              class="form-control"
+              [id]="'desc' + i"
+              [formControl]="$any(control)"
+              *ngIf="i !== 0"
+            />
 
-            <input type="text" [autosize] class="form-control" [id]="'desc'+i" [formControl]="$any(control)"
-              *ngIf="i !== 0">
-
-            <button (click)="delete($event,i)" class="btn btn-link">
+            <button (click)="delete($event, i)" class="btn btn-link">
               <fa-icon class="text-danger" icon="trash"></fa-icon>
             </button>
           </li>
         </ul>
-
       </ng-container>
 
-
-      <div class="d-flex justify-content-end  mt-2">
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit
-        </button>
+      <div class="d-flex justify-content-end mt-2">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
       </div>
     </form>
-
   </div>
 </ng-container>

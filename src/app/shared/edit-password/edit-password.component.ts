@@ -4,17 +4,20 @@ import { MatchPasswordsValidator } from '@core/validators';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'app-edit-password',
-    templateUrl: './edit-password.component.html',
-    styleUrls: ['./edit-password.component.scss'],
-    standalone: false
+  selector: 'app-edit-password',
+  templateUrl: './edit-password.component.html',
+  styleUrls: ['./edit-password.component.scss'],
+  standalone: false,
 })
 export class EditPasswordComponent implements OnInit {
   public editorForm: UntypedFormGroup;
   @Output()
   editPassword: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private fb: UntypedFormBuilder, public activeModal: NgbActiveModal) {}
+  constructor(
+    private fb: UntypedFormBuilder,
+    public activeModal: NgbActiveModal,
+  ) {}
 
   ngOnInit(): void {
     this.editorForm = this.fb.group(
@@ -24,7 +27,7 @@ export class EditPasswordComponent implements OnInit {
       },
       {
         validator: MatchPasswordsValidator('password', 'confirmPassword'),
-      }
+      },
     );
   }
 

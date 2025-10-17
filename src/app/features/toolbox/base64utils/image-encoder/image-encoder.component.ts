@@ -4,16 +4,20 @@ import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
-    selector: 'app-image-encoder',
-    templateUrl: './image-encoder.component.html',
-    styleUrls: ['./image-encoder.component.scss'],
-    standalone: false
+  selector: 'app-image-encoder',
+  templateUrl: './image-encoder.component.html',
+  styleUrls: ['./image-encoder.component.scss'],
+  standalone: false,
 })
 export class ImageEncoderComponent implements OnInit {
   base64Form: UntypedFormGroup;
   result: string;
 
-  constructor(private fb: UntypedFormBuilder, private titleService: Title, private metaService: Meta) {}
+  constructor(
+    private fb: UntypedFormBuilder,
+    private titleService: Title,
+    private metaService: Meta,
+  ) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('Image to BASE64 conversion');
@@ -26,7 +30,7 @@ export class ImageEncoderComponent implements OnInit {
       {
         fileImage: new UntypedFormControl('', [Validators.required]),
       },
-      {}
+      {},
     );
   }
 

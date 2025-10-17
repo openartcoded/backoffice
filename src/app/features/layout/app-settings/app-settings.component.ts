@@ -8,10 +8,10 @@ import { firstValueFrom } from 'rxjs';
 import { User } from '@core/models/user';
 
 @Component({
-    selector: 'app-app-settings',
-    templateUrl: './app-settings.component.html',
-    styleUrls: ['./app-settings.component.scss'],
-    standalone: false
+  selector: 'app-app-settings',
+  templateUrl: './app-settings.component.html',
+  styleUrls: ['./app-settings.component.scss'],
+  standalone: false,
 })
 export class AppSettingsComponent implements OnInit {
   @Input()
@@ -24,7 +24,7 @@ export class AppSettingsComponent implements OnInit {
     @Optional() public activeModal: NgbActiveModal,
     private fileService: FileService,
     private settingsService: SettingsService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.load();
@@ -34,14 +34,14 @@ export class AppSettingsComponent implements OnInit {
   }
   toggleMenuLinkVisibility(menuLink: MenuLink) {
     menuLink.show = !menuLink.show;
-    this.settingsService.updateMenuLinks(menuLink).subscribe((m) => { });
+    this.settingsService.updateMenuLinks(menuLink).subscribe((m) => {});
   }
 
   import() {
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
       const json: any = fileReader.result;
-      this.settingsService.importAllMenuLinks(JSON.parse(json)).subscribe((value) => { });
+      this.settingsService.importAllMenuLinks(JSON.parse(json)).subscribe((value) => {});
     };
     fileReader.readAsText(this.file);
   }

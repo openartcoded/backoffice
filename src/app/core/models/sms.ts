@@ -1,4 +1,4 @@
 export interface Sms {
-  phoneNumber: string,
-  message: string
+  phoneNumber: string;
+  message: string;
 }

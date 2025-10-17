@@ -1,18 +1,57 @@
+<ng-template #fullScreenTemplate let-title="title">
+  <div class="d-flex justify-content-end">
+    <a class="btn btn-link m-0" [class.pt-3]="!fullScreen" (click)="$event.stopPropagation(); fullScreen = !fullScreen">
+      <fa-icon class="text-dark" [icon]="['fas', 'expand-arrows-alt']"></fa-icon>
+    </a>
+  </div>
+</ng-template>
 <app-title title="Dossier" [uppercase]="true"></app-title>
 <ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
   <li ngbNavItem="open">
     <a ngbNavLink routerLink="/dossier/open">Open</a>
     <ng-template ngbNavContent>
-      <div class="d-block" *ngIf="user">
-        <app-dossier-table-result [user]="user" [closed]="false" [demoMode]="demoMode"></app-dossier-table-result>
+      <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+        <ng-component
+          [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Active' }"
+        ></ng-component>
+
+        <div class="d-block" *ngIf="user">
+          <app-dossier-table-result [user]="user" [closed]="false" [demoMode]="demoMode"></app-dossier-table-result>
+        </div>
       </div>
     </ng-template>
   </li>
   <li ngbNavItem="closed">
     <a ngbNavLink routerLink="/dossier/closed">Closed</a>
     <ng-template ngbNavContent>
-      <div class="d-block" *ngIf="user">
-        <app-dossier-table-result [user]="user" [closed]="true" [demoMode]="demoMode"></app-dossier-table-result>
+      <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+        <ng-component
+          [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Closed' }"
+        ></ng-component>
+
+        <div class="d-block" *ngIf="user">
+          <app-dossier-table-result [user]="user" [closed]="true" [demoMode]="demoMode"></app-dossier-table-result>
+        </div>
+      </div>
+      <div class="d-block" *ngIf="user"></div>
+    </ng-template>
+  </li>
+  <li ngbNavItem="bookmarks">
+    <a ngbNavLink routerLink="/dossier/bookmarks"
+      ><fa-icon [classList]="'text-warning'" [icon]="['fas', 'star']" />Bookmarks</a
+    >
+    <ng-template ngbNavContent>
+      <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+        <ng-component
+          [ngTemplateOutlet]="fullScreenTemplate"
+          [ngTemplateOutletContext]="{ title: 'Bookmarks' }"
+        ></ng-component>
+
+        <div class="d-block" *ngIf="user">
+          <app-dossier-table-result [user]="user" [bookmarked]="true" [demoMode]="demoMode"></app-dossier-table-result>
+        </div>
       </div>
     </ng-template>
   </li>

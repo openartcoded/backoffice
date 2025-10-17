@@ -6,10 +6,10 @@ import { UpdateExperienceComponent } from '@feature/curriculum/update-experience
 import { Experience } from '@core/models/curriculum';
 import { v4 as uuid } from 'uuid';
 @Component({
-    selector: 'app-experience',
-    templateUrl: './experience.component.html',
-    styleUrls: ['./experience.component.scss'],
-    standalone: false
+  selector: 'app-experience',
+  templateUrl: './experience.component.html',
+  styleUrls: ['./experience.component.scss'],
+  standalone: false,
 })
 export class ExperienceComponent implements OnInit {
   @Input()

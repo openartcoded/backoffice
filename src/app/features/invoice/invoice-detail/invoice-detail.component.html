@@ -1,14 +1,21 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
-    <span class="modal-title text-break">{{invoice.creditNote ?'Credit Note':'Invoice'}} <{{ invoice.newInvoiceNumber || invoice.invoiceNumber || 'New' }}>
-        <ng-container *ngIf="invoice.imported">
-          <ng-template #infoFrontend> Imported on {{ invoice.importedDate | date: 'dd/MM/yyyy HH:mm' }} </ng-template>
-          <button (click)="$event.stopPropagation()" type="button"
-            class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
-            triggers="click:blur">
-            <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
-          </button>
-        </ng-container>
+    <span class="modal-title text-break"
+      >{{ invoice.creditNote ? 'Credit Note' : 'Invoice' }} <{{
+        invoice.newInvoiceNumber || invoice.invoiceNumber || 'New'
+      }}>
+      <ng-container *ngIf="invoice.imported">
+        <ng-template #infoFrontend> Imported on {{ invoice.importedDate | date: 'dd/MM/yyyy HH:mm' }} </ng-template>
+        <button
+          (click)="$event.stopPropagation()"
+          type="button"
+          class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark"
+          [ngbTooltip]="infoFrontend"
+          triggers="click:blur"
+        >
+          <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+        </button>
+      </ng-container>
     </span>
 
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
@@ -17,72 +24,126 @@
     <form [formGroup]="invoiceForm" (ngSubmit)="send()">
       <ul ngbNav #nav="ngbNav" class="nav-tabs" [keyboard]="'changeWithArrows'">
         <li ngbNavItem>
-          <a ngbNavLink>{{invoice.creditNote ?'Credit Note':'Invoice'}} Info</a>
+          <a ngbNavLink>{{ invoice.creditNote ? 'Credit Note' : 'Invoice' }} Info</a>
           <ng-template ngbNavContent>
             <div class="mt-2">
               <div class="mb-1 row">
-                <label class="col-sm-2 col-form-label" for="newInvoiceNumber">{{invoice.creditNote ?'Credit Note':'Invoice'}} number</label>
+                <label class="col-sm-2 col-form-label" for="newInvoiceNumber"
+                  >{{ invoice.creditNote ? 'Credit Note' : 'Invoice' }} number</label
+                >
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="newInvoiceNumber" formControlName="newInvoiceNumber"
-                    placeholder="number" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="newInvoiceNumber"
+                    formControlName="newInvoiceNumber"
+                    placeholder="number"
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
-                <label class="col-sm-2 col-form-label" for="invoiceNumber">{{invoice.creditNote ?'Credit Note':'Invoice'}} reference</label>
+                <label class="col-sm-2 col-form-label" for="invoiceNumber"
+                  >{{ invoice.creditNote ? 'Credit Note' : 'Invoice' }} reference</label
+                >
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="invoiceNumber" formControlName="invoiceNumber"
-                    placeholder="reference" required="required" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="invoiceNumber"
+                    formControlName="invoiceNumber"
+                    placeholder="reference"
+                    required="required"
+                  />
                 </div>
               </div>
-                            
+
               <div class="mb-1 row" *ngIf="invoice.creditNoteInvoiceReference">
                 <label class="col-sm-2 col-form-label" for="creditNoteInvoiceReferenceNumber">Invoice reference</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="creditNoteInvoiceReferenceNumber" formControlName="creditNoteInvoiceReference"
-                    placeholder="reference" required="required" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="creditNoteInvoiceReferenceNumber"
+                    formControlName="creditNoteInvoiceReference"
+                    placeholder="reference"
+                    required="required"
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
-                <label class="col-sm-2 col-form-label" for="dateOfInvoice">Date of {{invoice.creditNote ?'Credit Note':'Invoice'}}</label>
+                <label class="col-sm-2 col-form-label" for="dateOfInvoice"
+                  >Date of {{ invoice.creditNote ? 'Credit Note' : 'Invoice' }}</label
+                >
                 <div class="col-sm-10">
-                  <input type="date" class="form-control" id="dateOfInvoice" formControlName="dateOfInvoice"
-                    appAutoFocus />
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="dateOfInvoice"
+                    formControlName="dateOfInvoice"
+                    appAutoFocus
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="taxRate">Tax Rate %</label>
                 <div class="col-sm-10">
-                    <input type="number" class="form-control" id="taxRate" formControlName="taxRate"
-                      placeholder="Tax Rate" />
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="taxRate"
+                    formControlName="taxRate"
+                    placeholder="Tax Rate"
+                  />
                 </div>
               </div>
               <div class="mb-1 row" *ngIf="invoice.subTotal">
                 <label class="col-sm-2 col-form-label" for="subTotal">Subtotal</label>
                 <div class="col-sm-10">
-                  <input type="text" disabled class="form-control text-secondary bg-light" id="subTotal"
-                    [value]="invoice.subTotal | currency: '€'" />
+                  <input
+                    type="text"
+                    disabled
+                    class="form-control text-secondary bg-light"
+                    id="subTotal"
+                    [value]="invoice.subTotal | currency: '€'"
+                  />
                 </div>
               </div>
               <div class="mb-1 row" *ngIf="invoice.taxes">
                 <label class="col-sm-2 col-form-label" for="taxes">VAT</label>
                 <div class="col-sm-10">
-                  <input type="text" disabled class="form-control text-danger bg-light" id="taxes"
-                    [value]="invoice.taxes | currency: '€'" />
+                  <input
+                    type="text"
+                    disabled
+                    class="form-control text-danger bg-light"
+                    id="taxes"
+                    [value]="invoice.taxes | currency: '€'"
+                  />
                 </div>
               </div>
               <div class="mb-1 row" *ngIf="invoice.total">
                 <label class="col-sm-2 col-form-label" for="total">Total</label>
                 <div class="col-sm-10">
-                  <input type="text" disabled class="form-control text-success bg-light" id="total"
-                    [value]="invoice.total | currency: '€'" placeholder="total" />
+                  <input
+                    type="text"
+                    disabled
+                    class="form-control text-success bg-light"
+                    id="total"
+                    [value]="invoice.total | currency: '€'"
+                    placeholder="total"
+                  />
                 </div>
               </div>
-                            
+
               <div class="mb-1 row" *ngIf="invoice.structuredReference">
                 <label class="col-sm-2 col-form-label" for="structuredReference">Bank Reference</label>
                 <div class="col-sm-10">
-                  <input type="text" disabled class="form-control text-warning bg-dark" id="structuredReference"
-                    [value]="invoice.structuredReference"/>
+                  <input
+                    type="text"
+                    disabled
+                    class="form-control text-warning bg-dark"
+                    id="structuredReference"
+                    [value]="invoice.structuredReference"
+                  />
                 </div>
               </div>
               <ng-container *ngIf="templates">
@@ -99,24 +160,40 @@
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="specialNote">Special note</label>
                 <div class="col-sm-10">
-                  <textarea id="specialNote" [autosize]="true" class="form-control" formControlName="specialNote"
-                    placeholder="Put a note here"></textarea>
+                  <textarea
+                    id="specialNote"
+                    [autosize]="true"
+                    class="form-control"
+                    formControlName="specialNote"
+                    placeholder="Put a note here"
+                  ></textarea>
                 </div>
               </div>
               <div class="mb-1 row" *ngIf="invoice.peppolStatus && invoice.peppolStatus !== 'OLD'">
                 <label class="col-sm-2 col-form-label" for="taxes">peppolStatus</label>
                 <div class="col-sm-9">
-                  <input type="text" disabled class="form-control bg-light" id="Peppol Status"
-                    [value]="invoice.peppolStatus" />
+                  <input
+                    type="text"
+                    disabled
+                    class="form-control bg-light"
+                    id="Peppol Status"
+                    [value]="invoice.peppolStatus"
+                  />
                 </div>
-                                  <div class="col-sm-1 d-flex align-items-center">
-                <button  class="btn btn-outline-primary btn-sm" (click)="validatePeppol($event,invoice)">Validate</button>
-</div>
+                <div class="col-sm-1 d-flex align-items-center">
+                  <button class="btn btn-outline-primary btn-sm" (click)="validatePeppol($event, invoice)">
+                    Validate
+                  </button>
+                </div>
               </div>
               <hr />
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="uploadedManually"
-                  formControlName="uploadedManually" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="uploadedManually"
+                  formControlName="uploadedManually"
+                />
                 <label class="form-check-label" for="uploadedManually"> Manual upload </label>
               </div>
               <div class="form-check form-check-inline">
@@ -129,8 +206,13 @@
               </div>
               <div class="mb-1" *ngIf="uploadedManually && !locked && !logicalDelete">
                 <label for="dd">Drop invoice</label>
-                <ngx-file-drop dropZoneLabel="Drop invoice here" (onFileDrop)="drop($event)"
-                  dropZoneClassName="flat bg-light d-block" accept=".pdf" [multiple]="false">
+                <ngx-file-drop
+                  dropZoneLabel="Drop invoice here"
+                  (onFileDrop)="drop($event)"
+                  dropZoneClassName="flat bg-light d-block"
+                  accept=".pdf"
+                  [multiple]="false"
+                >
                   <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
                     <button id="dd" class="btn btn-primary me-1" type="button" (click)="openFileSelector()">
                       <fa-icon [icon]="['fas', 'upload']"></fa-icon>
@@ -150,8 +232,12 @@
                 <div class="mb-1 row">
                   <label class="col-sm-2 col-form-label" for="selectedClient">Saved Clients</label>
                   <div class="col-sm-10">
-                    <select id="selectedClient" class="form-select" (ngModelChange)="fillFromClient()"
-                      formControlName="selectedClient">
+                    <select
+                      id="selectedClient"
+                      class="form-select"
+                      (ngModelChange)="fillFromClient()"
+                      formControlName="selectedClient"
+                    >
                       <option [ngValue]="null">--Select--</option>
 
                       <option *ngFor="let client of clients" [ngValue]="client">{{ client.name }}</option>
@@ -163,49 +249,79 @@
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="billToClientName">Client Name</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="billToClientName" formControlName="billToClientName"
-                    placeholder="Client Name" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="billToClientName"
+                    formControlName="billToClientName"
+                    placeholder="Client Name"
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="billToVatNumber">VatNumber</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="billToVatNumber" formControlName="billToVatNumber"
-                    placeholder="VatNumber" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="billToVatNumber"
+                    formControlName="billToVatNumber"
+                    placeholder="VatNumber"
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="billToAddress">Address</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="billToAddress" formControlName="billToAddress"
-                    placeholder="Address" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="billToAddress"
+                    formControlName="billToAddress"
+                    placeholder="Address"
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="billToCity">City</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="billToCity" formControlName="billToCity"
-                    placeholder="City" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="billToCity"
+                    formControlName="billToCity"
+                    placeholder="City"
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="billToEmailAddress">Email</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="billToEmailAddress" formControlName="billToEmailAddress"
-                    placeholder="Email Address" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="billToEmailAddress"
+                    formControlName="billToEmailAddress"
+                    placeholder="Email Address"
+                  />
                 </div>
               </div>
               <div class="mb-1 row">
                 <label class="col-sm-2 col-form-label" for="maxDaysToPay">Max Days to pay</label>
                 <div class="col-sm-10">
-                  <input type="number" class="form-control" id="maxDaysToPay" formControlName="maxDaysToPay"
-                    placeholder="Max Days to pay" />
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="maxDaysToPay"
+                    formControlName="maxDaysToPay"
+                    placeholder="Max Days to pay"
+                  />
                 </div>
               </div>
             </div>
           </ng-template>
         </li>
-                
+
         <li ngbNavItem>
           <a ngbNavLink>Invoice Table</a>
           <ng-template ngbNavContent>
@@ -216,8 +332,12 @@
                     <div class="mb-1 row">
                       <label class="col-sm-2 col-form-label" [for]="'projectName' + i">Project Name</label>
                       <div class="col-sm-10">
-                        <input type="text" class="form-control" [id]="'projectName' + i"
-                          formControlName="projectName" />
+                        <input
+                          type="text"
+                          class="form-control"
+                          [id]="'projectName' + i"
+                          formControlName="projectName"
+                        />
                       </div>
                     </div>
                     <div class="mb-1 row">
@@ -270,19 +390,19 @@
             </div>
           </ng-template>
         </li>
-                <li ngbNavItem *ngIf="ublXML">
-                    <a ngbNavLink>Peppol XML</a>
-                    <ng-template ngbNavContent>
-                <app-pdf-viewer [asModal]="false" [pdf]="ublXML"/>
-                    </ng-template>
-                </li>
-                
-                <li ngbNavItem *ngIf="invoice.invoiceUploadId">
-                    <a ngbNavLink>PDF</a>
-                    <ng-template ngbNavContent>
-                <app-pdf-viewer [asModal]="false" [pdf]="pdf" [showRotateBtn]="false"/>
-                    </ng-template>
-                </li>
+        <li ngbNavItem *ngIf="ublXML">
+          <a ngbNavLink>Peppol XML</a>
+          <ng-template ngbNavContent>
+            <app-pdf-viewer [asModal]="false" [pdf]="ublXML" />
+          </ng-template>
+        </li>
+
+        <li ngbNavItem *ngIf="invoice.invoiceUploadId">
+          <a ngbNavLink>PDF</a>
+          <ng-template ngbNavContent>
+            <app-pdf-viewer [asModal]="false" [pdf]="pdf" [showRotateBtn]="false" />
+          </ng-template>
+        </li>
       </ul>
       <div [ngbNavOutlet]="nav"></div>
       <div class="alert alert-warning" *ngIf="!invoiceForm.valid">
@@ -290,16 +410,25 @@
       </div>
       <div class="d-flex justify-content-end">
         <div ngbDropdown class="d-inline-block" container="body">
-          <button class="btn btn-outline-primary me-1" id="dropdownBasic2" ngbDropdownToggle
-            [disabled]="!invoice.invoiceUploadId" (click)="$event?.preventDefault()">
+          <button
+            class="btn btn-outline-primary me-1"
+            id="dropdownBasic2"
+            ngbDropdownToggle
+            [disabled]="!invoice.invoiceUploadId"
+            (click)="$event?.preventDefault()"
+          >
             Action
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
             <button [disabled]="!invoice.invoiceUploadId" ngbDropdownItem (click)="download()">
               <fa-icon [icon]="['fas', 'download']"></fa-icon>&nbsp;Download
             </button>
-            <button *ngIf="hasRoleAdmin" [disabled]="!invoice.timesheetId" ngbDropdownItem
-              [routerLink]="['/timesheets/timesheet/' + invoice.timesheetId]">
+            <button
+              *ngIf="hasRoleAdmin"
+              [disabled]="!invoice.timesheetId"
+              ngbDropdownItem
+              [routerLink]="['/timesheets/timesheet/' + invoice.timesheetId]"
+            >
               <fa-icon [icon]="['fas', 'clock']"></fa-icon>&nbsp;Timesheet
             </button>
             <button *ngIf="hasRoleAdmin" [disabled]="!invoice.invoiceUploadId" ngbDropdownItem (click)="sendMail()">
@@ -312,8 +441,12 @@
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary" *ngIf="hasRoleAdmin"
-          [disabled]="!hasRoleAdmin || !invoiceForm.valid || invoice?.locked || invoice?.archived">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          *ngIf="hasRoleAdmin"
+          [disabled]="!hasRoleAdmin || !invoiceForm.valid || invoice?.locked || invoice?.archived"
+        >
           Submit
         </button>
       </div>

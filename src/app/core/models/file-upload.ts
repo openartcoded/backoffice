@@ -7,9 +7,8 @@ export interface FileUpload {
   creationDate: Date;
   publicResource: boolean;
   correlationId?: string;
+  bookmarked: boolean;
 }
-
-
 
 export interface FileUploadSearchCriteria {
   id?: string;
@@ -18,4 +17,5 @@ export interface FileUploadSearchCriteria {
   dateAfter?: Date;
   originalFilename?: string;
   publicResource?: boolean;
+  bookmarked: boolean;
 }

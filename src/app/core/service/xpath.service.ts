@@ -9,7 +9,10 @@ import { ConfigInitService } from '@init/config-init.service';
 export class XPathService {
   baseUrl: string;
 
-  constructor(private http: HttpClient, private configService: ConfigInitService) {
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigInitService,
+  ) {
     this.baseUrl = `${configService.getConfig()['BACKEND_URL']}/api/toolbox/public/xpath`;
   }
 

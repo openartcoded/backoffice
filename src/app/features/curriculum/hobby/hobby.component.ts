@@ -5,10 +5,10 @@ import { UpdateHobbyComponent } from '@feature/curriculum/update-hobby/update-ho
 import { Hobby } from '@core/models/curriculum';
 
 @Component({
-    selector: 'app-hobby',
-    templateUrl: './hobby.component.html',
-    styleUrls: ['./hobby.component.scss'],
-    standalone: false
+  selector: 'app-hobby',
+  templateUrl: './hobby.component.html',
+  styleUrls: ['./hobby.component.scss'],
+  standalone: false,
 })
 export class HobbyComponent implements OnInit {
   @Input()
@@ -20,7 +20,7 @@ export class HobbyComponent implements OnInit {
   constructor(
     private windowService: WindowRefService,
     private modalService: NgbModal,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) private platformId: any,
   ) {}
 
   ngOnInit(): void {}

@@ -7,10 +7,10 @@ import { ToastService } from '@core/service/toast.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-todo-form',
-    templateUrl: './todo-form.component.html',
-    styleUrls: ['./todo-form.component.scss'],
-    standalone: false
+  selector: 'app-todo-form',
+  templateUrl: './todo-form.component.html',
+  styleUrls: ['./todo-form.component.scss'],
+  standalone: false,
 })
 export class TodoFormComponent implements OnInit {
   form: UntypedFormGroup;
@@ -24,7 +24,7 @@ export class TodoFormComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private todoService: TodoService,
     private toastService: ToastService,
-    private fb: UntypedFormBuilder
+    private fb: UntypedFormBuilder,
   ) {}
 
   async ngOnInit() {
@@ -42,42 +42,42 @@ export class TodoFormComponent implements OnInit {
           value: todo.id,
           disabled: true,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       editing: new UntypedFormControl(
         {
           value: !todo.id,
           disabled: true,
         },
-        []
+        [],
       ),
       title: new UntypedFormControl(
         {
           value: todo.title,
           disabled: !!todo.id,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       dateCreation: new UntypedFormControl(
         {
           value: todo.dateCreation,
           disabled: true,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       updatedDate: new UntypedFormControl(
         {
           value: todo.updatedDate,
           disabled: true,
         },
-        [Validators.required]
+        [Validators.required],
       ),
       done: new UntypedFormControl(
         {
           value: todo.done,
           disabled: !!todo.id,
         },
-        [Validators.required]
+        [Validators.required],
       ),
     });
   }
@@ -88,7 +88,7 @@ export class TodoFormComponent implements OnInit {
       this.convertTodo({
         title: null,
         done: false,
-      })
+      }),
     );
   }
 
@@ -100,7 +100,7 @@ export class TodoFormComponent implements OnInit {
         title: title,
         done: abstractControl.get('done').value,
         id: abstractControl.get('id').value,
-      })
+      }),
     );
     await this.load();
     this.toastService.showSuccess(`Todo '${title}' saved`);

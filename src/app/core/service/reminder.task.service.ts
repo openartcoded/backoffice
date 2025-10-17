@@ -11,7 +11,10 @@ import { Page } from '@core/models/page';
 export class ReminderTaskService {
   basePath: string;
 
-  constructor(private http: HttpClient, configService: ConfigInitService) {
+  constructor(
+    private http: HttpClient,
+    configService: ConfigInitService,
+  ) {
     this.basePath = `${configService.getConfig()['BACKEND_URL']}/api/reminder-task`;
   }
 
@@ -28,7 +31,7 @@ export class ReminderTaskService {
 
   public actionResults(actionKey: string, pageNumber: number, pageSize: number): Observable<Page<ActionResult>> {
     return this.http.get<Page<ActionResult>>(
-      `${this.basePath}/action-results?key=${actionKey}&page=${pageNumber - 1}&size=${pageSize}`
+      `${this.basePath}/action-results?key=${actionKey}&page=${pageNumber - 1}&size=${pageSize}`,
     );
   }
 
@@ -46,7 +49,7 @@ export class ReminderTaskService {
 
   public validateCronExpression(cronExpression: string): Observable<{ valid: boolean }> {
     return this.http.get<{ valid: boolean }>(
-      this.basePath + '/validate-cron-expression?cronExpression=' + cronExpression
+      this.basePath + '/validate-cron-expression?cronExpression=' + cronExpression,
     );
   }
 }

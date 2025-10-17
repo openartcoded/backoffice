@@ -4,10 +4,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Hobby } from '@core/models/curriculum';
 
 @Component({
-    selector: 'app-update-hobby',
-    templateUrl: './update-hobby.component.html',
-    styleUrls: ['./update-hobby.component.scss'],
-    standalone: false
+  selector: 'app-update-hobby',
+  templateUrl: './update-hobby.component.html',
+  styleUrls: ['./update-hobby.component.scss'],
+  standalone: false,
 })
 export class UpdateHobbyComponent implements OnInit {
   form: UntypedFormGroup;
@@ -18,7 +18,10 @@ export class UpdateHobbyComponent implements OnInit {
   @Output()
   hobbiesSubmitted: EventEmitter<Hobby[]> = new EventEmitter<Hobby[]>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
+  constructor(
+    @Optional() public activeModal: NgbActiveModal,
+    private fb: UntypedFormBuilder,
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({

@@ -7,7 +7,10 @@ import { PwaModalComponent } from './pwa-modal.component';
   providedIn: 'root',
 })
 export class PwaService {
-  constructor(private readonly updates: SwUpdate, private modalDialog: NgbModal) {
+  constructor(
+    private readonly updates: SwUpdate,
+    private modalDialog: NgbModal,
+  ) {
     updates.unrecoverable.subscribe((event) => {
       console.log('An error occurred that we cannot recover from:\n' + event.reason + '\n\nPlease reload the page.');
     });

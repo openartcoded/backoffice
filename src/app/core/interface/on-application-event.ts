@@ -24,7 +24,6 @@ export class RegisteredEvent {
   static BILLABLE_CLIENT_UPLOAD_ADDED: string = 'BILLABLE_CLIENT_UPLOAD_ADDED';
   static BILLABLE_CLIENT_UPLOAD_DELETED: string = 'BILLABLE_CLIENT_UPLOAD_DELETED';
   static BILLABLE_CLIENT_ERROR: string = 'BILLABLE_CLIENT_ERROR';
-
 }
 
 export interface OnApplicationEvent extends OnDestroy {

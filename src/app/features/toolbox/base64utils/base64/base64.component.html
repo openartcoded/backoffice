@@ -1,6 +1,6 @@
 <form [formGroup]="base64Form" (ngSubmit)="submit()" *ngIf="base64Form">
   <div class="mb-1">
-    <label for="inputText">{{decode ? 'Text to decode' : 'Text to encode'}}</label>
+    <label for="inputText">{{ decode ? 'Text to decode' : 'Text to encode' }}</label>
     <textarea class="form-control" rows="10" [autosize] formControlName="inputText" id="inputText"></textarea>
   </div>
   <div class="d-flex justify-content-end">
@@ -8,5 +8,5 @@
   </div>
 </form>
 <div class="d-block mt-2 mb-2" *ngIf="result">
-  <textarea class="form-control" [autosize] rows="10" disabled="disabled">{{result}}</textarea>
+  <textarea class="form-control" [autosize] rows="10" disabled="disabled">{{ result }}</textarea>
 </div>

@@ -6,10 +6,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'app-action-result',
-    templateUrl: './action-result.component.html',
-    styleUrls: ['./action-result.component.scss'],
-    standalone: false
+  selector: 'app-action-result',
+  templateUrl: './action-result.component.html',
+  styleUrls: ['./action-result.component.scss'],
+  standalone: false,
 })
 export class ActionResultComponent implements OnInit {
   @Input()
@@ -18,7 +18,10 @@ export class ActionResultComponent implements OnInit {
 
   actionResults$: Observable<Page<ActionResult>>;
 
-  constructor(private taskService: ReminderTaskService, @Optional() public activeModal: NgbActiveModal) {}
+  constructor(
+    private taskService: ReminderTaskService,
+    @Optional() public activeModal: NgbActiveModal,
+  ) {}
 
   ngOnInit(): void {
     this.load();

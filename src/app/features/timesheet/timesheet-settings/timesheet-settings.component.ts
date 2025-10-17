@@ -5,10 +5,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BillableClient } from '@core/models/billable-client';
 
 @Component({
-    selector: 'app-timesheet-settings',
-    templateUrl: './timesheet-settings.component.html',
-    styleUrls: ['./timesheet-settings.component.scss'],
-    standalone: false
+  selector: 'app-timesheet-settings',
+  templateUrl: './timesheet-settings.component.html',
+  styleUrls: ['./timesheet-settings.component.scss'],
+  standalone: false,
 })
 export class TimesheetSettingsComponent implements OnInit {
   @Output()
@@ -22,7 +22,10 @@ export class TimesheetSettingsComponent implements OnInit {
 
   form: UntypedFormGroup;
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
+  constructor(
+    @Optional() public activeModal: NgbActiveModal,
+    private fb: UntypedFormBuilder,
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -31,21 +34,21 @@ export class TimesheetSettingsComponent implements OnInit {
           value: this.settings?.minHoursPerDay,
           disabled: false,
         },
-        [Validators.required, Validators.min(0)]
+        [Validators.required, Validators.min(0)],
       ),
       maxHoursPerDay: new UntypedFormControl(
         {
           value: this.settings?.maxHoursPerDay,
           disabled: false,
         },
-        [Validators.required, Validators.min(0.5)]
+        [Validators.required, Validators.min(0.5)],
       ),
       clientId: new UntypedFormControl(
         {
           value: this.settings?.clientId,
           disabled: false,
         },
-        [Validators.required]
+        [Validators.required],
       ),
     });
   }
@@ -55,7 +58,7 @@ export class TimesheetSettingsComponent implements OnInit {
       maxHoursPerDay: this.form.controls.maxHoursPerDay.value,
       minHoursPerDay: this.form.controls.minHoursPerDay.value,
       clientId: this.form.controls.clientId.value,
-      timesheetId: this.settings.timesheetId
+      timesheetId: this.settings.timesheetId,
     };
     this.onSubmitForm.emit(newSettings);
   }

@@ -43,7 +43,7 @@ export class PdfService {
         });
     }
   }
-  public rotate(id: string, rotation: number) : Observable<void> {
+  public rotate(id: string, rotation: number): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/rotate?rotation=${rotation}&id=${id}`, {});
   }
 }

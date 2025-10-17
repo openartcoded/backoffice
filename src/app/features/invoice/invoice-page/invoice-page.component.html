@@ -59,7 +59,9 @@
       </ng-template>
     </li>
     <li ngbNavItem="bookmarked" *ngIf="user">
-      <a ngbNavLink routerLink="/invoice/bookmarked"><fa-icon  [classList]="'text-warning'" [icon]="['fas', 'star']"/>Bookmarks</a>
+      <a ngbNavLink routerLink="/invoice/bookmarked"
+        ><fa-icon [classList]="'text-warning'" [icon]="['fas', 'star']" />Bookmarks</a
+      >
       <ng-template ngbNavContent>
         <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
           <ng-component

@@ -5,10 +5,10 @@ import { DossierService } from '@core/service/dossier.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-dossier-summary',
-    templateUrl: './dossier-summary.component.html',
-    styleUrls: ['./dossier-summary.component.scss'],
-    standalone: false
+  selector: 'app-dossier-summary',
+  templateUrl: './dossier-summary.component.html',
+  styleUrls: ['./dossier-summary.component.scss'],
+  standalone: false,
 })
 export class DossierSummaryComponent implements OnInit, OnDestroy {
   dossierSummaries: DossierSummary[];
@@ -17,7 +17,7 @@ export class DossierSummaryComponent implements OnInit, OnDestroy {
   constructor(
     private dossierService: DossierService,
     @Inject(PLATFORM_ID) private platformId: any,
-  ) { }
+  ) {}
   ngOnDestroy(): void {
     this.graphs = null;
     this.dossierSummaries = null;
@@ -29,17 +29,15 @@ export class DossierSummaryComponent implements OnInit, OnDestroy {
   }
 
   loadGraph(summaries: DossierSummary[]) {
-
     const orderedSummaries = summaries.sort(
-
-      (s1, s2) => new Date(s1.closedDate).getTime() - new Date(s2.closedDate).getTime()
+      (s1, s2) => new Date(s1.closedDate).getTime() - new Date(s2.closedDate).getTime(),
     );
     const config = {
       responsive: true,
       displayModeBar: false,
     };
 
-    const layout = (title: string, callback = (_lyt: any) => { }) => {
+    const layout = (title: string, callback = (_lyt: any) => {}) => {
       let l = {
         barmode: 'group',
         dragmode: 'zoom',

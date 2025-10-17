@@ -8,17 +8,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, EMPTY, mergeMap, Subscription } from 'rxjs';
 
 @Component({
-    selector: 'app-portfolio',
-    templateUrl: './portfolio.component.html',
-    styleUrls: ['./portfolio.component.scss'],
-    standalone: false
+  selector: 'app-portfolio',
+  templateUrl: './portfolio.component.html',
+  styleUrls: ['./portfolio.component.scss'],
+  standalone: false,
 })
 export class PortfolioComponent implements OnInit, OnDestroy {
   constructor(
     private financeService: FinanceService,
     private modalService: NgbModal,
     private router: Router,
-    private portfolioService: PortfolioService
+    private portfolioService: PortfolioService,
   ) {}
 
   selectedTicks: any[];
@@ -38,7 +38,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   async load(
     callback = () => {
       this.selectedPortfolio = this.portfolios?.find((p) => p?.principal);
-    }
+    },
   ) {
     this.loaded = false;
     this.subscriptions.forEach((s) => s.unsubscribe());
@@ -91,7 +91,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
                 error,
               });
               return EMPTY;
-            })
+            }),
           )
           .subscribe((res) => {
             let q = res.chart.result[0];
@@ -135,8 +135,12 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   }
   deleteTick(tick: Tick) {
     const selectedPortfolio = this.selectedPortfolio;
-    this.subscriptions.push(this.portfolioService.deleteTick(selectedPortfolio.id, tick.symbol).subscribe(_ => this.load(() => {
-      this.selectedPortfolio = this.portfolios?.find((p) => p.id === selectedPortfolio.id)
-    })));
+    this.subscriptions.push(
+      this.portfolioService.deleteTick(selectedPortfolio.id, tick.symbol).subscribe((_) =>
+        this.load(() => {
+          this.selectedPortfolio = this.portfolios?.find((p) => p.id === selectedPortfolio.id);
+        }),
+      ),
+    );
   }
 }

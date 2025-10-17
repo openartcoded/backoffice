@@ -31,16 +31,21 @@
           <th class="fit d-md-table-cell d-none">
             <div class="d-flex justify-content-between">
               <span>Created</span>
-              <a [class.text-muted]="sort.property !== 'dateCreation'"
-                [class.text-dark]="sort.property === 'dateCreation'" (click)="setSort('dateCreation')">
-                <fa-icon [icon]="[
+              <a
+                [class.text-muted]="sort.property !== 'dateCreation'"
+                [class.text-dark]="sort.property === 'dateCreation'"
+                (click)="setSort('dateCreation')"
+              >
+                <fa-icon
+                  [icon]="[
                     'fas',
                     sort.property !== 'dateCreation'
                       ? 'arrows-up-down'
                       : sort.direction === ASC
-                      ? 'arrow-up'
-                      : 'arrow-down'
-                  ]">
+                        ? 'arrow-up'
+                        : 'arrow-down',
+                  ]"
+                >
                 </fa-icon>
               </a>
             </div>
@@ -48,16 +53,21 @@
           <th class="fit d-md-table-cell">
             <div class="d-flex justify-content-between">
               <span>Client</span>
-              <a [class.text-muted]="sort.property !== 'billTo.clientName'"
-                [class.text-dark]="sort.property === 'billTo.clientName'" (click)="setSort('billTo.clientName')">
-                <fa-icon [icon]="[
+              <a
+                [class.text-muted]="sort.property !== 'billTo.clientName'"
+                [class.text-dark]="sort.property === 'billTo.clientName'"
+                (click)="setSort('billTo.clientName')"
+              >
+                <fa-icon
+                  [icon]="[
                     'fas',
                     sort.property !== 'billTo.clientName'
                       ? 'arrows-up-down'
                       : sort.direction === ASC
-                      ? 'arrow-up'
-                      : 'arrow-down'
-                  ]">
+                        ? 'arrow-up'
+                        : 'arrow-down',
+                  ]"
+                >
                 </fa-icon>
               </a>
             </div>
@@ -65,16 +75,21 @@
           <th class="fit d-md-table-cell">
             <div class="d-flex justify-content-between">
               <span>Date</span>
-              <a [class.text-muted]="sort.property !== 'dateOfInvoice'"
-                [class.text-dark]="sort.property === 'dateOfInvoice'" (click)="setSort('dateOfInvoice')">
-                <fa-icon [icon]="[
+              <a
+                [class.text-muted]="sort.property !== 'dateOfInvoice'"
+                [class.text-dark]="sort.property === 'dateOfInvoice'"
+                (click)="setSort('dateOfInvoice')"
+              >
+                <fa-icon
+                  [icon]="[
                     'fas',
                     sort.property !== 'dateOfInvoice'
                       ? 'arrows-up-down'
                       : sort.direction === ASC
-                      ? 'arrow-up'
-                      : 'arrow-down'
-                  ]">
+                        ? 'arrow-up'
+                        : 'arrow-down',
+                  ]"
+                >
                 </fa-icon>
               </a>
             </div>
@@ -85,106 +100,159 @@
           <th class="d-md-table-cell d-none">Total</th>
           <th class="d-md-table-cell d-none">Peppol Status</th>
           <th class="fit">Action</th>
-        <th class="fit"></th>
+          <th class="fit"></th>
         </tr>
       </thead>
       <tbody>
-    <ng-container *ngFor="let invoice of invoices.content">
-                    
-        <tr [class.blur-text]="personalInfo.demoMode" [class.table-warning]="invoice.creditNote"  (click)="openModal(invoice)"  role="button">
-          <td class="fit d-md-table-cell">
-            <div class="d-flex justify-content-between">
-              <span>{{ invoice.newInvoiceNumber || invoice.invoiceNumber }}</span>
-              <ng-container *ngIf="invoice.imported">
-                <ng-template #infoFrontend>
-                  Imported on {{ invoice.importedDate | date: 'dd/MM/yyyy HH:mm' }}
-                </ng-template>
-                <button (click)="$event.stopPropagation()" type="button"
-                  class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 pe-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
-                  triggers="click:blur">
-                  <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
-                </button>
-              </ng-container>
-            </div>
-          </td>
-          <td class="fit d-md-table-cell d-none">{{ invoice.dateCreation | date: 'dd/MM/yyyy' }}</td>
-          <td class="fit d-md-table-cell">{{ invoice.billTo.clientName }}</td>
-          <td class="fit d-md-table-cell">{{ invoice.dateOfInvoice | date: 'dd/MM/yyyy' }}</td>
-          <td class="d-md-table-cell text-primary d-none">{{ invoice.dueDate | date: 'dd/MM/yyyy' }}</td>
-          <td class="d-md-table-cell d-none">{{ invoice.subTotal | currency: '€' }}</td>
-          <td class="d-md-table-cell d-none">{{ invoice.taxes | currency: '€' }}</td>
-          <td class="d-md-table-cell d-none text-danger">{{ invoice.total | currency: '€' }}</td>
-          <td class="d-md-table-cell d-none">{{ invoice.peppolStatus  }}</td>
-
-          <td class="text-center fit">
-            <div ngbDropdown class="d-inline-block" container="body">
-              <button class="btn btn-outline-secondary" id="dropdownBasic2" ngbDropdownToggle
-                (click)="$event.stopPropagation()"></button>
-              <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-                <button [disabled]="!invoice.invoiceUploadId" ngbDropdownItem (click)="download(invoice)">
-                  <fa-icon [icon]="['fas', 'download']"></fa-icon>&nbsp;Download
-                </button>
-                <button [disabled]="!invoice.timesheetId" *ngIf="hasRoleAdmin" ngbDropdownItem
-                  [routerLink]="['/timesheets/timesheet/' + invoice.timesheetId]">
-                  <fa-icon [icon]="['fas', 'clock']"></fa-icon>&nbsp;Timesheet
-                </button>
-                <button [disabled]="!invoice.invoiceUploadId" *ngIf="hasRoleAdmin" ngbDropdownItem
-                  (click)="sendMail(invoice)">
-                  <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>&nbsp;Send
-                </button>
-                <button *ngIf="hasRoleAdmin && invoice.peppolStatus" [disabled]="invoice.peppolStatus !== 'NOT_SENT'" ngbDropdownItem (click)="sendToPeppol(invoice)">
-                  <fa-icon [icon]="['fas', 'file-invoice']"></fa-icon>&nbsp;Send Peppol
-                </button>
-                <button ngbDropdownItem (click)="openModal(invoice)">
-                  <fa-icon [icon]="['fas', 'eye']"></fa-icon>&nbsp;Open
-                </button>
-                <button *ngIf="hasRoleAdmin && activeDossier && !invoice.archived && !invoice.logicalDelete"
-                  ngbDropdownItem (click)="process(invoice)">
-                  <fa-icon [icon]="['fas', 'cog']"></fa-icon>&nbsp;Process
-                </button>
-
-                <button *ngIf="hasRoleAdmin" ngbDropdownItem (click)="newInvoiceFromTemplate(invoice)">
-                  <fa-icon [icon]="['fas', 'plus']"></fa-icon>&nbsp;From Template
-                </button>
-                <button *ngIf="hasRoleAdmin && !invoice.archived && invoices?.content?.length == 1" ngbDropdownItem
-                  (click)="delete(invoice)">
-                  <fa-icon [icon]="['fas', 'trash']"></fa-icon>&nbsp;Delete
-                </button>
-                <button *ngIf="hasRoleAdmin && invoice.logicalDelete" ngbDropdownItem (click)="restore(invoice)">
-                  <fa-icon [icon]="['fas', 'trash-restore']"></fa-icon>&nbsp;Restore
-                </button>
-              
-                <button ngbDropdownItem [disabled]="!invoice.invoiceUploadId" (click)="openPdfViewer(invoice)">
-                  <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon>
-                  View as PDF
-                </button>
-                
-                <button ngbDropdownItem [disabled]="!invoice.invoiceUBLId" (click)="openXMLViewer(invoice)">
-                  <fa-icon [icon]="['fas', 'file-code']"></fa-icon>
-                  Peppol XML
-                </button>
-                <button ngbDropdownItem *ngIf="invoice.archived && !invoice.logicalDelete && !invoice.creditNote && !invoice.uploadedManually && !invoice.creditNoteId" (click)="makeCreditNote(invoice)">
-                  <fa-icon [icon]="['fas', 'cog']"></fa-icon>
-                  Make credit note
-                </button>
+        <ng-container *ngFor="let invoice of invoices.content">
+          <tr
+            [class.blur-text]="personalInfo.demoMode"
+            [class.table-warning]="invoice.creditNote"
+            (click)="openModal(invoice)"
+            role="button"
+          >
+            <td class="fit d-md-table-cell">
+              <div class="d-flex justify-content-between">
+                <span>{{ invoice.newInvoiceNumber || invoice.invoiceNumber }}</span>
+                <ng-container *ngIf="invoice.imported">
+                  <ng-template #infoFrontend>
+                    Imported on {{ invoice.importedDate | date: 'dd/MM/yyyy HH:mm' }}
+                  </ng-template>
+                  <button
+                    (click)="$event.stopPropagation()"
+                    type="button"
+                    class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 pe-0 btn btn-link text-dark"
+                    [ngbTooltip]="infoFrontend"
+                    triggers="click:blur"
+                  >
+                    <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+                  </button>
+                </ng-container>
               </div>
-            </div>
-          </td>
-                                  <td class="text-center fit">
-                            <button class="btn btn-link" (click)="toggleBookmark($event,invoice)" [class.text-muted]="!invoice.bookmarked" [class.text-warning]="invoice.bookmarked"><fa-icon [icon]="['fas', 'star']"/></button>
-                                    </td>
-        </tr>
-                
+            </td>
+            <td class="fit d-md-table-cell d-none">{{ invoice.dateCreation | date: 'dd/MM/yyyy' }}</td>
+            <td class="fit d-md-table-cell">{{ invoice.billTo.clientName }}</td>
+            <td class="fit d-md-table-cell">{{ invoice.dateOfInvoice | date: 'dd/MM/yyyy' }}</td>
+            <td class="d-md-table-cell text-primary d-none">{{ invoice.dueDate | date: 'dd/MM/yyyy' }}</td>
+            <td class="d-md-table-cell d-none">{{ invoice.subTotal | currency: '€' }}</td>
+            <td class="d-md-table-cell d-none">{{ invoice.taxes | currency: '€' }}</td>
+            <td class="d-md-table-cell d-none text-danger">{{ invoice.total | currency: '€' }}</td>
+            <td class="d-md-table-cell d-none">{{ invoice.peppolStatus }}</td>
 
-                </ng-container>        <tr *ngIf="!invoices.content?.length">
+            <td class="text-center fit">
+              <div ngbDropdown class="d-inline-block" container="body">
+                <button
+                  class="btn btn-outline-secondary"
+                  id="dropdownBasic2"
+                  ngbDropdownToggle
+                  (click)="$event.stopPropagation()"
+                ></button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                  <button [disabled]="!invoice.invoiceUploadId" ngbDropdownItem (click)="download(invoice)">
+                    <fa-icon [icon]="['fas', 'download']"></fa-icon>&nbsp;Download
+                  </button>
+                  <button
+                    [disabled]="!invoice.timesheetId"
+                    *ngIf="hasRoleAdmin"
+                    ngbDropdownItem
+                    [routerLink]="['/timesheets/timesheet/' + invoice.timesheetId]"
+                  >
+                    <fa-icon [icon]="['fas', 'clock']"></fa-icon>&nbsp;Timesheet
+                  </button>
+                  <button
+                    [disabled]="!invoice.invoiceUploadId"
+                    *ngIf="hasRoleAdmin"
+                    ngbDropdownItem
+                    (click)="sendMail(invoice)"
+                  >
+                    <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>&nbsp;Send
+                  </button>
+                  <button
+                    *ngIf="hasRoleAdmin && invoice.peppolStatus"
+                    [disabled]="invoice.peppolStatus !== 'NOT_SENT'"
+                    ngbDropdownItem
+                    (click)="sendToPeppol(invoice)"
+                  >
+                    <fa-icon [icon]="['fas', 'file-invoice']"></fa-icon>&nbsp;Send Peppol
+                  </button>
+                  <button ngbDropdownItem (click)="openModal(invoice)">
+                    <fa-icon [icon]="['fas', 'eye']"></fa-icon>&nbsp;Open
+                  </button>
+                  <button
+                    *ngIf="hasRoleAdmin && activeDossier && !invoice.archived && !invoice.logicalDelete"
+                    ngbDropdownItem
+                    (click)="process(invoice)"
+                  >
+                    <fa-icon [icon]="['fas', 'cog']"></fa-icon>&nbsp;Process
+                  </button>
+
+                  <button *ngIf="hasRoleAdmin" ngbDropdownItem (click)="newInvoiceFromTemplate(invoice)">
+                    <fa-icon [icon]="['fas', 'plus']"></fa-icon>&nbsp;From Template
+                  </button>
+                  <button
+                    *ngIf="hasRoleAdmin && !invoice.archived && invoices?.content?.length == 1"
+                    ngbDropdownItem
+                    (click)="delete(invoice)"
+                  >
+                    <fa-icon [icon]="['fas', 'trash']"></fa-icon>&nbsp;Delete
+                  </button>
+                  <button *ngIf="hasRoleAdmin && invoice.logicalDelete" ngbDropdownItem (click)="restore(invoice)">
+                    <fa-icon [icon]="['fas', 'trash-restore']"></fa-icon>&nbsp;Restore
+                  </button>
+
+                  <button ngbDropdownItem [disabled]="!invoice.invoiceUploadId" (click)="openPdfViewer(invoice)">
+                    <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon>
+                    View as PDF
+                  </button>
+
+                  <button ngbDropdownItem [disabled]="!invoice.invoiceUBLId" (click)="openXMLViewer(invoice)">
+                    <fa-icon [icon]="['fas', 'file-code']"></fa-icon>
+                    Peppol XML
+                  </button>
+                  <button
+                    ngbDropdownItem
+                    *ngIf="
+                      invoice.archived &&
+                      !invoice.logicalDelete &&
+                      !invoice.creditNote &&
+                      !invoice.uploadedManually &&
+                      !invoice.creditNoteId
+                    "
+                    (click)="makeCreditNote(invoice)"
+                  >
+                    <fa-icon [icon]="['fas', 'cog']"></fa-icon>
+                    Make credit note
+                  </button>
+                </div>
+              </div>
+            </td>
+            <td class="text-center fit">
+              <button
+                class="btn btn-link"
+                (click)="toggleBookmark($event, invoice)"
+                [class.text-muted]="!invoice.bookmarked"
+                [class.text-warning]="invoice.bookmarked"
+              >
+                <fa-icon [icon]="['fas', 'star']" />
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+        <tr *ngIf="!invoices.content?.length">
           <td colspan="10">No Content</td>
         </tr>
       </tbody>
     </table>
   </div>
   <div class="d-flex justify-content-end mb-2">
-    <ngb-pagination *ngIf="invoices?.page?.totalPages > 1" [page]="invoices?.page?.number + 1"
-      [pageSize]="invoices?.page?.size" [maxSize]="1" [collectionSize]="invoices?.page?.totalElements" (pageChange)="load($event)">
+    <ngb-pagination
+      *ngIf="invoices?.page?.totalPages > 1"
+      [page]="invoices?.page?.number + 1"
+      [pageSize]="invoices?.page?.size"
+      [maxSize]="1"
+      [collectionSize]="invoices?.page?.totalElements"
+      (pageChange)="load($event)"
+    >
     </ngb-pagination>
   </div>
 </ng-container>

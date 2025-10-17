@@ -4,10 +4,10 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { User } from '@core/models/user';
 
 @Component({
-    selector: 'app-update-price',
-    templateUrl: './update-price.component.html',
-    styleUrls: ['./update-price.component.scss'],
-    standalone: false
+  selector: 'app-update-price',
+  templateUrl: './update-price.component.html',
+  styleUrls: ['./update-price.component.scss'],
+  standalone: false,
 })
 export class UpdatePriceComponent implements OnInit {
   @Input()
@@ -23,7 +23,7 @@ export class UpdatePriceComponent implements OnInit {
   form: UntypedFormGroup;
   saved: boolean;
 
-  constructor(private fb: UntypedFormBuilder) { }
+  constructor(private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({

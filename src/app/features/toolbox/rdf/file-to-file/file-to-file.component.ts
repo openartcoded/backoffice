@@ -7,10 +7,10 @@ import { map } from 'rxjs/operators';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
-    selector: 'app-file-to-file',
-    templateUrl: './file-to-file.component.html',
-    styleUrls: ['./file-to-file.component.scss'],
-    standalone: false
+  selector: 'app-file-to-file',
+  templateUrl: './file-to-file.component.html',
+  styleUrls: ['./file-to-file.component.scss'],
+  standalone: false,
 })
 export class FileToFileComponent implements OnInit {
   fileToFileForm: UntypedFormGroup;
@@ -21,7 +21,7 @@ export class FileToFileComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private titleService: Title,
     private metaService: Meta,
-    private rdfService: RdfService
+    private rdfService: RdfService,
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +42,7 @@ export class FileToFileComponent implements OnInit {
             selectedLanguage: new UntypedFormControl('', [Validators.required]),
             file: new UntypedFormControl(null, [Validators.required]),
           },
-          {}
+          {},
         );
       });
   }

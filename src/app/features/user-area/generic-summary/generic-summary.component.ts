@@ -8,10 +8,10 @@ import { DateUtils } from '@core/utils/date-utils';
 import { WindowRefService } from '@core/service/window.service';
 
 @Component({
-    selector: 'app-generic-summary',
-    templateUrl: './generic-summary.component.html',
-    styleUrls: ['./generic-summary.component.scss'],
-    standalone: false
+  selector: 'app-generic-summary',
+  templateUrl: './generic-summary.component.html',
+  styleUrls: ['./generic-summary.component.scss'],
+  standalone: false,
 })
 export class GenericSummaryComponent implements OnInit, OnDestroy {
   summary: InvoiceSummary;
@@ -24,7 +24,7 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
     private windowService: WindowRefService,
     private invoiceService: InvoiceService,
     @Inject(PLATFORM_ID) private platformId: any,
-  ) { }
+  ) {}
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((elt: Subscription) => {
@@ -72,7 +72,7 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
       group.set(invoice.client, sum + invoice.subTotal);
       return group;
     }, new Map());
-    const layout = (title: string, callback = (_lyt: any) => { }) => {
+    const layout = (title: string, callback = (_lyt: any) => {}) => {
       let l = {
         barmode: 'group',
         dragmode: 'zoom',
@@ -110,7 +110,7 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
       responsive: true,
       displayModeBar: false,
     };
-    const layout = (title: string, callback = (_) => { }) => {
+    const layout = (title: string, callback = (_) => {}) => {
       let l = {
         barmode: 'group',
         dragmode: 'zoom',

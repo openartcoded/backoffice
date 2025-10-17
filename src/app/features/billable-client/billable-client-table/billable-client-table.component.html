@@ -27,9 +27,13 @@
                   <ng-template #infoFrontend>
                     Imported on {{ client.importedDate | date: 'dd/MM/yyyy HH:mm' }}
                   </ng-template>
-                  <button (click)="$event.stopPropagation()" type="button"
-                    class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
-                    triggers="click:blur">
+                  <button
+                    (click)="$event.stopPropagation()"
+                    type="button"
+                    class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark"
+                    [ngbTooltip]="infoFrontend"
+                    triggers="click:blur"
+                  >
                     <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
                   </button>
                 </ng-container>
@@ -42,8 +46,12 @@
             </td>
             <td class="text-center fit" *ngIf="user && hasRoleAdmin">
               <div ngbDropdown class="d-inline-block" container="body">
-                <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle
-                  stopPropagation></button>
+                <button
+                  class="btn btn-outline-secondary"
+                  id="dropdownBasic1"
+                  ngbDropdownToggle
+                  stopPropagation
+                ></button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                   <button ngbDropdownItem (click)="addOrEdit(client)">
                     <fa-icon [icon]="['fas', 'edit']"></fa-icon> Edit

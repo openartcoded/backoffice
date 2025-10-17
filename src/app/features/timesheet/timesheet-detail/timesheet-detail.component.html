@@ -1,13 +1,16 @@
 <ng-container *ngIf="timesheet && timesheetSettings">
-  <app-title [uppercase]="true" [title]="
+  <app-title
+    [uppercase]="true"
+    [title]="
       'Timesheet ' +
-      (timesheet.monthEnum?.toString() | trim : 3) +
+      (timesheet.monthEnum?.toString() | trim: 3) +
       '/' +
       timesheet.year +
       (timesheet.clientName ? ' (' + timesheet.clientName + ')' : '')
-    ">
+    "
+  >
   </app-title>
-  <div class="d-flex justify-content-between pb-2" >
+  <div class="d-flex justify-content-between pb-2">
     <a routerLink="/timesheets" class="btn btn-outline-primary me-1">
       <fa-icon [icon]="['fas', 'arrow-left']"></fa-icon>
       Back
@@ -23,12 +26,18 @@
         <button ngbDropdownItem [disabled]="timesheet.closed" (click)="release()">
           <fa-icon [icon]="['fas', 'door-closed']"></fa-icon>&nbsp;Release
         </button>
-        <button ngbDropdownItem [disabled]="timesheet.invoiceId?.length > 0 || !timesheet.closed || !timesheet.clientId"
-          (click)="generateInvoice()">
+        <button
+          ngbDropdownItem
+          [disabled]="timesheet.invoiceId?.length > 0 || !timesheet.closed || !timesheet.clientId"
+          (click)="generateInvoice()"
+        >
           <fa-icon [icon]="['fas', 'file-invoice-dollar']"></fa-icon>&nbsp;Generate invoice
         </button>
-        <button ngbDropdownItem [disabled]="!timesheet.invoiceId || !timesheet.closed || !timesheet.clientId"
-          (click)="openInvoice()">
+        <button
+          ngbDropdownItem
+          [disabled]="!timesheet.invoiceId || !timesheet.closed || !timesheet.clientId"
+          (click)="openInvoice()"
+        >
           <fa-icon [icon]="['fas', 'file-invoice-dollar']"></fa-icon>&nbsp;Open invoice
         </button>
         <button ngbDropdownItem [disabled]="!timesheet.closed" (click)="reopen()">
@@ -57,12 +66,21 @@
   <div class="row mb-2" [class.blur-modal]="demoMode">
     <div class="col-lg-3 d-md-inline-block col-12 mb-4">
       <ul class="list-group">
-        <li role="button" class="list-group-item list-group-item-action" *ngFor="let t of tags" (click)="setFilter(t)"
-          [class.active]="t.periodType === currentFilter?.toString()">
+        <li
+          role="button"
+          class="list-group-item list-group-item-action"
+          *ngFor="let t of tags"
+          (click)="setFilter(t)"
+          [class.active]="t.periodType === currentFilter?.toString()"
+        >
           <fa-icon class="me-1" [icon]="['fas', 'circle']" [ngClass]="t.color"></fa-icon>{{ t.label | lowercase }}
         </li>
-        <li role="button" class="list-group-item list-group-item-action" (click)="setFilter(null)"
-          [class.active]="currentFilter === null">
+        <li
+          role="button"
+          class="list-group-item list-group-item-action"
+          (click)="setFilter(null)"
+          [class.active]="currentFilter === null"
+        >
           <fa-icon class="me-1 text-secondary" [icon]="['fas', 'circle']"></fa-icon>all
         </li>
       </ul>
@@ -82,20 +100,27 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let period of periods" [class.table-info]="isToday(period)"
-              [class.table-light]="isNotWorkday(period)" role="button" (click)="openPeriod(period)">
+            <tr
+              *ngFor="let period of periods"
+              [class.table-info]="isToday(period)"
+              [class.table-light]="isNotWorkday(period)"
+              role="button"
+              (click)="openPeriod(period)"
+            >
               <td>
                 <span class="me-1">
-                  <fa-icon [icon]="['fas', 'circle']"
-                    [ngClass]="getTagForPeriodType(period.periodType).color"></fa-icon>
+                  <fa-icon
+                    [icon]="['fas', 'circle']"
+                    [ngClass]="getTagForPeriodType(period.periodType).color"
+                  ></fa-icon>
                 </span>
-                {{ period.dayOfWeek?.toString() | trim : 3 }}
+                {{ period.dayOfWeek?.toString() | trim: 3 }}
               </td>
-              <td>{{ period.date | date : 'dd/MM/yyyy' }}</td>
-              <td class="fit d-md-table-cell d-none">{{ period.morningStartTime | date : 'HH:mm' }}</td>
-              <td class="fit d-md-table-cell d-none">{{ period.morningEndTime | date : 'HH:mm' }}</td>
-              <td class="fit d-md-table-cell d-none">{{ period.afternoonStartTime | date : 'HH:mm' }}</td>
-              <td class="fit d-md-table-cell d-none">{{ period.afternoonEndTime | date : 'HH:mm' }}</td>
+              <td>{{ period.date | date: 'dd/MM/yyyy' }}</td>
+              <td class="fit d-md-table-cell d-none">{{ period.morningStartTime | date: 'HH:mm' }}</td>
+              <td class="fit d-md-table-cell d-none">{{ period.morningEndTime | date: 'HH:mm' }}</td>
+              <td class="fit d-md-table-cell d-none">{{ period.afternoonStartTime | date: 'HH:mm' }}</td>
+              <td class="fit d-md-table-cell d-none">{{ period.afternoonEndTime | date: 'HH:mm' }}</td>
               <td class="fit" [ngClass]="validityColorDuration(period)" *ngIf="period.duration >= 0">
                 {{ period.durationInHours }}h
               </td>

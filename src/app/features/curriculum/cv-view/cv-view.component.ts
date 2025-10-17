@@ -17,10 +17,10 @@ import { firstValueFrom } from 'rxjs';
 import { ToastService } from '@core/service/toast.service';
 
 @Component({
-    selector: 'app-cv-view',
-    templateUrl: './cv-view.component.html',
-    styleUrls: ['./cv-view.component.scss'],
-    standalone: false
+  selector: 'app-cv-view',
+  templateUrl: './cv-view.component.html',
+  styleUrls: ['./cv-view.component.scss'],
+  standalone: false,
 })
 export class CvViewComponent implements OnInit {
   skills: Skill[];

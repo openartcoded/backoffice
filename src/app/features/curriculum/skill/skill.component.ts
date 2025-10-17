@@ -6,10 +6,10 @@ import { UpdateSkillComponent } from '@feature/curriculum/update-skill/update-sk
 import { Skill } from '@core/models/curriculum';
 
 @Component({
-    selector: 'app-skill',
-    templateUrl: './skill.component.html',
-    styleUrls: ['./skill.component.scss'],
-    standalone: false
+  selector: 'app-skill',
+  templateUrl: './skill.component.html',
+  styleUrls: ['./skill.component.scss'],
+  standalone: false,
 })
 export class SkillComponent implements OnInit {
   @Input()
@@ -23,7 +23,7 @@ export class SkillComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private windowService: WindowRefService,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) private platformId: any,
   ) {}
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class SkillComponent implements OnInit {
     } else {
       let fsk = this.filterSkill.toUpperCase();
       this.filteredSkills = this.skills.filter(
-        (skill) => skill.name.toUpperCase().includes(fsk) || skill.tags.find((tag) => tag.toUpperCase().includes(fsk))
+        (skill) => skill.name.toUpperCase().includes(fsk) || skill.tags.find((tag) => tag.toUpperCase().includes(fsk)),
       );
     }
   }

@@ -12,24 +12,23 @@ import { PostDetailComponent } from './post-detail/post-detail.component';
 import { ChipsModule } from 'primeng/chips';
 import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 
-
 @NgModule({
-    declarations: [PostsComponent, PostEditorComponent, PostDetailComponent],
-    exports: [],
-    imports: [
-        CommonModule,
-        FontAwesomeModule,
-        ReactiveFormsModule,
-        NgbDropdownModule,
-        SharedModule,
-        LMarkdownEditorModule,
-        ChipsModule,
-        NgbPaginationModule,
-        BlogRoutingModule,
-        FormsModule,
-        NgbCarouselModule,
-        NgxFileDropModule,
-        NgbNavModule,
-    ],
+  declarations: [PostsComponent, PostEditorComponent, PostDetailComponent],
+  exports: [],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    NgbDropdownModule,
+    SharedModule,
+    LMarkdownEditorModule,
+    ChipsModule,
+    NgbPaginationModule,
+    BlogRoutingModule,
+    FormsModule,
+    NgbCarouselModule,
+    NgxFileDropModule,
+    NgbNavModule,
+  ],
 })
-export class BlogModule { }
+export class BlogModule {}

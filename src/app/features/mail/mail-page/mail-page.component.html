@@ -23,8 +23,12 @@
           </td>
           <td class="text-center fit">
             <div ngbDropdown class="d-inline-block" container="body">
-              <button class="btn btn-outline-secondary" id="dropdownBasic2" ngbDropdownToggle
-                (click)="$event.stopPropagation()"></button>
+              <button
+                class="btn btn-outline-secondary"
+                id="dropdownBasic2"
+                ngbDropdownToggle
+                (click)="$event.stopPropagation()"
+              ></button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
                 <button ngbDropdownItem (click)="openModal(mail)">
                   <fa-icon [icon]="['fas', 'eye']"></fa-icon>&nbsp;Open
@@ -42,9 +46,15 @@
       </tbody>
     </table>
   </div>
-  <div class="d-flex justify-content-between mb-2">
-    <ngb-pagination *ngIf="mails?.page?.totalPages > 1" [page]="mails?.page?.number + 1" [pageSize]="mails?.page?.size"
-      [maxSize]="5" [collectionSize]="mails?.page?.totalElements" (pageChange)="load($event)">
+  <div class="d-flex justify-content-end mb-2">
+    <ngb-pagination
+      *ngIf="mails?.page?.totalPages > 1"
+      [page]="mails?.page?.number + 1"
+      [pageSize]="mails?.page?.size"
+      [maxSize]="1"
+      [collectionSize]="mails?.page?.totalElements"
+      (pageChange)="load($event)"
+    >
     </ngb-pagination>
   </div>
 </ng-container>

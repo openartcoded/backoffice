@@ -1,43 +1,43 @@
 <app-title title="GALLERY"></app-title>
-<div class=" d-flex justify-content-between ">
-  <ngb-pagination *ngIf="memzPage?.page?.totalPages > 1" [page]="pageNumber" [pageSize]="memzPage?.page?.size"
-    [maxSize]="defaultPageSize" [collectionSize]="memzPage?.page?.totalElements" (pageChange)="load($event)">
+<div class="d-flex justify-content-between">
+  <ngb-pagination
+    *ngIf="memzPage?.page?.totalPages > 1"
+    [page]="pageNumber"
+    [pageSize]="memzPage?.page?.size"
+    [maxSize]="defaultPageSize"
+    [collectionSize]="memzPage?.page?.totalElements"
+    (pageChange)="load($event)"
+  >
   </ngb-pagination>
   <div>
     <a class="btn text-primary" (click)="openFormModal()">
-      <fa-icon [icon]="['fas','plus']"></fa-icon>
+      <fa-icon [icon]="['fas', 'plus']"></fa-icon>
     </a>
     <a class="btn text-danger" (click)="load()">
-      <fa-icon [icon]="['fas','sync']"></fa-icon>
+      <fa-icon [icon]="['fas', 'sync']"></fa-icon>
     </a>
   </div>
 </div>
-
 
 <ng-container *ngIf="memzPage?.page?.size > 0">
   <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="false">
     <ng-template ngbSlide *ngFor="let memz of memzPage.content">
       <div class="image-carousel-overlay">
-        <img [src]="memz.imageLink" class="image-carousel mx-auto" [attr.alt]="memz.title">
+        <img [src]="memz.imageLink" class="image-carousel mx-auto" [attr.alt]="memz.title" />
       </div>
       <div class="carousel-caption">
-        <h3>{{memz.title}}</h3>
-        <p *ngIf="memz.description != 'null' ">{{memz.description}}</p>
-
+        <h3>{{ memz.title }}</h3>
+        <p *ngIf="memz.description != 'null'">{{ memz.description }}</p>
       </div>
       <div class="text-center bg-light">
         <a class="btn text-primary me-1" (click)="edit($event, memz)">
-          <fa-icon [icon]="['fas','edit']"></fa-icon>
+          <fa-icon [icon]="['fas', 'edit']"></fa-icon>
         </a>
         <a class="btn text-danger" (click)="delete($event, memz)">
-          <fa-icon [icon]="['fas','trash']"></fa-icon>
+          <fa-icon [icon]="['fas', 'trash']"></fa-icon>
         </a>
       </div>
     </ng-template>
   </ngb-carousel>
-
-
 </ng-container>
-<ng-container *ngIf="!memzPage || memzPage?.page?.size === 0">
-  No content.
-</ng-container>
+<ng-container *ngIf="!memzPage || memzPage?.page?.size === 0"> No content. </ng-container>

@@ -2,10 +2,10 @@ import { Component, EventEmitter, OnInit, Optional, Output } from '@angular/core
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'app-dossier-import-form',
-    templateUrl: './dossier-import-form.component.html',
-    styleUrls: ['./dossier-import-form.component.scss'],
-    standalone: false
+  selector: 'app-dossier-import-form',
+  templateUrl: './dossier-import-form.component.html',
+  styleUrls: ['./dossier-import-form.component.scss'],
+  standalone: false,
 })
 export class DossierImportFormComponent implements OnInit {
   @Output()

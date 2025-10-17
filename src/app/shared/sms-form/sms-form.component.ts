@@ -5,10 +5,10 @@ import { PhoneValidator } from '@core/validators/phone.validator';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'app-sms-form',
-    templateUrl: './sms-form.component.html',
-    styleUrls: ['./sms-form.component.scss'],
-    standalone: false
+  selector: 'app-sms-form',
+  templateUrl: './sms-form.component.html',
+  styleUrls: ['./sms-form.component.scss'],
+  standalone: false,
 })
 export class SmsFormComponent implements OnInit {
   public smsForm: UntypedFormGroup;
@@ -18,7 +18,10 @@ export class SmsFormComponent implements OnInit {
 
   @Output()
   sendSms: EventEmitter<Sms> = new EventEmitter<Sms>();
-  constructor(private fb: UntypedFormBuilder, public activeModal: NgbActiveModal) { }
+  constructor(
+    private fb: UntypedFormBuilder,
+    public activeModal: NgbActiveModal,
+  ) {}
 
   ngOnInit(): void {
     this.smsForm = this.fb.group(
@@ -28,7 +31,7 @@ export class SmsFormComponent implements OnInit {
       },
       {
         validators: PhoneValidator('phoneNumber'),
-      }
+      },
     );
   }
   send() {
@@ -38,5 +41,4 @@ export class SmsFormComponent implements OnInit {
     } as Sms);
     this.smsForm.reset();
   }
-
 }

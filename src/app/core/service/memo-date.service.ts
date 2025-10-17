@@ -8,7 +8,10 @@ import { ConfigInitService } from '@init/config-init.service';
   providedIn: 'root',
 })
 export class MemoDateService {
-  constructor(private http: HttpClient, private configService: ConfigInitService) {}
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigInitService,
+  ) {}
 
   findAll(): Observable<MemoDate[]> {
     return this.http.post<MemoDate[]>(`${this.configService.getConfig()['BACKEND_URL']}/api/memo-date`, {});
@@ -21,7 +24,7 @@ export class MemoDateService {
   delete(memoDate: MemoDate) {
     return this.http.delete<any>(
       `${this.configService.getConfig()['BACKEND_URL']}/api/memo-date?id=${memoDate.id}`,
-      {}
+      {},
     );
   }
 }

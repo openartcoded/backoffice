@@ -5,17 +5,20 @@ import { formatDate } from '@angular/common';
 import { Portfolio } from '@core/models/portfolio';
 
 @Component({
-    selector: 'app-portfolio-form',
-    templateUrl: './portfolio-form.component.html',
-    styleUrls: ['./portfolio-form.component.scss'],
-    standalone: false
+  selector: 'app-portfolio-form',
+  templateUrl: './portfolio-form.component.html',
+  styleUrls: ['./portfolio-form.component.scss'],
+  standalone: false,
 })
 export class PortfolioFormComponent implements OnInit {
   portfolioForm: UntypedFormGroup;
   portfolio: Portfolio;
   submitted: EventEmitter<Portfolio> = new EventEmitter<Portfolio>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
+  constructor(
+    @Optional() public activeModal: NgbActiveModal,
+    private fb: UntypedFormBuilder,
+  ) {}
 
   ngOnInit(): void {
     this.portfolioForm = this.createFormGroup();
@@ -31,7 +34,7 @@ export class PortfolioFormComponent implements OnInit {
           value: this.portfolio.updatedDate ? formatDate(this.portfolio.updatedDate, 'dd/MM/yyyy HH:mm', 'de') : null,
           disabled: true,
         },
-        []
+        [],
       ),
       current: new UntypedFormControl(this.portfolio.principal, []),
 
@@ -40,7 +43,7 @@ export class PortfolioFormComponent implements OnInit {
           value: this.portfolio.dateCreation ? formatDate(this.portfolio.dateCreation, 'dd/MM/yyyy HH:mm', 'de') : null,
           disabled: true,
         },
-        []
+        [],
       ),
     });
   }

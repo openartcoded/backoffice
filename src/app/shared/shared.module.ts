@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TitleComponent } from './title/title.component';
 import { SlugifyPipe } from '@core/pipe/slugify-pipe';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
-import { PdfJsViewerModule } from "ng2-pdfjs-viewer";
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 import { ImageLoaderComponent } from './image-loader/image-loader.component';
 import { SortPipe } from '@core/pipe/sort-pipe';
@@ -25,53 +25,54 @@ import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 import 'ace-builds/src-min-noconflict/ace';
 import 'ace-builds/src-min-noconflict/mode-markdown';
 import { CopyToClipboardComponent } from './copy-to-clipboard/copy-to-clipboard.component';
-import("marked").then(m => {
-    (window as any).marked = m.marked;
+import('marked').then((m) => {
+  (window as any).marked = m.marked;
 });
 @NgModule({
-    declarations: [
-        EditPasswordComponent,
-        TitleComponent,
-        SlugifyPipe,
-        SortPipe,
-        PdfViewerComponent,
-        CopyToClipboardComponent,
-        ImageViewerComponent,
-        ImageLoaderComponent,
-        TrimPipe,
-        StopPropagationDirective,
-        EditEmailComponent,
-        BytesToHumanPipe,
-        MailFormComponent,
-        SmsFormComponent,
-        AutoFocusDirective,
-    ],
-    exports: [
-        CopyToClipboardComponent,
-        TitleComponent,
-        PdfViewerComponent,
-        MailFormComponent,
-        SmsFormComponent,
-        SortPipe,
-        ImageViewerComponent,
-        SlugifyPipe,
-        ImageLoaderComponent,
-        StopPropagationDirective,
-        TrimPipe,
-        BytesToHumanPipe, AutoFocusDirective
-    ],
-    imports: [
-        CommonModule,
-        AutosizeModule,
-        ChipsModule,
-        NgbToastModule,
-        FontAwesomeModule,
-        NgbDropdownModule,
-        LMarkdownEditorModule,
-        FormsModule,
-        ReactiveFormsModule,
-        PdfJsViewerModule,
-    ],
-    providers: [SlugifyPipe, SortPipe],
+  declarations: [
+    EditPasswordComponent,
+    TitleComponent,
+    SlugifyPipe,
+    SortPipe,
+    PdfViewerComponent,
+    CopyToClipboardComponent,
+    ImageViewerComponent,
+    ImageLoaderComponent,
+    TrimPipe,
+    StopPropagationDirective,
+    EditEmailComponent,
+    BytesToHumanPipe,
+    MailFormComponent,
+    SmsFormComponent,
+    AutoFocusDirective,
+  ],
+  exports: [
+    CopyToClipboardComponent,
+    TitleComponent,
+    PdfViewerComponent,
+    MailFormComponent,
+    SmsFormComponent,
+    SortPipe,
+    ImageViewerComponent,
+    SlugifyPipe,
+    ImageLoaderComponent,
+    StopPropagationDirective,
+    TrimPipe,
+    BytesToHumanPipe,
+    AutoFocusDirective,
+  ],
+  imports: [
+    CommonModule,
+    AutosizeModule,
+    ChipsModule,
+    NgbToastModule,
+    FontAwesomeModule,
+    NgbDropdownModule,
+    LMarkdownEditorModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PdfJsViewerModule,
+  ],
+  providers: [SlugifyPipe, SortPipe],
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -1,29 +1,27 @@
-<div class="pt-3 ps-2 d-flex justify-content-between ">
+<div class="pt-3 ps-2 d-flex justify-content-between">
   <h3>PROJECTS</h3>
   <button class="btn btn-link text-dark" (click)="add()">
     <fa-icon icon="plus"></fa-icon>
   </button>
 </div>
 <div class="d-block ps-2 pe-2">
-  <div *ngFor="let proj of personalProjects;let index=index;" class="card  mb-2">
+  <div *ngFor="let proj of personalProjects; let index = index" class="card mb-2">
     <div class="card-header">
-
-      <div class="d-flex  justify-content-between">
-        <strong>{{proj.name}}</strong>
+      <div class="d-flex justify-content-between">
+        <strong>{{ proj.name }}</strong>
 
         <div class="btn-group">
           <button class="btn btn-link text-dark pt-0 pb-0 ps-0 pe-1" (click)="delete(index)">
             <fa-icon icon="trash"></fa-icon>
           </button>
-          <button class="btn btn-link text-dark pt-0 pb-0 ps-0 pe-0" (click)="edit(proj,index)">
+          <button class="btn btn-link text-dark pt-0 pb-0 ps-0 pe-0" (click)="edit(proj, index)">
             <fa-icon icon="edit"></fa-icon>
           </button>
         </div>
       </div>
 
-      <a [href]="proj.url" class="card-subtitle text-muted">{{proj.url}}</a>
+      <a [href]="proj.url" class="card-subtitle text-muted">{{ proj.url }}</a>
     </div>
-    <div class="card-body" [innerText]="proj.description" *ngIf="proj.description">
-    </div>
+    <div class="card-body" [innerText]="proj.description" *ngIf="proj.description"></div>
   </div>
 </div>

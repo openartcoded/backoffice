@@ -5,10 +5,10 @@ import { WindowRefService } from '@core/service/window.service';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
-    selector: 'app-base64',
-    templateUrl: './base64.component.html',
-    styleUrls: ['./base64.component.scss'],
-    standalone: false
+  selector: 'app-base64',
+  templateUrl: './base64.component.html',
+  styleUrls: ['./base64.component.scss'],
+  standalone: false,
 })
 export class Base64Component implements OnInit {
   @Input()
@@ -21,7 +21,7 @@ export class Base64Component implements OnInit {
     private titleService: Title,
     @Inject(PLATFORM_ID) private platformId: any,
     private windowRefService: WindowRefService,
-    private metaService: Meta
+    private metaService: Meta,
   ) {}
 
   ngOnInit(): void {
@@ -36,7 +36,7 @@ export class Base64Component implements OnInit {
       {
         inputText: new UntypedFormControl('', [Validators.required]),
       },
-      {}
+      {},
     );
   }
 

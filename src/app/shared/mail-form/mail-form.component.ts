@@ -7,10 +7,10 @@ import { EmailsValidator } from '@core/validators/emails.validator';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'app-mail-form',
-    templateUrl: './mail-form.component.html',
-    styleUrls: ['./mail-form.component.scss'],
-    standalone: false
+  selector: 'app-mail-form',
+  templateUrl: './mail-form.component.html',
+  styleUrls: ['./mail-form.component.scss'],
+  standalone: false,
 })
 export class MailFormComponent implements OnInit {
   public mailForm: UntypedFormGroup;
@@ -32,7 +32,7 @@ export class MailFormComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
     public activeModal: NgbActiveModal,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.mailForm = this.fb.group(

@@ -1,4 +1,4 @@
-<div class="pt-3 ps-2 d-flex justify-content-between ">
+<div class="pt-3 ps-2 d-flex justify-content-between">
   <h3>SKILLS</h3>
   <button class="btn btn-link text-dark" (click)="add()">
     <fa-icon icon="plus"></fa-icon>
@@ -6,11 +6,11 @@
 </div>
 <ng-container *ngIf="filteredSkills">
   <div class="d-block ps-2 pe-2 pb-2">
-    <input class="form-control" placeholder="search..." (input)="filter()" [(ngModel)]="filterSkill">
+    <input class="form-control" placeholder="search..." (input)="filter()" [(ngModel)]="filterSkill" />
     <div class="d-block mt-2 border border-light" *ngFor="let skill of filteredSkills">
       <div class="d-flex justify-content-between bg-light border-bottom border-light">
         <div class="pt-1 ms-1 me-0 pe-0">
-          <strong class=" text-break">{{skill.name}}</strong>
+          <strong class="text-break">{{ skill.name }}</strong>
         </div>
         <div>
           <button class="btn btn-link text-dark pt-1 pb-0 ps-0 pe-0 me-1" (click)="delete(skill)">
@@ -22,10 +22,13 @@
         </div>
       </div>
       <h5 class="text-center mt-1">
-        <span *ngFor="let tag of skill.tags"
+        <span
+          *ngFor="let tag of skill.tags"
           [class.bg-success]="filterSkill?.length >= 2 && tag.toUpperCase().includes(filterSkill.toUpperCase())"
           [class.bg-primary]="!(filterSkill?.length >= 2 && tag.toUpperCase().includes(filterSkill.toUpperCase()))"
-          class="badge me-1 mb-1">{{tag}}</span>&nbsp;
+          class="badge me-1 mb-1"
+          >{{ tag }}</span
+        >&nbsp;
       </h5>
     </div>
   </div>

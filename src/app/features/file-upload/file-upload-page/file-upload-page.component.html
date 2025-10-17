@@ -1,0 +1,46 @@
+<ng-template #fullScreenTemplate let-title="title">
+  <div class="d-flex justify-content-end">
+    <a class="btn btn-link m-0" [class.pt-3]="!fullScreen" (click)="$event.stopPropagation(); fullScreen = !fullScreen">
+      <fa-icon class="text-dark" [icon]="['fas', 'expand-arrows-alt']"></fa-icon>
+    </a>
+  </div>
+</ng-template>
+<app-title title="Uploads" [uppercase]="true"></app-title>
+<ng-container *ngIf="user">
+  <ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
+    <li ngbNavItem="home">
+      <a ngbNavLink routerLink="/file-upload/home">Search</a>
+      <ng-template ngbNavContent>
+        <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+          <ng-component
+            [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Search' }"
+          ></ng-component>
+
+          <div class="d-block" *ngIf="user">
+            <app-file-upload-table [bookmarked]="false" />
+          </div>
+        </div>
+      </ng-template>
+    </li>
+
+    <li ngbNavItem="bookmarks">
+      <a ngbNavLink routerLink="/file-upload/bookmarks"
+        ><fa-icon [classList]="'text-warning'" [icon]="['fas', 'star']" />Bookmarks</a
+      >
+      <ng-template ngbNavContent>
+        <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+          <ng-component
+            [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Bookmarks' }"
+          ></ng-component>
+
+          <div class="d-block" *ngIf="user">
+            <app-file-upload-table [bookmarked]="true" />
+          </div>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
+</ng-container>

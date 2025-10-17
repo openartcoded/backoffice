@@ -7,7 +7,10 @@ import { ConfigInitService } from '@init/config-init.service';
   providedIn: 'root',
 })
 export class FinanceService {
-  constructor(private http: HttpClient, private configService: ConfigInitService) {}
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigInitService,
+  ) {}
 
   chart(tick: string, interval: string = '1d', range: string = '5d'): Observable<any> {
     let url = `${

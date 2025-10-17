@@ -2,26 +2,24 @@
   <div class="mb-1">
     <label for="modelLang">Choose an input format</label>
     <select class="form-select" formControlName="modelLang" id="modelLang">
-      <option *ngFor="let l of allowedLanguages$ | async" [selected]="l === modelLang" [value]="l">{{l}}</option>
+      <option *ngFor="let l of allowedLanguages$ | async" [selected]="l === modelLang" [value]="l">{{ l }}</option>
     </select>
   </div>
   <div class="mb-1">
     <label for="selectedLanguage">Choose an output format</label>
     <select class="form-select" formControlName="selectedLanguage" id="selectedLanguage">
-      <option *ngFor="let l of allowedLanguages$ | async" [selected]="l === selectedLanguage" [value]="l">{{l}}</option>
+      <option *ngFor="let l of allowedLanguages$ | async" [selected]="l === selectedLanguage" [value]="l">
+        {{ l }}
+      </option>
     </select>
   </div>
   <div class="mb-1">
     <label for="rdfInput">Insert rdf</label>
-    <textarea class="form-control" formControlName="rdfInput" id="rdfInput" [autosize]="true" rows="10">
-    </textarea>
+    <textarea class="form-control" formControlName="rdfInput" id="rdfInput" [autosize]="true" rows="10"> </textarea>
   </div>
 
-
   <div class="d-flex justify-content-end">
-    <button type="submit" class="btn btn-primary mb-2 mt-1"
-            [disabled]="!stringToLangForm.valid">Convert
-    </button>
+    <button type="submit" class="btn btn-primary mb-2 mt-1" [disabled]="!stringToLangForm.valid">Convert</button>
   </div>
 </form>
 <ng-container *ngIf="result">

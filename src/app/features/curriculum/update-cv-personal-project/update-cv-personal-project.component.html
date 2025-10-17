@@ -1,11 +1,9 @@
 <ng-container>
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">
-      {{personalProject?.name || 'New Project'}}
+      {{ personalProject?.name || 'New Project' }}
     </span>
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')">
-
-    </button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body" *ngIf="form">
     <form [formGroup]="form" (ngSubmit)="send()">
@@ -13,13 +11,13 @@
         <div class="mb-1 row">
           <label class="col-sm-2 col-form-label" for="name">Name</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="name" formControlName="name" appAutoFocus>
+            <input type="text" class="form-control" id="name" formControlName="name" appAutoFocus />
           </div>
         </div>
         <div class="mb-1 row">
           <label class="col-sm-2 col-form-label" for="url">Url</label>
           <div class="col-sm-10">
-            <input type="url" class="form-control" id="url" formControlName="url">
+            <input type="url" class="form-control" id="url" formControlName="url" />
           </div>
         </div>
         <div class="mb-1 row">
@@ -29,9 +27,8 @@
           </div>
         </div>
       </div>
-      <div class="d-flex justify-content-end  mt-2">
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit
-        </button>
+      <div class="d-flex justify-content-end mt-2">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
       </div>
     </form>
   </div>

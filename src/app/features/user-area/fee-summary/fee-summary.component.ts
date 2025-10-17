@@ -4,15 +4,18 @@ import { FeeService } from '@core/service/fee.service';
 import { firstValueFrom, Observable, of } from 'rxjs';
 
 @Component({
-    selector: 'app-fee-summary',
-    templateUrl: './fee-summary.component.html',
-    styleUrls: ['./fee-summary.component.scss'],
-    standalone: false
+  selector: 'app-fee-summary',
+  templateUrl: './fee-summary.component.html',
+  styleUrls: ['./fee-summary.component.scss'],
+  standalone: false,
 })
 export class FeeSummaryComponent implements OnInit, OnDestroy {
   graphs$: Observable<any>;
   showGraph: boolean;
-  constructor(private feeService: FeeService, @Inject(PLATFORM_ID) private platformId: any) {}
+  constructor(
+    private feeService: FeeService,
+    @Inject(PLATFORM_ID) private platformId: any,
+  ) {}
   ngOnDestroy(): void {
     this.graphs$ = null;
   }

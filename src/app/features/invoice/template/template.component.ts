@@ -9,10 +9,10 @@ import { isPlatformBrowser } from '@angular/common';
 import { WindowRefService } from '@core/service/window.service';
 
 @Component({
-    selector: 'app-template',
-    templateUrl: './template.component.html',
-    styleUrls: ['./template.component.scss'],
-    standalone: false
+  selector: 'app-template',
+  templateUrl: './template.component.html',
+  styleUrls: ['./template.component.scss'],
+  standalone: false,
 })
 export class TemplateComponent implements OnInit {
   @Input()
@@ -31,7 +31,7 @@ export class TemplateComponent implements OnInit {
     private fileService: FileService,
     private fb: UntypedFormBuilder,
     private windowService: WindowRefService,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) private platformId: any,
   ) {}
 
   drop($event: NgxFileDropEntry[]) {

@@ -14,24 +14,35 @@
         <button [disabled]="showTagForm || !selectedRows.length" (click)="showTagForm = !showTagForm" ngbDropdownItem>
           <fa-icon [icon]="['fas', 'dot-circle']"></fa-icon>&nbsp;Set Tag
         </button>
-        <button (click)="openProcessValidation()" [disabled]="showTagForm || !selectedRows.length || !activeDossier"
-          ngbDropdownItem>
+        <button
+          (click)="openProcessValidation()"
+          [disabled]="showTagForm || !selectedRows.length || !activeDossier"
+          ngbDropdownItem
+        >
           <fa-icon [icon]="['fas', 'cog']"></fa-icon>&nbsp;Process
         </button>
         <button [disabled]="showTagForm || !selectedRows.length" ngbDropdownItem (click)="deleteFees()">
           <fa-icon [icon]="['fas', 'times']"></fa-icon>&nbsp;Delete
         </button>
         <button ngbDropdownItem (click)="load()"><fa-icon [icon]="['fas', 'sync']"></fa-icon>&nbsp;Reload</button>
-        <button *ngIf="!archived" [disabled]="showTagForm || selectedRows.length > 0" ngbDropdownItem
-          (click)="manualSubmit()">
+        <button
+          *ngIf="!archived"
+          [disabled]="showTagForm || selectedRows.length > 0"
+          ngbDropdownItem
+          (click)="manualSubmit()"
+        >
           <fa-icon [icon]="['fas', 'upload']"></fa-icon>&nbsp;Manual Submit
         </button>
       </div>
     </div>
   </div>
   <div class="d-block">
-    <app-tag-form [user]="user" [tags]="tags" (tagSubmitted)="saveTag($event)"
-      *ngIf="showTagForm && selectedRows.length">
+    <app-tag-form
+      [user]="user"
+      [tags]="tags"
+      (tagSubmitted)="saveTag($event)"
+      *ngIf="showTagForm && selectedRows.length"
+    >
     </app-tag-form>
   </div>
   <div class="row">
@@ -51,9 +62,14 @@
                 <th class="d-md-table-cell d-none fit">Files</th>
                 <th class="fit" *ngIf="hasRoleAdmin"></th>
                 <th class="text-center fit" *ngIf="!archived && hasRoleAdmin">
-                  <input type="checkbox" class="form-check-input" aria-label="select"
-                    (change)="toggleAllRows($event, fees.content)" [checked]="isAllFeesSelected(fees.content)"
-                    [disabled]="!fees.content.length" />
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    aria-label="select"
+                    (change)="toggleAllRows($event, fees.content)"
+                    [checked]="isAllFeesSelected(fees.content)"
+                    [disabled]="!fees.content.length"
+                  />
                 </th>
               </tr>
             </thead>
@@ -73,9 +89,13 @@
                         <ng-template #infoFrontend>
                           Imported on {{ f.importedDate | date: 'dd/MM/yyyy HH:mm' }}
                         </ng-template>
-                        <button (click)="$event.stopPropagation()" type="button"
-                          class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark" [ngbTooltip]="infoFrontend"
-                          triggers="click:blur">
+                        <button
+                          (click)="$event.stopPropagation()"
+                          type="button"
+                          class="ps-0 ms-0 mt-0 pt-0 mb-0 pb-0 me-0 btn btn-link text-dark"
+                          [ngbTooltip]="infoFrontend"
+                          triggers="click:blur"
+                        >
                           <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
                         </button>
                       </ng-container>
@@ -89,8 +109,13 @@
                     <a class="btn btn-link" (click)="sendMail(f, $event)">
                       <fa-icon [icon]="['fas', 'mail-bulk']" />
                     </a>
-                      <a class="btn btn-link" (click)="toggleBookmark($event,f)" [class.text-muted]="!f.bookmarked" [class.text-warning]="f.bookmarked"><fa-icon [icon]="['fas', 'star']"/></a>
-
+                    <a
+                      class="btn btn-link"
+                      (click)="toggleBookmark($event, f)"
+                      [class.text-muted]="!f.bookmarked"
+                      [class.text-warning]="f.bookmarked"
+                      ><fa-icon [icon]="['fas', 'star']"
+                    /></a>
                   </td>
                   <td class="text-center fit" (click)="toggleSelectedRow(f, false, $event)" *ngIf="!archived">
                     <input type="checkbox" class="form-check-input" aria-label="select" [checked]="isFeeSelected(f)" />
@@ -115,8 +140,14 @@
       </div>
 
       <div class="d-flex justify-content-end mb-2">
-        <ngb-pagination *ngIf="fees && fees.page.totalPages > 1" [page]="pageNumber" [pageSize]="fees.page.size" [maxSize]="1"
-          [collectionSize]="fees.page.totalElements" (pageChange)="load($event)">
+        <ngb-pagination
+          *ngIf="fees && fees.page.totalPages > 1"
+          [page]="pageNumber"
+          [pageSize]="fees.page.size"
+          [maxSize]="1"
+          [collectionSize]="fees.page.totalElements"
+          (pageChange)="load($event)"
+        >
         </ngb-pagination>
       </div>
     </div>

@@ -10,7 +10,10 @@ import { Sms } from '@core/models/sms';
 export class SmsService {
   basePath: string;
 
-  constructor(private http: HttpClient, configService: ConfigInitService) {
+  constructor(
+    private http: HttpClient,
+    configService: ConfigInitService,
+  ) {
     this.basePath = `${configService.getConfig()['BACKEND_URL']}/api/sms`;
   }
 

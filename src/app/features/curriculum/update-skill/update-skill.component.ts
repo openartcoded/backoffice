@@ -4,10 +4,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Skill } from '@core/models/curriculum';
 
 @Component({
-    selector: 'app-update-skill',
-    templateUrl: './update-skill.component.html',
-    styleUrls: ['./update-skill.component.scss'],
-    standalone: false
+  selector: 'app-update-skill',
+  templateUrl: './update-skill.component.html',
+  styleUrls: ['./update-skill.component.scss'],
+  standalone: false,
 })
 export class UpdateSkillComponent implements OnInit {
   form: UntypedFormGroup;
@@ -18,7 +18,10 @@ export class UpdateSkillComponent implements OnInit {
   @Output()
   skillSubmitted: EventEmitter<Skill> = new EventEmitter<Skill>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
+  constructor(
+    @Optional() public activeModal: NgbActiveModal,
+    private fb: UntypedFormBuilder,
+  ) {}
 
   ngOnInit() {
     this.form = this.fb.group({

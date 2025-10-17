@@ -4,10 +4,10 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'app-update-cv-personal-project',
-    templateUrl: './update-cv-personal-project.component.html',
-    styleUrls: ['./update-cv-personal-project.component.scss'],
-    standalone: false
+  selector: 'app-update-cv-personal-project',
+  templateUrl: './update-cv-personal-project.component.html',
+  styleUrls: ['./update-cv-personal-project.component.scss'],
+  standalone: false,
 })
 export class UpdateCvPersonalProjectComponent implements OnInit {
   form: UntypedFormGroup;
@@ -18,7 +18,10 @@ export class UpdateCvPersonalProjectComponent implements OnInit {
   @Output()
   personalProjectUpdated: EventEmitter<PersonalProject> = new EventEmitter<PersonalProject>();
 
-  constructor(@Optional() public activeModal: NgbActiveModal, private fb: UntypedFormBuilder) {}
+  constructor(
+    @Optional() public activeModal: NgbActiveModal,
+    private fb: UntypedFormBuilder,
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({

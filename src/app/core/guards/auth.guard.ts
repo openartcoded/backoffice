@@ -12,7 +12,7 @@ export class AuthGuard extends KeycloakAuthGuard {
     protected readonly router: Router,
     protected readonly windowRefService: WindowRefService,
     @Inject(PLATFORM_ID) private platformId: any,
-    protected readonly keycloak: KeycloakService
+    protected readonly keycloak: KeycloakService,
   ) {
     super(router, keycloak);
   }

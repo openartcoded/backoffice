@@ -2,20 +2,20 @@
   <div class="mb-1">
     <label for="sinceType">Type</label>
     <select class="form-select" formControlName="sinceType" id="sinceType">
-      <option *ngFor="let op of typeOptions" [selected]="op === sinceType" [value]="op">{{op | titlecase}}</option>
+      <option *ngFor="let op of typeOptions" [selected]="op === sinceType" [value]="op">{{ op | titlecase }}</option>
     </select>
   </div>
   <div class="mb-1">
     <label for="sinceDate">Date</label>
-    <input type="date" id="sinceDate" formControlName="sinceDate" class="form-control">
+    <input type="date" id="sinceDate" formControlName="sinceDate" class="form-control" />
   </div>
   <div class="d-flex justify-content-end">
-    <button type="submit" class="btn  btn-primary" [disabled]="!howManyForm.valid">Submit</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!howManyForm.valid">Submit</button>
   </div>
 </form>
 <div class="jumbotron jumbotron-fluid mt-2 mb-2" *ngIf="result && resultStmt">
   <p class="text-danger d-inline display-3">
-    {{floor(result) | number:'1.0-0'}}
+    {{ floor(result) | number: '1.0-0' }}
   </p>
-  <span class="display-4">{{resultStmt}}</span>
+  <span class="display-4">{{ resultStmt }}</span>
 </div>

@@ -13,7 +13,10 @@ export class SettingsService {
 
   public readonly _menuLinks: EventEmitter<MenuLink[]> = new EventEmitter<MenuLink[]>();
 
-  constructor(private http: HttpClient, configService: ConfigInitService) {
+  constructor(
+    private http: HttpClient,
+    configService: ConfigInitService,
+  ) {
     this.basePath = `${configService.getConfig()['BACKEND_URL']}/api/settings/menu-link`;
     this.emitMenuLinks();
   }
@@ -37,7 +40,7 @@ export class SettingsService {
         error: (err) => {
           console.error(err);
         },
-      })
+      }),
     );
   }
 
@@ -58,7 +61,7 @@ export class SettingsService {
         error: (err) => {
           console.error(err);
         },
-      })
+      }),
     );
   }
 
@@ -71,7 +74,7 @@ export class SettingsService {
         error: (err) => {
           console.error(err);
         },
-      })
+      }),
     );
   }
 }

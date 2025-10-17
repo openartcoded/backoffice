@@ -10,10 +10,10 @@ import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 import { User } from '@core/models/user';
 
 @Component({
-    selector: 'app-document-editor',
-    templateUrl: './document-editor.component.html',
-    styleUrls: ['./document-editor.component.scss'],
-    standalone: false
+  selector: 'app-document-editor',
+  templateUrl: './document-editor.component.html',
+  styleUrls: ['./document-editor.component.scss'],
+  standalone: false,
 })
 export class DocumentEditorComponent implements OnInit {
   form: UntypedFormGroup;
@@ -33,7 +33,7 @@ export class DocumentEditorComponent implements OnInit {
     private fileService: FileService,
     private modalService: NgbModal,
     @Optional() public activeModal: NgbActiveModal,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group(

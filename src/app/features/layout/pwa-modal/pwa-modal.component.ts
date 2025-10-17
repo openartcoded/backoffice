@@ -4,17 +4,17 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { SwUpdate } from '@angular/service-worker';
 
 @Component({
-    selector: 'app-pwa-modal',
-    templateUrl: './pwa-modal.component.html',
-    styleUrls: ['./pwa-modal.component.scss'],
-    standalone: false
+  selector: 'app-pwa-modal',
+  templateUrl: './pwa-modal.component.html',
+  styleUrls: ['./pwa-modal.component.scss'],
+  standalone: false,
 })
 export class PwaModalComponent implements OnInit {
   constructor(
     @Optional() public activeModal: NgbActiveModal,
     @Inject(DOCUMENT) private document: Document,
     private readonly updates: SwUpdate,
-    @Inject(PLATFORM_ID) private platformId: any
+    @Inject(PLATFORM_ID) private platformId: any,
   ) {}
 
   ngOnInit(): void {}
