@@ -1,4 +1,12 @@
-<ng-container *ngIf="period">
+
+
+<ng-container *ngIf="period && componentType === 'btn'">
+    <button class="btn btn-outline-primary" (click)="autocompleteAndSave($event)" [disabled]="timesheetClosed">
+          <fa-icon icon="user-clock"></fa-icon>
+        </button>
+</ng-container>
+
+<ng-container *ngIf="period && componentType === 'modal'">
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">
       {{ period.date | date: 'dd/MM/yyyy' }} - {{ period.dayOfWeek?.toString() | trim: 3 }}

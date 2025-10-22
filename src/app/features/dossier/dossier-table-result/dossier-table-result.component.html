@@ -90,7 +90,7 @@
             <td>{{ d?.updatedDate | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td class="d-md-table-cell d-none">{{ d.feeIds?.length }}</td>
             <td class="d-md-table-cell d-none">{{ d.invoiceIds?.length }}</td>
-            <td class="d-md-table-cell d-none">{{ d.description }}</td>
+            <td class="d-md-table-cell d-none multiline">{{ d.description }}</td>
             <td class="d-md-table-cell d-none" *ngIf="closed">{{ d?.tvaDue || 0 | currency: '€' }}</td>
             <td
               *ngIf="!closed"

@@ -97,6 +97,7 @@
               <th class="fit d-md-table-cell d-none">Afternoon Start</th>
               <th class="fit d-md-table-cell d-none">Afternoon End</th>
               <th class="fit">Duration</th>
+              <th class="fit"></th>
             </tr>
           </thead>
           <tbody>
@@ -125,9 +126,12 @@
                 {{ period.durationInHours }}h
               </td>
               <td *ngIf="period.duration < 0" class="fit bg-danger text-white">ERROR</td>
+              <td class="fit">
+                 <app-period-form [settings]="timesheetSettings" [timesheetId]="timesheet.id" [timesheetClosed]="timesheet.closed" [period]="period" componentType="btn" (onSubmitForm)="load()"/>
+                            </td>
             </tr>
             <tr *ngIf="!periods?.length">
-              <td colspan="7">No result</td>
+              <td colspan="8">No result</td>
             </tr>
           </tbody>
         </table>
