@@ -2,8 +2,8 @@ import { Component, TemplateRef } from '@angular/core';
 import { ToastService } from '@core/service/toast.service';
 
 @Component({
-  selector: 'app-toasts',
-  template: `
+    selector: 'app-toasts',
+    template: `
     <ngb-toast
       *ngFor="let toast of toastService.toasts"
       [class]="toast.classname"
@@ -18,13 +18,13 @@ import { ToastService } from '@core/service/toast.service';
       <ng-template #text>{{ toast.textOrTpl }}</ng-template>
     </ngb-toast>
   `,
-  host: { class: 'toast-container position-fixed top-0 end-0 pt-5 me-1', style: 'z-index: 1200' },
-  standalone: false,
+    host: { class: 'toast-container position-fixed top-0 end-0 pt-5 me-1', style: 'z-index: 12000' },
+    standalone: false,
 })
 export class ToastsContainer {
-  constructor(public toastService: ToastService) {}
+    constructor(public toastService: ToastService) { }
 
-  isTemplate(toast) {
-    return toast.textOrTpl instanceof TemplateRef;
-  }
+    isTemplate(toast) {
+        return toast.textOrTpl instanceof TemplateRef;
+    }
 }

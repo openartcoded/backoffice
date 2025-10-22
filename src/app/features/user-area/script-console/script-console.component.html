@@ -1,0 +1,58 @@
+<div class="ps-2 pe-2">
+<ng-container *ngIf="bindings">
+  <div class="row">
+    <!-- Console Card -->
+    <div class="col-lg-10 col-12 mb-3">
+      <div class="card border-1">
+        <div class="card-header bg-transparent text-dark">
+          <h5 class="mb-0">Console</h5>
+        </div>
+        <div class="card-body  bg-transparent text-dark">
+          <div class="mb-3 mt-2">
+            <textarea
+              autosize
+              [(ngModel)]="script"
+              class="form-control bg-transparent text-dark"
+              [rows]="7"
+              [placeholder]="placeholder">
+            </textarea>
+          </div>
+
+          <div class="d-flex justify-content-center mb-3">
+            <button class="btn btn-outline-primary me-2" (click)="run()">Run</button>
+            <app-copy-to-clipboard
+              [textToCopy]="out"
+              [btnClasses]="'btn btn-outline-secondary'">
+            </app-copy-to-clipboard>
+            <button class="btn btn-outline-info ms-2" (click)="out=''; error=false">clear</button>
+          </div>
+
+          <div class="border rounded bg-light p-2 overflow-auto mb-2" style="max-height: 50vh;">
+            <pre [class.text-danger]="error" class="m-0 text-wrap"><code>{{ out || 'no output' }}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-12 mb-3 ms-0 ps-0 " style="z-index: 1000">
+      <div class="card  border-0">
+        <div class="card-header bg-secondary text-white">
+          <h5 class="mb-0">Bindings</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-sm mb-0">
+              <tbody>
+                <tr *ngFor="let b of bindingEntries; ">
+                  <td><app-copy-to-clipboard [textToCopy]="b[0]" [label]="b[0]" btnClasses="btn btn-link p-0  text-decoration-none"></app-copy-to-clipboard></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+</div>

@@ -106,5 +106,11 @@
       </ul>
     </ng-template>
   </li>
+ <li [ngbNavItem]="6">
+    <button ngbNavLink>Console</button>
+    <ng-template ngbNavContent>
+    <app-script-console/>  
+    </ng-template>
+  </li>
 </ul>
 <div [ngbNavOutlet]="nav" class="mt-2"></div>

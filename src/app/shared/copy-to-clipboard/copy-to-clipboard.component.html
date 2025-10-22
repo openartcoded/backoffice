@@ -1,1 +1,1 @@
-<button [classList]="btnClasses" (click)="copyToClipboard($event)">Copy</button>
+<button [classList]="btnClasses" [disabled]="!textToCopy?.length" (click)="copyToClipboard($event)">{{label}}</button>

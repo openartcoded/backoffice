@@ -25,6 +25,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NextTasksComponent } from './next-tasks/next-tasks.component';
 import { MostClickedMenuComponent } from './most-clicked-menu/most-clicked-menu.component';
 import { PlotlyViaCDNModule } from 'angular-plotly.js';
+import { ScriptConsoleComponent } from './script-console/script-console.component';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -41,6 +42,7 @@ import { PlotlyViaCDNModule } from 'angular-plotly.js';
     ScriptComponent,
     NextTasksComponent,
     MostClickedMenuComponent,
+    ScriptConsoleComponent,
   ],
   imports: [
     CommonModule,
