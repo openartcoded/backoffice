@@ -110,7 +110,15 @@ export class FileUploadTableComponent implements OnInit {
     $event.stopPropagation();
     this.fileService.toggleBookmarked(upl.id).subscribe((fee) => {
       this.toastService.showSuccess('Bookmark toggled. Reload...');
-      this.load();
+      upl.bookmarked = !upl.bookmarked;
+      const index = this.fileUploads.content.findIndex((d, idx) => d.id && d.id === upl.id);
+      if (index !== -1) {
+        const newArray =
+          this.bookmarked && !upl.bookmarked
+            ? this.fileUploads.content.filter((x) => x.id !== upl.id)
+            : this.fileUploads.content.map((item, i) => (i === index ? upl : item));
+        this.fileUploads.content = newArray;
+      }
     });
   }
 }

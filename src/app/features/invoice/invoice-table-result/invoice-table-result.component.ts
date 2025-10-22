@@ -143,9 +143,17 @@ export class InvoiceTableResultComponent implements OnInit, OnApplicationEvent {
   }
   toggleBookmark($event: MouseEvent, invoice: Invoice) {
     $event.stopPropagation();
-    this.invoiceService.toggleBookmarked(invoice.id).subscribe((invoice) => {
+    this.invoiceService.toggleBookmarked(invoice.id).subscribe(() => {
       this.toastService.showSuccess('Bookmark toggled. Reload...');
-      this.load();
+      invoice.bookmarked = !invoice.bookmarked;
+      const index = this.invoices.content.findIndex((d, idx) => d.id && d.id === invoice.id);
+      if (index !== -1) {
+        const newArray =
+          this.bookmarked && !invoice.bookmarked
+            ? this.invoices.content.filter((x) => x.id !== invoice.id)
+            : this.invoices.content.map((item, i) => (i === index ? invoice : item));
+        this.invoices.content = newArray;
+      }
     });
   }
   makeCreditNote(invoice: Invoice) {

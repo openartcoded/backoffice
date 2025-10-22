@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { UserScript } from '@core/models/script';
 import { ScriptService } from '@core/service/script.service';
 import { BrowserStorageService } from '@core/service/storage-service';
 import { firstValueFrom, interval, Subscription } from 'rxjs';
@@ -22,6 +23,8 @@ export class ScriptConsoleComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   script: string;
   bindings: Record<string, string>;
+  userScripts: UserScript[] = [];
+  selectedScript: UserScript | null = null;
   constructor(
     private scriptService: ScriptService,
     private localStorage: BrowserStorageService,
@@ -33,6 +36,11 @@ export class ScriptConsoleComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.scriptService.getBindingsMeta().subscribe((b) => {
         this.bindings = b;
+      }),
+    );
+    this.subscriptions.push(
+      this.scriptService.getUserScripts().subscribe((scripts) => {
+        this.userScripts = scripts;
       }),
     );
     this.script = this.localStorage.get('script') || '';
@@ -60,5 +68,27 @@ export class ScriptConsoleComponent implements OnInit, OnDestroy {
 
   get bindingEntries() {
     return Object.entries(this.bindings);
+  }
+
+  saveScript() {
+    const newScript: UserScript = { id: this.selectedScript?.id, content: this.script };
+    this.scriptService.saveUserScripts(newScript).subscribe((saved) => {
+      const idx = this.userScripts.findIndex((s) => s.id === saved.id);
+      if (idx >= 0) this.userScripts[idx] = saved;
+      else this.userScripts.push(saved);
+      this.selectedScript = saved;
+    });
+  }
+
+  deleteScript(s: UserScript) {
+    this.scriptService.deleteUserScripts(s).subscribe(() => {
+      this.userScripts = this.userScripts.filter((us) => us.id !== s.id);
+      if (this.selectedScript?.id === s.id) this.selectedScript = undefined;
+    });
+  }
+
+  selectScript(s: UserScript) {
+    this.selectedScript = s;
+    this.script = s.content;
   }
 }

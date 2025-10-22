@@ -76,9 +76,17 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
   }
   toggleBookmark($event: MouseEvent, fee: Fee) {
     $event.stopPropagation();
-    this.feeService.toggleBookmarked(fee.id).subscribe((fee) => {
+    this.feeService.toggleBookmarked(fee.id).subscribe(() => {
       this.toastService.showSuccess('Bookmark toggled. Reload...');
-      this.load();
+      fee.bookmarked = !fee.bookmarked;
+      const index = this.fees.content.findIndex((d, idx) => d.id && d.id === fee.id);
+      if (index !== -1) {
+        const newArray =
+          this.bookmarked && !fee.bookmarked
+            ? this.fees.content.filter((x) => x.id !== fee.id)
+            : this.fees.content.map((item, i) => (i === index ? fee : item));
+        this.fees.content = newArray;
+      }
     });
   }
   search(criteria: FeeSearchCriteria) {

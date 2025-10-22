@@ -1,8 +1,24 @@
 <div class="ps-2 pe-2">
   <ng-container *ngIf="bindings">
     <div class="row">
-      <!-- Console Card -->
       <div class="col-lg-10 col-12 mb-3">
+        <div class="d-flex mb-2" *ngIf="userScripts">
+          <select
+            [disabled]="!userScripts?.length"
+            class="form-select me-2"
+            [(ngModel)]="selectedScript"
+            (change)="selectScript(selectedScript)"
+          >
+            <option [ngValue]="null">--- Select ---</option>
+            <option *ngFor="let s of userScripts" [ngValue]="s">{{ 'Script ' + s.id }}</option>
+          </select>
+          <button class="btn btn-outline-success me-1" [disabled]="!script?.trim()?.length" (click)="saveScript()">
+            Save
+          </button>
+          <button class="btn btn-outline-danger" [disabled]="!selectedScript" (click)="deleteScript(selectedScript!)">
+            Delete
+          </button>
+        </div>
         <div class="card border-1">
           <div class="card-header bg-transparent text-dark">
             <h5 class="mb-0">Console</h5>
