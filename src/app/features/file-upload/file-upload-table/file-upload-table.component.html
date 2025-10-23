@@ -22,7 +22,7 @@
                 <th class="d-md-table-cell d-none" *ngIf="hasRoleAdmin">Correlation</th>
                 <th class="fit d-md-table-cell d-none">Public</th>
                 <th class="fit d-md-table-cell d-none">Size</th>
-                <th class="fit"></th>
+                <th class="fit" *ngIf="hasRoleAdmin"></th>
                 <th class="fit">Actions</th>
               </tr>
             </thead>
@@ -39,7 +39,7 @@
                   </td>
                   <td class="fit d-md-table-cell d-none text-break">{{ upl?.publicResource ? 'Yes' : 'No' }}</td>
                   <td class="fit d-md-table-cell d-none text-break">{{ upl?.size | bytesToHuman }}</td>
-                  <td class="text-center fit">
+                  <td class="text-center fit" *ngIf="hasRoleAdmin">
                     <a
                       class="btn btn-link"
                       (click)="toggleBookmark($event, upl)"

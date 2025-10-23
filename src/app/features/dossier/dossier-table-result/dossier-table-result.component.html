@@ -60,7 +60,7 @@
           <th class="d-md-table-cell d-none">Description</th>
           <th class="d-md-table-cell d-none" *ngIf="!closed">Tva Delta</th>
           <th class="d-md-table-cell d-none" *ngIf="closed">Tva Due</th>
-          <th class="fit"></th>
+          <th class="fit" *ngIf="hasRoleAdmin"></th>
           <th class="fit" *ngIf="closed">Action</th>
         </tr>
       </thead>
@@ -104,7 +104,7 @@
               {{ d?.tvaToBePaid | currency: '€' }}
             </td>
 
-            <td class="text-center fit">
+            <td class="text-center fit" *ngIf="hasRoleAdmin">
               <button
                 class="btn btn-link"
                 (click)="toggleBookmark($event, d)"

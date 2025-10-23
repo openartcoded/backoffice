@@ -100,7 +100,7 @@
           <th class="d-md-table-cell d-none">Total</th>
           <th class="d-md-table-cell d-none">Peppol Status</th>
           <th class="fit">Action</th>
-          <th class="fit"></th>
+          <th class="fit" *ngIf="hasRoleAdmin"></th>
         </tr>
       </thead>
       <tbody>
@@ -226,8 +226,9 @@
                 </div>
               </div>
             </td>
-            <td class="text-center fit">
+            <td class="text-center fit" *ngIf="hasRoleAdmin">
               <button
+
                 class="btn btn-link"
                 (click)="toggleBookmark($event, invoice)"
                 [class.text-muted]="!invoice.bookmarked"

@@ -106,7 +106,7 @@
       </ul>
     </ng-template>
   </li>
-  <li [ngbNavItem]="6">
+  <li [ngbNavItem]="6" *ngIf="hasRoleAdmin">
     <button ngbNavLink>Console</button>
     <ng-template ngbNavContent>
       <app-script-console />

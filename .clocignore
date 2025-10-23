@@ -1,0 +1,8 @@
+target
+.vscode
+node_modules
+tests
+.github
+cloc.sh
+.clocignore
+.nx
