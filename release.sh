@@ -1,8 +1,7 @@
-set -xe
 git checkout main
 git pull
 npm i && npm run format:fixAll
-git add . && git commit -m "autoformat" || true
+git add . && git commit -m "autoformat"
 npm version $1
 npm i
 git add .
