@@ -1,9 +1,9 @@
-<div *ngIf="links?.length">
+<div class="d-flex flex-column" *ngIf="links?.length">
   <a
     *ngFor="let link of links; let index = index"
     routerLinkActive="active"
     [routerLinkActiveOptions]="link.routerLinkActiveOptions"
-    class="btn btn-sm btn-light border border-gray text-dark me-1 pb-2"
+    class="btn btn-sm btn-light border border-gray text-dark mb-1"
     [routerLink]="link.routerLink"
   >
     <fa-icon class="fs-4 text-center" [icon]="link.icon"></fa-icon>

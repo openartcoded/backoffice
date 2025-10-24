@@ -1,6 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { WindowRefService } from '@core/service/window.service';
+import { Component, Input } from '@angular/core';
 import { ToastService } from '@core/service/toast.service';
 
 @Component({
@@ -17,19 +15,21 @@ export class CopyToClipboardComponent {
 
   @Input()
   label: string = 'Copy';
+  @Input()
+  successMessage: string = 'Copied';
 
-  constructor(
-    @Inject(DOCUMENT) private document: Document,
-    private windowRefService: WindowRefService,
-    private toastService: ToastService,
-  ) {}
+  randomUuid() {
+    return crypto.randomUUID();
+  }
+  constructor(private toastService: ToastService) {}
 
   copyToClipboard(e) {
     e.preventDefault();
+    e.stopPropagation();
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard
         .writeText(this.textToCopy)
-        .then(() => this.toastService.showSuccess('Copied'))
+        .then(() => this.toastService.showSuccess(this.successMessage))
         .catch((error) => this.toastService.showDanger('error: ' + error.error));
     } else {
       this.toastService.showDanger('Clipboard api not available');

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TodoService } from '@core/service/todo.service';
 import { Todo } from '@core/models/todo';
-import { firstValueFrom, Observable } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TodoFormComponent } from '@feature/user-area/todo-form/todo-form.component';
+import { firstValueFrom } from 'rxjs';
+import { ToastService } from '@core/service/toast.service';
 
 @Component({
   selector: 'app-todo-list',
@@ -12,34 +12,59 @@ import { TodoFormComponent } from '@feature/user-area/todo-form/todo-form.compon
   standalone: false,
 })
 export class TodoListComponent implements OnInit {
-  isCollapsed: boolean = false;
-  todos$: Observable<Todo[]>;
+  todos: Todo[];
+  isAdding = false;
+  newTodoForm: FormGroup;
 
   constructor(
+    private toastService: ToastService,
     private todoService: TodoService,
-    private modalService: NgbModal,
+    private fb: FormBuilder,
   ) {}
 
+  @HostListener('document:keydown', ['$event'])
+  topKey(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      event.stopPropagation();
+      this.isAdding = !this.isAdding;
+    }
+  }
   ngOnInit() {
     this.load();
+    this.newTodoForm = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(2)]],
+    });
   }
 
   private load() {
-    this.todos$ = this.todoService.findAll();
+    this.todoService.findAll().subscribe((todos) => (this.todos = todos));
   }
 
-  openModal() {
-    const modalRef = this.modalService.open(TodoFormComponent, { size: 'lg' });
-    modalRef.closed.subscribe((value) => {
-      this.load();
-    });
-    modalRef.dismissed.subscribe((value) => {
-      this.load();
-    });
+  toggleAddMode() {
+    this.isAdding = !this.isAdding;
+    this.newTodoForm.reset();
+  }
+
+  async saveNewTodo() {
+    if (this.newTodoForm.invalid) return;
+
+    const newTodo: Todo = {
+      title: this.newTodoForm.value.title.trim(),
+      done: false,
+    };
+
+    const savedTodo = await firstValueFrom(this.todoService.saveOrUpdate(newTodo));
+    this.todos.push(savedTodo);
+    this.isAdding = false;
+    this.toastService.showSuccess('todo saved');
+    this.newTodoForm.reset();
   }
 
   async toggleDone(todo: Todo) {
     todo.done = !todo.done;
     await firstValueFrom(this.todoService.saveOrUpdate(todo));
+    this.todos = this.todos.map((t) => (t.id === todo.id ? todo : t));
+    this.load();
   }
 }

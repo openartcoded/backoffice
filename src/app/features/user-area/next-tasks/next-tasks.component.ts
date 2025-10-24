@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ScrollDispatcher } from '@angular/cdk/scrolling';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ReminderTask } from '@core/models/reminder-task';
 import { ReminderTaskService } from '@core/service/reminder.task.service';
+import { ToastService } from '@core/service/toast.service';
 import { TaskDetailComponent } from '@feature/tasks/task-detail/task-detail.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, firstValueFrom } from 'rxjs';
@@ -13,7 +15,9 @@ import { Observable, firstValueFrom } from 'rxjs';
 })
 export class NextTasksComponent implements OnInit {
   reminderTasks$: Observable<ReminderTask[]>;
+
   constructor(
+    private toastService: ToastService,
     private reminderTaskService: ReminderTaskService,
     private modalService: NgbModal,
   ) {}
@@ -32,7 +36,7 @@ export class NextTasksComponent implements OnInit {
     }
     return name;
   }
-  openTask(task: ReminderTask) {
+  openTask(task: ReminderTask = { title: '', description: '', disabled: false }) {
     const modal = this.modalService.open(TaskDetailComponent, {
       size: 'xl',
       scrollable: true,
@@ -44,10 +48,12 @@ export class NextTasksComponent implements OnInit {
       modal.close();
       await firstValueFrom(this.reminderTaskService.save(taskToSave));
       this.load();
+      this.toastService.showSuccess('Task saved');
     });
     modal.componentInstance.onDeleteTask.subscribe(async (taskToDelete: ReminderTask) => {
       modal.close();
       await firstValueFrom(this.reminderTaskService.delete(taskToDelete.id));
+      this.toastService.showSuccess('Task deleted');
       this.load();
     });
   }

@@ -1,18 +1,28 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Optional, Output, PLATFORM_ID } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionMetadata, ActionParameter, ReminderTask, ActionParameterType } from '@core/models/reminder-task';
 import { firstValueFrom, Observable } from 'rxjs';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { WindowRefService } from '@core/service/window.service';
 import { DateUtils } from '@core/utils/date-utils';
 import { CronExpressionHelpComponent } from '../cron-expression-help/cron-expression-help.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AutosizeModule } from 'ngx-autosize';
 
 @Component({
   selector: 'app-task-detail',
   templateUrl: './task-detail.component.html',
   styleUrls: ['./task-detail.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, AutosizeModule],
 })
 export class TaskDetailComponent implements OnInit {
   @Input()

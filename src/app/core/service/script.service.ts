@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { ConfigInitService } from '@init/config-init.service';
 import { Script, UserScript } from '@core/models/script';
 
@@ -36,7 +36,10 @@ export class ScriptService {
     return this.http.delete<void>(`${this.baseUrl}/api/script/user-script?id=${us.id}`);
   }
 
-  public run(script: string): Observable<string> {
+  public run(script?: string): Observable<string> {
+    if (!script?.length) {
+      return throwError(() => new Error('script is empty'));
+    }
     return this.http.post(
       `${this.baseUrl}/api/script/run`,
       { script },

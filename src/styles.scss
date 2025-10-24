@@ -99,3 +99,18 @@ button:focus {
 .artcoded-navbar-color {
   background-color: #3b5784;
 }
+
+@media (min-width: 768px) {
+  .main-viewport {
+    display: block;
+    height: 90vh;
+    overflow-y: scroll;
+  }
+  .hidden-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .h-90 {
+    height: 93vh;
+  }
+}

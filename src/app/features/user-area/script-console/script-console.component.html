@@ -1,21 +1,20 @@
 <div class="ps-2 pe-2">
-  <ng-container *ngIf="bindings">
+  <ng-container *ngIf="initialized">
     <div class="row">
       <div class="col-lg-10 col-12 mb-3">
-        <div class="d-flex mb-2" *ngIf="userScripts">
-          <select
-            [disabled]="!userScripts?.length"
-            class="form-select me-2"
-            [(ngModel)]="selectedScript"
-            (change)="selectScript(selectedScript)"
-          >
+        <div class="d-flex mb-2">
+          <select class="form-select me-2" [formControl]="formUserScript" (change)="selectScript()">
             <option [ngValue]="null">--- Select ---</option>
             <option *ngFor="let s of userScripts" [ngValue]="s">{{ 'Script ' + s.id }}</option>
           </select>
-          <button class="btn btn-outline-success me-1" [disabled]="!script?.trim()?.length" (click)="saveScript()">
+          <button
+            class="btn btn-outline-success me-1"
+            [disabled]="!formScript?.value?.trim()?.length"
+            (click)="saveScript()"
+          >
             Save
           </button>
-          <button class="btn btn-outline-danger" [disabled]="!selectedScript" (click)="deleteScript(selectedScript!)">
+          <button class="btn btn-outline-danger" [disabled]="!formUserScript?.value" (click)="deleteScript()">
             Delete
           </button>
         </div>
@@ -26,10 +25,11 @@
           <div class="card-body bg-transparent text-dark">
             <div class="mb-3 mt-2">
               <textarea
-                autosize
-                [(ngModel)]="script"
+                autofocus
+                appAutoFocus
+                [formControl]="formScript"
                 class="form-control bg-transparent text-dark"
-                [rows]="7"
+                [rows]="16"
                 [placeholder]="placeholder"
               >
               </textarea>
@@ -42,7 +42,7 @@
               <button class="btn btn-outline-info ms-2" (click)="out = ''; error = false">clear</button>
             </div>
 
-            <div class="border rounded bg-light p-2 overflow-auto mb-2" style="max-height: 50vh">
+            <div class="border rounded bg-light p-2 overflow-auto mb-2" style="max-height: 30vh">
               <pre [class.text-danger]="error" class="m-0 text-wrap"><code>{{ out || 'no output' }}</code></pre>
             </div>
           </div>
@@ -58,7 +58,7 @@
             <div class="table-responsive">
               <table class="table table-sm mb-0">
                 <tbody>
-                  <tr *ngFor="let b of bindingEntries">
+                  <tr *ngFor="let b of bindings">
                     <td>
                       <app-copy-to-clipboard
                         [textToCopy]="b[0]"

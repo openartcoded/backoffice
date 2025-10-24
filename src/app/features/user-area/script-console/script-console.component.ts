@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { UserScript } from '@core/models/script';
 import { ScriptService } from '@core/service/script.service';
 import { BrowserStorageService } from '@core/service/storage-service';
@@ -19,12 +20,14 @@ export class ScriptConsoleComponent implements OnInit, OnDestroy {
  }
  JSON.stringify(ids)`.trim();
   out: string;
+  initialized: boolean;
   error: boolean;
   subscriptions: Subscription[] = [];
-  script: string;
-  bindings: Record<string, string>;
+  formScript = new FormControl<string | null>(null);
+
+  formUserScript: FormControl<UserScript | null>;
+  bindings: [string, string][];
   userScripts: UserScript[] = [];
-  selectedScript: UserScript | null = null;
   constructor(
     private scriptService: ScriptService,
     private localStorage: BrowserStorageService,
@@ -35,23 +38,28 @@ export class ScriptConsoleComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions.push(
       this.scriptService.getBindingsMeta().subscribe((b) => {
-        this.bindings = b;
-      }),
-    );
-    this.subscriptions.push(
-      this.scriptService.getUserScripts().subscribe((scripts) => {
-        this.userScripts = scripts;
-      }),
-    );
-    this.script = this.localStorage.get('script') || '';
-    this.subscriptions.push(
-      interval(5000).subscribe(() => {
-        const s = this.script?.trim() || undefined;
-        if (!s) {
-          this.localStorage.remove('script');
-        } else {
-          this.localStorage.set('script', s);
-        }
+        this.bindings = Object.entries(b);
+        this.subscriptions.push(
+          this.scriptService.getUserScripts().subscribe((scripts) => {
+            this.userScripts = scripts;
+            this.formUserScript = new FormControl<UserScript | null>({
+              value: null,
+              disabled: !this.userScripts.length,
+            });
+            this.formScript.patchValue(this.localStorage.get('script') || '');
+            this.subscriptions.push(
+              interval(5000).subscribe(() => {
+                const s = this.formScript?.value?.trim() || undefined;
+                if (!s) {
+                  this.localStorage.remove('script');
+                } else {
+                  this.localStorage.set('script', s);
+                }
+              }),
+            );
+            this.initialized = true;
+          }),
+        );
       }),
     );
   }
@@ -59,36 +67,38 @@ export class ScriptConsoleComponent implements OnInit, OnDestroy {
   async run() {
     try {
       this.error = false;
-      this.out = await firstValueFrom(this.scriptService.run(this.script));
+      this.out = await firstValueFrom(this.scriptService.run(this.formScript?.value));
     } catch (e) {
       this.out = e.error;
       this.error = true;
     }
   }
 
-  get bindingEntries() {
-    return Object.entries(this.bindings);
-  }
-
   saveScript() {
-    const newScript: UserScript = { id: this.selectedScript?.id, content: this.script };
+    const newScript: UserScript = { id: this.formUserScript.value?.id, content: this.formScript?.value };
     this.scriptService.saveUserScripts(newScript).subscribe((saved) => {
       const idx = this.userScripts.findIndex((s) => s.id === saved.id);
       if (idx >= 0) this.userScripts[idx] = saved;
       else this.userScripts.push(saved);
-      this.selectedScript = saved;
+      this.formUserScript.reset({ value: saved, disabled: false });
     });
   }
 
-  deleteScript(s: UserScript) {
-    this.scriptService.deleteUserScripts(s).subscribe(() => {
-      this.userScripts = this.userScripts.filter((us) => us.id !== s.id);
-      if (this.selectedScript?.id === s.id) this.selectedScript = undefined;
+  deleteScript() {
+    if (!this.formUserScript.value) {
+      console.log('no script selected');
+      return;
+    }
+    this.scriptService.deleteUserScripts(this.formUserScript.value).subscribe(() => {
+      this.userScripts = this.userScripts.filter((us) => us.id !== this.formUserScript.value.id);
+      if (this.formUserScript.value?.id === this.formUserScript.value.id) this.formUserScript.patchValue(null);
+      if (!this.userScripts.length) {
+        this.formUserScript.reset({ value: null, disabled: true });
+      }
     });
   }
 
-  selectScript(s: UserScript) {
-    this.selectedScript = s;
-    this.script = s.content;
+  selectScript() {
+    this.formScript.patchValue(this.formUserScript.value?.content);
   }
 }

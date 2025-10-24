@@ -35,7 +35,12 @@
                   <td class="text-break">{{ upl?.creationDate | date: 'dd/MM/yyyy HH:mm' }}</td>
                   <td class="text-break">{{ upl?.originalFilename }}</td>
                   <td class="text-break d-md-table-cell d-none" *ngIf="hasRoleAdmin">
-                    {{ correlationLinks[upl?.correlationId] || upl?.correlationId }}
+                    <app-copy-to-clipboard
+                      [successMessage]="'Correlation Id copied'"
+                      [label]="correlationLinks[upl?.correlationId] || 'N/A'"
+                      [textToCopy]="upl?.correlationId"
+                      [btnClasses]="'btn btn-link'"
+                    />
                   </td>
                   <td class="fit d-md-table-cell d-none text-break">{{ upl?.publicResource ? 'Yes' : 'No' }}</td>
                   <td class="fit d-md-table-cell d-none text-break">{{ upl?.size | bytesToHuman }}</td>

@@ -6,7 +6,7 @@ import { ConfigInitService } from '@init/config-init.service';
 import { MenuLink } from '@core/models/settings';
 import { SettingsService } from '@core/service/settings.service';
 import { FallbackMenu } from '../sidebar/fallback-menu';
-import { NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Subscription, firstValueFrom } from 'rxjs';
 import { environment } from '@env/environment';
@@ -81,9 +81,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.link = link;
           }
           this.router.events
-            .pipe(filter((event) => event instanceof NavigationStart))
-            .subscribe(async (event: NavigationStart) => {
-              const link = filteredLinks.find((l) => l.routerLink.join('/') === event.url.substring(1));
+            .pipe(filter((event) => event instanceof NavigationEnd))
+            .subscribe(async (event: NavigationEnd) => {
+              const link = filteredLinks.find((l) => {
+                const menuLinkUrl = ('/' + l.routerLink.join('/')).trim();
+                if (menuLinkUrl === '/') {
+                  return event.url === '/';
+                }
+                return event.url.includes(menuLinkUrl);
+              });
               if (link) {
                 this.link = link;
                 const checkLink = link.routerLink.join('/');

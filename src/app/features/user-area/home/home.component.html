@@ -1,171 +1,34 @@
-<div class="mt-3">
+<div>
   <ng-container *ngIf="user && personalInfo && loaded">
-    <ng-container *ngIf="user && hasRoleAdmin">
-      <div class="d-none d-lg-flex justify-content-between" [class.blur-modal]="personalInfo.demoMode">
-        <div class="d-flex justify-content-start">
-          <app-most-clicked-menu />
-          <div>
-            <a
-              routerLink="/dossier"
-              class="btn btn-sm btn-light border border-gray text-danger me-1 pb-2"
-              *ngIf="activeDossier"
-            >
-              <fa-icon class="fs-4 text-center" [icon]="['fas', 'folder']"></fa-icon>
-              <span class="ms-1 text-none d-sm-inline fw-bold">&nbsp;{{ activeDossier.name }}</span>
-            </a>
+    <div class="d-lg-flex mt-3" [class.blur-modal]="personalInfo.demoMode">
+      <div
+        class="col-lg-2 border-end h-90 mb-2 main-viewport shadow-sm border-bottom-0 hidden-scroll pe-2 ps-2 me-1 overflow-y-auto"
+        *ngIf="hasRoleAdmin"
+      >
+        <ng-container *ngIf="hasRoleAdmin">
+          <div class="mt-3"><app-company-stamp /></div>
+          <hr />
+          <div class="d-block mt-2">
+            <div class="d-flex flex-column">
+              <small class="text-muted fw-bold">Most Clicked</small>
+              <app-most-clicked-menu />
+            </div>
+            <hr />
+            <div class="d-flex flex-column" *ngIf="activeDossier">
+              <small class="text-muted fw-bold">Active Dossier</small>
+              <a routerLink="/dossier" class="btn btn-sm btn-light border border-gray text-danger pb-0">
+                <fa-icon class="fs-4 text-center" [icon]="['fas', 'folder']"></fa-icon>
+                <span class="ms-1 fw-bold">{{ activeDossier.name }}</span>
+              </a>
+            </div>
+
+            <hr />
+            <div class="d-flex flex-column ms-auto">
+              <small class="text-muted fw-bold">Tasks</small>
+              <app-next-tasks />
+            </div>
           </div>
-        </div>
-        <app-next-tasks />
-      </div>
-      <hr />
-    </ng-container>
-    <div class="d-lg-flex justify-content-between mt-3" [class.blur-modal]="personalInfo.demoMode">
-      <div class="col-lg-2 me-2" *ngIf="hasRoleAdmin">
-        <div class="mb-2 pe-2">
-          <div ngbAccordion [closeOthers]="true" class="accordion-flush">
-            <div ngbAccordionItem="companyStamp" #companyStamp="ngbAccordionItem" [collapsed]="false">
-              <div ngbAccordionHeader>
-                <button ngbAccordionButton class="p-2">Company Stamp</button>
-              </div>
-              <div ngbAccordionCollapse>
-                <div ngbAccordionBody class="p-1">
-                  <app-company-stamp />
-                </div>
-              </div>
-            </div>
-            <div ngbAccordionItem="memoDate" *ngIf="user && hasRoleAdmin">
-              <div ngbAccordionHeader>
-                <button ngbAccordionButton class="p-2">Memo</button>
-              </div>
-              <div ngbAccordionCollapse>
-                <div ngbAccordionBody class="p-1">
-                  <app-memo-date />
-                </div>
-              </div>
-            </div>
-
-            <div ngbAccordionItem="todos" *ngIf="user && hasRoleAdmin">
-              <div ngbAccordionHeader>
-                <button ngbAccordionButton class="p-2">Todo</button>
-              </div>
-              <div ngbAccordionCollapse>
-                <div ngbAccordionBody class="p-1">
-                  <app-todo-list />
-                </div>
-              </div>
-            </div>
-            <div ngbAccordionItem="scripts" *ngIf="user && hasRoleAdmin">
-              <div ngbAccordionHeader>
-                <button ngbAccordionButton class="p-2">Scripts</button>
-              </div>
-              <div ngbAccordionCollapse>
-                <div ngbAccordionBody class="p-1">
-                  <app-script />
-                </div>
-              </div>
-            </div>
-
-            <ng-container *ngIf="user && hasRoleAdmin && indicators$ | async as indicators">
-              <div ngbAccordionItem="buildInfo">
-                <div ngbAccordionHeader>
-                  <button ngbAccordionButton class="p-2">Backend Info</button>
-                </div>
-                <div ngbAccordionCollapse>
-                  <div ngbAccordionBody class="p-1">
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Build Time</strong>
-                      <strong>{{ indicators.buildInfo.build.time | date: 'dd/MM/yyyy HH:mm' }}</strong>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Version</strong>
-                      <strong>{{ indicators.buildInfo.build.version }}</strong>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Uptime</strong>
-                      <strong>{{ indicators.buildInfo['camel.uptime'] }}</strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                ngbAccordionItem="diskSpace"
-                *ngIf="indicators.healthIndicator.components?.diskSpace?.details as diskSpace"
-              >
-                <div ngbAccordionHeader>
-                  <button ngbAccordionButton class="p-2">Disk Space</button>
-                </div>
-                <div ngbAccordionCollapse>
-                  <div ngbAccordionBody class="p-1">
-                    <div class="d-flex justify-content-between">
-                      <strong class="font-weight-bold text-uppercase">Total</strong>
-                      <strong>{{ diskSpace.total | bytesToHuman: true }}</strong>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Free</strong>
-                      <strong>{{ diskSpace.free | bytesToHuman: true }}</strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div ngbAccordionItem="jms" *ngIf="indicators.healthIndicator.components?.jms as jms">
-                <div ngbAccordionHeader>
-                  <button ngbAccordionButton class="p-2">Artemis</button>
-                </div>
-                <div ngbAccordionCollapse>
-                  <div ngbAccordionBody class="p-1">
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Status</strong>
-                      <strong>{{ jms.status }}</strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div ngbAccordionItem="mail" *ngIf="indicators.healthIndicator.components?.mail as mail">
-                <div ngbAccordionHeader>
-                  <button ngbAccordionButton class="p-2">Mail</button>
-                </div>
-                <div ngbAccordionCollapse>
-                  <div ngbAccordionBody class="p-1">
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Status</strong>
-                      <strong>{{ mail.status }}</strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div ngbAccordionItem="mongo" *ngIf="indicators.healthIndicator.components?.mongo as mongo">
-                <div ngbAccordionHeader>
-                  <button ngbAccordionButton class="p-2">Mongo</button>
-                </div>
-                <div ngbAccordionCollapse>
-                  <div ngbAccordionBody class="p-1">
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Status</strong>
-                      <strong>{{ mongo.status }}</strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div ngbAccordionItem="redis" *ngIf="indicators.healthIndicator.components?.redis as redis">
-                <div ngbAccordionHeader>
-                  <button ngbAccordionButton class="p-2">Redis</button>
-                </div>
-                <div ngbAccordionCollapse>
-                  <div ngbAccordionBody class="p-1">
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-uppercase">Status</strong>
-                      <strong>{{ redis.status }}</strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </ng-container>
-          </div>
-        </div>
+        </ng-container>
       </div>
       <div class="me-2" [class.col-lg-10]="hasRoleAdmin" [class.col-lg-12]="!hasRoleAdmin">
         <app-generic-summary />

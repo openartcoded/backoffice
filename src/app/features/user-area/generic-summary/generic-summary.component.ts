@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { InvoiceService } from '@core/service/invoice.service';
-import { Observable, Subscription, of } from 'rxjs';
+import { Observable, Subscription, combineLatest, of } from 'rxjs';
 import { InvoiceSummary, BackendInvoiceSummary } from '@core/models/invoice';
 import { map } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
@@ -8,6 +8,8 @@ import { DateUtils } from '@core/utils/date-utils';
 import { WindowRefService } from '@core/service/window.service';
 import { User } from '@core/models/user';
 import { PersonalInfoService } from '@core/service/personal.info.service';
+import { InfoService } from '@core/service/info.service';
+import { Indicators } from '@core/models/backend.info';
 
 @Component({
   selector: 'app-generic-summary',
@@ -17,10 +19,11 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
 })
 export class GenericSummaryComponent implements OnInit, OnDestroy {
   summary: InvoiceSummary;
+  indicators$: Observable<Indicators>;
   subscriptions: Subscription[];
   graphsPerClient$: Observable<any[]>;
   _selectedYear?: number = null;
-  active = 1;
+  active = 0;
   loaded = true;
   user: User;
   get hasRoleAdmin(): boolean {
@@ -28,6 +31,7 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
   }
   constructor(
     private windowService: WindowRefService,
+    private infoService: InfoService,
     private personalInfoService: PersonalInfoService,
     private invoiceService: InvoiceService,
     @Inject(PLATFORM_ID) private platformId: any,
@@ -42,6 +46,9 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions = [];
+    this.indicators$ = combineLatest([this.infoService.getBuildInfo(), this.infoService.getHealth()]).pipe(
+      map(([buildInfo, healthIndicator]) => ({ buildInfo, healthIndicator })),
+    );
     this.load();
   }
   get selectedYear() {
@@ -113,7 +120,12 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    this.subscriptions.push(this.personalInfoService.me().subscribe((u) => (this.user = u)));
+    this.subscriptions.push(
+      this.personalInfoService.me().subscribe((u) => {
+        this.user = u;
+        this.active = this.hasRoleAdmin ? 0 : 1;
+      }),
+    );
     const config = {
       responsive: true,
       displayModeBar: false,

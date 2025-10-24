@@ -1,8 +1,11 @@
+import { HealthIndicator } from './health.indicator';
+
 export interface BackendInfo {
   pid: string;
   build: Build;
 }
 
+export type Indicators = { buildInfo: BackendInfo; healthIndicator: HealthIndicator };
 export interface Build {
   artifact: string;
   group: string;

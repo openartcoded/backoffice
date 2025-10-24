@@ -1,116 +1,263 @@
-<ul ngbNav #nav="ngbNav" (activeIdChange)="this.resize($event)" [(activeId)]="active" class="nav-tabs">
-  <li [ngbNavItem]="1">
-    <button ngbNavLink>Invoices/Months</button>
-    <ng-template ngbNavContent>
-      <p *ngIf="!loaded">loading...</p>
-      <ng-container *ngIf="isBrowser() && loaded && summary">
-        <ng-container>
-          <div id="plot1" class="border me-lg-1 mb-1">
-            <ng-container *ngFor="let g of summary.graphs; let index = index">
-              <plotly-plot [divId]="'plot'" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
-              <hr *ngIf="index + 1 < summary.graphs.length" />
+<div class="d-flex flex-lg-row flex-column justify-content-start h-90">
+  <!-- Main content area -->
+  <div class="flex-lg-grow-1 w-100">
+    <ul ngbNav #nav="ngbNav" (activeIdChange)="this.resize($event)" [(activeId)]="active" class="nav-tabs">
+      <li [ngbNavItem]="0" *ngIf="hasRoleAdmin">
+        <button ngbNavLink>Home</button>
+        <ng-template ngbNavContent>
+          <div ngbAccordion class="accordion-flush h-90 ms-1 main-viewport hidden-scroll">
+            <div ngbAccordionItem="scripts" [collapsed]="false" *ngIf="user && hasRoleAdmin">
+              <div ngbAccordionHeader>
+                <button ngbAccordionButton class="p-2">Scripts</button>
+              </div>
+              <div ngbAccordionCollapse>
+                <div ngbAccordionBody class="p-1">
+                  <app-script />
+                </div>
+              </div>
+            </div>
+
+            <ng-container *ngIf="user && hasRoleAdmin && indicators$ | async as indicators">
+              <div ngbAccordionItem="buildInfo" [collapsed]="false">
+                <div ngbAccordionHeader>
+                  <button ngbAccordionButton class="p-2">Backend Info</button>
+                </div>
+                <div ngbAccordionCollapse>
+                  <div ngbAccordionBody class="p-1">
+                    <div class="d-flex justify-content-between">
+                      <strong class="text-uppercase">Build Time</strong>
+                      <strong>{{ indicators.buildInfo.build.time | date: 'dd/MM/yyyy HH:mm' }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <strong class="text-uppercase">Version</strong>
+                      <strong>{{ indicators.buildInfo.build.version }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <strong class="text-uppercase">Uptime</strong>
+                      <strong>{{ indicators.buildInfo['camel.uptime'] }}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                ngbAccordionItem="diskSpace"
+                [collapsed]="false"
+                *ngIf="indicators.healthIndicator.components?.diskSpace?.details as diskSpace"
+              >
+                <div ngbAccordionHeader>
+                  <button ngbAccordionButton class="p-2">Disk Space</button>
+                </div>
+                <div ngbAccordionCollapse>
+                  <div ngbAccordionBody class="p-1">
+                    <div class="d-flex justify-content-between">
+                      <strong class="font-weight-bold text-uppercase">Total</strong>
+                      <strong>{{ diskSpace.total | bytesToHuman: true }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <strong class="text-uppercase">Free</strong>
+                      <strong>{{ diskSpace.free | bytesToHuman: true }}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div [collapsed]="false" ngbAccordionItem="jms" *ngIf="indicators.healthIndicator.components?.jms as jms">
+                <div ngbAccordionHeader>
+                  <button ngbAccordionButton class="p-2">Artemis</button>
+                </div>
+                <div ngbAccordionCollapse>
+                  <div ngbAccordionBody class="p-1">
+                    <div class="d-flex justify-content-between">
+                      <strong class="text-uppercase">Status</strong>
+                      <strong>{{ jms.status }}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                [collapsed]="false"
+                ngbAccordionItem="mail"
+                *ngIf="indicators.healthIndicator.components?.mail as mail"
+              >
+                <div ngbAccordionHeader>
+                  <button ngbAccordionButton class="p-2">Mail</button>
+                </div>
+                <div ngbAccordionCollapse>
+                  <div ngbAccordionBody class="p-1">
+                    <div class="d-flex justify-content-between">
+                      <strong class="text-uppercase">Status</strong>
+                      <strong>{{ mail.status }}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                [collapsed]="false"
+                ngbAccordionItem="mongo"
+                *ngIf="indicators.healthIndicator.components?.mongo as mongo"
+              >
+                <div ngbAccordionHeader>
+                  <button ngbAccordionButton class="p-2">Mongo</button>
+                </div>
+                <div ngbAccordionCollapse>
+                  <div ngbAccordionBody class="p-1">
+                    <div class="d-flex justify-content-between">
+                      <strong class="text-uppercase">Status</strong>
+                      <strong>{{ mongo.status }}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                [collapsed]="false"
+                ngbAccordionItem="redis"
+                *ngIf="indicators.healthIndicator.components?.redis as redis"
+              >
+                <div ngbAccordionHeader>
+                  <button ngbAccordionButton class="p-2">Redis</button>
+                </div>
+                <div ngbAccordionCollapse>
+                  <div ngbAccordionBody class="p-1">
+                    <div class="d-flex justify-content-between">
+                      <strong class="text-uppercase">Status</strong>
+                      <strong>{{ redis.status }}</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </ng-container>
           </div>
-        </ng-container>
-      </ng-container>
-    </ng-template>
-  </li>
-  <li [ngbNavItem]="5">
-    <button ngbNavLink>Invoices/Client</button>
-    <ng-template ngbNavContent>
-      <p *ngIf="!loaded">loading...</p>
-      <ng-container *ngIf="isBrowser() && loaded && graphsPerClient$ | async as graphsPerClient">
-        <ng-container>
-          <div id="plot2" class="border me-lg-1 mb-1">
-            <ng-container *ngFor="let g of graphsPerClient; let index = index">
-              <plotly-plot [divId]="'plot'" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="6" *ngIf="hasRoleAdmin">
+        <button ngbNavLink>Console</button>
+        <ng-template ngbNavContent>
+          <app-script-console />
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="1">
+        <button ngbNavLink>Invoices/Months</button>
+        <ng-template ngbNavContent>
+          <p *ngIf="!loaded">loading...</p>
+          <ng-container *ngIf="isBrowser() && loaded && summary">
+            <ng-container>
+              <div id="plot1" class="border me-lg-1 mb-1">
+                <ng-container *ngFor="let g of summary.graphs; let index = index">
+                  <plotly-plot [divId]="'plot'" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
+                  <hr *ngIf="index + 1 < summary.graphs.length" />
+                </ng-container>
+              </div>
             </ng-container>
-          </div>
-        </ng-container>
-      </ng-container>
-    </ng-template>
-  </li>
-  <li [ngbNavItem]="3">
-    <button ngbNavLink>Dossiers</button>
-    <ng-template ngbNavContent>
-      <app-dossier-summary *ngIf="loaded"></app-dossier-summary>
-      <p *ngIf="!loaded">loading...</p>
-    </ng-template>
-  </li>
+          </ng-container>
+        </ng-template>
+      </li>
 
-  <li [ngbNavItem]="4">
-    <button ngbNavLink>Expenses</button>
-    <ng-template ngbNavContent>
-      <app-fee-summary *ngIf="loaded">></app-fee-summary>
+      <li [ngbNavItem]="5">
+        <button ngbNavLink>Invoices/Client</button>
+        <ng-template ngbNavContent>
+          <p *ngIf="!loaded">loading...</p>
+          <ng-container *ngIf="isBrowser() && loaded && graphsPerClient$ | async as graphsPerClient">
+            <ng-container>
+              <div id="plot2" class="border me-lg-1 mb-1">
+                <ng-container *ngFor="let g of graphsPerClient; let index = index">
+                  <plotly-plot [divId]="'plot'" [config]="g.config" [data]="g.data" [layout]="g.layout"></plotly-plot>
+                </ng-container>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+      </li>
 
-      <p *ngIf="!loaded">loading...</p>
-    </ng-template>
-  </li>
-  <li [ngbNavItem]="2">
-    <button ngbNavLink>Stats</button>
-    <ng-template ngbNavContent>
-      <ul class="mb-1 list-group" *ngIf="summary">
-        <li class="list-group-item bg-light">
-          <select [(ngModel)]="selectedYear" class="form-select">
-            <option
-              *ngFor="let summaryPerYear of summary.invoicesGroupByYear | keyvalue"
-              [ngValue]="summaryPerYear.key"
-            >
-              {{ summaryPerYear.key }}
-            </option>
-          </select>
-        </li>
-        <li class="list-group-item" *ngIf="selectedYear">
-          <div class="d-flex justify-content-between">
-            <strong class="text-uppercase text-break">Number of Invoices</strong>
-            <strong>{{ summary.invoicesGroupByYear?.get(selectedYear)?.numberOfInvoices || 0 }}</strong>
+      <li [ngbNavItem]="3">
+        <button ngbNavLink>Dossiers</button>
+        <ng-template ngbNavContent>
+          <app-dossier-summary *ngIf="loaded"></app-dossier-summary>
+          <p *ngIf="!loaded">loading...</p>
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="4">
+        <button ngbNavLink>Expenses</button>
+        <ng-template ngbNavContent>
+          <app-fee-summary *ngIf="loaded"></app-fee-summary>
+          <p *ngIf="!loaded">loading...</p>
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="2">
+        <button ngbNavLink>Stats</button>
+        <ng-template ngbNavContent>
+          <div class="mb-1 list-group" *ngIf="summary">
+            <div class="list-group-item bg-light">
+              <select [(ngModel)]="selectedYear" class="form-select">
+                <option
+                  *ngFor="let summaryPerYear of summary.invoicesGroupByYear | keyvalue"
+                  [ngValue]="summaryPerYear.key"
+                >
+                  {{ summaryPerYear.key }}
+                </option>
+              </select>
+            </div>
+            <div class="list-group-item" *ngIf="selectedYear">
+              <div class="d-flex justify-content-between">
+                <strong class="text-uppercase text-break">Number of Invoices</strong>
+                <strong>{{ summary.invoicesGroupByYear?.get(selectedYear)?.numberOfInvoices || 0 }}</strong>
+              </div>
+            </div>
+            <div class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <strong class="text-uppercase">Total worked (days)</strong>
+                <strong class="text-uppercase">{{
+                  summary.invoicesGroupByYear?.get(selectedYear)?.totalAmountOfWork || 0 | number: '1.2-2'
+                }}</strong>
+              </div>
+            </div>
+            <div class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <strong class="text-uppercase">Total excl. VAT</strong>
+                <strong class="text-uppercase">{{
+                  summary.invoicesGroupByYear?.get(selectedYear)?.totalExclVat || 0 | currency: '€'
+                }}</strong>
+              </div>
+            </div>
+            <div class="list-group-item bg-light">
+              <strong class="text-uppercase text-secondary">All time</strong>
+            </div>
+            <div class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <strong class="text-uppercase">Number of Invoices</strong>
+                <strong>{{ summary.totalInvoices }}</strong>
+              </div>
+            </div>
+            <div class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <strong class="text-uppercase">Total worked</strong>
+                <strong class="text-uppercase">{{ summary.totalAmountOfWork | number: '1.2-2' }}&nbsp;days</strong>
+              </div>
+            </div>
+            <div class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <strong class="text-uppercase">Total excl. VAT</strong>
+                <strong class="text-uppercase">{{ summary.totalExclVat | currency: '€' }}</strong>
+              </div>
+            </div>
           </div>
-        </li>
-        <li class="list-group-item">
-          <div class="d-flex justify-content-between">
-            <strong class="text-uppercase">Total worked (days)</strong>
-            <strong class="text-uppercase">{{
-              summary.invoicesGroupByYear?.get(selectedYear)?.totalAmountOfWork || 0 | number: '1.2-2'
-            }}</strong>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="d-flex justify-content-between">
-            <strong class="text-uppercase">Total excl. VAT</strong>
-            <strong class="text-uppercase">{{
-              summary.invoicesGroupByYear?.get(selectedYear)?.totalExclVat || 0 | currency: '€'
-            }}</strong>
-          </div>
-        </li>
-        <li class="list-group-item bg-light">
-          <strong class="text-uppercase text-secondary">All time</strong>
-        </li>
-        <li class="list-group-item">
-          <div class="d-flex justify-content-between">
-            <strong class="text-uppercase">Number of Invoices</strong>
-            <strong>{{ summary.totalInvoices }}</strong>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="d-flex justify-content-between">
-            <strong class="text-uppercase">Total worked</strong>
-            <strong class="text-uppercase">{{ summary.totalAmountOfWork | number: '1.2-2' }}&nbsp;days</strong>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="d-flex justify-content-between">
-            <strong class="text-uppercase">Total excl. VAT</strong>
-            <strong class="text-uppercase">{{ summary.totalExclVat | currency: '€' }}</strong>
-          </div>
-        </li>
-      </ul>
-    </ng-template>
-  </li>
-  <li [ngbNavItem]="6" *ngIf="hasRoleAdmin">
-    <button ngbNavLink>Console</button>
-    <ng-template ngbNavContent>
-      <app-script-console />
-    </ng-template>
-  </li>
-</ul>
-<div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </ng-template>
+      </li>
+    </ul>
+
+    <!-- Nav outlet - content display area -->
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+  <!-- Sidebar - only visible on desktop for admins -->
+  <div class="ps-2 col-lg-3 col-12 mb-sm-2 d-lg-block" *ngIf="hasRoleAdmin">
+    <app-todo-list />
+    <app-memo-date />
+  </div>
+</div>

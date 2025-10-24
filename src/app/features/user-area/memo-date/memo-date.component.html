@@ -1,22 +1,21 @@
 <ng-container *ngIf="memoDates">
-  <div class="card mb-1 border-0">
-    <div class="card-header bg-white">
-      <div class="d-flex justify-content-end">
-        <a class="btn btn-link m-0 p-0" (click)="showAddForm()">
-          <fa-icon icon="plus"></fa-icon>
-        </a>
-      </div>
+  <div class="card mb-2 border-1 shadow-sm">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+      <h6 class="m-0 fw-semibold text-secondary">Memo</h6>
+      <button class="btn btn-sm btn-outline-secondary" (click)="showAddForm()">
+        <fa-icon icon="plus"></fa-icon>
+      </button>
     </div>
-    <div class="card-body example-viewport">
-      <ng-container>
-        <ng-container *ngFor="let memo of memoDates">
-          <div class="d-flex justify-content-between">
+
+    <div style="height: 33vh" class="overflow-auto hidden-scroll" *ngIf="memoDates.length; else emptyMemos">
+      <ul class="list-group list-group-flush">
+        <li *ngFor="let memo of memoDates" class="list-group-item">
+          <div class="d-flex justify-content-between align-items-center">
             <span class="text-break" *ngIf="memo.visible">{{ memo.label }}</span>
             <span class="text-break" *ngIf="!memo.visible">{{ '*'.repeat(5) }}</span>
-            <strong
-              ><span class="d-lg-inline d-none text-break">{{ memo.dateSince | date: 'dd/MM/yyyy' }} </span>({{
-                memo.progresses.currentProgress.label | number
-              }}d)
+            <strong>
+              <span class="d-lg-inline d-none text-break">{{ memo.dateSince | date: 'dd/MM/yyyy' }}</span>
+              ({{ memo.progresses.currentProgress.label | number }}d)
             </strong>
             <div class="btn-group">
               <button class="btn btn-sm btn-link p-0 me-1" (click)="memo.visible = !memo.visible">
@@ -27,14 +26,14 @@
               </button>
             </div>
           </div>
-          <div class="progress" style="height: 20px" *ngIf="memo.progresses.nextProgress">
+
+          <div class="progress mt-2" style="height: 20px" *ngIf="memo.progresses.nextProgress">
             <div
               class="progress-bar bg-primary progress-bar-striped progress-bar-animated text-white"
               role="progressbar"
               [style]="'width:' + memo.progresses.currentProgress.computedWidth + '%'"
             >
-              {{ memo.progresses.currentProgress.computedWidth }}
-              % - (Goal: {{ memo.progresses.nextProgress.label }})
+              {{ memo.progresses.currentProgress.computedWidth }}% - (Goal: {{ memo.progresses.nextProgress.label }})
             </div>
             <div
               class="progress-bar bg-secondary text-white"
@@ -42,11 +41,16 @@
               [style]="'width:' + (100 - memo.progresses.currentProgress.computedWidth) + '%'"
             ></div>
           </div>
-          <div class="progress" style="height: 20px" *ngIf="!memo.progresses.nextProgress">
-            <div class="progress-bar bg-success text-white" role="progressbar" [style]="'width:100%'">Success!</div>
+
+          <div class="progress mt-2" style="height: 20px" *ngIf="!memo.progresses.nextProgress">
+            <div class="progress-bar bg-success text-white" role="progressbar" style="width: 100%">Success!</div>
           </div>
-        </ng-container>
-      </ng-container>
+        </li>
+      </ul>
     </div>
+
+    <ng-template #emptyMemos>
+      <p class="text-muted text-center mb-0">No memos available.</p>
+    </ng-template>
   </div>
 </ng-container>

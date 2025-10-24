@@ -1,9 +1,9 @@
 <ng-container *ngIf="isBrowser && logo">
   <div class="d-block" #companyStamp>
-    <div class="card border-0">
-      <img [src]="logo" class="card-img-top bg-transparent" />
+    <div class="card border-1 border-gray p-1">
+      <img [src]="logo" class="card-img-top bg-transparent mb-1" />
 
-      <div class="card-footer pt-0 pb-0 ps-2 pe-2 bg-transparent">
+      <div class="card-footer pt-0 pb-0 ps-2 pe-2 bg-light">
         <div class="d-block fw-bold">
           <fa-icon class="me-1" [icon]="['fas', 'vcard']"></fa-icon>
           <small>&nbsp;{{ personalInfo.organizationName }}</small>

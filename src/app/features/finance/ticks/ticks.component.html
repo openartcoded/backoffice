@@ -9,7 +9,7 @@
       class="form-control"
       [(ngModel)]="searchInput"
       (input)="search($event)"
-      autofocus
+      appAutofocus
     />
     <ng-container *ngIf="result">
       <nav class="card border-top-0">
