@@ -10,6 +10,7 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuard],
   },
+
   {
     path: '404',
     component: ErrorComponent,

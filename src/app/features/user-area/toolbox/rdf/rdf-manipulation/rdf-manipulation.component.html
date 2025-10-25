@@ -1,0 +1,44 @@
+<ul ngbNav #nav="ngbNav" [(activeId)]="activeId" class="nav nav-tabs justify-content-center mb-3">
+  <li ngbNavItem="file-conversion">
+    <a ngbNavLink class="text-uppercase fw-semibold">File</a>
+    <ng-template ngbNavContent>
+      <div class="p-3">
+        <app-title title="File Conversion" titleClass="h4" [uppercase]="true"></app-title>
+        <div class="row g-3 mt-3">
+          <div class="col-12">
+            <app-file-to-file />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+
+  <li ngbNavItem="string-conversion">
+    <a ngbNavLink class="text-uppercase fw-semibold">Text</a>
+    <ng-template ngbNavContent>
+      <div class="p-3">
+        <app-title title="String Conversion" titleClass="h4" [uppercase]="true"></app-title>
+        <div class="row g-3 mt-3">
+          <div class="col-12">
+            <app-string-to-lang />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+  <li ngbNavItem="shacl-validation">
+    <a ngbNavLink class="text-uppercase fw-semibold">Shacl</a>
+    <ng-template ngbNavContent>
+      <div class="p-3">
+        <app-title title="Shacl Validation" titleClass="h4" [uppercase]="true"></app-title>
+        <div class="row g-3 mt-3">
+          <div class="col-12">
+            <app-shacl-validation />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+</ul>
+
+<div [ngbNavOutlet]="nav" class="border rounded bg-light p-3 shadow-sm"></div>

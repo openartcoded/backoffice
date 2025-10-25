@@ -1,0 +1,39 @@
+<ul ngbNav #nav="ngbNav" [(activeId)]="activeId" class="nav nav-tabs justify-content-center mb-3">
+  <li ngbNavItem="decode">
+    <a ngbNavLink class="text-uppercase fw-semibold">Decode</a>
+    <ng-template ngbNavContent>
+      <div class="p-3">
+        <app-title title="Base64 decode" titleClass="h4" [uppercase]="true"></app-title>
+        <div class="mt-3">
+          <app-base64 [decode]="true"></app-base64>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+
+  <li ngbNavItem="encode">
+    <a ngbNavLink class="text-uppercase fw-semibold">Encode</a>
+    <ng-template ngbNavContent>
+      <div class="p-3">
+        <app-title title="Base64 encode" titleClass="h4" [uppercase]="true"></app-title>
+        <div class="mt-3">
+          <app-base64></app-base64>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+
+  <li ngbNavItem="image-encode">
+    <a ngbNavLink class="text-uppercase fw-semibold">Image encode</a>
+    <ng-template ngbNavContent>
+      <div class="p-3">
+        <app-title title="Image encode" titleClass="h4" [uppercase]="true"></app-title>
+        <div class="mt-3">
+          <app-image-encoder></app-image-encoder>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+</ul>
+
+<div [ngbNavOutlet]="nav" class="border rounded bg-light p-3 shadow-sm"></div>

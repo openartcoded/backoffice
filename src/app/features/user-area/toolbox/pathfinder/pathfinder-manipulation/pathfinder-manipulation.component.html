@@ -1,27 +1,23 @@
-<app-title title="XPath / JSONPath" [uppercase]="true"></app-title>
-<ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
+<ul ngbNav #nav="ngbNav" [(activeId)]="activeId" class="nav nav-tabs justify-content-center mb-3">
   <li ngbNavItem="json-path">
-    <a ngbNavLink routerLink="/toolbox/pathfinder/json-path">JSONPath</a>
+    <a ngbNavLink class="text-uppercase fw-semibold">JSONPath</a>
     <ng-template ngbNavContent>
-      <div class="d-block">
+      <div class="p-3">
         <app-title title="JSONPath" titleClass="h4" [uppercase]="true"></app-title>
-      </div>
-      <div class="d-block">
         <app-pathfinder-utils [pathType]="'application/json'"></app-pathfinder-utils>
       </div>
     </ng-template>
   </li>
+
   <li ngbNavItem="x-path">
-    <a ngbNavLink routerLink="/toolbox/pathfinder/x-path">XPath</a>
+    <a ngbNavLink class="text-uppercase fw-semibold">XPath</a>
     <ng-template ngbNavContent>
-      <div class="d-block">
+      <div class="p-3">
         <app-title title="XPath" titleClass="h4" [uppercase]="true"></app-title>
-      </div>
-      <div class="d-block">
-        <!--        <app-pathfinder-xpath-utils></app-pathfinder-xpath-utils>-->
         <app-pathfinder-utils [pathType]="'text/xml'"></app-pathfinder-utils>
       </div>
     </ng-template>
   </li>
 </ul>
-<div [ngbNavOutlet]="nav"></div>
+
+<div [ngbNavOutlet]="nav" class="border rounded bg-light p-3 shadow-sm"></div>

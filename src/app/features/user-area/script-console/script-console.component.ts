@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { UserScript } from '@core/models/script';
 import { ScriptService } from '@core/service/script.service';
 import { BrowserStorageService } from '@core/service/storage-service';
+import { ToastService } from '@core/service/toast.service';
 import { firstValueFrom, interval, Subscription } from 'rxjs';
 
 @Component({
@@ -31,9 +32,22 @@ export class ScriptConsoleComponent implements OnInit, OnDestroy {
   constructor(
     private scriptService: ScriptService,
     private localStorage: BrowserStorageService,
+    private toastService: ToastService,
   ) {}
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
+  }
+  copyToClipboard(e, textToCopy) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText(textToCopy)
+        .then(() => this.toastService.showSuccess('copied'))
+        .catch((error) => this.toastService.showDanger('error: ' + error.error));
+    } else {
+      this.toastService.showDanger('Clipboard api not available');
+    }
   }
   ngOnInit(): void {
     this.subscriptions.push(

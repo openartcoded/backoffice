@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Base64ManipulationComponent } from './base64-manipulation/base64-manipulation.component';
-import { Base64RoutingModule } from './base64-routing.module';
 import { SharedModule } from '@shared/shared.module';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { Base64Component } from './base64/base64.component';
@@ -15,7 +14,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   declarations: [Base64ManipulationComponent, Base64Component, ImageEncoderComponent],
   imports: [
     CommonModule,
-    Base64RoutingModule,
     SharedModule,
     NgbNavModule,
     AutosizeModule,
@@ -23,5 +21,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     NgxFileDropModule,
     FontAwesomeModule,
   ],
+  exports: [Base64ManipulationComponent],
 })
 export class Base64UtilsModule {}

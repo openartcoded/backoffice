@@ -28,6 +28,7 @@ import { ScriptConsoleComponent } from './script-console/script-console.componen
 import { HighlightModule } from 'ngx-highlightjs';
 import { GraaljsHelpModalComponent } from './graaljs-help-modal/graaljs-help-modal.component';
 import { LMarkdownEditorModule } from 'ngx-markdown-editor';
+import { ToolBoxModule } from './toolbox/toolbox.module';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -49,6 +50,7 @@ import { LMarkdownEditorModule } from 'ngx-markdown-editor';
   imports: [
     CommonModule,
     LMarkdownEditorModule,
+    ToolBoxModule,
     UserAreaRoutingModule,
     ReactiveFormsModule,
     SharedModule,

@@ -1,0 +1,34 @@
+<form class="form" [formGroup]="inputForm" (ngSubmit)="submit()" *ngIf="inputForm">
+  <div class="d-flex justify-content-start align-items-center mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Enter JSONPath or XPath expression"
+      formControlName="expression"
+      id="expression"
+    />
+    <button type="submit" class="btn btn-primary ms-1" [disabled]="!inputForm.valid">Run</button>
+  </div>
+
+  <div class="row g-3">
+    <!-- Input data always full width -->
+    <div class="col-12 mb-3">
+      <label for="data" class="form-label fw-semibold">Input Data</label>
+      <textarea
+        id="data"
+        class="form-control resize-none"
+        rows="10"
+        formControlName="data"
+        placeholder="Paste your JSON or XML data here"
+      ></textarea>
+    </div>
+
+    <!-- Result shows below textarea instead of beside it -->
+    <div class="col-12" *ngIf="result">
+      <label class="form-label fw-semibold">Result</label>
+      <pre class="bg-light p-3 border rounded small text-break overflow-auto"
+        >{{ result | json }}
+      </pre>
+    </div>
+  </div>
+</form>

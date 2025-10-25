@@ -1,74 +1,111 @@
-<div class="ps-2 pe-2">
+<div class="h-90">
   <ng-container *ngIf="initialized">
-    <div class="row">
-      <div class="col-lg-10 col-12 mb-3">
-        <div class="d-flex mb-2 align-items-center">
-          <div class="me-1">
+    <div class="row g-3">
+      <!-- Main Editor Column -->
+      <div class="col-lg-9 col-12">
+        <!-- Script Controls -->
+        <div class="d-flex justify-content-between gap-1 mb-2">
+          <div class="flex-shrink-0">
             <app-graaljs-help-modal />
           </div>
-          <select class="form-select me-2" [formControl]="formUserScript" (change)="selectScript()">
-            <option [ngValue]="null">--- Select ---</option>
+          <select
+            class="form-select form-select-sm flex-grow-1 me-2"
+            [formControl]="formUserScript"
+            (change)="selectScript()"
+          >
+            <option [ngValue]="null">--- Select Script ---</option>
             <option *ngFor="let s of userScripts" [ngValue]="s">{{ 'Script ' + s.id }}</option>
           </select>
           <button
-            class="btn btn-outline-success me-1"
+            class="btn btn-outline-success btn-sm"
             [disabled]="!formScript?.value?.trim()?.length"
             (click)="saveScript()"
           >
             Save
           </button>
-          <button class="btn btn-outline-danger" [disabled]="!formUserScript?.value" (click)="deleteScript()">
+          <button class="btn btn-outline-danger btn-sm" [disabled]="!formUserScript?.value" (click)="deleteScript()">
             Delete
           </button>
         </div>
-        <div class="card border-1">
-          <div class="card-header bg-transparent text-dark">
-            <h5 class="mb-0">Console</h5>
+
+        <!-- Script Editor Card -->
+        <div class="card shadow-sm border-0">
+          <div class="card-header bg-light border-bottom">
+            <h6 class="mb-0 text-muted"><i class="bi bi-terminal me-2"></i>Script Editor</h6>
           </div>
-          <div class="card-body bg-transparent text-dark">
-            <div class="mb-3 mt-2">
+          <div class="card-body p-0">
+            <div class="p-2">
               <textarea
                 autofocus
                 appAutoFocus
                 [formControl]="formScript"
-                class="form-control bg-transparent text-dark resize-none"
-                [rows]="15"
+                class="form-control border-0 bg-light resize-none"
+                [rows]="17"
                 [placeholder]="placeholder"
-              >
-              </textarea>
+              ></textarea>
             </div>
-
-            <div class="d-flex justify-content-center mb-3">
-              <button class="btn btn-outline-primary me-2" (click)="run()">Run</button>
-              <app-copy-to-clipboard [textToCopy]="out" [btnClasses]="'btn btn-outline-secondary'">
-              </app-copy-to-clipboard>
-              <button class="btn btn-outline-info ms-2" (click)="out = ''; error = false">clear</button>
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-between align-items-center p-2 border-top bg-light">
+              <div class="d-flex gap-2">
+                <button class="btn btn-primary btn-sm px-2" (click)="run()">
+                  <i class="bi bi-play-fill me-1"></i>Run
+                </button>
+                <app-copy-to-clipboard
+                  [textToCopy]="formScript?.value || ''"
+                  [btnClasses]="'btn btn-outline-secondary btn-sm px-2'"
+                  label="Copy script"
+                >
+                </app-copy-to-clipboard>
+              </div>
+              <div class="d-flex gap-1">
+                <app-copy-to-clipboard
+                  [textToCopy]="out"
+                  [btnClasses]="'btn btn-outline-secondary btn-sm px-2'"
+                  [label]="'Copy out'"
+                >
+                </app-copy-to-clipboard>
+                <button class="btn btn-outline-info btn-sm px-2" (click)="out = ''; error = false">
+                  <i class="bi bi-x-circle me-1"></i>Clear
+                </button>
+              </div>
             </div>
-
-            <div class="border rounded bg-light p-2 overflow-auto mb-2" style="max-height: 30vh">
-              <pre [class.text-danger]="error" class="m-0 text-ws-break"><code>{{ out || 'no output' }}</code></pre>
+            <!-- Output Area -->
+            <div class="mt-2 bg-white">
+              <div class="d-flex align-items-center mb-2">
+                <h6 class="mb-0 text-muted flex-grow-1">Output</h6>
+              </div>
+              <pre
+                [class.text-danger]="error"
+                class="m-0 p-2 text-ws-break bg-light border hidden-scroll"
+                style="height: 28.1vh"
+              ><code>{{out || 'No output yet. Run a script to see results here.'}}</code></pre>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-2 col-12 mb-3 ms-0 ps-0">
-        <div class="card border-0">
-          <div class="card-header bg-secondary text-white">
-            <h5 class="mb-0">Bindings</h5>
+      <!-- Bindings Sidebar -->
+      <div class="col-lg-3 col-12">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-header text-muted border-0">
+            <h6 class="mb-0"><i class="bi bi-link-45deg me-2"></i>Available Bindings</h6>
           </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-sm mb-0">
+          <div class="card-body p-0">
+            <div class="table-responsive hidden-scroll p-0" style="height: 83vh">
+              <table class="table table-sm table-hover mb-0">
                 <tbody>
-                  <tr *ngFor="let b of bindings">
-                    <td>
-                      <app-copy-to-clipboard
-                        [textToCopy]="b[0]"
-                        [label]="b[0]"
-                        btnClasses="btn btn-link p-0  text-decoration-none"
-                      ></app-copy-to-clipboard>
+                  <tr
+                    *ngFor="let b of bindings"
+                    class="border-bottom"
+                    role="button"
+                    (click)="copyToClipboard($event, b[0])"
+                  >
+                    <td class="p-2">
+                      <code class="text-monospace small">{{ b[0] }}</code>
                     </td>
+                  </tr>
+                  <tr *ngIf="bindings.length === 0">
+                    <td class="p-2 text-center text-muted">No bindings available</td>
                   </tr>
                 </tbody>
               </table>

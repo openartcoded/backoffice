@@ -58,10 +58,7 @@ const routes: Routes = [
     path: 'fee',
     loadChildren: () => import('./features/fee/fee.module').then((m) => m.FeeModule),
   },
-  {
-    path: 'toolbox',
-    loadChildren: () => import('./features/toolbox/toolbox.module').then((m) => m.ToolBoxModule),
-  },
+
   {
     path: 'dossier',
     loadChildren: () => import('./features/dossier/dossier.module').then((m) => m.DossierModule),

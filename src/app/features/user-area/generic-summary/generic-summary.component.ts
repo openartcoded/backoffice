@@ -11,6 +11,7 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
 import { InfoService } from '@core/service/info.service';
 import { Indicators } from '@core/models/backend.info';
 import { ScrollToBottomDirective } from '@shared/directives/scroll-to-bottom.directive';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-generic-summary',
   templateUrl: './generic-summary.component.html',
@@ -34,11 +35,12 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
   constructor(
     private windowService: WindowRefService,
     private infoService: InfoService,
+    private router: Router,
+    private route: ActivatedRoute,
     private personalInfoService: PersonalInfoService,
     private invoiceService: InvoiceService,
     @Inject(PLATFORM_ID) private platformId: any,
   ) {}
-
   ngOnDestroy(): void {
     this.subscriptions.forEach((elt: Subscription) => {
       elt.unsubscribe();
@@ -95,13 +97,13 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
       let l = {
         barmode: 'group',
         dragmode: 'zoom',
-        showlegend: false,
+        showlegend: true,
         yaxis: {
-          fixedrange: true,
+          fixedrange: false,
           type: 'linear',
         },
         xaxis: {
-          fixedrange: true,
+          fixedrange: false,
           rangeslider: {
             visible: false,
           },
@@ -115,9 +117,9 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
     const totalByClient = [...invoicesGroupBClient];
     const byClient = {
       name: '',
-      x: totalByClient.map(([client, _tot]) => client),
-      y: totalByClient.map(([_client, tot]) => tot),
-      type: 'bar',
+      labels: totalByClient.map(([client, _tot]) => client),
+      values: totalByClient.map(([_client, tot]) => tot),
+      type: 'pie',
     };
 
     const data = [byClient];
@@ -177,8 +179,7 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
               name: 'Earnings',
               x: graphData.map((d) => d.period),
               y: graphData.map((r) => r.subTotal),
-              type: 'scatter',
-              marker: { color: '#1f77b4' },
+              type: 'violin',
               yaxis: 'y2',
             };
             const amountWorked = {

@@ -108,10 +108,10 @@ import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initialize } from './init/app-init.factory';
 import { ConfigInitService } from './init/config-init.service';
-import { provideProtractorTestingSupport } from '@angular/platform-browser';
 import { providePrimeNG } from 'primeng/config';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
-PlotlyViaCDNModule.setPlotlyVersion('2.28.0'); // can be `latest` or any version number (i.e.: '1.40.0')
+PlotlyViaCDNModule.setPlotlyVersion('3.1.2'); // can be `latest` or any version number (i.e.: '1.40.0')
 PlotlyViaCDNModule.setPlotlyBundle('finance');
 registerLocaleData(localeDe, 'de');
 
@@ -128,6 +128,7 @@ registerLocaleData(localeDe, 'de');
     }),
   ],
   providers: [
+    provideAnimations(),
     providePrimeNG({
       theme: {
         preset: Aura,

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RdfManipulationComponent } from './rdf-manipulation/rdf-manipulation.component';
-import { RdfRoutingModule } from './rdf-routing.module';
 import { SharedModule } from '@shared/shared.module';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { FileToFileComponent } from './file-to-file/file-to-file.component';
@@ -16,7 +15,6 @@ import { ShaclValidationComponent } from './shacl-validation/shacl-validation.co
   declarations: [RdfManipulationComponent, FileToFileComponent, StringToLangComponent, ShaclValidationComponent],
   imports: [
     CommonModule,
-    RdfRoutingModule,
     SharedModule,
     NgbNavModule,
     NgxFileDropModule,
@@ -24,5 +22,6 @@ import { ShaclValidationComponent } from './shacl-validation/shacl-validation.co
     FontAwesomeModule,
     AutosizeModule,
   ],
+  exports: [RdfManipulationComponent],
 })
 export class RdfModule {}

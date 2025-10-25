@@ -147,7 +147,12 @@
           <app-script-console />
         </ng-template>
       </li>
-
+      <li [ngbNavItem]="8">
+        <button ngbNavLink>Toolbox</button>
+        <ng-template ngbNavContent>
+          <app-toolbox-container />
+        </ng-template>
+      </li>
       <li [ngbNavItem]="1">
         <button ngbNavLink>Invoices/Months</button>
         <ng-template ngbNavContent>
@@ -261,7 +266,12 @@
         <button ngbNavLink>Logs</button>
         <ng-template ngbNavContent>
           <div class="mb-3">
-            <app-copy-to-clipboard [textToCopy]="indicators.logs" btnClasses="mb-2 btn btn-outline-secondary" />
+            <div class="d-flex justify-content-end">
+              <app-copy-to-clipboard
+                [textToCopy]="indicators.logs"
+                btnClasses="mb-2 btn btn-sm text-muted btn-outline-secondary"
+              />
+            </div>
             <pre
               #scroller="scrollToBottom"
               [hidden]="active !== 7"

@@ -1,0 +1,51 @@
+<ul ngbNav #nav="ngbNav" [(activeId)]="activeId" class="nav nav-tabs justify-content-center mb-3">
+  <li ngbNavItem="business-days" routerLink="/toolbox/date/business-days">
+    <a ngbNavLink class="text-uppercase fw-semibold">Business</a>
+    <ng-template ngbNavContent>
+      <div class="p-3">
+        <app-title title="Business Days" titleClass="h4" [uppercase]="true"></app-title>
+        <div class="mt-3">
+          <app-business-days></app-business-days>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+
+  <li ngbNavItem="how-many-since">
+    <a ngbNavLink class="text-uppercase fw-semibold">Since</a>
+    <ng-template ngbNavContent>
+      <div class="p-3">
+        <app-title title="How Many Since" titleClass="h4" [uppercase]="true"></app-title>
+        <div class="mt-3">
+          <app-how-many></app-how-many>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+
+  <li ngbNavItem="how-many-before">
+    <a ngbNavLink class="text-uppercase fw-semibold">Before</a>
+    <ng-template ngbNavContent>
+      <div class="p-3">
+        <app-title title="How Many Before" titleClass="h4" [uppercase]="true"></app-title>
+        <div class="mt-3">
+          <app-how-many [beforeType]="true"></app-how-many>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+
+  <li ngbNavItem="date-between">
+    <a ngbNavLink class="text-uppercase fw-semibold">Between</a>
+    <ng-template ngbNavContent>
+      <div class="p-3">
+        <app-title title="Date Between" titleClass="h4" [uppercase]="true"></app-title>
+        <div class="mt-3">
+          <app-date-between></app-date-between>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+</ul>
+
+<div [ngbNavOutlet]="nav" class="border rounded bg-light p-3 shadow-sm"></div>
