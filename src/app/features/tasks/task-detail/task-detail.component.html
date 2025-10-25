@@ -81,7 +81,17 @@
                   </ng-container>
                   <ng-template #second>
                     <div class="mb-1">
+                      <textarea
+                        *ngIf="isBigString(_)"
+                        class="form-control resize-none form-control-sm"
+                        rows="14"
+                        placeholder="new java.util.ArrayList([1,2,3]).stream().mapToInt(i => parseInt(i)).sum()"
+                        [id]="'parameterValue' + i"
+                        formControlName="parameterValue"
+                      >
+                      </textarea>
                       <input
+                        *ngIf="!isBigString(_)"
                         type="text"
                         class="form-control form-control-sm"
                         [id]="'parameterValue' + i"
@@ -99,7 +109,24 @@
           </div>
         </div>
       </ng-container>
-
+      <div class="mb-1 row" *ngIf="hasSpecificDate">
+        <label class="col-sm-2 col-form-label" for="specificDate">Quick date select</label>
+        <div class="col-sm-10">
+          <select class="form-select" id="quickDateSelect" formControlName="quickDateSelect">
+            <option [value]="null">Select quick date...</option>
+            <option value="now">Now</option>
+            <option value="1min">In one minute</option>
+            <option value="1hour">In one hour</option>
+            <option value="8hour">In 8 hours</option>
+            <option value="nextMorning">Next morning</option>
+            <option value="1day">In one day</option>
+            <option value="1week">In one week</option>
+            <option value="1month">In one month</option>
+            <option value="nextFriday">Next Friday</option>
+            <option value="nextSunday">Next Sunday</option>
+          </select>
+        </div>
+      </div>
       <div class="mb-1 row" *ngIf="hasSpecificDate">
         <label class="col-sm-2 col-form-label" for="specificDate">Specific Time</label>
         <div class="col-sm-10">
@@ -160,10 +187,7 @@
         <input class="form-check-input" type="checkbox" id="hasSpecificDate" formControlName="hasSpecificDate" />
         <label class="form-check-label" for="hasSpecificDate"> Specific Date </label>
       </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="shouldRunNow" formControlName="shouldRunNow" />
-        <label class="form-check-label" for="shouldRunNow"> Run now</label>
-      </div>
+
       <div class="form-check form-check-inline">
         <input class="form-check-input" type="checkbox" id="hasAction" formControlName="hasAction" />
         <label class="form-check-label" for="hasAction"> Has Action </label>

@@ -27,16 +27,16 @@ export interface ActionParameter {
   description?: string;
   options?: Map<string, string>;
 }
-export enum ActionParameterType {
-  INTEGER,
-  LONG,
-  STRING,
-  BOOLEAN,
-  DOUBLE,
-  BIGDECIMAL,
-  BIGINTEGER,
-  OPTION,
-}
+export type ActionParameterType =
+  | 'INTEGER'
+  | 'LONG'
+  | 'STRING'
+  | 'BIG_STRING'
+  | 'BOOLEAN'
+  | 'DOUBLE'
+  | 'BIGDECIMAL'
+  | 'BIGINTEGER'
+  | 'OPTION';
 
 export enum StatusType {
   SUCCESS,

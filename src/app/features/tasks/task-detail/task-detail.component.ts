@@ -57,8 +57,10 @@ export class TaskDetailComponent implements OnInit {
     const specificDate = DateUtils.toOptionalDate(this.task?.specificDate);
     const specificDateFormatted = specificDate ? DateUtils.formatInputDateTime(specificDate) : null;
     this.form = this.fb.group({
-      hasSpecificDate: new UntypedFormControl({ value: !!this.task?.specificDate, disabled: false }, []),
-      shouldRunNow: new UntypedFormControl({ value: false, disabled: false }, []),
+      hasSpecificDate: new UntypedFormControl(
+        { value: !!this.task?.specificDate || !this.task?.cronExpression, disabled: false },
+        [],
+      ),
       hasAction: new UntypedFormControl({ value: !!this.task?.actionKey, disabled: false }, []),
       specificDate: new UntypedFormControl(
         {
@@ -74,6 +76,7 @@ export class TaskDetailComponent implements OnInit {
         },
         [],
       ),
+      quickDateSelect: new UntypedFormControl({ value: null, disabled: false }, []),
       cronExpression: new UntypedFormControl({ value: this.task?.cronExpression, disabled: false }, []),
       actionKey: new UntypedFormControl({ value: this.task?.actionKey, disabled: false }, []),
       customActionName: new UntypedFormControl({ value: this.task?.customActionName, disabled: false }, []),
@@ -133,12 +136,52 @@ export class TaskDetailComponent implements OnInit {
         this.form.controls.calendarDate.patchValue(null);
       }
     });
-
-    this.form.controls.shouldRunNow.valueChanges.subscribe((v) => {
+    this.form.controls.quickDateSelect.valueChanges.subscribe((v) => {
       if (v) {
+        let targetDate = new Date();
+
+        switch (v) {
+          case '1week':
+            targetDate.setDate(targetDate.getDate() + 7);
+            targetDate.setHours(2, 0, 0, 0);
+            break;
+          case '1month':
+            targetDate.setMonth(targetDate.getMonth() + 1);
+            targetDate.setHours(2, 0, 0, 0);
+            break;
+          case 'nextMorning':
+            targetDate.setDate(targetDate.getDate() + 1);
+            targetDate.setHours(2, 0, 0, 0);
+            break;
+          case '1day':
+            targetDate.setDate(targetDate.getDate() + 1);
+            break;
+          case '1hour':
+            targetDate.setHours(targetDate.getHours() + 1);
+            break;
+          case 'now':
+            break;
+          case '1min':
+            targetDate.setMinutes(targetDate.getMinutes() + 1);
+            break;
+          case '8hour':
+            targetDate.setHours(targetDate.getHours() + 8);
+            break;
+          case 'nextFriday':
+            const daysUntilFriday = (5 - targetDate.getDay() + 7) % 7 || 7;
+            targetDate.setDate(targetDate.getDate() + daysUntilFriday);
+            targetDate.setHours(2, 0, 0, 0);
+            break;
+          case 'nextSunday':
+            const daysUntilSunday = (7 - targetDate.getDay()) % 7 || 7;
+            targetDate.setDate(targetDate.getDate() + daysUntilSunday);
+            targetDate.setHours(2, 0, 0, 0);
+            break;
+        }
+
         this.form.controls.hasSpecificDate.patchValue(true);
         this.form.controls.cronExpression.patchValue(null);
-        this.form.controls.specificDate.patchValue(DateUtils.formatInputDateTime(new Date()));
+        this.form.controls.specificDate.patchValue(DateUtils.formatInputDateTime(targetDate));
       }
     });
 
@@ -150,7 +193,8 @@ export class TaskDetailComponent implements OnInit {
         this.form.controls.customActionName.patchValue(null);
         this.form.controls.title.patchValue(v.title);
         this.form.controls.description.patchValue(v.description);
-        this.form.controls.cronExpression.patchValue(v.defaultCronValue);
+        this.form.controls.cronExpression.patchValue(v.defaultCronValue || '0 0 * * * *');
+        this.form.controls.hasSpecificDate.patchValue(null);
       }
     });
   }
@@ -282,6 +326,9 @@ export class TaskDetailComponent implements OnInit {
     return this.action?.allowedParameters?.find((p) => p.key === parameterKey)?.options;
   }
   isOption(control: any) {
-    return this.getType(control)?.toLocaleString() == 'OPTION';
+    return this.getType(control) === 'OPTION';
+  }
+  isBigString(control: any) {
+    return this.getType(control) === 'BIG_STRING';
   }
 }

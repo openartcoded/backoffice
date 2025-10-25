@@ -26,12 +26,15 @@ import { MostClickedMenuComponent } from './most-clicked-menu/most-clicked-menu.
 import { PlotlyViaCDNModule } from 'angular-plotly.js';
 import { ScriptConsoleComponent } from './script-console/script-console.component';
 import { HighlightModule } from 'ngx-highlightjs';
+import { GraaljsHelpModalComponent } from './graaljs-help-modal/graaljs-help-modal.component';
+import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 @NgModule({
   declarations: [
     HomeComponent,
     MemoDateComponent,
     MemoDateFormComponent,
     EditPersonalInfoComponent,
+    GraaljsHelpModalComponent,
     TodoListComponent,
     FeeSummaryComponent,
     GenericSummaryComponent,
@@ -45,6 +48,7 @@ import { HighlightModule } from 'ngx-highlightjs';
   ],
   imports: [
     CommonModule,
+    LMarkdownEditorModule,
     UserAreaRoutingModule,
     ReactiveFormsModule,
     SharedModule,

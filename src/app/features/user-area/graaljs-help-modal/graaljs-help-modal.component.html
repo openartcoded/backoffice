@@ -1,0 +1,18 @@
+<fa-icon
+  [icon]="['fas', 'circle-question']"
+  class="text-dark cursor-pointer"
+  (click)="open()"
+  title="GraalJS Quick Help"
+>
+</fa-icon>
+
+<ng-template #helpModal let-modal>
+  <div class="modal-header">
+    <span class="modal-title">GraalJS Scripting Quick Reference</span>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <md-editor [formControl]="markdownControl" mode="preview" [options]="{ showBorder: false }" height="100%">
+    </md-editor>
+  </div>
+</ng-template>

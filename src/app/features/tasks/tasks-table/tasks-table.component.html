@@ -74,8 +74,10 @@
       <table class="table table-sm table-bordered table-hover table-striped">
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Next Date</th>
+            <th class="fit">Title</th>
+            <th class="fit d-md-table-cell d-none">Action Type</th>
+            <th class="fit d-md-table-cell d-none">Last Date</th>
+            <th class="fit">Next Date</th>
             <th class="fit d-md-table-cell d-none">Disabled</th>
             <th class="fit d-md-table-cell d-none">Has Action</th>
             <th class="fit d-md-table-cell">Results</th>
@@ -87,8 +89,10 @@
           </tr>
           <ng-container *ngFor="let task of filteredReminderTasks">
             <tr role="button" (click)="openTask(task)">
-              <td>{{ task.customActionName || task.title }}</td>
-              <td>{{ task?.nextDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+              <td class="fit">{{ task.customActionName || task.title }}</td>
+              <td class="fit d-md-table-cell d-none">{{ task.actionKey || 'N/A' }}</td>
+              <td class="fit d-md-table-cell d-none">{{ task?.lastExecutionDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+              <td class="fit">{{ task?.nextDate | date: 'dd/MM/yyyy HH:mm' }}</td>
               <td class="fit text-center d-md-table-cell d-none">
                 <input aria-label="disabled" type="checkbox" [checked]="task.disabled" [disabled]="true" />
               </td>

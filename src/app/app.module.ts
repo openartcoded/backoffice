@@ -147,6 +147,7 @@ registerLocaleData(localeDe, 'de');
         lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'), // Optional, only if you want the line numbers
         languages: {
           json: () => import('highlight.js/lib/languages/json'),
+          javascript: () => import('highlight.js/lib/languages/javascript'),
           shell: () => import('highlight.js/lib/languages/shell'),
         },
       },

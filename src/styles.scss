@@ -37,6 +37,10 @@ body {
   box-shadow: none;
 }
 
+.text-ws-break {
+  white-space: break-spaces;
+}
+
 button.active.focus,
 button.active:focus,
 button.focus,
@@ -113,4 +117,7 @@ button:focus {
   .h-90 {
     height: 93vh;
   }
+}
+.resize-none {
+  resize: none;
 }

@@ -2,7 +2,10 @@
   <ng-container *ngIf="initialized">
     <div class="row">
       <div class="col-lg-10 col-12 mb-3">
-        <div class="d-flex mb-2">
+        <div class="d-flex mb-2 align-items-center">
+          <div class="me-1">
+            <app-graaljs-help-modal />
+          </div>
           <select class="form-select me-2" [formControl]="formUserScript" (change)="selectScript()">
             <option [ngValue]="null">--- Select ---</option>
             <option *ngFor="let s of userScripts" [ngValue]="s">{{ 'Script ' + s.id }}</option>
@@ -28,8 +31,8 @@
                 autofocus
                 appAutoFocus
                 [formControl]="formScript"
-                class="form-control bg-transparent text-dark"
-                [rows]="16"
+                class="form-control bg-transparent text-dark resize-none"
+                [rows]="15"
                 [placeholder]="placeholder"
               >
               </textarea>
@@ -43,7 +46,7 @@
             </div>
 
             <div class="border rounded bg-light p-2 overflow-auto mb-2" style="max-height: 30vh">
-              <pre [class.text-danger]="error" class="m-0 text-wrap"><code>{{ out || 'no output' }}</code></pre>
+              <pre [class.text-danger]="error" class="m-0 text-ws-break"><code>{{ out || 'no output' }}</code></pre>
             </div>
           </div>
         </div>
