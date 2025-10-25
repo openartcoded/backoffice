@@ -261,13 +261,13 @@
         <button ngbNavLink>Logs</button>
         <ng-template ngbNavContent>
           <div class="mb-3">
-                <app-copy-to-clipboard [textToCopy]="indicators.logs" btnClasses="mb-2 btn btn-outline-secondary"/>
+            <app-copy-to-clipboard [textToCopy]="indicators.logs" btnClasses="mb-2 btn btn-outline-secondary" />
             <pre
               #scroller="scrollToBottom"
               [hidden]="active !== 7"
               appScrollToBottom
               style="height: 83.5vh"
-              class="m-0 border hidden-scroll overflow-auto text-wrap  bg-light"
+              class="m-0 border hidden-scroll overflow-auto text-wrap bg-light"
             >
                 <code >{{indicators.logs}}</code>
         </pre>
