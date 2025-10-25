@@ -1,8 +1,8 @@
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { InvoiceService } from '@core/service/invoice.service';
-import { Observable, Subscription, combineLatest, of } from 'rxjs';
+import { Observable, Subscription, combineLatest, forkJoin, of } from 'rxjs';
 import { InvoiceSummary, BackendInvoiceSummary } from '@core/models/invoice';
-import { map } from 'rxjs/operators';
+import { map, timeout } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { DateUtils } from '@core/utils/date-utils';
 import { WindowRefService } from '@core/service/window.service';
@@ -10,7 +10,7 @@ import { User } from '@core/models/user';
 import { PersonalInfoService } from '@core/service/personal.info.service';
 import { InfoService } from '@core/service/info.service';
 import { Indicators } from '@core/models/backend.info';
-
+import { ScrollToBottomDirective } from '@shared/directives/scroll-to-bottom.directive';
 @Component({
   selector: 'app-generic-summary',
   templateUrl: './generic-summary.component.html',
@@ -19,13 +19,15 @@ import { Indicators } from '@core/models/backend.info';
 })
 export class GenericSummaryComponent implements OnInit, OnDestroy {
   summary: InvoiceSummary;
-  indicators$: Observable<Indicators>;
+  indicators: Indicators;
   subscriptions: Subscription[];
   graphsPerClient$: Observable<any[]>;
   _selectedYear?: number = null;
   active = 0;
   loaded = true;
   user: User;
+  @ViewChild('scroller', { read: ScrollToBottomDirective, static: false })
+  scrollerDirective?: ScrollToBottomDirective;
   get hasRoleAdmin(): boolean {
     return this.user?.authorities?.includes('ADMIN');
   }
@@ -46,9 +48,9 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions = [];
-    this.indicators$ = combineLatest([this.infoService.getBuildInfo(), this.infoService.getHealth()]).pipe(
-      map(([buildInfo, healthIndicator]) => ({ buildInfo, healthIndicator })),
-    );
+    forkJoin([this.infoService.getBuildInfo(), this.infoService.getHealth(), this.infoService.getLogs()])
+      .pipe(map(([buildInfo, healthIndicator, logs]) => ({ buildInfo, healthIndicator, logs }) as Indicators))
+      .subscribe((indicators) => (this.indicators = indicators));
     this.load();
   }
   get selectedYear() {
@@ -71,6 +73,9 @@ export class GenericSummaryComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.loaded = true;
       }, timeout);
+    }
+    if (this.isBrowser() && activeItem === 7) {
+      this.scrollerDirective?.scrollToBottom();
     }
   }
 

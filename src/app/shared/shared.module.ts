@@ -25,6 +25,7 @@ import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 import 'ace-builds/src-min-noconflict/ace';
 import 'ace-builds/src-min-noconflict/mode-markdown';
 import { CopyToClipboardComponent } from './copy-to-clipboard/copy-to-clipboard.component';
+import { ScrollToBottomDirective } from './directives/scroll-to-bottom.directive';
 import('marked').then((m) => {
   (window as any).marked = m.marked;
 });
@@ -40,6 +41,7 @@ import('marked').then((m) => {
     ImageLoaderComponent,
     TrimPipe,
     StopPropagationDirective,
+    ScrollToBottomDirective,
     EditEmailComponent,
     BytesToHumanPipe,
     MailFormComponent,
@@ -57,6 +59,7 @@ import('marked').then((m) => {
     SlugifyPipe,
     ImageLoaderComponent,
     StopPropagationDirective,
+    ScrollToBottomDirective,
     TrimPipe,
     BytesToHumanPipe,
     AutoFocusDirective,

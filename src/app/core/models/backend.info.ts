@@ -5,7 +5,7 @@ export interface BackendInfo {
   build: Build;
 }
 
-export type Indicators = { buildInfo: BackendInfo; healthIndicator: HealthIndicator };
+export type Indicators = { buildInfo: BackendInfo; healthIndicator: HealthIndicator; logs: string };
 export interface Build {
   artifact: string;
   group: string;

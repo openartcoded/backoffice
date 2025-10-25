@@ -1,7 +1,14 @@
 <div class="d-flex flex-lg-row flex-column justify-content-start h-90">
   <!-- Main content area -->
-  <div class="flex-lg-grow-1 w-100">
-    <ul ngbNav #nav="ngbNav" (activeIdChange)="this.resize($event)" [(activeId)]="active" class="nav-tabs">
+  <div class="flex-lg-grow-1 w-100" style="min-width: 0">
+    <ul
+      ngbNav
+      #nav="ngbNav"
+      [destroyOnHide]="true"
+      (activeIdChange)="this.resize($event)"
+      [(activeId)]="active"
+      class="nav-tabs"
+    >
       <li [ngbNavItem]="0" *ngIf="hasRoleAdmin">
         <button ngbNavLink>Home</button>
         <ng-template ngbNavContent>
@@ -17,7 +24,7 @@
               </div>
             </div>
 
-            <ng-container *ngIf="user && hasRoleAdmin && indicators$ | async as indicators">
+            <ng-container *ngIf="user && hasRoleAdmin && indicators">
               <div ngbAccordionItem="buildInfo" [collapsed]="false">
                 <div ngbAccordionHeader>
                   <button ngbAccordionButton class="p-2">Backend Info</button>
@@ -250,13 +257,29 @@
           </div>
         </ng-template>
       </li>
+      <li [ngbNavItem]="7" *ngIf="user && hasRoleAdmin && indicators">
+        <button ngbNavLink>Logs</button>
+        <ng-template ngbNavContent>
+          <div class="mb-3">
+            <pre
+              #scroller="scrollToBottom"
+              [hidden]="active !== 7"
+              appScrollToBottom
+              style="height: 88vh"
+              class="m-0 border hidden-scroll overflow-auto text-wrap text-muted bg-light"
+            >
+                <code  language="shell">{{indicators.logs}}</code>
+        </pre>
+          </div>
+        </ng-template>
+      </li>
     </ul>
 
     <!-- Nav outlet - content display area -->
     <div [ngbNavOutlet]="nav" class="mt-2"></div>
   </div>
   <!-- Sidebar - only visible on desktop for admins -->
-  <div class="ps-2 col-lg-3 col-12 mb-sm-2 d-lg-block" *ngIf="hasRoleAdmin">
+  <div class="ps-2 col-lg-3 col-12 mb-sm-2 d-lg-block h-90" *ngIf="hasRoleAdmin">
     <app-todo-list />
     <app-memo-date />
   </div>

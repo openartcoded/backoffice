@@ -9,24 +9,24 @@ import { ConfigInitService } from '@init/config-init.service';
   providedIn: 'root',
 })
 export class InfoService {
+  baseUrl = '';
   constructor(
     private http: HttpClient,
     private configService: ConfigInitService,
-  ) {}
+  ) {
+    this.baseUrl = this.configService.getConfig()['BACKEND_URL'];
+  }
 
   public getBuildInfo(): Observable<BackendInfo> {
-    return this.http.get<BackendInfo>(`${this.configService.getConfig()['BACKEND_URL']}/api/actuator/info`);
+    return this.http.get<BackendInfo>(`${this.baseUrl}/api/actuator/info`);
   }
 
   public getHealth(): Observable<HealthIndicator> {
-    return this.http.get<HealthIndicator>(`${this.configService.getConfig()['BACKEND_URL']}/api/actuator/health`);
+    return this.http.get<HealthIndicator>(`${this.baseUrl}/api/actuator/health`);
   }
 
-  /**
-   * @deprecated disabled in the backend
-   */
-  public getLogs(): Observable<any> {
-    return this.http.get(`${this.configService.getConfig()['BACKEND_URL']}/api/actuator/logfile`, {
+  public getLogs(): Observable<string> {
+    return this.http.get(`${this.baseUrl}/api/actuator/logfile`, {
       responseType: 'text',
     });
   }
