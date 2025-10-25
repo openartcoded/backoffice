@@ -11,7 +11,7 @@
     </button>
     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
       <button [disabled]="archived || invoices?.content?.length > 0" ngbDropdownItem (click)="newInvoice()">
-        <fa-icon [icon]="['fas', 'plus']"></fa-icon>&nbsp;New
+        <fa-icon [icon]="['fas', 'plus']"></fa-icon>&nbsp;New(Ctrl+k)
       </button>
       <button (click)="load()" [disabled]="archived" ngbDropdownItem>
         <fa-icon [icon]="['fas', 'sync']"></fa-icon>&nbsp;Reload

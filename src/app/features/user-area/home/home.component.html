@@ -1,8 +1,8 @@
 <div>
   <ng-container *ngIf="user && personalInfo && loaded">
-    <div class="d-lg-flex mt-3" [class.blur-modal]="personalInfo.demoMode">
+    <div class="d-lg-flex d-block mt-3 h-90" [class.blur-modal]="personalInfo.demoMode">
       <div
-        class="col-lg-2 border-end h-90 mb-2 main-viewport shadow-sm border-bottom-0 hidden-scroll pe-2 ps-2 me-1 overflow-y-auto"
+        class="col-lg-2 border mb-sm-auto  pe-2 ps-2 me-1" 
         *ngIf="hasRoleAdmin"
       >
         <ng-container *ngIf="hasRoleAdmin">
@@ -25,12 +25,14 @@
             <hr />
             <div class="d-flex flex-column ms-auto">
               <small class="text-muted fw-bold">Tasks</small>
+
               <app-next-tasks />
+                            
             </div>
           </div>
         </ng-container>
       </div>
-      <div class="me-2" [class.col-lg-10]="hasRoleAdmin" [class.col-lg-12]="!hasRoleAdmin">
+      <div class="me-2 mt-2 mt-md-0" [class.col-lg-10]="hasRoleAdmin" [class.col-lg-12]="!hasRoleAdmin">
         <app-generic-summary />
       </div>
     </div>
