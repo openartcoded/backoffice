@@ -13,16 +13,22 @@ import { ShaclValidationComponent } from './shacl-validation/shacl-validation.co
 import { RdfaComponent } from './rdfa/rdfa.component';
 
 @NgModule({
-    declarations: [RdfManipulationComponent, FileToFileComponent, StringToLangComponent, ShaclValidationComponent, RdfaComponent],
-    imports: [
-        CommonModule,
-        SharedModule,
-        NgbNavModule,
-        NgxFileDropModule,
-        ReactiveFormsModule,
-        FontAwesomeModule,
-        AutosizeModule,
-    ],
-    exports: [RdfManipulationComponent, RdfaComponent],
+  declarations: [
+    RdfManipulationComponent,
+    FileToFileComponent,
+    StringToLangComponent,
+    ShaclValidationComponent,
+    RdfaComponent,
+  ],
+  imports: [
+    CommonModule,
+    SharedModule,
+    NgbNavModule,
+    NgxFileDropModule,
+    ReactiveFormsModule,
+    FontAwesomeModule,
+    AutosizeModule,
+  ],
+  exports: [RdfManipulationComponent, RdfaComponent],
 })
-export class RdfModule { }
+export class RdfModule {}

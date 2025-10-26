@@ -11,8 +11,17 @@ import { QrcodeComponent } from './qrcode/qrcode.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-    declarations: [ToolboxContainerComponent, QrcodeComponent],
-    imports: [CommonModule, ReactiveFormsModule, DateUtilsModule, PathfinderModule, RdfModule, Base64UtilsModule, SharedModule, NgbNavModule],
-    exports: [ToolboxContainerComponent, QrcodeComponent],
+  declarations: [ToolboxContainerComponent, QrcodeComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    DateUtilsModule,
+    PathfinderModule,
+    RdfModule,
+    Base64UtilsModule,
+    SharedModule,
+    NgbNavModule,
+  ],
+  exports: [ToolboxContainerComponent, QrcodeComponent],
 })
-export class ToolBoxModule { }
+export class ToolBoxModule {}

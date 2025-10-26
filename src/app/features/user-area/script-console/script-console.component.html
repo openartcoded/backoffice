@@ -46,9 +46,7 @@
             <!-- Action Buttons -->
             <div class="d-flex justify-content-between align-items-center p-2 border-top bg-light">
               <div class="d-flex gap-2">
-                <button class="btn btn-primary btn-sm px-2" (click)="run()">
-                  Run
-                </button>
+                <button class="btn btn-primary btn-sm px-2" (click)="run()">Run</button>
                 <app-copy-to-clipboard
                   [textToCopy]="formScript?.value || ''"
                   [btnClasses]="'btn btn-outline-secondary btn-sm px-2'"
@@ -63,9 +61,7 @@
                   [label]="'Copy out'"
                 >
                 </app-copy-to-clipboard>
-                <button class="btn btn-outline-info btn-sm px-2" (click)="out = ''; error = false">
-                  Clear
-                </button>
+                <button class="btn btn-outline-info btn-sm px-2" (click)="out = ''; error = false">Clear</button>
               </div>
             </div>
             <!-- Output Area -->
@@ -85,7 +81,7 @@
 
       <!-- Bindings Sidebar -->
       <div class="col-lg-3 col-12">
-        <div class="card  border-0 h-100">
+        <div class="card border-0 h-100">
           <div class="card-header text-muted border-0">
             <h6 class="mb-0">Bindings</h6>
           </div>

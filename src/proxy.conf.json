@@ -1,40 +1,40 @@
 {
-    "/assets/**/*.wasm": {
-        "target": "",
-        "secure": false,
-        "changeOrigin": true,
-        "headers": {
-            "Content-Type": "application/wasm"
-        }
-    },
-    "/api": {
-        "target": {
-            "host": "backoffice.somehost.org",
-            "protocol": "https:",
-            "port": 443
-        },
-        "secure": false,
-        "changeOrigin": true,
-        "logLevel": "info"
-    },
-    "/sparql": {
-        "target": {
-            "host": "backoffice.somehost.org",
-            "protocol": "https:",
-            "port": 443
-        },
-        "secure": false,
-        "changeOrigin": true,
-        "logLevel": "info"
-    },
-    "/proxy": {
-        "target": {
-            "host": "backoffice.somehost.org",
-            "protocol": "https:",
-            "port": 443
-        },
-        "secure": false,
-        "changeOrigin": true,
-        "logLevel": "info"
+  "/assets/**/*.wasm": {
+    "target": "",
+    "secure": false,
+    "changeOrigin": true,
+    "headers": {
+      "Content-Type": "application/wasm"
     }
+  },
+  "/api": {
+    "target": {
+      "host": "backoffice.somehost.org",
+      "protocol": "https:",
+      "port": 443
+    },
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  },
+  "/sparql": {
+    "target": {
+      "host": "backoffice.somehost.org",
+      "protocol": "https:",
+      "port": 443
+    },
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  },
+  "/proxy": {
+    "target": {
+      "host": "backoffice.somehost.org",
+      "protocol": "https:",
+      "port": 443
+    },
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  }
 }
