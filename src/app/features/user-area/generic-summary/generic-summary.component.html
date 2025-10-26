@@ -7,7 +7,7 @@
       [destroyOnHide]="true"
       (activeIdChange)="this.resize($event)"
       [(activeId)]="active"
-      class="nav-tabs"
+      class="nav-tabs justify-content-center"
     >
       <li [ngbNavItem]="0" *ngIf="hasRoleAdmin">
         <button ngbNavLink>Home</button>
@@ -205,7 +205,7 @@
       <li [ngbNavItem]="2">
         <button ngbNavLink>Stats</button>
         <ng-template ngbNavContent>
-          <div class="mb-1 list-group" *ngIf="summary">
+          <div class="mb-1 list-group flat" *ngIf="summary">
             <div class="list-group-item bg-light">
               <select [(ngModel)]="selectedYear" class="form-select">
                 <option
