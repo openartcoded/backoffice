@@ -7,10 +7,12 @@ import { DateUtilsModule } from './dateutils/dateutils.module';
 import { PathfinderModule } from './pathfinder/pathfinder.module';
 import { RdfModule } from './rdf/rdf.module';
 import { Base64UtilsModule } from './base64utils/base64utils.module';
+import { QrcodeComponent } from './qrcode/qrcode.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [ToolboxContainerComponent],
-  imports: [CommonModule, DateUtilsModule, PathfinderModule, RdfModule, Base64UtilsModule, SharedModule, NgbNavModule],
-  exports: [ToolboxContainerComponent],
+    declarations: [ToolboxContainerComponent, QrcodeComponent],
+    imports: [CommonModule, ReactiveFormsModule, DateUtilsModule, PathfinderModule, RdfModule, Base64UtilsModule, SharedModule, NgbNavModule],
+    exports: [ToolboxContainerComponent, QrcodeComponent],
 })
-export class ToolBoxModule {}
+export class ToolBoxModule { }

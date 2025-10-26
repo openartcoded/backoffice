@@ -1,0 +1,14 @@
+<div class="border rounded bg-light p-3 shadow-sm">
+    <div class="col-12 mb-3">
+        <label for="data" class="form-label fw-semibold">Input Data</label>
+        <textarea id="data" class="form-control resize-none" rows="10" [formControl]="data"
+            placeholder="Enter text or URL to generate QR code"></textarea>
+    </div>
+    <button (click)="generateQR()" class="btn btn-primary w-100">Run</button>
+    <div class="col-12" *ngIf="qrCodeUrl">
+        <label class="form-label fw-semibold">Out</label>
+        <div class="bg-light p-3 border rounded text-center">
+            <img [src]="qrCodeUrl" alt="QR Code" class="img-fluid" />
+        </div>
+    </div>
+</div>
