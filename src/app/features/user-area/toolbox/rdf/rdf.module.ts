@@ -10,18 +10,19 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { StringToLangComponent } from './string-to-lang/string-to-lang.component';
 import { AutosizeModule } from 'ngx-autosize';
 import { ShaclValidationComponent } from './shacl-validation/shacl-validation.component';
+import { RdfaComponent } from './rdfa/rdfa.component';
 
 @NgModule({
-  declarations: [RdfManipulationComponent, FileToFileComponent, StringToLangComponent, ShaclValidationComponent],
-  imports: [
-    CommonModule,
-    SharedModule,
-    NgbNavModule,
-    NgxFileDropModule,
-    ReactiveFormsModule,
-    FontAwesomeModule,
-    AutosizeModule,
-  ],
-  exports: [RdfManipulationComponent],
+    declarations: [RdfManipulationComponent, FileToFileComponent, StringToLangComponent, ShaclValidationComponent, RdfaComponent],
+    imports: [
+        CommonModule,
+        SharedModule,
+        NgbNavModule,
+        NgxFileDropModule,
+        ReactiveFormsModule,
+        FontAwesomeModule,
+        AutosizeModule,
+    ],
+    exports: [RdfManipulationComponent, RdfaComponent],
 })
-export class RdfModule {}
+export class RdfModule { }

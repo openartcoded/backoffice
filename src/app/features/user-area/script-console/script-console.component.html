@@ -28,10 +28,9 @@
           </button>
         </div>
 
-        <!-- Script Editor Card -->
         <div class="card shadow-sm border-0">
           <div class="card-header bg-light border-bottom">
-            <h6 class="mb-0 text-muted"><i class="bi bi-terminal me-2"></i>Script Editor</h6>
+            <h6 class="mb-0 text-muted">Script Editor</h6>
           </div>
           <div class="card-body p-0">
             <div class="p-2">
@@ -48,7 +47,7 @@
             <div class="d-flex justify-content-between align-items-center p-2 border-top bg-light">
               <div class="d-flex gap-2">
                 <button class="btn btn-primary btn-sm px-2" (click)="run()">
-                  <i class="bi bi-play-fill me-1"></i>Run
+                  Run
                 </button>
                 <app-copy-to-clipboard
                   [textToCopy]="formScript?.value || ''"
@@ -65,7 +64,7 @@
                 >
                 </app-copy-to-clipboard>
                 <button class="btn btn-outline-info btn-sm px-2" (click)="out = ''; error = false">
-                  <i class="bi bi-x-circle me-1"></i>Clear
+                  Clear
                 </button>
               </div>
             </div>
@@ -78,7 +77,7 @@
                 [class.text-danger]="error"
                 class="m-0 p-2 text-ws-break bg-light border hidden-scroll"
                 style="height: 28.1vh"
-              ><code>{{out || 'No output yet. Run a script to see results here.'}}</code></pre>
+              ><code>{{out || 'no output.'}}</code></pre>
             </div>
           </div>
         </div>
@@ -88,7 +87,7 @@
       <div class="col-lg-3 col-12">
         <div class="card shadow-sm border-0 h-100">
           <div class="card-header text-muted border-0">
-            <h6 class="mb-0"><i class="bi bi-link-45deg me-2"></i>Available Bindings</h6>
+            <h6 class="mb-0">Bindings</h6>
           </div>
           <div class="card-body p-0">
             <div class="table-responsive hidden-scroll p-0" style="height: 83vh">

@@ -1,0 +1,14 @@
+<div class="border rounded bg-light p-3 shadow-sm">
+    <div class="col-12 mb-3">
+        <label for="data" class="form-label fw-semibold">Input Data</label>
+        <textarea id="data" class="form-control resize-none" rows="10" [formControl]="html"
+            placeholder="Paste your HTML data here"></textarea>
+    </div>
+    <button (click)="htmlToTurtle()" class="btn btn-primary w-100">Run</button>
+    <div class="col-12 " *ngIf="out" >
+        <label class="form-label fw-semibold">Out</label>
+        <pre style="height:40vh" class="bg-light p-3 border rounded small text-ws-break hidden-scroll">{{ out }}
+        </pre>
+    </div>
+
+</div>

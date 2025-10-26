@@ -39,6 +39,11 @@
                                 "input": "node_modules/ng2-pdfjs-viewer/pdfjs",
                                 "output": "/assets/pdfjs"
                             },
+                            {
+                                "glob": "**/*.wasm",
+                                "input": "node_modules/@nbittich/web-rdfa",
+                                "output": "/assets/wasm"
+                            },
                             "src/manifest.webmanifest"
                         ],
                         "styles": [
