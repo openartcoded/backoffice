@@ -1,7 +1,7 @@
 <ng-container *ngIf="todos">
   <div class="card mb-2 border-0">
     <div class="card-header bg-light d-flex justify-content-between align-items-center">
-      <h6 class="m-0 fw-semibold text-secondary">Todo List(Ctrl+k)</h6>
+      <h6 class="m-0 fw-semibold text-secondary">Todo List (ctrl+k)</h6>
       <button class="btn btn-sm btn-outline-secondary" (click)="toggleAddMode()">
         <fa-icon [icon]="isAdding ? 'times' : 'plus'"></fa-icon>
       </button>
@@ -23,16 +23,25 @@
     <!-- List -->
     <div style="max-height: 49.5vh" class="overflow-auto hidden-scroll" *ngIf="todos.length; else emptyList">
       <ul class="list-group list-group-flush">
-        <li *ngFor="let todo of todos" class="list-group-item">
+        <li [class.opacity-50]="todo.done" *ngFor="let todo of todos" class="list-group-item">
           <div class="d-flex justify-content-between align-items-center">
-            <span [class.text-decoration-line-through]="todo.done">{{ todo.title }}</span>
-            <button class="btn btn-link p-0" (click)="toggleDone(todo)">
-              <fa-icon
-                [class.text-success]="todo.done"
-                [class.text-muted]="!todo.done"
-                [icon]="['fas', todo.done ? 'check' : 'times']"
-              ></fa-icon>
-            </button>
+            <span class="fs-5 fw-bold col" [class.text-decoration-line-through]="todo.done">{{ todo.title }}</span>
+            <div class="d-inline">
+              <button class="btn btn-link p-0 me-1" (click)="toggleDone(todo)">
+                <fa-icon
+                  [class.text-success]="todo.done"
+                  [class.text-muted]="!todo.done"
+                  [icon]="['fas', todo.done ? 'check' : 'times']"
+                ></fa-icon>
+              </button>
+              <button class="btn btn-link p-0" (click)="delete(todo)">
+                <fa-icon
+                  [class.text-success]="todo.done"
+                  [class.text-muted]="!todo.done"
+                  [icon]="['fas', 'trash']"
+                ></fa-icon>
+              </button>
+            </div>
           </div>
         </li>
       </ul>

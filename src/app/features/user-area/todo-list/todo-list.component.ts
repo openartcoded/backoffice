@@ -38,7 +38,7 @@ export class TodoListComponent implements OnInit {
   }
 
   private load() {
-    this.todoService.findAll().subscribe((todos) => (this.todos = todos));
+    this.todoService.findAll().subscribe((todos) => (this.todos = todos.sort((t1, t2) => (t1.done ? 1 : -1))));
   }
 
   toggleAddMode() {
@@ -55,7 +55,7 @@ export class TodoListComponent implements OnInit {
     };
 
     const savedTodo = await firstValueFrom(this.todoService.saveOrUpdate(newTodo));
-    this.todos.push(savedTodo);
+    this.todos.unshift(savedTodo);
     this.isAdding = false;
     this.toastService.showSuccess('todo saved');
     this.newTodoForm.reset();
@@ -65,6 +65,10 @@ export class TodoListComponent implements OnInit {
     todo.done = !todo.done;
     await firstValueFrom(this.todoService.saveOrUpdate(todo));
     this.todos = this.todos.map((t) => (t.id === todo.id ? todo : t));
-    this.load();
+  }
+  async delete(todo: Todo) {
+    await firstValueFrom(this.todoService.delete(todo.id));
+    this.todos = this.todos.filter((t) => t.id !== todo.id);
+    this.toastService.showSuccess('todo deleted');
   }
 }

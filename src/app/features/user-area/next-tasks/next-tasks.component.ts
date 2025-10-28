@@ -56,5 +56,15 @@ export class NextTasksComponent implements OnInit {
       this.toastService.showSuccess('Task deleted');
       this.load();
     });
+    modal.componentInstance.onCloneTask.subscribe(async (taskToClone: ReminderTask) => {
+      modal.close();
+      this.openTask({
+        ...taskToClone,
+        id: undefined,
+        lastExecutionDate: undefined,
+        nextDate: undefined,
+        dateCreation: undefined,
+      });
+    });
   }
 }

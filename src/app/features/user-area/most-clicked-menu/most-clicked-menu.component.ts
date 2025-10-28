@@ -23,7 +23,7 @@ export class MostClickedMenuComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
   ngOnInit(): void {
-    this.subscription = this.settingsService.top3().subscribe((links) => {
+    this.subscription = this.settingsService.top5().subscribe((links) => {
       this.links = links;
     });
   }
@@ -37,6 +37,10 @@ export class MostClickedMenuComponent implements OnInit, OnDestroy {
         this.router.navigate(this.links[1].routerLink);
       } else if (event.code === 'Digit3' && this.links?.length > 2 && !this.modalService.hasOpenModals()) {
         this.router.navigate(this.links[2].routerLink);
+      } else if (event.code === 'Digit4' && this.links?.length > 3 && !this.modalService.hasOpenModals()) {
+        this.router.navigate(this.links[3].routerLink);
+      } else if (event.code === 'Digit5' && this.links?.length > 4 && !this.modalService.hasOpenModals()) {
+        this.router.navigate(this.links[4].routerLink);
       }
     }
   }

@@ -58,13 +58,24 @@ export class TasksTableComponent implements OnInit, OnApplicationEvent {
     modal.componentInstance.task = task;
     modal.componentInstance.demoMode = this.demoMode;
     modal.componentInstance.allowedActions$ = this.reminderTaskService.allowedActions();
-    modal.componentInstance.onSaveTask.subscribe(async (taskToSave) => {
+    modal.componentInstance.onSaveTask.subscribe(async (taskToSave: ReminderTask) => {
       modal.close();
       await firstValueFrom(this.reminderTaskService.save(taskToSave));
     });
-    modal.componentInstance.onDeleteTask.subscribe(async (taskToDelete) => {
+    modal.componentInstance.onDeleteTask.subscribe(async (taskToDelete: ReminderTask) => {
       modal.close();
       await firstValueFrom(this.reminderTaskService.delete(taskToDelete.id));
+    });
+
+    modal.componentInstance.onCloneTask.subscribe(async (taskToClone: ReminderTask) => {
+      modal.close();
+      this.openTask({
+        ...taskToClone,
+        id: undefined,
+        lastExecutionDate: undefined,
+        nextDate: undefined,
+        dateCreation: undefined,
+      });
     });
   }
 

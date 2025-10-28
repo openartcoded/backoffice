@@ -51,7 +51,9 @@ export class SettingsService {
   top3(): Observable<MenuLink[]> {
     return this.http.get<MenuLink[]>(`${this.basePath}/top-3`);
   }
-
+  top5(): Observable<MenuLink[]> {
+    return this.http.get<MenuLink[]>(`${this.basePath}/top-5`);
+  }
   importAllMenuLinks(menuLinks: MenuLink[]): Observable<void> {
     return this.http.post<void>(`${this.basePath}/import`, menuLinks).pipe(
       tap({

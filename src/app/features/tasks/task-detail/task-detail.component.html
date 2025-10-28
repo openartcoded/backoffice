@@ -214,6 +214,7 @@
       </div>
 
       <div class="d-flex justify-content-end">
+        <button class="btn btn-warning me-1" (click)="clone($event)" [disabled]="!task?.id">Clone</button>
         <button class="btn btn-danger me-1" (click)="delete($event)" [disabled]="!task?.id">Delete</button>
         <button
           type="submit"

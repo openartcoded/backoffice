@@ -38,6 +38,8 @@ export class TaskDetailComponent implements OnInit {
   onSaveTask: EventEmitter<ReminderTask> = new EventEmitter<ReminderTask>();
   @Output()
   onDeleteTask: EventEmitter<ReminderTask> = new EventEmitter<ReminderTask>();
+  @Output()
+  onCloneTask: EventEmitter<ReminderTask> = new EventEmitter<ReminderTask>();
 
   form: UntypedFormGroup;
 
@@ -303,8 +305,15 @@ export class TaskDetailComponent implements OnInit {
     return this.form.get('calendarDate').value;
   }
 
-  delete($event: MouseEvent) {
+  clone($event: MouseEvent) {
+    $event.stopPropagation();
     $event.preventDefault();
+    this.onCloneTask.emit(this.task);
+  }
+  delete($event: MouseEvent) {
+    $event.stopPropagation();
+    $event.preventDefault();
+
     if (isPlatformBrowser(this.platformId)) {
       let resp = this.windowService.nativeWindow.confirm('Are you sure you want to delete this record? ');
       if (resp) {

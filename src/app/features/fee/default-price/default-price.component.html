@@ -3,7 +3,7 @@
   <!--   <fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>&nbsp;Only alphanumeric & no duplicates are allowed for -->
   <!--   label name. Duplicates label will be simply overriden -->
   <!-- </div> -->
-  <div class="p-2">
+  <div class="p-2" style="height: 78vh; overflow-y: scroll">
     <form [formGroup]="form" (submit)="submit()">
       <div class="d-flex justify-content-end me-1 mb-1" *ngIf="hasRoleAdmin">
         <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
