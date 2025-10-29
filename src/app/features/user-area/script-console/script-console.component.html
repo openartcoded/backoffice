@@ -33,16 +33,14 @@
             <h6 class="mb-0 text-muted">Script Editor</h6>
           </div>
           <div class="card-body p-0">
-            <div class="p-2">
-              <textarea
-                autofocus
-                appAutoFocus
-                [formControl]="formScript"
-                class="form-control border-0 bg-light resize-none"
-                [rows]="15"
-                [placeholder]="placeholder"
-              ></textarea>
-            </div>
+            <textarea
+              autofocus
+              appAutoFocus
+              [formControl]="formScript"
+              class="form-control border-0 bg-light resize-none"
+              [rows]="15"
+              [placeholder]="placeholder"
+            ></textarea>
             <!-- Action Buttons -->
             <div class="d-flex justify-content-between align-items-center p-2 border-top bg-light">
               <div class="d-flex gap-2">
@@ -64,17 +62,14 @@
                 <button class="btn btn-outline-info btn-sm px-2" (click)="out = ''; error = false">Clear</button>
               </div>
             </div>
-            <!-- Output Area -->
-            <div class="mt-2 bg-white">
-              <div class="d-flex align-items-center mb-2">
-                <h6 class="mb-0 text-muted flex-grow-1">Output</h6>
-              </div>
-              <pre
-                [class.text-danger]="error"
-                class="m-0 p-2 text-ws-break bg-light border hidden-scroll"
-                style="height: 35.1vh"
-              ><code>{{out || 'no output.'}}</code></pre>
+            <div class="p-2 mt-2 bg-light border-bottom">
+              <h6 class="mb-0 text-muted">Output</h6>
             </div>
+            <pre
+              [class.text-danger]="error"
+              class="m-0 p-2 text-ws-break bg-light hidden-scroll"
+              style="height: 35.6vh"
+            ><code>{{out || 'no output.'}}</code></pre>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 <ng-container *ngIf="period && componentType === 'btn'">
-  <button class="btn btn-outline-primary" (click)="autocompleteAndSave($event)" [disabled]="timesheetClosed">
+  <button [ngClass]="'btn ' + extraBtnClasses" (click)="autocompleteAndSave($event)" [disabled]="timesheetClosed">
     <fa-icon icon="user-clock"></fa-icon>
   </button>
 </ng-container>

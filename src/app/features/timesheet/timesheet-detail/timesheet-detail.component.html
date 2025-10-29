@@ -86,8 +86,8 @@
       </ul>
     </div>
     <div class="col-lg-9 col-12">
-      <div style="height: 83vh" class="table-responsive hidden-scroll">
-        <table class="table table-bordered table-sm table-hover caption-top">
+      <div style="height: 80vh" class="table-responsive">
+        <table class="table table-bordered table-sm table-hover caption-top p-0">
           <thead>
             <tr>
               <th>Day</th>
@@ -102,6 +102,7 @@
           </thead>
           <tbody>
             <tr
+              class="p-0 m-0"
               *ngFor="let period of periods"
               [class.table-info]="isToday(period)"
               [class.table-light]="isNotWorkday(period)"
@@ -118,21 +119,22 @@
                 {{ period.dayOfWeek?.toString() | trim: 3 }}
               </td>
               <td>{{ period.date | date: 'dd/MM/yyyy' }}</td>
-              <td class="fit d-md-table-cell d-none">{{ period.morningStartTime | date: 'HH:mm' }}</td>
-              <td class="fit d-md-table-cell d-none">{{ period.morningEndTime | date: 'HH:mm' }}</td>
-              <td class="fit d-md-table-cell d-none">{{ period.afternoonStartTime | date: 'HH:mm' }}</td>
-              <td class="fit d-md-table-cell d-none">{{ period.afternoonEndTime | date: 'HH:mm' }}</td>
+              <td class="d-md-table-cell d-none">{{ period.morningStartTime | date: 'HH:mm' }}</td>
+              <td class="d-md-table-cell d-none">{{ period.morningEndTime | date: 'HH:mm' }}</td>
+              <td class="d-md-table-cell d-none">{{ period.afternoonStartTime | date: 'HH:mm' }}</td>
+              <td class="d-md-table-cell d-none">{{ period.afternoonEndTime | date: 'HH:mm' }}</td>
               <td class="fit" [ngClass]="validityColorDuration(period)" *ngIf="period.duration >= 0">
                 {{ period.durationInHours }}h
               </td>
               <td *ngIf="period.duration < 0" class="fit bg-danger text-white">ERROR</td>
-              <td class="fit">
+              <td class="fit p-0">
                 <app-period-form
                   [settings]="timesheetSettings"
                   [timesheetId]="timesheet.id"
                   [timesheetClosed]="timesheet.closed"
                   [period]="period"
                   componentType="btn"
+                  extraBtnClasses="border-0 m-0 p-2 btn-link"
                   (onSubmitForm)="load()"
                 />
               </td>

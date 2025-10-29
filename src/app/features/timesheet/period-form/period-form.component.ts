@@ -16,6 +16,8 @@ export class PeriodFormComponent implements OnInit {
   periodTypeClass = PeriodType;
 
   @Input()
+  extraBtnClasses: string = '';
+  @Input()
   componentType: 'btn' | 'modal' = 'modal';
 
   @Input()

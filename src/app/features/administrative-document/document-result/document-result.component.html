@@ -35,18 +35,13 @@
             <ng-container *ngFor="let ad of adminDocuments.content">
               <tr role="button" (click)="openRow(ad)">
                 <td class="text-break">
-<div class="d-flex flex-column">
-
-{{ ad.title }}
-                                        <div class="mt-1">
-
-<span class="badge text-bg-warning me-1 fs-6 p-1" *ngFor="let t of ad.tags">{{t}}</span>
-
-                                        </div>
-                                    </div>
-                                    
-
-                                </td>
+                  <div class="d-flex flex-column">
+                    {{ ad.title }}
+                    <div class="mt-1">
+                      <span class="badge text-bg-warning me-1 fs-6 p-1" *ngFor="let t of ad.tags">{{ t }}</span>
+                    </div>
+                  </div>
+                </td>
                 <td class="fit d-md-table-cell d-none text-break">{{ ad.dateCreation | date: 'dd/MM/yyyy' }}</td>
                 <td class="fit d-md-table-cell d-none text-break">{{ ad.attachment?.size | bytesToHuman }}</td>
                 <td class="fit" *ngIf="hasRoleAdmin">
