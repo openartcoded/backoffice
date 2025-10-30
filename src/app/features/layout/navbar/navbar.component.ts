@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, PLATFORM_ID, Inject, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, PLATFORM_ID, Inject, OnDestroy, ViewChild } from '@angular/core';
 
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { SwUpdate } from '@angular/service-worker';
@@ -7,10 +7,10 @@ import { MenuLink } from '@core/models/settings';
 import { SettingsService } from '@core/service/settings.service';
 import { FallbackMenu } from '../sidebar/fallback-menu';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { Subscription, firstValueFrom } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { Observable, OperatorFunction, Subject, Subscription, firstValueFrom, merge } from 'rxjs';
 import { environment } from '@env/environment';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { CacheComponent } from '../cache/cache.component';
 import { PersonalInfoService } from '@core/service/personal.info.service';
 import { User } from '@core/models/user';
@@ -41,7 +41,24 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private readonly updates: SwUpdate,
     @Inject(PLATFORM_ID) private platformId: any,
   ) {}
+  @ViewChild('instance', { static: true }) instance: NgbTypeahead;
+  focus$ = new Subject<string>();
+  click$ = new Subject<string>();
 
+  formatter = (item: any) => (item ? item.title : '');
+  search = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance?.isPopupOpen()));
+    const inputFocus$ = this.focus$;
+
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+      map((term) =>
+        !term?.length
+          ? this.links
+          : this.links.filter((l) => l.title.toLowerCase().includes(term.toLowerCase())).slice(0, 10),
+      ),
+    );
+  };
   ngOnDestroy(): void {
     this.unsubscribe();
   }

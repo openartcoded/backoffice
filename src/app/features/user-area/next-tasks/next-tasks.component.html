@@ -8,10 +8,10 @@
         (click)="openTask(task)"
         class="btn btn-sm w-100"
         [class.text-dark]="i >= 3"
-        [class.btn-light]="i >= 3"
+        [class.btn-light-secondary]="i >= 3"
         [class.border]="i >= 3"
         [class.border-gray]="i >= 3"
-        [class.btn-info]="i < 3"
+        [class.btn-light-warning]="i < 3"
         [class.text-dark]="i < 3"
       >
         <small>{{ task.nextDate | date: 'dd/MM @ HH:mm' }}</small

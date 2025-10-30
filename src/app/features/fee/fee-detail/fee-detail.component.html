@@ -3,7 +3,9 @@
     <span class="modal-title text-break">
       <fa-icon *ngIf="fee.tag" [icon]="['fas', 'circle']" [ngStyle]="getStyleForTag(fee)"></fa-icon>&nbsp;{{
         fee.subject | titlecase
-      }}
+      }}<a *ngIf="fee.id" (click)="openEditModal()" class="btn btn-link text-muted"
+        ><fa-icon [icon]="['fas', 'edit']"
+      /></a>
       <ng-container *ngIf="fee.imported">
         <ng-template #infoFrontend> Imported on {{ fee.importedDate | date: 'dd/MM/yyyy HH:mm' }} </ng-template>
         <button
@@ -79,9 +81,15 @@
               <ul class="list-group" id="attachments" *ngIf="fee.attachmentIds.length">
                 <li class="list-group-item" *ngFor="let a of fee.attachments">
                   <div class="d-flex justify-content-between">
-                    <button class="btn btn-link text-break" (click)="downloadAttachment($event, a)">
-                      {{ a.originalFilename }}
-                    </button>
+                    <div>
+                      <button class="btn btn-link text-break" (click)="downloadAttachment($event, a)">
+                        {{ a.originalFilename }}
+                      </button>
+                      <span class="badge badge-sm bg-warning text-dark" *ngIf="fee.paymentProofUploadId === a.id"
+                        >proof</span
+                      >
+                    </div>
+
                     <div class="btn-group">
                       <button
                         *ngIf="hasRoleAdmin"

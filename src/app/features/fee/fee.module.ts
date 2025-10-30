@@ -24,6 +24,7 @@ import { UpdatePriceComponent } from './update-price/update-price.component';
 import { DefaultPriceComponent } from './default-price/default-price.component';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { PlotlyViaCDNModule } from 'angular-plotly.js';
+import { FeeEditComponent } from './fee-edit/fee-edit.component';
 @NgModule({
   declarations: [
     FeePageComponent,
@@ -35,6 +36,7 @@ import { PlotlyViaCDNModule } from 'angular-plotly.js';
     ManualSubmitComponent,
     UpdatePriceComponent,
     DefaultPriceComponent,
+    FeeEditComponent,
   ],
   imports: [
     CommonModule,

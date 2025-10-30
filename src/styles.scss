@@ -121,3 +121,34 @@ button:focus {
 .resize-none {
   resize: none;
 }
+.btn-light-warning {
+  background-color: #eae8d2;
+}
+.btn-light-warning:hover {
+  background-color: #dcdab0;
+}
+.btn-light-secondary {
+  background-color: #ccf;
+}
+.btn-light-secondary:hover {
+  background-color: #bdb3bd;
+}
+
+.bg-light-warning {
+  background-color: #eae8d2;
+}
+.bg-light-secondary {
+  background-color: white;
+}
+
+.btn-link,
+a,
+.nav-link {
+  color: #605050;
+}
+.nav-link.active,
+.list-group-item.active {
+  background-color: #5c5475 !important;
+  color: #ffffe3 !important;
+  border: none !important;
+}

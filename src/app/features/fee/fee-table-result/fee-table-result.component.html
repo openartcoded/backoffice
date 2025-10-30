@@ -59,6 +59,8 @@
                 <th class="fit"></th>
                 <th>Subject</th>
                 <th class="d-md-table-cell d-none">Date received</th>
+                <th class="d-md-table-cell d-none">Date archived</th>
+                <th class="d-md-table-cell d-none">Price HVAT</th>
                 <th class="d-md-table-cell d-none fit">Files</th>
                 <th class="fit" *ngIf="hasRoleAdmin"></th>
                 <th class="text-center fit" *ngIf="!archived && hasRoleAdmin">
@@ -75,7 +77,7 @@
             </thead>
             <tbody>
               <tr class="bg-light">
-                <td *ngIf="!fees?.content?.length" colspan="6">No entries</td>
+                <td *ngIf="!fees?.content?.length" colspan="7">No entries</td>
               </tr>
               <ng-container *ngFor="let f of fees.content">
                 <tr role="button" (click)="openDetail(f)">
@@ -102,6 +104,8 @@
                     </div>
                   </td>
                   <td class="fit d-md-table-cell d-none">{{ f.date | date: 'dd/MM/yyyy HH:mm' }}</td>
+                  <td class="fit d-md-table-cell d-none">{{ f.archivedDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+                  <td class="fit d-md-table-cell d-none">{{ f.priceHVAT | currency: '€' }}</td>
                   <td class="fit d-md-table-cell d-none text-center fit">
                     {{ f.attachmentIds.length }}
                   </td>
@@ -124,8 +128,8 @@
               </ng-container>
             </tbody>
             <tfoot>
-              <tr class="d-none d-md-table-row bg-light">
-                <td colspan="6">
+              <tr class="d-none d-md-table-row table-light">
+                <td colspan="7">
                   <ng-container *ngFor="let t of tags">
                     <a class="btn btn-link pe-1" (click)="filterByTag(t)">
                       <fa-icon [icon]="['fas', 'circle']" [ngStyle]="getStyleForLabel(t)"></fa-icon>

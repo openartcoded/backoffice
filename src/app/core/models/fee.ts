@@ -8,6 +8,7 @@ export interface Fee {
   subject: string;
   body: string;
   attachmentIds: string[];
+  paymentProofUploadId?: string;
   attachments?: FileUpload[];
   archived: boolean;
   archivedDate?: Date;
@@ -46,6 +47,7 @@ export interface FeeSearchCriteria {
   archived: boolean;
   bookmarked: boolean;
   tag?: string;
+  hasPaymentProof?: string;
 }
 
 export interface FeeManualForm {

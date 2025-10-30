@@ -10,6 +10,7 @@ import { LabelService } from '@core/service/label.service';
 import { ToastService } from '@core/service/toast.service';
 import { firstValueFrom } from 'rxjs';
 import { User } from '@core/models/user';
+import { FeeEditComponent } from '../fee-edit/fee-edit.component';
 
 @Component({
   selector: 'app-fee-detail',
@@ -45,14 +46,16 @@ export class FeeDetailComponent implements OnInit {
   }
 
   async load() {
-    this.fee.attachments = [];
-    const attachments = [];
+    if (!this.fee.attachments) {
+      this.fee.attachments = [];
+    }
     const labels = await firstValueFrom(this.labelService.findAll());
     for (const attachmentId of this.fee.attachmentIds) {
-      const attachment = await firstValueFrom(this.fileService.findById(attachmentId));
-      attachments.push(attachment);
+      if (!this.fee.attachments?.some((a) => a.id === attachmentId)) {
+        const attachment = await firstValueFrom(this.fileService.findById(attachmentId));
+        this.fee.attachments.push(attachment);
+      }
     }
-    this.fee.attachments = attachments;
     this.fee.tagId = labels.find((l) => l.name === this.fee.tag)?.id;
     this.tags = labels;
   }
@@ -71,6 +74,21 @@ export class FeeDetailComponent implements OnInit {
     return { color: label.colorHex };
   }
 
+  openEditModal() {
+    let ngbModalRef = this.modalService.open(FeeEditComponent, {
+      size: 'xl',
+      scrollable: true,
+    });
+    ngbModalRef.componentInstance.fee = this.fee;
+    ngbModalRef.componentInstance.demoMode = this.demoMode;
+    ngbModalRef.componentInstance.hasRoleAdmin = this.hasRoleAdmin;
+    ngbModalRef.componentInstance.feeUpdated.subscribe(async (f: Fee) => {
+      this.fee = f;
+      await this.load();
+      ngbModalRef.componentInstance.fee = this.fee;
+      this.feeUpdated.emit(f);
+    });
+  }
   removeAttachment($event: MouseEvent, a: FileUpload) {
     $event.stopPropagation();
     if (!this.hasRoleAdmin) {

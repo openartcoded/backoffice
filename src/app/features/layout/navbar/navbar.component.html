@@ -22,17 +22,20 @@
     </button>
   </div>
   <div class="d-lg-inline col col-md-3" *ngIf="links">
-    <select
+    <input
+      container="body"
+      class="form-control menuNav"
       [(ngModel)]="link"
-      class="form-select form-control-sm menuNav"
       [ngModelOptions]="{ standalone: true }"
       (ngModelChange)="menuChange()"
-    >
-      <option [ngValue]="null">--Select--</option>
-      <option *ngFor="let link of links" [ngValue]="link">
-        {{ link.title | titlecase }}
-      </option>
-    </select>
+      [ngbTypeahead]="search"
+      [inputFormatter]="formatter"
+      [resultFormatter]="formatter"
+      [editable]="false"
+      (focus)="focus$.next('')"
+      (click)="click$.next('')"
+      #instance="ngbTypeahead"
+    />
   </div>
   <div class="d-lg-inline me-1">
     <a class="btn btn-link text-white no-focus" (click)="openCacheModal()" *ngIf="user && hasRoleAdmin">

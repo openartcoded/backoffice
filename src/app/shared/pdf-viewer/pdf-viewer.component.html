@@ -27,7 +27,7 @@
         [customCSS]="'h-100 w-100 bg-danger'"
       />
       <ng-container *ngIf="xml && (pdf.contentType === 'text/xml' || pdf.contentType === 'application/xml')">
-        <app-copy-to-clipboard [textToCopy]="xml" btnClasses="btn btn-outline-secondary mb-1" />
+        <app-copy-to-clipboard [textToCopy]="xml" btnClasses="btn w-100 btn-outline-secondary mb-1" />
         <md-editor
           name="xmlContent"
           id="xmlContent"

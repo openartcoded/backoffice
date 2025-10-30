@@ -34,6 +34,7 @@ export class FeeSearchFormComponent implements OnInit {
       feeBody: new UntypedFormControl(this.searchCriteria.body, []),
       feeDateBefore: new UntypedFormControl('', []),
       feeDateAfter: new UntypedFormControl('', []),
+      hasPaymentProof: new UntypedFormControl(this.searchCriteria.hasPaymentProof, []),
     });
   }
 
@@ -42,6 +43,11 @@ export class FeeSearchFormComponent implements OnInit {
       this.searchCriteria.subject = this.searchForm.controls.feeSubject.value.trim();
     } else {
       this.searchCriteria.subject = null;
+    }
+    if (this.searchForm.controls.hasPaymentProof.value) {
+      this.searchCriteria.hasPaymentProof = this.searchForm.controls.hasPaymentProof.value;
+    } else {
+      this.searchCriteria.hasPaymentProof = null;
     }
     if (this.searchForm.controls.feeSubject.value?.trim()) {
       this.searchCriteria.subject = this.searchForm.controls.feeSubject.value.trim();
@@ -87,6 +93,7 @@ export class FeeSearchFormComponent implements OnInit {
     this.searchCriteria.subject = null;
     this.searchCriteria.subject = null;
     this.searchCriteria.body = null;
+    this.searchCriteria.hasPaymentProof = null;
     this.searchCriteria.dateBefore = null;
     this.searchCriteria.dateAfter = null;
     this.searchCriteria.id = null;

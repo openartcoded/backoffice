@@ -1,0 +1,89 @@
+<ng-container *ngIf="fee"> </ng-container>
+<div class="modal-header" *ngIf="activeModal">
+  <span class="modal-title text-break"> Edit {{ fee.subject | titlecase }} </span>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body" [class.blur-modal]="demoMode">
+  <div class="p-2">
+    <form (ngSubmit)="updateFee()" class="form-group">
+      <div class="mb-3">
+        <label class="fw-bold">Subject</label>
+        <input type="text" class="form-control" [(ngModel)]="fee.subject" name="subject" [disabled]="!hasRoleAdmin" />
+      </div>
+
+      <div class="mb-3">
+        <label class="fw-bold">Body</label>
+        <textarea
+          class="form-control"
+          [(ngModel)]="fee.body"
+          name="body"
+          rows="6"
+          [disabled]="!hasRoleAdmin"
+        ></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="fw-bold">Attachments</label>
+        <ul class="list-group" style="height: 20vh; display: block; overflow-y: scroll">
+          <li
+            *ngFor="let a of fee.attachments"
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <span>{{ a.originalFilename }}</span>
+
+            <div class="btn-group">
+              <button
+                type="button"
+                class="btn btn-link text-decoration-none"
+                [disabled]="!hasRoleAdmin"
+                (click)="markPaymentProof(a)"
+              >
+                {{ fee.paymentProofUploadId === a.id ? '✔ Proof' : 'Proof' }}
+              </button>
+
+              <button class="btn btn-link" *ngIf="isPdf(a)" (click)="openPdfViewer(a)">
+                <fa-icon [icon]="['fas', 'file-pdf']" class="text-secondary"></fa-icon>
+              </button>
+              <button class="btn btn-link" *ngIf="isXML(a)" (click)="openPdfViewer(a)">
+                <fa-icon [icon]="['fas', 'file-code']" class="text-secondary"></fa-icon>
+              </button>
+              <button class="btn btn-link" *ngIf="isImage(a)" (click)="openImageViewer(a)">
+                <fa-icon [icon]="['fas', 'file-image']" class="text-secondary"></fa-icon>
+              </button>
+            </div>
+          </li>
+        </ul>
+        <div *ngIf="!fee.attachments?.length" class="text-muted">No attachments.</div>
+      </div>
+
+      <div class="mb-3 bg-light border p-2">
+        <label class="fw-bold">New attachment</label>
+        <input type="file" (change)="onFileSelected($event)" class="form-control mb-2" />
+        <div class="form-check mb-2">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [(ngModel)]="isPaymentProof"
+            name="isPaymentProof"
+            id="isPaymentProof"
+          />
+          <label class="form-check-label" for="isPaymentProof">Mark as payment proof</label>
+        </div>
+        <button
+          type="button"
+          class="btn btn-outline-success"
+          (click)="uploadAttachment()"
+          [disabled]="!selectedFile || uploading"
+        >
+          {{ uploading ? 'Uploading...' : 'Upload' }}
+        </button>
+      </div>
+
+      <div class="mt-4 text-end">
+        <button type="submit" class="btn btn-primary" [disabled]="saving || !hasRoleAdmin">
+          {{ saving ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -163,7 +163,7 @@ export class FeeTableResultComponent implements OnInit, OnApplicationEvent {
     modalRef.componentInstance.user = this.user;
     modalRef.componentInstance.demoMode = this.demoMode;
     modalRef.componentInstance.fee = f;
-    modalRef.componentInstance.feeUpdated.subscribe((_f: any) => {
+    modalRef.componentInstance.feeUpdated.subscribe(async (f: any) => {
       this.load();
     });
   }

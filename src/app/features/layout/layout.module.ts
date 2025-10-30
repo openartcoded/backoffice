@@ -45,6 +45,7 @@ import { CacheComponent } from './cache/cache.component';
     NgbTypeaheadModule,
     AutosizeModule,
     NgbCollapseModule,
+    NgbTypeaheadModule,
     NgbToastModule,
     RouterModule,
     SharedModule,

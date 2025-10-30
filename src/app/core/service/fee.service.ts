@@ -38,7 +38,17 @@ export class FeeService {
       {},
     );
   }
+  addAttachment(feeId: string, file: File, isPaymentProof: boolean): Observable<Fee> {
+    let formData = new FormData();
+    formData.append('id', feeId);
+    formData.append('isPaymentProof', isPaymentProof + '');
+    formData.append('file', file);
 
+    return this.http.post<Fee>(`${this.backendUrl}/api/fee/add-attachment`, formData);
+  }
+  update(fee: Fee): Observable<Fee> {
+    return this.http.post<Fee>(`${this.backendUrl}/api/fee/update`, fee);
+  }
   removeAttachment(feeId: string, attachmentId: string): Observable<Fee> {
     return this.http.post<Fee>(
       `${this.backendUrl}/api/fee/remove-attachment?id=${feeId}&attachmentId=${attachmentId}`,

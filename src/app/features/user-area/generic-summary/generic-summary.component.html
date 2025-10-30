@@ -1,21 +1,21 @@
 <div class="d-flex flex-lg-row flex-column justify-content-start h-90">
   <!-- Main content area -->
-  <div class="flex-lg-grow-1 w-100" style="min-width: 0">
+  <div class="flex-lg-grow-1 w-100 ps-2 pe-2" style="min-width: 0">
     <ul
       ngbNav
       #nav="ngbNav"
       [destroyOnHide]="true"
       (activeIdChange)="this.resize($event)"
       [(activeId)]="active"
-      class="nav-tabs justify-content-center"
+      class="nav-tabs justify-content-center bg-light shadow-sm border-0 fw-bold"
     >
       <li [ngbNavItem]="0" *ngIf="hasRoleAdmin">
-        <button ngbNavLink>Home</button>
+        <button ngbNavLink class="text-muted">Home</button>
         <ng-template ngbNavContent>
           <div ngbAccordion class="accordion-flush h-90 ms-1 main-viewport hidden-scroll">
             <div ngbAccordionItem="scripts" [collapsed]="false" *ngIf="user && hasRoleAdmin">
               <div ngbAccordionHeader>
-                <button ngbAccordionButton class="p-2">Scripts</button>
+                <button ngbAccordionButton class="bg-light p-2">Scripts</button>
               </div>
               <div ngbAccordionCollapse>
                 <div ngbAccordionBody class="p-1">
@@ -27,7 +27,7 @@
             <ng-container *ngIf="user && hasRoleAdmin && indicators">
               <div ngbAccordionItem="buildInfo" [collapsed]="false">
                 <div ngbAccordionHeader>
-                  <button ngbAccordionButton class="p-2">Backend Info</button>
+                  <button ngbAccordionButton class="bg-light p-2">Backend Info</button>
                 </div>
                 <div ngbAccordionCollapse>
                   <div ngbAccordionBody class="p-1">
@@ -53,7 +53,7 @@
                 *ngIf="indicators.healthIndicator.components?.diskSpace?.details as diskSpace"
               >
                 <div ngbAccordionHeader>
-                  <button ngbAccordionButton class="p-2">Disk Space</button>
+                  <button ngbAccordionButton class="bg-light p-2">Disk Space</button>
                 </div>
                 <div ngbAccordionCollapse>
                   <div ngbAccordionBody class="p-1">
@@ -71,7 +71,7 @@
 
               <div [collapsed]="false" ngbAccordionItem="jms" *ngIf="indicators.healthIndicator.components?.jms as jms">
                 <div ngbAccordionHeader>
-                  <button ngbAccordionButton class="p-2">Artemis</button>
+                  <button ngbAccordionButton class="bg-light p-2">Artemis</button>
                 </div>
                 <div ngbAccordionCollapse>
                   <div ngbAccordionBody class="p-1">
@@ -89,7 +89,7 @@
                 *ngIf="indicators.healthIndicator.components?.mail as mail"
               >
                 <div ngbAccordionHeader>
-                  <button ngbAccordionButton class="p-2">Mail</button>
+                  <button ngbAccordionButton class="bg-light p-2">Mail</button>
                 </div>
                 <div ngbAccordionCollapse>
                   <div ngbAccordionBody class="p-1">
@@ -107,7 +107,7 @@
                 *ngIf="indicators.healthIndicator.components?.mongo as mongo"
               >
                 <div ngbAccordionHeader>
-                  <button ngbAccordionButton class="p-2">Mongo</button>
+                  <button ngbAccordionButton class="bg-light p-2">Mongo</button>
                 </div>
                 <div ngbAccordionCollapse>
                   <div ngbAccordionBody class="p-1">
@@ -125,7 +125,7 @@
                 *ngIf="indicators.healthIndicator.components?.redis as redis"
               >
                 <div ngbAccordionHeader>
-                  <button ngbAccordionButton class="p-2">Redis</button>
+                  <button ngbAccordionButton class="bg-light p-2">Redis</button>
                 </div>
                 <div ngbAccordionCollapse>
                   <div ngbAccordionBody class="p-1">
@@ -142,19 +142,19 @@
       </li>
 
       <li [ngbNavItem]="6" *ngIf="hasRoleAdmin">
-        <button ngbNavLink>Console</button>
+        <button ngbNavLink class="text-muted">Console</button>
         <ng-template ngbNavContent>
           <app-script-console />
         </ng-template>
       </li>
       <li [ngbNavItem]="8">
-        <button ngbNavLink>Toolbox</button>
+        <button ngbNavLink class="text-muted">Toolbox</button>
         <ng-template ngbNavContent>
           <app-toolbox-container />
         </ng-template>
       </li>
       <li [ngbNavItem]="1">
-        <button ngbNavLink>Invoices/Months</button>
+        <button ngbNavLink class="text-muted">Invoices/Months</button>
         <ng-template ngbNavContent>
           <p *ngIf="!loaded">loading...</p>
           <ng-container *ngIf="isBrowser() && loaded && summary">
@@ -171,7 +171,7 @@
       </li>
 
       <li [ngbNavItem]="5">
-        <button ngbNavLink>Invoices/Client</button>
+        <button ngbNavLink class="text-muted">Invoices/Client</button>
         <ng-template ngbNavContent>
           <p *ngIf="!loaded">loading...</p>
           <ng-container *ngIf="isBrowser() && loaded && graphsPerClient$ | async as graphsPerClient">
@@ -187,7 +187,7 @@
       </li>
 
       <li [ngbNavItem]="3">
-        <button ngbNavLink>Dossiers</button>
+        <button ngbNavLink class="text-muted">Dossiers</button>
         <ng-template ngbNavContent>
           <app-dossier-summary *ngIf="loaded"></app-dossier-summary>
           <p *ngIf="!loaded">loading...</p>
@@ -195,7 +195,7 @@
       </li>
 
       <li [ngbNavItem]="4">
-        <button ngbNavLink>Expenses</button>
+        <button ngbNavLink class="text-muted">Expenses</button>
         <ng-template ngbNavContent>
           <app-fee-summary *ngIf="loaded"></app-fee-summary>
           <p *ngIf="!loaded">loading...</p>
@@ -203,7 +203,7 @@
       </li>
 
       <li [ngbNavItem]="2">
-        <button ngbNavLink>Stats</button>
+        <button ngbNavLink class="text-muted">Stats</button>
         <ng-template ngbNavContent>
           <div class="mb-1 list-group flat" *ngIf="summary">
             <div class="list-group-item bg-light">
@@ -263,7 +263,7 @@
         </ng-template>
       </li>
       <li [ngbNavItem]="7" *ngIf="user && hasRoleAdmin && indicators">
-        <button ngbNavLink>Logs</button>
+        <button ngbNavLink class="text-muted">Logs</button>
         <ng-template ngbNavContent>
           <div class="mb-3">
             <div class="d-flex justify-content-end">
@@ -290,7 +290,7 @@
     <div [ngbNavOutlet]="nav" class="mt-2"></div>
   </div>
   <!-- Sidebar - only visible on desktop for admins -->
-  <div class="ps-2 col-lg-3 col-12 mb-sm-2 d-lg-block h-90" *ngIf="hasRoleAdmin">
+  <div class="col-lg-3 col-12 mb-sm-2 d-lg-block h-90 bg-white shadow-sm" *ngIf="hasRoleAdmin">
     <app-todo-list />
     <app-memo-date />
   </div>

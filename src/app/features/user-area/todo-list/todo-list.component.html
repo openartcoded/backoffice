@@ -23,7 +23,7 @@
     <!-- List -->
     <div style="max-height: 49.5vh" class="overflow-auto hidden-scroll" *ngIf="todos.length; else emptyList">
       <ul class="list-group list-group-flush">
-        <li [class.opacity-50]="todo.done" *ngFor="let todo of todos" class="list-group-item">
+        <li *ngFor="let todo of todos" class="list-group-item bg-light-secondary" [class.opacity-50]="todo.done">
           <div class="d-flex justify-content-between align-items-center">
             <span class="fs-5 fw-bold col" [class.text-decoration-line-through]="todo.done">{{ todo.title }}</span>
             <div class="d-inline">
