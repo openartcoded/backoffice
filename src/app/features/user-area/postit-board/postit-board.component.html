@@ -1,0 +1,31 @@
+<div class="postit-container d-flex flex-row overflow-auto p-1">
+  <div *ngFor="let group of form.controls; let i = index" class="postit me-2 flat border flat col-3 mb-1 shadow-sm">
+    <form [formGroup]="getGroup(group)">
+      <input type="hidden" formControlName="id" />
+      <textarea
+        formControlName="note"
+        class="form-control no-focus border-0 bg-transparent fw-bold"
+        rows="6"
+        placeholder="New postIt..."
+      ></textarea>
+      <div
+        [class.justify-content-between]="group.get('updatedOn').value"
+        [class.justify-content-end]="!group.get('updatedOn').value"
+        class="d-flex align-items-center me-0 mb-0 p-1 bg-light shadow-sm border-top"
+      >
+        <small class="text-muted" *ngIf="group.get('updatedOn').value">{{
+          group.get('updatedOn').value | date: 'dd/MM/yyyy HH:mm:SS'
+        }}</small>
+        <div class="btn-group">
+          <span class="btn btn-link text-muted p-0 pe-1 ps-1" (click)="saveOrUpdate(i)"
+            ><fa-icon [icon]="['fas', 'save']"></fa-icon
+          ></span>
+
+          <span class="btn btn-link text-danger p-0 pe-1" *ngIf="group.get('id').value" (click)="delete(i)"
+            ><fa-icon [icon]="['fas', 'trash']"></fa-icon
+          ></span>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

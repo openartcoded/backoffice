@@ -29,6 +29,7 @@ import { HighlightModule } from 'ngx-highlightjs';
 import { GraaljsHelpModalComponent } from './graaljs-help-modal/graaljs-help-modal.component';
 import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 import { ToolBoxModule } from './toolbox/toolbox.module';
+import { PostitBoardComponent } from './postit-board/postit-board.component';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -46,6 +47,7 @@ import { ToolBoxModule } from './toolbox/toolbox.module';
     NextTasksComponent,
     MostClickedMenuComponent,
     ScriptConsoleComponent,
+    PostitBoardComponent,
   ],
   imports: [
     CommonModule,

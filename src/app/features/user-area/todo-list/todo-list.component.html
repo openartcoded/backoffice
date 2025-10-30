@@ -14,7 +14,13 @@
       (ngSubmit)="saveNewTodo()"
       class="p-2 border-bottom d-flex justify-content-between align-items-center"
     >
-      <input type="text" appAutoFocus class="form-control me-2" formControlName="title" placeholder="New todo..." />
+      <input
+        type="text"
+        appAutoFocus
+        class="form-control no-focus me-2"
+        formControlName="title"
+        placeholder="New todo..."
+      />
       <button class="btn btn-link p-0" type="submit" [disabled]="newTodoForm.invalid">
         <fa-icon class="text-primary" icon="save"></fa-icon>
       </button>

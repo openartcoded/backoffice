@@ -1,0 +1,24 @@
+.postit-container {
+  white-space: nowrap;
+}
+
+.postit {
+  width: 20%;
+  height: 20%;
+
+  background-color: #feffca;
+  overflow: hidden;
+  resize: none;
+}
+
+.add-postit {
+  width: 10%;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+  resize: none;
+  outline: none;
+}

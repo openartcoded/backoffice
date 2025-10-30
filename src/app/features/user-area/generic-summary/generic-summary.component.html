@@ -12,7 +12,22 @@
       <li [ngbNavItem]="0" *ngIf="hasRoleAdmin">
         <button ngbNavLink class="text-muted">Home</button>
         <ng-template ngbNavContent>
-          <div ngbAccordion class="accordion-flush h-90 ms-1 main-viewport hidden-scroll">
+          <div
+            style="height: 87.3vh"
+            ngbAccordion
+            class="me-2 shadow-sm border-gray accordion-flush ms-2 main-viewport hidden-scroll"
+          >
+            <div ngbAccordionItem="postits" [collapsed]="false" *ngIf="user && hasRoleAdmin">
+              <div ngbAccordionHeader>
+                <button ngbAccordionButton class="bg-light p-2">PostIt</button>
+              </div>
+              <div ngbAccordionCollapse>
+                <div ngbAccordionBody class="p-1">
+                  <app-postit-board />
+                </div>
+              </div>
+            </div>
+
             <div ngbAccordionItem="scripts" [collapsed]="false" *ngIf="user && hasRoleAdmin">
               <div ngbAccordionHeader>
                 <button ngbAccordionButton class="bg-light p-2">Scripts</button>
@@ -290,7 +305,7 @@
     <div [ngbNavOutlet]="nav" class="mt-2"></div>
   </div>
   <!-- Sidebar - only visible on desktop for admins -->
-  <div class="col-lg-3 col-12 mb-sm-2 d-lg-block h-90 bg-white shadow-sm" *ngIf="hasRoleAdmin">
+  <div class="col-lg-3 col-12 mb-sm-2 d-lg-block bg-white shadow-sm" *ngIf="hasRoleAdmin">
     <app-todo-list />
     <app-memo-date />
   </div>
