@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
+import { Component, Input, OnInit, Optional, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Label } from '@core/models/fee';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { LabelService } from '@core/service/label.service';
 import { ToastService } from '@core/service/toast.service';
 import { User } from '@core/models/user';
@@ -69,9 +69,9 @@ export class DefaultPriceComponent implements OnInit {
   canRemove(idx: number) {
     const group = this.defaultPrices.at(idx);
     if (!this.hasRoleAdmin) {
-      return;
+      return true;
     }
-    return group.get('id').value?.length;
+    return !group.get('id').value?.length;
   }
 
   convertPrice(price: Label): UntypedFormGroup {
@@ -79,6 +79,10 @@ export class DefaultPriceComponent implements OnInit {
       id: new UntypedFormControl({
         value: price.id,
         disabled: true,
+      }),
+      hidden: new UntypedFormControl({
+        value: price.hidden || false,
+        disabled: !this.hasRoleAdmin,
       }),
       colorHex: new UntypedFormControl(
         {
@@ -126,6 +130,7 @@ export class DefaultPriceComponent implements OnInit {
         colorHex: p.get('colorHex').value,
         priceHVAT: p.get('priceHVAT').value,
         vat: p.get('vat').value,
+        hidden: p.get('hidden').value,
       };
     });
     this.tags = await firstValueFrom(this.labelService.updateAll(labels));

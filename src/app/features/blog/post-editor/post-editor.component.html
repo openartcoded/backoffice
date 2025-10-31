@@ -12,6 +12,10 @@
             <div class="mb-1">
               <label class="col-form-label" for="title">Title</label>
               <input type="text" class="form-control" id="title" formControlName="title" placeholder="Title" />
+            </div> 
+                        <div class="mb-1">
+              <label class="col-form-label" for="author">Author</label>
+              <input type="text" class="form-control" id="author" formControlName="author" placeholder="Author" />
             </div>
             <div class="mb-1">
               <label class="col-form-label" for="description">Description</label>
@@ -60,9 +64,13 @@
                 id="htmlContent"
                 [upload]="doUpload"
                 formControlName="htmlContent"
-                [options]="{ showBorder: false }"
-                [height]="'60vh'"
+                [options]="{ showBorder: false, showPreviewPanel:true, fontAwesomeVersion:'5' }"
+                [height]="'80vh'"
+                                width="100vw"
+maxlength="500"
+                                
               >
+                                  <slot custom-btns></slot>
               </md-editor>
             </div>
           </ng-template>

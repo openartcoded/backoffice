@@ -1,5 +1,14 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css');
-
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
 ::ng-deep .preview-panel {
   border-left: 0 !important;
+      font-family: 'Source Code Pro';
+  font-size: 24px;
+  font-weight: normal;
+}
+
+::ng-deep .ace_editor {
+  font-family: 'Source Code Pro';
+  font-size: 24px;
+  font-weight: normal;
 }

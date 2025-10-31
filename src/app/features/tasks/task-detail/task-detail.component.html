@@ -3,7 +3,7 @@
     <span class="modal-title text-break">{{ task?.customActionName || task?.title || 'New Task' }}</span>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body" *ngIf="form" [class.blur-modal]="demoMode">
+  <div #container class="modal-body" *ngIf="form" [class.blur-modal]="demoMode">
     <form [formGroup]="form" (ngSubmit)="send()">
       <div class="mb-1 row" *ngIf="!hasAction">
         <label class="col-sm-2 col-form-label" for="title">Title</label>
@@ -28,15 +28,22 @@
         <div class="mb-1 row" *ngIf="hasAction">
           <label class="col-sm-2 col-form-label" for="action">Action</label>
           <div class="col-sm-10">
-            <select class="form-select" id="action" formControlName="action">
-              <option
-                *ngFor="let allowedAction of allowedActions"
-                [ngValue]="allowedAction"
-                [selected]="allowedAction.key === task?.actionKey"
-              >
-                {{ allowedAction.title }}
-              </option>
-            </select>
+
+  <input
+      [container]="'body'"
+      class="form-control"
+      formControlName="action"
+      [ngbTypeahead]="search"
+      [inputFormatter]="formatter"
+      [resultFormatter]="formatter"
+      [editable]="false"
+      (focus)="focus$.next('')"
+      (click)="click$.next('')"
+      #instance="ngbTypeahead"
+    />
+
+
+         
             <div class="alert alert-info mt-2 mb-0" *ngIf="action">
               <fa-icon icon="info"></fa-icon>&nbsp;{{ action.description }}
             </div>

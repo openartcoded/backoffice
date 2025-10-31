@@ -30,6 +30,7 @@ export interface FeeUpdatePriceRequest {
 
 export interface Label {
   id: string;
+  hidden?: boolean;
   name?: string;
   colorHex?: string;
   description?: string;

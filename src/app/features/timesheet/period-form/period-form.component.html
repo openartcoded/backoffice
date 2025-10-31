@@ -1,5 +1,5 @@
 <ng-container *ngIf="period && componentType === 'btn'">
-  <button [ngClass]="'btn ' + extraBtnClasses" (click)="autocompleteAndSave($event)" [disabled]="timesheetClosed">
+  <button [ngClass]="'btn ' + extraBtnClasses" (click)="autocompleteAndSave($event)" [disabled]="timesheetClosed || student">
     <fa-icon icon="user-clock"></fa-icon>
   </button>
 </ng-container>
@@ -14,7 +14,7 @@
   <div class="modal-body" *ngIf="form">
     <form [formGroup]="form" (ngSubmit)="send()">
       <div class="d-flex justify-content-end">
-        <button class="btn btn-primary" (click)="autocomplete($event)" [disabled]="timesheetClosed">
+        <button  class="btn btn-primary" (click)="autocomplete($event)" [disabled]="timesheetClosed || student">
           Auto <fa-icon icon="user-clock"></fa-icon>
         </button>
       </div>

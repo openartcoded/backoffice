@@ -131,10 +131,12 @@
               <tr class="d-none d-md-table-row table-light">
                 <td colspan="7">
                   <ng-container *ngFor="let t of tags">
-                    <a class="btn btn-link pe-1" (click)="filterByTag(t)">
-                      <fa-icon [icon]="['fas', 'circle']" [ngStyle]="getStyleForLabel(t)"></fa-icon>
-                      <span class="ms-1">{{ t.name | lowercase }}</span>
-                    </a>
+                    @if (!t.hidden) {
+                      <a class="btn btn-link pe-1" (click)="filterByTag(t)">
+                        <fa-icon [icon]="['fas', 'circle']" [ngStyle]="getStyleForLabel(t)"></fa-icon>
+                        <span class="ms-1">{{ t.name | lowercase }}</span>
+                      </a>
+                    }
                   </ng-container>
                 </td>
               </tr>

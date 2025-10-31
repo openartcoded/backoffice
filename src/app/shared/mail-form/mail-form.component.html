@@ -28,7 +28,7 @@
           <li class="list-group-item" *ngFor="let a of attachments">
             <div class="d-flex justify-content-between">
               <div>
-                <span class="text-danger">{{ a.originalFilename }}</span>
+                <span class="text-danger text-break">{{ a.originalFilename }}</span>
               </div>
               <a class="btn btn-link" (click)="removeAttachment($event, a)">
                 <fa-icon [icon]="['fas', 'times']" class="text-danger"></fa-icon>

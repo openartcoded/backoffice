@@ -28,7 +28,7 @@
         </button>
         <button
           ngbDropdownItem
-          [disabled]="timesheet.invoiceId?.length > 0 || !timesheet.closed || !timesheet.clientId"
+          [disabled]="timesheet.invoiceId?.length > 0 || !timesheet.closed || !timesheet.clientId || timesheet.student"
           (click)="generateInvoice()"
         >
           <fa-icon [icon]="['fas', 'file-invoice-dollar']"></fa-icon>&nbsp;Generate invoice
@@ -129,6 +129,7 @@
               <td *ngIf="period.duration < 0" class="fit bg-danger text-white">ERROR</td>
               <td class="fit p-0">
                 <app-period-form
+                                    [student]="timesheet.student"
                   [settings]="timesheetSettings"
                   [timesheetId]="timesheet.id"
                   [timesheetClosed]="timesheet.closed"

@@ -52,9 +52,12 @@
                   </div>
                 </td>
                 <td class="text-center fit" *ngIf="hasRoleAdmin">
-                  <button class="btn btn-link text-danger" (click)="remove($event, i)" [disabled]="canRemove(i)">
-                    <fa-icon [icon]="['fas', 'times']"></fa-icon>
-                  </button>
+                  <div class="form-check form-check-inline text-muted">
+                    <input class="form-check-input" type="checkbox" [id]="'hidden' + i" formControlName="hidden" />
+                    <label class="form-check-label" [for]="'hidden' + i"
+                      ><fa-icon [icon]="['fas', 'eye-slash']"
+                    /></label>
+                  </div>
                 </td>
               </ng-container>
             </tr>
