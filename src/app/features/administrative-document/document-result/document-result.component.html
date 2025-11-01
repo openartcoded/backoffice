@@ -21,7 +21,7 @@
         <table class="table table-sm table-bordered table-hover">
           <thead>
             <tr>
-              <th>title</th>
+              <th class="d-table-cell">title</th>
               <th class="fit d-md-table-cell d-none text-break">creationDate</th>
               <th class="fit d-md-table-cell d-none text-break">size</th>
               <th class="fit" *ngIf="hasRoleAdmin"></th>
@@ -33,9 +33,9 @@
               <td [colSpan]="5">No content</td>
             </tr>
             <ng-container *ngFor="let ad of adminDocuments.content">
-              <tr role="button" (click)="openRow(ad)">
+              <tr role="button" (click)="openRow(ad)" >
                
-                                 <td class="text-break">
+                                 <td class="text-break p-1">
                     <ng-template #previewThumb>
                       <app-image-loader cssClass="m-0 p-0 image-fluid" *ngIf="ad.attachment?.transientThumbnail" [image]="ad.attachment.transientThumbnail" />
                     </ng-template>
@@ -60,9 +60,7 @@
                                         </div>
                    
                   </td>
-                <td class="text-break">
-                 
-                </td>
+               
                 <td class="fit d-md-table-cell d-none text-break">{{ ad.dateCreation | date: 'dd/MM/yyyy' }}</td>
                 <td class="fit d-md-table-cell d-none text-break">{{ ad.attachment?.size | bytesToHuman }}</td>
                 <td class="fit" *ngIf="hasRoleAdmin">
