@@ -1,16 +1,17 @@
 <ng-container *ngIf="post">
-    <app-title [title]="post.title | titlecase"/>
-    
-    
-  <div class="p-2">
+  <app-title [title]="post.title | titlecase" />
+
+  <div class="m-3">
     <form class="mt-2" [formGroup]="editorForm" (ngSubmit)="send()" *ngIf="editorForm">
-             <div class="mb-2 d-flex justify-content-between">
+      <div class="mb-2 d-flex justify-content-between">
         <a routerLink="/report" class="btn btn-outline-primary me-1">
-      <fa-icon [icon]="['fas', 'arrow-left']"></fa-icon>
-      Back
-    </a>
+          <fa-icon [icon]="['fas', 'arrow-left']"></fa-icon>
+          Back
+        </a>
+
         <button type="submit" class="btn btn-outline-primary" [disabled]="!editorForm.valid">Save</button>
       </div>
+      <hr />
       <ul ngbNav #nav="ngbNav" class="nav-tabs">
         <li ngbNavItem>
           <a ngbNavLink>Metadata</a>
@@ -64,25 +65,79 @@
         </li>
         <li ngbNavItem>
           <a ngbNavLink>Editor</a>
+
           <ng-template ngbNavContent>
-            <div class="mb-1 zindex-tooltip">
-              <md-editor
-                id="htmlContent"
-                [upload]="doUpload"
-                formControlName="htmlContent"
-                [options]="{ showBorder: false, showPreviewPanel: true, fontAwesomeVersion: '5' }"
-                [height]="'75vh'"
-                width="100vw"
-                maxlength="500"
-              >
-                <slot custom-btns></slot>
-              </md-editor>
+            <div class="d-flex justify-content-start">
+              <div class="col-5 border-end shadow-sm me-2" style="height: 75vh">
+                <div class="d-flex justify-content-start bg-light p-1">
+                  <button
+                    type="button"
+                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    (click)="wrapSelection('**', '**')"
+                  >
+                    Bold
+                  </button>
+                  <button
+                    type="button"
+                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    (click)="wrapSelection('_', '_')"
+                  >
+                    Italic
+                  </button>
+                  <button
+                    type="button"
+                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    (click)="wrapSelection('`', '`')"
+                  >
+                    Inline Code
+                  </button>
+                  <button
+                    type="button"
+                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    (click)="insertAtCursor('- ')"
+                  >
+                    List Item
+                  </button>
+                  <button
+                    type="button"
+                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    (click)="wrapSelection('> ', '')"
+                  >
+                    Blockquote
+                  </button>
+                  <button
+                    type="button"
+                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    (click)="insertLink()"
+                  >
+                    Link
+                  </button>
+                  <button
+                    type="button"
+                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    (click)="insertTable()"
+                  >
+                    Table
+                  </button>
+                </div>
+                <textarea
+                  appAutoFocus
+                  autosize
+                  formControlName="htmlContent"
+                  #editor
+                  class="form-control border-0 bg-white no-focus resize-none hidden-scroll"
+                  [rows]="33"
+                  [placeholder]="'your text here'"
+                ></textarea>
+              </div>
+              <div class="col" style="height: 75vh; overflow-y: scroll">
+                <markdown [data]="htmlContent.value" />
+              </div>
             </div>
           </ng-template>
         </li>
       </ul>
       <div [ngbNavOutlet]="nav"></div>
-     
     </form>
   </div>
 </ng-container>

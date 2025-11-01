@@ -12,7 +12,6 @@
     <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body">
-    <md-editor [formControl]="markdownControl" mode="preview" [options]="{ showBorder: false }" height="100%">
-    </md-editor>
+    <markdown [data]="content" />
   </div>
 </ng-template>

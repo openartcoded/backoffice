@@ -21,14 +21,10 @@ import { AutosizeModule } from 'ngx-autosize';
 import { ChipsModule } from 'primeng/chips';
 import { SmsFormComponent } from './sms-form/sms-form.component';
 import { AutoFocusDirective } from './directives/auto-focus.directive';
-import { LMarkdownEditorModule } from 'ngx-markdown-editor';
-import 'ace-builds/src-min-noconflict/ace';
-import 'ace-builds/src-min-noconflict/mode-markdown';
 import { CopyToClipboardComponent } from './copy-to-clipboard/copy-to-clipboard.component';
 import { ScrollToBottomDirective } from './directives/scroll-to-bottom.directive';
-import('marked').then((m) => {
-  (window as any).marked = m.marked;
-});
+import { MarkdownModule } from 'ngx-markdown';
+
 @NgModule({
   declarations: [
     EditPasswordComponent,
@@ -61,6 +57,7 @@ import('marked').then((m) => {
     StopPropagationDirective,
     ScrollToBottomDirective,
     TrimPipe,
+
     BytesToHumanPipe,
     AutoFocusDirective,
   ],
@@ -71,7 +68,7 @@ import('marked').then((m) => {
     NgbToastModule,
     FontAwesomeModule,
     NgbDropdownModule,
-    LMarkdownEditorModule,
+    MarkdownModule.forRoot({}),
     FormsModule,
     ReactiveFormsModule,
     PdfJsViewerModule,

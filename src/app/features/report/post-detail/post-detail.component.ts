@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Post } from '@core/models/post';
 import { FileService } from '@core/service/file.service';
@@ -7,6 +7,8 @@ import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { DateUtils } from '@core/utils/date-utils';
 import { firstValueFrom } from 'rxjs';
+import { EditorOption } from 'angular-markdown-editor';
+import Prism from 'prismjs';
 
 @Component({
   selector: 'app-post-detail',
@@ -14,10 +16,13 @@ import { firstValueFrom } from 'rxjs';
   styleUrls: ['./post-detail.component.scss'],
   standalone: false,
 })
-export class PostDetailComponent implements OnInit {
+export class PostDetailComponent implements OnInit, AfterViewChecked {
   post: Post;
   id: string;
 
+  ngAfterViewChecked() {
+    Prism.highlightAll();
+  }
   constructor(
     private activateRoute: ActivatedRoute,
     private fileService: FileService,

@@ -113,28 +113,27 @@
           >
             <td class="fit d-md-table-cell">
               <div class="d-flex justify-content-between">
-
-                    <ng-template #previewThumb>
-                      <app-image-loader
-                        cssClass="m-0 p-0 image-fluid"
-                        *ngIf="invoice?.transientThumbnail"
-                        [image]="invoice.transientThumbnail"
-                      />
-                    </ng-template>
-                    <div class="d-flex justify-content-between">
-                      <button
-                        type="button"
-                        class="p-0 m-0 text-start btn btn-link text-dark"
-                        [ngbTooltip]="previewThumb"
-                        triggers="hover:mouseleave"
-                                          #btn="ngbTooltip"
-                                        (touchstart)="btn.open()"
-  (touchend)="btn.close()"
-                        tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
-                      >
-                      <span>{{ invoice.newInvoiceNumber || invoice.invoiceNumber }}</span>
-                      </button>
-                    </div>
+                <ng-template #previewThumb>
+                  <app-image-loader
+                    cssClass="m-0 p-0 image-fluid"
+                    *ngIf="invoice?.transientThumbnail"
+                    [image]="invoice.transientThumbnail"
+                  />
+                </ng-template>
+                <div class="d-flex justify-content-between">
+                  <button
+                    type="button"
+                    class="p-0 m-0 text-start btn btn-link text-dark"
+                    [ngbTooltip]="previewThumb"
+                    triggers="hover:mouseleave"
+                    #btn="ngbTooltip"
+                    (touchstart)="btn.open()"
+                    (touchend)="btn.close()"
+                    tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
+                  >
+                    <span>{{ invoice.newInvoiceNumber || invoice.invoiceNumber }}</span>
+                  </button>
+                </div>
 
                 <ng-container *ngIf="invoice.imported">
                   <ng-template #infoFrontend>

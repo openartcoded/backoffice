@@ -28,14 +28,7 @@
       />
       <ng-container *ngIf="xml && (pdf.contentType === 'text/xml' || pdf.contentType === 'application/xml')">
         <app-copy-to-clipboard [textToCopy]="xml" btnClasses="btn w-100 btn-outline-secondary mb-1" />
-        <md-editor
-          name="xmlContent"
-          id="xmlContent"
-          [(ngModel)]="markdown"
-          mode="preview"
-          [options]="{ showBorder: false }"
-          height="100%"
-        />
+        <markdown [data]="markdown" height="100%" />
       </ng-container>
     </ng-container>
   </div>

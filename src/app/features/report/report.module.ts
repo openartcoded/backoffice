@@ -10,8 +10,8 @@ import { ReportRoutingModule } from './report-routing.module';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { ChipsModule } from 'primeng/chips';
-import { LMarkdownEditorModule } from 'ngx-markdown-editor';
-
+import { MarkdownModule } from 'ngx-markdown';
+import { AutosizeModule } from 'ngx-autosize';
 @NgModule({
   declarations: [PostsComponent, PostEditorComponent, PostDetailComponent],
   exports: [],
@@ -20,8 +20,9 @@ import { LMarkdownEditorModule } from 'ngx-markdown-editor';
     FontAwesomeModule,
     ReactiveFormsModule,
     NgbDropdownModule,
+    AutosizeModule,
     SharedModule,
-    LMarkdownEditorModule,
+    MarkdownModule.forRoot({}),
     ChipsModule,
     NgbPaginationModule,
     ReportRoutingModule,

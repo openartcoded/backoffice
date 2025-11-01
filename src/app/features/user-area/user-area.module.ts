@@ -27,9 +27,9 @@ import { PlotlyViaCDNModule } from 'angular-plotly.js';
 import { ScriptConsoleComponent } from './script-console/script-console.component';
 import { HighlightModule } from 'ngx-highlightjs';
 import { GraaljsHelpModalComponent } from './graaljs-help-modal/graaljs-help-modal.component';
-import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 import { ToolBoxModule } from './toolbox/toolbox.module';
 import { PostitBoardComponent } from './postit-board/postit-board.component';
+import { MarkdownModule } from 'ngx-markdown';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -51,8 +51,8 @@ import { PostitBoardComponent } from './postit-board/postit-board.component';
   ],
   imports: [
     CommonModule,
-    LMarkdownEditorModule,
     ToolBoxModule,
+    MarkdownModule.forRoot({}),
     UserAreaRoutingModule,
     ReactiveFormsModule,
     SharedModule,

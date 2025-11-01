@@ -1,14 +1,18 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css');
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
-::ng-deep .preview-panel {
-  border-left: 0 !important;
-  font-family: 'Source Code Pro';
-  font-size: 16px;
-  font-weight: normal;
+
+::ng-deep #htmlContent {
+  padding: 5px;
+}
+::ng-deep .md-editor {
+  border: 0;
+  padding: 5px;
 }
 
-::ng-deep .ace_editor {
-  font-family: 'Source Code Pro';
-  font-size: 16px;
-  font-weight: normal;
+::ng-deep .btn-toolbar {
+  display: flex;
+  justify: between;
+}
+
+::ng-deep .btn-toolbar .btn-group .btn {
+  border: 0;
 }

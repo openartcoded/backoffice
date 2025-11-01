@@ -47,8 +47,9 @@
                         class="p-0 m-0 text-start btn btn-link text-dark"
                         [ngbTooltip]="previewThumb"
                         #btn="ngbTooltip"
-                                        (touchstart)="btn.open()"
-  (touchend)="btn.close()"                        tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
+                        (touchstart)="btn.open()"
+                        (touchend)="btn.close()"
+                        tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
                       >
                         <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
                       </button>

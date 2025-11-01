@@ -16,7 +16,6 @@
 <app-title title="INVOICES"></app-title>
 <ng-container *ngIf="user">
   <ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
-        
     <li ngbNavItem="bookmarked" *ngIf="user">
       <a ngbNavLink routerLink="/invoice/bookmarked"
         ><fa-icon [classList]="'text-warning'" [icon]="['fas', 'star']" />Bookmarks</a

@@ -15,7 +15,6 @@
 <app-title title="Expenses" [uppercase]="true"></app-title>
 <ng-container *ngIf="user">
   <ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
-        
     <li ngbNavItem="bookmarks">
       <a ngbNavLink routerLink="/fee/bookmarks"
         ><fa-icon [classList]="'text-warning'" [icon]="['fas', 'star']" />Bookmarks</a
