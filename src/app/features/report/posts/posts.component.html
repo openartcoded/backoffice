@@ -18,9 +18,7 @@
                 <fa-icon [icon]="['fas', 'cog']"></fa-icon>
               </button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-                <button ngbDropdownItem (click)="openFormModal(n)">
-                  <fa-icon [icon]="['fas', 'edit']"></fa-icon>&nbsp;Edit
-                </button>
+               
                 <button ngbDropdownItem (click)="delete(n)">
                   <fa-icon [icon]="['fas', 'trash']"></fa-icon>&nbsp;Delete
                 </button>
@@ -31,6 +29,7 @@
         <div class="card-body mt-0 pt-1 ps-2">
           <p class="">{{ n.description }}</p>
           <a class="btn btn-outline-primary" [routerLink]="['post', slugify(n.title), n.id]">Read more</a>
+          <a class="btn btn-outline-primary" [routerLink]="['post', slugify(n.title), n.id, 'edit']">Edit</a>
         </div>
       </div>
       <ngb-pagination
@@ -45,7 +44,7 @@
     <ng-container *ngIf="!posts || posts.page.size === 0"> No content. </ng-container>
   </div>
   <div class="col-lg-3 col-12 order-lg-1 order-0">
-    <button class="btn btn-outline-primary btn-block mb-2" (click)="newPost()">
+    <button class="btn btn-outline-primary btn-block mb-2" [routerLink]="['post', 'new']">
       <fa-icon [icon]="['fas', 'plus']"></fa-icon>
       Add post
     </button>
