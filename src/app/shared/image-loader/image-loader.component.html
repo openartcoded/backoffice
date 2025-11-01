@@ -2,7 +2,7 @@
   <img [className]="cssClass" [src]="loader" />
 </ng-container>
 <img
-  [src]="imageUrl"
+  [src]="imageSrc"
   [className]="cssClass"
   [ngStyle]="{ visibility: isLoading ? 'hidden' : '' }"
   (load)="hideLoader()"

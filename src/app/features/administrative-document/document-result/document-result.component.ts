@@ -125,13 +125,21 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
                     const attachmentIds = page.content?.map((d) => d.attachmentId);
                     this.fileService.findByIds(attachmentIds).subscribe((attachments) => {
                         attachments.forEach((attachment) => {
-                            page.content.filter((d) => d.attachmentId === attachment.id).forEach((d) => (d.attachment = attachment));
+                            page.content.filter((d) => d.attachmentId === attachment.id)
+                                .forEach((d) => {
+                                    d.attachment = attachment;
+                                    if (attachment.thumbnailId) {
+                                        this.fileService.findById(attachment.thumbnailId)
+                                            .subscribe(thumb => (d.attachment.transientThumbnail = thumb));
+                                    }
+                                });
                         });
                     });
                 }),
             )
             .subscribe((data) => (this.adminDocuments = data));
     }
+
 
     openRow(a: AdministrativeDocument) {
         if (this.isPdf(a.attachment)) {
@@ -176,6 +184,7 @@ export class DocumentResultComponent implements OnInit, OnDestroy, OnApplication
         ref.componentInstance.formSubmitted.subscribe((form) => {
             ref.close();
             this.administrativeDocumentService.save(form).subscribe();
+            this.toastService.showSuccess("document will be uploaded");
         });
     }
 

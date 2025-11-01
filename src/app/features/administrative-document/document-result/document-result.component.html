@@ -21,7 +21,8 @@
         <table class="table table-sm table-bordered table-hover">
           <thead>
             <tr>
-              <th>title</th>
+                            <th class="fit d-md-table-cell d-none"></th>
+              <th >title</th>
               <th class="fit d-md-table-cell d-none text-break">creationDate</th>
               <th class="fit d-md-table-cell d-none text-break">size</th>
               <th class="fit" *ngIf="hasRoleAdmin"></th>
@@ -30,10 +31,13 @@
           </thead>
           <tbody>
             <tr *ngIf="!adminDocuments.content?.length">
-              <td [colSpan]="5">No content</td>
+              <td [colSpan]="6">No content</td>
             </tr>
             <ng-container *ngFor="let ad of adminDocuments.content">
               <tr role="button" (click)="openRow(ad)">
+                <td class="fit d-md-table-cell d-none ">
+                                    <app-image-loader *ngIf="ad.attachment?.transientThumbnail" [image]="ad.attachment.transientThumbnail"/>
+                                </td>
                 <td class="text-break">
                   <div class="d-flex flex-column">
                     {{ ad.title }}

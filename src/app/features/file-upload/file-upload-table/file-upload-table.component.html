@@ -16,6 +16,7 @@
           <table class="table table-sm table-bordered">
             <thead>
               <tr>
+                <th class="d-md-table-cell d-none"></th>
                 <th>Creation Date</th>
                 <th>Filename</th>
                 <th class="d-md-table-cell d-none" *ngIf="hasRoleAdmin">Correlation</th>
@@ -27,10 +28,13 @@
             </thead>
             <tbody>
               <tr *ngIf="!fileUploads.content?.length">
-                <td [colSpan]="6">No content</td>
+                <td [colSpan]="7">No content</td>
               </tr>
               <ng-container *ngFor="let upl of fileUploads.content">
                 <tr>
+                  <td class="fit  d-md-table-cell d-none">
+                                    <app-image-loader *ngIf="upl?.transientThumbnail" [image]="upl.transientThumbnail"/>
+</td>
                   <td class="text-break">{{ upl?.creationDate | date: 'dd/MM/yyyy HH:mm' }}</td>
                   <td class="text-break">{{ upl?.originalFilename }}</td>
                   <td class="text-break d-md-table-cell d-none" *ngIf="hasRoleAdmin">

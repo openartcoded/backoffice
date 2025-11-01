@@ -11,114 +11,123 @@ import { ImageViewerComponent } from '@shared/image-viewer/image-viewer.componen
 import { User } from '@core/models/user';
 import { PersonalInfoService } from '@core/service/personal.info.service';
 import { ToastService } from '@core/service/toast.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-file-upload-table',
-  templateUrl: './file-upload-table.component.html',
-  styleUrls: ['./file-upload-table.component.scss'],
-  standalone: false,
+    selector: 'app-file-upload-table',
+    templateUrl: './file-upload-table.component.html',
+    styleUrls: ['./file-upload-table.component.scss'],
+    standalone: false,
 })
 export class FileUploadTableComponent implements OnInit {
-  fileUploads: Page<FileUpload>;
-  correlationLinks: Record<string, string | null>;
+    fileUploads: Page<FileUpload>;
+    correlationLinks: Record<string, string | null>;
 
-  @Input()
-  bookmarked: boolean = false;
+    @Input()
+    bookmarked: boolean = false;
 
-  pageSize: number = 10;
-  searchCriteria: FileUploadSearchCriteria;
+    pageSize: number = 10;
+    searchCriteria: FileUploadSearchCriteria;
 
-  user: User;
-  demoMode: boolean;
-  get hasRoleAdmin(): boolean {
-    return this.user.authorities.includes('ADMIN');
-  }
-  constructor(
-    private fileService: FileService,
-    @Inject(PLATFORM_ID) private platformId: any,
-    private windowRefService: WindowRefService,
-    private toastService: ToastService,
-    private personalInfoService: PersonalInfoService,
-    private modalService: NgbModal,
-    private titleService: Title,
-  ) {}
-
-  ngOnInit(): void {
-    this.titleService.setTitle('File Uploads');
-    this.search({ bookmarked: this.bookmarked });
-    this.fileService.getCorrelationLinks().subscribe((links) => (this.correlationLinks = links));
-    this.personalInfoService.me().subscribe((u) => (this.user = u));
-    this.personalInfoService.get().subscribe((u) => (this.demoMode = u.demoMode));
-  }
-
-  search(criteria: FileUploadSearchCriteria) {
-    this.searchCriteria = criteria;
-    this.load();
-  }
-
-  download(upl: FileUpload) {
-    this.fileService.download(upl);
-  }
-
-  delete(upl: FileUpload) {
-    if (!this.hasRoleAdmin) {
-      return;
+    user: User;
+    demoMode: boolean;
+    get hasRoleAdmin(): boolean {
+        return this.user.authorities.includes('ADMIN');
     }
-    if (isPlatformBrowser(this.platformId)) {
-      if (this.windowRefService.nativeWindow.confirm('Are you sure you want to delete this file? ')) {
-        this.fileService.delete(upl).subscribe((_d) => {
-          this.search(this.searchCriteria);
+    constructor(
+        private fileService: FileService,
+        @Inject(PLATFORM_ID) private platformId: any,
+        private windowRefService: WindowRefService,
+        private toastService: ToastService,
+        private personalInfoService: PersonalInfoService,
+        private modalService: NgbModal,
+        private titleService: Title,
+    ) { }
+
+    ngOnInit(): void {
+        this.titleService.setTitle('File Uploads');
+        this.search({ bookmarked: this.bookmarked });
+        this.fileService.getCorrelationLinks().subscribe((links) => (this.correlationLinks = links));
+        this.personalInfoService.me().subscribe((u) => (this.user = u));
+        this.personalInfoService.get().subscribe((u) => (this.demoMode = u.demoMode));
+    }
+
+    search(criteria: FileUploadSearchCriteria) {
+        this.searchCriteria = criteria;
+        this.load();
+    }
+
+    download(upl: FileUpload) {
+        this.fileService.download(upl);
+    }
+
+    delete(upl: FileUpload) {
+        if (!this.hasRoleAdmin) {
+            return;
+        }
+        if (isPlatformBrowser(this.platformId)) {
+            if (this.windowRefService.nativeWindow.confirm('Are you sure you want to delete this file? ')) {
+                this.fileService.delete(upl).subscribe((_d) => {
+                    this.search(this.searchCriteria);
+                });
+            }
+        }
+    }
+
+    get pageNumber() {
+        return this?.fileUploads?.page?.number + 1;
+    }
+
+    async load(event: number = 1) {
+        const uploads = await firstValueFrom(this.fileService.findAll(this.searchCriteria, event, this.pageSize));
+        for (const upload of uploads.content) {
+            if (upload.thumbnailId?.length) {
+                const thumb = await firstValueFrom(this.fileService.findById(upload.thumbnailId));
+                upload.transientThumbnail = thumb;
+            }
+
+        }
+        this.fileUploads = uploads;
+    }
+
+    openPdfViewer(a: FileUpload) {
+        let ngbModalRef = this.modalService.open(PdfViewerComponent, {
+            size: 'xl',
+            scrollable: true,
         });
-      }
+        ngbModalRef.componentInstance.pdf = a;
+        ngbModalRef.componentInstance.title = a?.originalFilename;
     }
-  }
 
-  get pageNumber() {
-    return this?.fileUploads?.page?.number + 1;
-  }
+    openImageViewer(a: FileUpload) {
+        let ngbModalRef = this.modalService.open(ImageViewerComponent, {
+            size: 'xl',
+            scrollable: true,
+        });
+        ngbModalRef.componentInstance.image = a;
+        ngbModalRef.componentInstance.title = a?.originalFilename;
+    }
 
-  load(event: number = 1) {
-    this.fileService.findAll(this.searchCriteria, event, this.pageSize).subscribe((data) => (this.fileUploads = data));
-  }
+    isPdf(upl: FileUpload) {
+        return FileService.isPdf(upl?.contentType);
+    }
 
-  openPdfViewer(a: FileUpload) {
-    let ngbModalRef = this.modalService.open(PdfViewerComponent, {
-      size: 'xl',
-      scrollable: true,
-    });
-    ngbModalRef.componentInstance.pdf = a;
-    ngbModalRef.componentInstance.title = a?.originalFilename;
-  }
-
-  openImageViewer(a: FileUpload) {
-    let ngbModalRef = this.modalService.open(ImageViewerComponent, {
-      size: 'xl',
-      scrollable: true,
-    });
-    ngbModalRef.componentInstance.image = a;
-    ngbModalRef.componentInstance.title = a?.originalFilename;
-  }
-
-  isPdf(upl: FileUpload) {
-    return FileService.isPdf(upl?.contentType);
-  }
-
-  isImage(upl: FileUpload) {
-    return FileService.isImage(upl?.contentType);
-  }
-  toggleBookmark($event: MouseEvent, upl: FileUpload) {
-    $event.stopPropagation();
-    this.fileService.toggleBookmarked(upl.id).subscribe((fee) => {
-      this.toastService.showSuccess('Bookmark toggled. Reload...');
-      upl.bookmarked = !upl.bookmarked;
-      const index = this.fileUploads.content.findIndex((d, idx) => d.id && d.id === upl.id);
-      if (index !== -1) {
-        const newArray =
-          this.bookmarked && !upl.bookmarked
-            ? this.fileUploads.content.filter((x) => x.id !== upl.id)
-            : this.fileUploads.content.map((item, i) => (i === index ? upl : item));
-        this.fileUploads.content = newArray;
-      }
-    });
-  }
+    isImage(upl: FileUpload) {
+        return FileService.isImage(upl?.contentType);
+    }
+    toggleBookmark($event: MouseEvent, upl: FileUpload) {
+        $event.stopPropagation();
+        this.fileService.toggleBookmarked(upl.id).subscribe((fee) => {
+            this.toastService.showSuccess('Bookmark toggled. Reload...');
+            upl.bookmarked = !upl.bookmarked;
+            const index = this.fileUploads.content.findIndex((d, idx) => d.id && d.id === upl.id);
+            if (index !== -1) {
+                const newArray =
+                    this.bookmarked && !upl.bookmarked
+                        ? this.fileUploads.content.filter((x) => x.id !== upl.id)
+                        : this.fileUploads.content.map((item, i) => (i === index ? upl : item));
+                this.fileUploads.content = newArray;
+            }
+        });
+    }
 }
