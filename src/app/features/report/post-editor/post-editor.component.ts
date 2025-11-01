@@ -5,7 +5,7 @@ import { UploadResult } from 'ngx-markdown-editor';
 import { FileService } from '@core/service/file.service';
 import { map } from 'rxjs/operators';
 import { Post } from '@core/models/post';
-import { BlogService } from '@core/service/blog.service';
+import { ReportService } from '@core/service/report.service';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { firstValueFrom, interval, Subscription } from 'rxjs';
 
@@ -27,7 +27,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
 
     constructor(
         private formBuilder: UntypedFormBuilder,
-        private blogService: BlogService,
+        private reportService: ReportService,
         private fileService: FileService,
         @Optional() public activeModal: NgbActiveModal,
     ) {
@@ -121,7 +121,7 @@ export class PostEditorComponent implements OnInit, OnDestroy {
         formData.append('title', this.title.value);
         formData.append('cover', this.cover);
         formData.append('description', this.editorForm.get('description').value);
-        this.blogService.save(formData).subscribe(callback);
+        this.reportService.save(formData).subscribe(callback);
     }
 
     send() {

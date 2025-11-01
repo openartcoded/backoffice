@@ -3,7 +3,7 @@ import { Page } from '@core/models/page';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PostEditorComponent } from '../post-editor/post-editor.component';
 import { Post, PostSearchCriteria } from '@core/models/post';
-import { BlogService } from '@core/service/blog.service';
+import { ReportService } from '@core/service/report.service';
 import { FileService } from '@core/service/file.service';
 import { SlugifyPipe } from '@core/pipe/slugify-pipe';
 import { Meta, Title } from '@angular/platform-browser';
@@ -27,7 +27,7 @@ export class PostsComponent implements OnInit {
     searchCriteria: PostSearchCriteria = {};
 
     constructor(
-        private blogService: BlogService,
+        private reportService: ReportService,
         private titleService: Title,
         private metaService: Meta,
         @Inject(PLATFORM_ID) private platformId: any,
@@ -38,19 +38,19 @@ export class PostsComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.titleService.setTitle('Blog - Nordine Bittich');
+        this.titleService.setTitle('Activity Report');
         this.metaService.updateTag({
             name: 'description',
-            content: 'My thoughts about programming, along with tutorials, and random stuff I want to talk about',
+            content: 'activity reports',
         });
         this.load();
     }
 
     load(event: number = 1): void {
-        this.blogService
+        this.reportService
             .adminSearch(this.searchCriteria, event - 1, this.defaultPageSize)
             .subscribe((data) => (this.posts = data));
-        this.blogService.getTags().subscribe((data) => (this.tags = data));
+        this.reportService.getTags().subscribe((data) => (this.tags = data));
     }
 
     get pageNumber() {
@@ -58,7 +58,7 @@ export class PostsComponent implements OnInit {
     }
 
     async openFormModal(post: Post) {
-        let postWithDetails = await firstValueFrom(this.blogService.getPostById(post.id));
+        let postWithDetails = await firstValueFrom(this.reportService.getPostById(post.id));
 
         const modalRef = this.modalService.open(PostEditorComponent, {
             size: 'xl',
@@ -72,7 +72,7 @@ export class PostsComponent implements OnInit {
     }
 
     newPost(): void {
-        this.blogService.newPost().subscribe((post) => {
+        this.reportService.newPost().subscribe((post) => {
             this.load();
             const modalRef = this.modalService.open(PostEditorComponent, {
                 size: 'xl',
@@ -89,7 +89,7 @@ export class PostsComponent implements OnInit {
     delete(post: Post) {
         if (isPlatformBrowser(this.platformId)) {
             if (this.windowRefService.nativeWindow.confirm('Are you sure you want to delete this post?')) {
-                this.blogService.delete(post).subscribe((data) => {
+                this.reportService.delete(post).subscribe((data) => {
                     console.log(data.message);
                     this.load();
                 });

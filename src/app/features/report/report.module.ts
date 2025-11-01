@@ -6,29 +6,29 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbCarouselModule, NgbDropdownModule, NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { PostsComponent } from './posts/posts.component';
 import { PostEditorComponent } from './post-editor/post-editor.component';
-import { BlogRoutingModule } from './blog-routing.module';
+import { ReportRoutingModule } from './report-routing.module';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { ChipsModule } from 'primeng/chips';
 import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 
 @NgModule({
-  declarations: [PostsComponent, PostEditorComponent, PostDetailComponent],
-  exports: [],
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
-    ReactiveFormsModule,
-    NgbDropdownModule,
-    SharedModule,
-    LMarkdownEditorModule,
-    ChipsModule,
-    NgbPaginationModule,
-    BlogRoutingModule,
-    FormsModule,
-    NgbCarouselModule,
-    NgxFileDropModule,
-    NgbNavModule,
-  ],
+    declarations: [PostsComponent, PostEditorComponent, PostDetailComponent],
+    exports: [],
+    imports: [
+        CommonModule,
+        FontAwesomeModule,
+        ReactiveFormsModule,
+        NgbDropdownModule,
+        SharedModule,
+        LMarkdownEditorModule,
+        ChipsModule,
+        NgbPaginationModule,
+        ReportRoutingModule,
+        FormsModule,
+        NgbCarouselModule,
+        NgxFileDropModule,
+        NgbNavModule,
+    ],
 })
-export class BlogModule {}
+export class ReportModule { }
