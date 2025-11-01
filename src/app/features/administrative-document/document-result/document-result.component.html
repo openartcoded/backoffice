@@ -21,8 +21,7 @@
         <table class="table table-sm table-bordered table-hover">
           <thead>
             <tr>
-                            <th class="fit d-md-table-cell d-none"></th>
-              <th >title</th>
+              <th>title</th>
               <th class="fit d-md-table-cell d-none text-break">creationDate</th>
               <th class="fit d-md-table-cell d-none text-break">size</th>
               <th class="fit" *ngIf="hasRoleAdmin"></th>
@@ -31,20 +30,38 @@
           </thead>
           <tbody>
             <tr *ngIf="!adminDocuments.content?.length">
-              <td [colSpan]="6">No content</td>
+              <td [colSpan]="5">No content</td>
             </tr>
             <ng-container *ngFor="let ad of adminDocuments.content">
               <tr role="button" (click)="openRow(ad)">
-                <td class="fit d-md-table-cell d-none ">
-                                    <app-image-loader *ngIf="ad.attachment?.transientThumbnail" [image]="ad.attachment.transientThumbnail"/>
-                                </td>
-                <td class="text-break">
-                  <div class="d-flex flex-column">
-                    {{ ad.title }}
+               
+                                 <td class="text-break">
+                    <ng-template #previewThumb>
+                      <app-image-loader cssClass="m-0 p-0 image-fluid" *ngIf="ad.attachment?.transientThumbnail" [image]="ad.attachment.transientThumbnail" />
+                    </ng-template>
+                                        <div class="d-flex justify-content-between">
+
+ 
+                    <span> <div class="d-flex flex-column">
+                    {{ ad.title | trim: 40}}
                     <div class="mt-1">
                       <span class="badge text-bg-secondary me-1 fs-6 p-1" *ngFor="let t of ad.tags">{{ t }}</span>
                     </div>
-                  </div>
+                  </div></span>
+                                            <button
+                      type="button"
+                      class="p-0 m-0 text-start btn btn-link text-dark"
+                      [ngbTooltip]="previewThumb"
+                      triggers="hover"
+                      tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
+                    >
+                      <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+                      </button>
+                                        </div>
+                   
+                  </td>
+                <td class="text-break">
+                 
                 </td>
                 <td class="fit d-md-table-cell d-none text-break">{{ ad.dateCreation | date: 'dd/MM/yyyy' }}</td>
                 <td class="fit d-md-table-cell d-none text-break">{{ ad.attachment?.size | bytesToHuman }}</td>

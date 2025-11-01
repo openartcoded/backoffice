@@ -9,98 +9,98 @@ import { DateUtils } from '@core/utils/date-utils';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-post-detail',
-    templateUrl: './post-detail.component.html',
-    styleUrls: ['./post-detail.component.scss'],
-    standalone: false,
+  selector: 'app-post-detail',
+  templateUrl: './post-detail.component.html',
+  styleUrls: ['./post-detail.component.scss'],
+  standalone: false,
 })
 export class PostDetailComponent implements OnInit {
-    post: Post;
-    id: string;
+  post: Post;
+  id: string;
 
-    constructor(
-        private activateRoute: ActivatedRoute,
-        private fileService: FileService,
-        private titleService: Title,
-        @Inject(DOCUMENT) private document: any,
-        private metaService: Meta,
-        private reportService: ReportService,
-    ) { }
+  constructor(
+    private activateRoute: ActivatedRoute,
+    private fileService: FileService,
+    private titleService: Title,
+    @Inject(DOCUMENT) private document: any,
+    private metaService: Meta,
+    private reportService: ReportService,
+  ) {}
 
-    ngOnInit(): void {
-        this.id = this.activateRoute.snapshot.params.id;
-        this.load();
+  ngOnInit(): void {
+    this.id = this.activateRoute.snapshot.params.id;
+    this.load();
+  }
+
+  load() {
+    this.reportService.getPostById(this.id).subscribe((p) => {
+      this.post = p;
+      this.updateMetas();
+    });
+  }
+
+  getCoverUrl() {
+    if (this.post.coverId) {
+      return this.fileService.getPublicDownloadUrl(this.post.coverId);
     }
+    return '/assets/img/no-cover.jpg';
+  }
 
-    load() {
-        this.reportService.getPostById(this.id).subscribe((p) => {
-            this.post = p;
-            this.updateMetas();
-        });
-    }
+  generatePdf() {
+    this.reportService.generatePdf(this.post);
+  }
 
-    getCoverUrl() {
-        if (this.post.coverId) {
-            return this.fileService.getPublicDownloadUrl(this.post.coverId);
-        }
-        return '/assets/img/no-cover.jpg';
-    }
+  private updateMetas() {
+    this.titleService.setTitle(this.post.title);
+    this.metaService.updateTag({
+      name: 'description',
+      content: this.post.description,
+    });
+    this.metaService.updateTag({
+      property: 'og:description',
+      content: this.post.description,
+    });
+    this.metaService.updateTag({
+      property: 'og:title',
+      content: this.post.title,
+    });
+    this.metaService.updateTag({
+      property: 'og:image',
+      content: this.getCoverUrl(),
+    });
+    this.metaService.updateTag({
+      property: 'twitter:description',
+      content: this.post.description,
+    });
+    this.metaService.updateTag({
+      property: 'twitter:title',
+      content: this.post.title,
+    });
+    this.metaService.updateTag({
+      property: 'twitter:image',
+      content: this.getCoverUrl(),
+    });
+    this.metaService.updateTag({
+      name: 'publish_date',
+      property: 'og:publish_date',
+      content: DateUtils.getIsoDateFromBackend(this.post.creationDate),
+    });
+    this.metaService.updateTag({
+      property: 'og:url',
+      content: this.document.location.href,
+    });
+    this.metaService.updateTag({
+      property: 'twitter:url',
+      content: this.document.location.href,
+    });
+    this.metaService.updateTag({
+      name: 'author',
+      content: 'Nordine Bittich',
+    });
+  }
 
-    generatePdf() {
-        this.reportService.generatePdf(this.post);
-    }
-
-    private updateMetas() {
-        this.titleService.setTitle(this.post.title);
-        this.metaService.updateTag({
-            name: 'description',
-            content: this.post.description,
-        });
-        this.metaService.updateTag({
-            property: 'og:description',
-            content: this.post.description,
-        });
-        this.metaService.updateTag({
-            property: 'og:title',
-            content: this.post.title,
-        });
-        this.metaService.updateTag({
-            property: 'og:image',
-            content: this.getCoverUrl(),
-        });
-        this.metaService.updateTag({
-            property: 'twitter:description',
-            content: this.post.description,
-        });
-        this.metaService.updateTag({
-            property: 'twitter:title',
-            content: this.post.title,
-        });
-        this.metaService.updateTag({
-            property: 'twitter:image',
-            content: this.getCoverUrl(),
-        });
-        this.metaService.updateTag({
-            name: 'publish_date',
-            property: 'og:publish_date',
-            content: DateUtils.getIsoDateFromBackend(this.post.creationDate),
-        });
-        this.metaService.updateTag({
-            property: 'og:url',
-            content: this.document.location.href,
-        });
-        this.metaService.updateTag({
-            property: 'twitter:url',
-            content: this.document.location.href,
-        });
-        this.metaService.updateTag({
-            name: 'author',
-            content: 'Nordine Bittich',
-        });
-    }
-
-    async resetCount() {
-        await firstValueFrom(this.reportService.resetPostCount(this.post.id));
-        this.load();
-    }
+  async resetCount() {
+    await firstValueFrom(this.reportService.resetPostCount(this.post.id));
+    this.load();
+  }
 }

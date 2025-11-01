@@ -28,22 +28,19 @@
         <div class="mb-1 row" *ngIf="hasAction">
           <label class="col-sm-2 col-form-label" for="action">Action</label>
           <div class="col-sm-10">
+            <input
+              [container]="'body'"
+              class="form-control"
+              formControlName="action"
+              [ngbTypeahead]="search"
+              [inputFormatter]="formatter"
+              [resultFormatter]="formatter"
+              [editable]="false"
+              (focus)="focus$.next('')"
+              (click)="click$.next('')"
+              #instance="ngbTypeahead"
+            />
 
-  <input
-      [container]="'body'"
-      class="form-control"
-      formControlName="action"
-      [ngbTypeahead]="search"
-      [inputFormatter]="formatter"
-      [resultFormatter]="formatter"
-      [editable]="false"
-      (focus)="focus$.next('')"
-      (click)="click$.next('')"
-      #instance="ngbTypeahead"
-    />
-
-
-         
             <div class="alert alert-info mt-2 mb-0" *ngIf="action">
               <fa-icon icon="info"></fa-icon>&nbsp;{{ action.description }}
             </div>

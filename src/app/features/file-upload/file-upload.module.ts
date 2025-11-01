@@ -10,6 +10,7 @@ import {
   NgbModalModule,
   NgbNavModule,
   NgbPaginationModule,
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileUploadSearchFormComponent } from './file-upload-search-form/file-upload-search-form.component';
@@ -24,6 +25,7 @@ import { FileUploadPageComponent } from './file-upload-page/file-upload-page.com
     NgbPaginationModule,
     FormsModule,
     NgbCollapseModule,
+    NgbTooltipModule,
     ReactiveFormsModule,
     NgbDropdownModule,
     NgbModalModule,

@@ -1,8 +1,7 @@
-<ng-container *ngIf="isLoading">
-  <img [className]="cssClass" [src]="loader" />
-</ng-container>
+
 <img
   [src]="imageSrc"
+    [width]="200"
   [className]="cssClass"
   [ngStyle]="{ visibility: isLoading ? 'hidden' : '' }"
   (load)="hideLoader()"
