@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { DocumentResultComponent } from './document-result/document-result.component';
 import { SharedModule } from '@shared/shared.module';
 import {
-    NgbCollapseModule,
-    NgbDropdownModule,
-    NgbModalModule,
-    NgbNavModule,
-    NgbPaginationModule,
-    NgbTooltipModule,
+  NgbCollapseModule,
+  NgbDropdownModule,
+  NgbModalModule,
+  NgbNavModule,
+  NgbPaginationModule,
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -23,30 +23,30 @@ import { RouterModule } from '@angular/router';
 import { DocumentMainPageComponent } from './document-main-page/document-main-page.component';
 
 @NgModule({
-    declarations: [
-        DocumentResultComponent,
-        DocumentMainPageComponent,
-        DocumentEditorComponent,
-        DocumentSearchFormComponent,
-        SplitPdfComponent,
-    ],
-    imports: [
-        CommonModule,
-        SharedModule,
-        NgbTooltipModule,
-        NgbModalModule,
-        NgbPaginationModule,
-        AdministrativeDocumentRoutingModule,
-        FormsModule,
-        FontAwesomeModule,
-        ReactiveFormsModule,
-        AutosizeModule,
-        NgxFileDropModule,
-        ChipsModule,
-        RouterModule,
-        NgbCollapseModule,
-        NgbNavModule,
-        NgbDropdownModule,
-    ],
+  declarations: [
+    DocumentResultComponent,
+    DocumentMainPageComponent,
+    DocumentEditorComponent,
+    DocumentSearchFormComponent,
+    SplitPdfComponent,
+  ],
+  imports: [
+    CommonModule,
+    SharedModule,
+    NgbTooltipModule,
+    NgbModalModule,
+    NgbPaginationModule,
+    AdministrativeDocumentRoutingModule,
+    FormsModule,
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    AutosizeModule,
+    NgxFileDropModule,
+    ChipsModule,
+    RouterModule,
+    NgbCollapseModule,
+    NgbNavModule,
+    NgbDropdownModule,
+  ],
 })
-export class AdministrativeDocumentModule { }
+export class AdministrativeDocumentModule {}

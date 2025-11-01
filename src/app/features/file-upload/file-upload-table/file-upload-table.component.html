@@ -34,23 +34,25 @@
                   <td class="text-break">{{ upl?.creationDate | date: 'dd/MM/yyyy HH:mm' }}</td>
                   <td class="text-break">
                     <ng-template #previewThumb>
-                      <app-image-loader cssClass="m-0 p-0 image-fluid" *ngIf="upl?.transientThumbnail" [image]="upl.transientThumbnail" />
+                      <app-image-loader
+                        cssClass="m-0 p-0 image-fluid"
+                        *ngIf="upl?.transientThumbnail"
+                        [image]="upl.transientThumbnail"
+                      />
                     </ng-template>
-                                        <div class="d-flex justify-content-between">
-
- 
-                    <span>{{ upl?.originalFilename | trim: 40 }}</span>
-                                            <button
-                      type="button"
-                      class="p-0 m-0 text-start btn btn-link text-dark"
-                      [ngbTooltip]="previewThumb"
-                      triggers="hover"
-                      tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
-                    >
-                      <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+                    <div class="d-flex justify-content-between">
+                      <span>{{ upl?.originalFilename | trim: 40 }}</span>
+                      <button
+                        type="button"
+                        class="p-0 m-0 text-start btn btn-link text-dark"
+                        [ngbTooltip]="previewThumb"
+                        #btn="ngbTooltip"
+                                        (touchstart)="btn.open()"
+  (touchend)="btn.close()"                        tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
+                      >
+                        <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
                       </button>
-                                        </div>
-                   
+                    </div>
                   </td>
                   <td class="text-break d-md-table-cell d-none" *ngIf="hasRoleAdmin">
                     <app-copy-to-clipboard

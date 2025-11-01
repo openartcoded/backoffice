@@ -33,34 +33,37 @@
               <td [colSpan]="5">No content</td>
             </tr>
             <ng-container *ngFor="let ad of adminDocuments.content">
-              <tr role="button" (click)="openRow(ad)" >
-               
-                                 <td class="text-break p-1">
-                    <ng-template #previewThumb>
-                      <app-image-loader cssClass="m-0 p-0 image-fluid" *ngIf="ad.attachment?.transientThumbnail" [image]="ad.attachment.transientThumbnail" />
-                    </ng-template>
-                                        <div class="d-flex justify-content-between">
-
- 
-                    <span> <div class="d-flex flex-column">
-                    {{ ad.title | trim: 40}}
-                    <div class="mt-1">
-                      <span class="badge text-bg-secondary me-1 fs-6 p-1" *ngFor="let t of ad.tags">{{ t }}</span>
-                    </div>
-                  </div></span>
-                                            <button
+              <tr role="button" (click)="openRow(ad)">
+                <td class="text-break p-1">
+                  <ng-template #previewThumb>
+                    <app-image-loader
+                      cssClass="m-0 p-0 image-fluid"
+                      *ngIf="ad.attachment?.transientThumbnail"
+                      [image]="ad.attachment.transientThumbnail"
+                    />
+                  </ng-template>
+                  <div class="d-flex justify-content-between">
+                    <span>
+                      <div class="d-flex flex-column">
+                        {{ ad.title | trim: 40 }}
+                        <div class="mt-1">
+                          <span class="badge text-bg-secondary me-1 fs-6 p-1" *ngFor="let t of ad.tags">{{ t }}</span>
+                        </div>
+                      </div></span
+                    >
+                    <button
                       type="button"
                       class="p-0 m-0 text-start btn btn-link text-dark"
                       [ngbTooltip]="previewThumb"
-                      triggers="hover"
-                      tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
+                      #btn="ngbTooltip"
+                                        (touchstart)="btn.open()"
+  (touchend)="btn.close()"                      tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
                     >
                       <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
-                      </button>
-                                        </div>
-                   
-                  </td>
-               
+                    </button>
+                  </div>
+                </td>
+
                 <td class="fit d-md-table-cell d-none text-break">{{ ad.dateCreation | date: 'dd/MM/yyyy' }}</td>
                 <td class="fit d-md-table-cell d-none text-break">{{ ad.attachment?.size | bytesToHuman }}</td>
                 <td class="fit" *ngIf="hasRoleAdmin">
