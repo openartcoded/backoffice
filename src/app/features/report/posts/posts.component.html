@@ -54,12 +54,21 @@
             </td>
             <td class="fit">
               <div class="d-inline-block">
-                  <button  class="btn btn-link text-dark text-decoration-none" [routerLink]="['post', slugify(n.title), n.id]">
-                    <fa-icon [icon]="['fas', 'book-open']"></fa-icon>                  </button>
-                  <button  class="btn btn-link text-dark  text-decoration-none" [routerLink]="['post', slugify(n.title), n.id, 'edit']">
-                    <fa-icon [icon]="['fas', 'edit']"></fa-icon>                  </button>
-                  <button  class="btn btn-link text-dark  text-decoration-none" (click)="delete(n)">
-                    <fa-icon [icon]="['fas', 'trash']"></fa-icon>                  </button>
+                <button
+                  class="btn btn-link text-dark text-decoration-none"
+                  [routerLink]="['post', slugify(n.title), n.id]"
+                >
+                  <fa-icon [icon]="['fas', 'book-open']"></fa-icon>
+                </button>
+                <button
+                  class="btn btn-link text-dark text-decoration-none"
+                  [routerLink]="['post', slugify(n.title), n.id, 'edit']"
+                >
+                  <fa-icon [icon]="['fas', 'edit']"></fa-icon>
+                </button>
+                <button class="btn btn-link text-dark text-decoration-none" (click)="delete(n)">
+                  <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                </button>
               </div>
             </td>
           </tr>
