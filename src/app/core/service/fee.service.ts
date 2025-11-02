@@ -46,14 +46,14 @@ export class FeeService {
 
     return this.http.post<Fee>(`${this.backendUrl}/api/fee/add-attachment`, formData);
   }
-  update(fee: Fee): Observable<Fee> {
-    return this.http.post<Fee>(`${this.backendUrl}/api/fee/update`, fee);
-  }
   removeAttachment(feeId: string, attachmentId: string): Observable<Fee> {
     return this.http.post<Fee>(
       `${this.backendUrl}/api/fee/remove-attachment?id=${feeId}&attachmentId=${attachmentId}`,
       {},
     );
+  }
+  update(fee: Fee): Observable<Fee> {
+    return this.http.post<Fee>(`${this.backendUrl}/api/fee/update`, fee);
   }
 
   manualSubmit(manualSubmitForm: FeeManualForm): Observable<Fee> {

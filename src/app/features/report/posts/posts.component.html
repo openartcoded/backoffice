@@ -8,9 +8,7 @@
           <div class="d-flex justify-content-between">
             <small
               >{{ n.title | titlecase }} - {{ n.updatedDate | date: 'dd/MM/yyyy'
-              }}{{ n.draft ? ' (Draft)' : '' }} &nbsp;<fa-icon [icon]="['fas', 'eye']"></fa-icon>&nbsp;{{
-                n.countViews
-              }}
+              }}{{ n.draft ? ' (Draft)' : '' }} &nbsp;<fa-icon [icon]="['fas', 'eye']"></fa-icon>
             </small>
 
             <div ngbDropdown placement="bottom-right">

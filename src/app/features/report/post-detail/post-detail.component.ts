@@ -103,9 +103,4 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
       content: 'Nordine Bittich',
     });
   }
-
-  async resetCount() {
-    await firstValueFrom(this.reportService.resetPostCount(this.post.id));
-    this.load();
-  }
 }

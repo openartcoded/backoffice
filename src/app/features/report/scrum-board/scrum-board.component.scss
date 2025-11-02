@@ -1,0 +1,44 @@
+
+.column .card .card-body {
+  white-space: nowrap;
+  height: 67.5vh;
+    overflow-y: scroll;
+}
+.postit-container .postit {
+  flex: 1 1 200px; /* grow, shrink, base width */
+  max-width: 250px; /* optional max width */
+}
+.postit {
+  width: 25%;
+  height: 20%;
+
+  background-color: #feffca;
+  overflow: hidden;
+  resize: none;
+}
+
+.add-postit {
+  width: 10%;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+  resize: none;
+  outline: none;
+}
+
+@media (max-width: 768px) {
+    .postit {
+        width: 100%;
+    }
+}
+.column.drag-over {
+  border: 2px dashed #007bff; 
+  background-color: #e6f0ff;
+}
+
+.drag:hover {
+  cursor: pointer; 
+}

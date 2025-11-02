@@ -136,6 +136,88 @@
             </div>
           </ng-template>
         </li>
+        <li ngbNavItem>
+          <a ngbNavLink>Attachments</a>
+          <ng-template ngbNavContent>
+            <div class="d-flex flex-column">
+                              <div>
+                <div *ngIf="!post.attachments?.length" class="text-muted">No attachments.</div>
+
+                <label class="fw-bold mb-2 mt-2">New attachment</label>
+                <div class="bg-light border mt-2 p-2">
+                  <input type="file" (change)="onFileSelected($event)" class="form-control mb-2" />
+                  <button
+                    type="button"
+                    class="btn btn-outline-success"
+                    (click)="uploadAttachment()"
+                    [disabled]="!selectedFile || uploading"
+                  >
+                    {{ uploading ? 'Uploading...' : 'Upload' }}
+                  </button>
+                </div>
+              </div>
+                                            <label class="fw-bold mt-2 mb-2">Attachments</label>
+
+              <div  style="height: 56vh; overflow-y: scroll">
+
+                <ul class="list-group mt-2">
+                  <li
+                    *ngFor="let a of post.attachments"
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <ng-template #previewThumb>
+                      <app-image-loader
+                        cssClass="m-0 p-0 image-fluid"
+                        *ngIf="a.transientThumbnail"
+                        [image]="a.transientThumbnail"
+                      />
+                    </ng-template>
+<div>
+                    <button
+                      type="button"
+                      class="p-0 m-0 text-start btn btn-link text-dark text-decoration-none "
+                      [ngbTooltip]="previewThumb"
+                      #btn="ngbTooltip"
+                      (touchstart)="btn.open()"
+                      (touchend)="btn.close()"
+                      tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
+                    >
+                      <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+
+                    </button><span>&nbsp;{{ a.originalFilename }}</span>
+                                            </div>
+                    <div class="btn-group">
+                      <button class="btn btn-link" *ngIf="isPdf(a)" (click)="$event.preventDefault();openPdfViewer(a)">
+                        <fa-icon [icon]="['fas', 'file-pdf']" class="text-secondary"></fa-icon>
+                      </button>
+                      <button class="btn btn-link" *ngIf="isXML(a)" (click)="$event.preventDefault();openPdfViewer(a)">
+                        <fa-icon [icon]="['fas', 'file-code']" class="text-secondary"></fa-icon>
+                      </button>
+                      <button class="btn btn-link" *ngIf="isImage(a)" (click)="$event.preventDefault();openImageViewer(a)">
+                        <fa-icon [icon]="['fas', 'file-image']" class="text-secondary"></fa-icon>
+                      </button>
+                      <button class="btn btn-link" (click)="$event.preventDefault();download(a)">
+                        <fa-icon [icon]="['fas', 'download']" class="text-secondary"></fa-icon>
+                      </button>
+                                            
+                      <button class="btn btn-link" (click)="deleteAttachment($event,a)">
+                        <fa-icon [icon]="['fas', 'trash']" class="text-danger"></fa-icon>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            
+            </div>
+          </ng-template>
+        </li>
+
+                 <li ngbNavItem>
+          <a ngbNavLink>Tasks</a>
+          <ng-template ngbNavContent>
+                        <app-scrum-board/>
+                        </ng-template>
+                    </li>
       </ul>
       <div [ngbNavOutlet]="nav"></div>
     </form>
