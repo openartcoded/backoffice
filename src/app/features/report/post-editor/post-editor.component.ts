@@ -2,7 +2,7 @@ import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild }
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { UploadResult } from 'ngx-markdown-editor';
 import { FileService } from '@core/service/file.service';
-import { map } from 'rxjs/operators';
+import { map, skip } from 'rxjs/operators';
 import { Post } from '@core/models/post';
 import { ReportService } from '@core/service/report.service';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
@@ -21,6 +21,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     standalone: false,
 })
 export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked {
+    private lastState: any = null;
     deleteAttachment($event, f: FileUpload) {
         $event.preventDefault();
         this.reportService.removeAttachment(this.post.id, f.id).subscribe((p) => {
@@ -28,12 +29,11 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
             this.reloadAttachments();
             this.toastService.showSuccess('Attachment removed');
         });
-
     }
     post: Post;
     uploading = false;
     saving = false;
-    selectedFile?: File;
+    selectedFiles?: File[] = [];
 
     autosave: Subscription;
     @ViewChild('editor') editor!: ElementRef<HTMLTextAreaElement>;
@@ -150,7 +150,6 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
             }
         }
         this.post.attachments = attachments;
-
     }
     async ngOnInit() {
         const id = this.activateRoute.snapshot.params.id;
@@ -158,7 +157,17 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
         else this.post = await firstValueFrom(this.reportService.newPost());
         this.reloadAttachments();
         this.editorForm = this.createFormGroup(this.post);
-        const secondsCounter = interval(20000);
+        const secondsCounter = interval(10000).pipe(skip(1));
+        this.lastState = JSON.stringify({
+            id: this.post.id,
+            content: this.htmlContent.value,
+            author: this.editorForm.get('author').value,
+            tags: this.editorForm.get('tags').value,
+            draft: this.editorForm.get('draft').value,
+            title: this.title.value,
+            cover: this.cover,
+            description: this.editorForm.get('description').value,
+        });
         this.autosave = secondsCounter.subscribe((_) => this.save());
     }
 
@@ -211,12 +220,22 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
         }
     }
 
-    save(
-        callback = (data) => {
+    async save(
+        callback = (args: any) => {
             console.log('saving...');
         },
     ) {
         let formData = new FormData();
+        let oldState = {
+            id: this.post.id,
+            content: this.htmlContent.value,
+            author: this.editorForm.get('author').value,
+            tags: this.editorForm.get('tags').value,
+            draft: this.editorForm.get('draft').value,
+            title: this.title.value,
+            cover: this.cover,
+            description: this.editorForm.get('description').value,
+        };
         formData.append('id', this.post.id);
         formData.append('content', this.htmlContent.value);
         formData.append('author', this.editorForm.get('author').value);
@@ -225,13 +244,19 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
         formData.append('title', this.title.value);
         formData.append('cover', this.cover);
         formData.append('description', this.editorForm.get('description').value);
-        this.reportService.save(formData).subscribe(callback);
+        let formDataJson = JSON.stringify(oldState);
+        if (formDataJson === this.lastState) {
+            return;
+        }
+        let res = await firstValueFrom(this.reportService.save(formData));
+        callback(res);
+        this.lastState = formDataJson;
         this.toastService.showSuccess('Report saved');
     }
 
     send() {
-        this.save((data) => {
-            this.editorForm.reset();
+        this.save(() => {
+            // this.editorForm.reset();
         });
     }
 
@@ -241,7 +266,7 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
     onFileSelected(event: Event) {
         const input = event.target as HTMLInputElement;
         if (input.files?.length) {
-            this.selectedFile = input.files[0];
+            this.selectedFiles = Array.from(input.files);
         }
     }
     openPdfViewer(a: FileUpload) {
@@ -274,17 +299,16 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
         this.fileService.download(upl);
     }
 
-
     uploadAttachment() {
-        if (!this.post?.id || !this.selectedFile) return;
+        if (!this.post?.id || !this.selectedFiles?.length) return;
         this.uploading = true;
 
-        this.reportService.addAttachment(this.post.id, this.selectedFile).subscribe({
+        this.reportService.addAttachment(this.post.id, this.selectedFiles).subscribe({
             next: (p: Post) => {
                 this.post.attachmentIds = p.attachmentIds;
                 this.reloadAttachments();
                 this.toastService.showSuccess('Attachment uploaded');
-                this.selectedFile = undefined;
+                this.selectedFiles = [];
             },
             error: () => this.toastService.showDanger('Upload failed'),
             complete: () => (this.uploading = false),

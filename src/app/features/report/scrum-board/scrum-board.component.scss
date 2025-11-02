@@ -1,8 +1,7 @@
-
 .column .card .card-body {
   white-space: nowrap;
   height: 67.5vh;
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 .postit-container .postit {
   flex: 1 1 200px; /* grow, shrink, base width */
@@ -30,15 +29,15 @@ textarea {
 }
 
 @media (max-width: 768px) {
-    .postit {
-        width: 100%;
-    }
+  .postit {
+    width: 100%;
+  }
 }
 .column.drag-over {
-  border: 2px dashed #007bff; 
+  border: 2px dashed #007bff;
   background-color: #e6f0ff;
 }
 
 .drag:hover {
-  cursor: pointer; 
+  cursor: pointer;
 }

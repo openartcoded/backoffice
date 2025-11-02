@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Post, PostItType, PostSearchCriteria } from '@core/models/post';
+import { PostIt } from '@core/models/postit';
 import { Page } from '@core/models/page';
 import { FileService } from '@core/service/file.service';
 import { ConfigInitService } from '@init/config-init.service';
-import { PostIt } from '@core/models/postit';
 
 @Injectable({
     providedIn: 'root',
@@ -42,11 +42,10 @@ export class ReportService {
             criteria,
         );
     }
-    addAttachment(postId: string, file: File): Observable<Post> {
+    addAttachment(postId: string, files: File[]): Observable<Post> {
         let formData = new FormData();
         formData.append('id', postId);
-        formData.append('file', file);
-
+        files.forEach(file => formData.append('files', file));
         return this.http.post<Post>(`${this.basePath}/add-attachment`, formData);
     }
     removeAttachment(postId: string, attachmentId: string): Observable<Post> {
@@ -59,8 +58,8 @@ export class ReportService {
         );
     }
 
-    updatePostIts(id: string, postIts: PostIt[], updateType: PostItType): Observable<Post> {
-        return this.http.post<Post>(`${this.basePath}/update-post-it?id=${id}&postItType=${updateType}`, postIts);
+    updatePostIts(id: string, postIts: { todos: PostIt[]; inProgress: PostIt[]; done: PostIt[] }): Observable<Post> {
+        return this.http.post<Post>(`${this.basePath}/update-post-it?id=${id}`, postIts);
     }
 
     getPostById(id: string): Observable<Post> {

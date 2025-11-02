@@ -1,47 +1,60 @@
 <form [formGroup]="form">
-    <div class="row gx-2 p-2">
-        <div class="column  col-lg-4 col-12" *ngFor="let column of ['TODOS', 'IN_PROGRESS', 'DONE']"
-            (drop)="onDrop($event, column)" (dragover)="onDragOver($event, column)"
-            [class.drag-over]="draggedColumn === column">
-
-            <div class="card mb-2 shadow-sm flat">
-                <div class="card-header d-flex justify-content-center align-items-center">
-                    <span class="text-capitalize fs-5">
-                        {{ column === 'IN_PROGRESS' ? 'In Progress' : column | titlecase }}
-                    </span>
-                    <button class="btn btn-link" type="button" (click)="addPostIt(column)">
-                        <fa-icon [icon]="['fas', 'plus']"></fa-icon>
-                    </button>
-                </div>
-
-                <div class="card-body  hidden-scroll d-flex flex-wrap" [formArrayName]="column">
-                    <div *ngFor="let control of getColumnControls(column); let i = index" [formGroupName]="i"
-                        class="card flat postit p-2 mb-2 me-2 shadow-sm" draggable="true"
-                        (dragstart)="onDragStart($event, control)" style="width: 100%; max-width: 250px;">
-
-                        <input type="hidden" formControlName="id" />
-                        <textarea formControlName="note" class="form-control flat mb-1" rows="6"
-                            placeholder="New postIt..."></textarea>
-
-                        <div class="d-flex align-items-center justify-content-between">
-                            <small class="text-muted" *ngIf="control.get('updatedOn')?.value">
-                                {{ control.get('updatedOn')?.value | date: 'dd/MM/yyyy HH:mm:ss' }}
-                            </small>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-link p-0" (click)="saveOrUpdate(control)">
-                                    <fa-icon [icon]="['fas', 'save']"></fa-icon>
-                                </button>
-                                <button *ngIf="control.get('id')?.value" type="button"
-                                    class="btn btn-sm btn-link text-danger p-0" (click)="delete(control, column)">
-                                    <fa-icon [icon]="['fas', 'trash']"></fa-icon>
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
+  <div class="row gx-2 p-2">
+    <div
+      class="column col-lg-4 col-12"
+      *ngFor="let column of postitTypes"
+      (drop)="onDrop($event, column)"
+      (dragover)="onDragOver($event, column)"
+      [class.drag-over]="draggedColumn === column"
+    >
+      <div class="card mb-2 shadow-sm flat">
+        <div class="card-header d-flex justify-content-center align-items-center">
+          <span class="text-capitalize fs-5">
+            {{ column === 'IN_PROGRESS' ? 'In Progress' : (column | titlecase) }}
+          </span>
+          <button class="btn btn-link" type="button" (click)="addPostIt(column)">
+            <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+          </button>
         </div>
+
+        <div class="card-body drag hidden-scroll d-flex flex-wrap" [formArrayName]="column">
+          <div
+            *ngFor="let control of getColumnControls(column); let i = index"
+            [formGroupName]="i"
+            class="card flat postit p-2 mb-2 me-2 shadow-sm"
+            draggable="true"
+            (dragstart)="onDragStart($event, control)"
+            style="width: 100%; max-width: 250px"
+          >
+            <input type="hidden" formControlName="id" />
+            <textarea
+              formControlName="note"
+              class="form-control flat mb-1"
+              rows="6"
+              placeholder="New postIt..."
+            ></textarea>
+
+            <div class="d-flex align-items-center justify-content-between">
+              <small class="text-muted" *ngIf="control.get('creationDate')?.value">
+                {{ control.get('creationDate')?.value | date: 'dd/MM/yyyy HH:mm:ss' }}
+              </small>
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-link p-0 me-2" (click)="saveOrUpdate()">
+                  <fa-icon [icon]="['fas', 'save']"></fa-icon>
+                </button>
+                <button
+                  *ngIf="control.get('id')?.value"
+                  type="button"
+                  class="btn btn-sm btn-link text-danger p-0"
+                  (click)="delete(control, column)"
+                >
+                  <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </form>

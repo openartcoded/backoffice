@@ -1,68 +1,83 @@
 <app-title title="Activity Report" [uppercase]="true"></app-title>
 
-<div class="row d-sm-flex">
-  <div class="mt-2 m-lg-0 col-lg-9 col-12 order-lg-0 order-1">
-    <ng-container *ngIf="posts && posts.page.size > 0">
-      <div *ngFor="let n of posts.content" class="border-primary card bg-transparent mb-2">
-        <div class="card-header ps-1 pe-1 pt-0 pb-0">
-          <div class="d-flex justify-content-between">
-            <small
-              >{{ n.title | titlecase }} - {{ n.updatedDate | date: 'dd/MM/yyyy'
-              }}{{ n.draft ? ' (Draft)' : '' }} &nbsp;<fa-icon [icon]="['fas', 'eye']"></fa-icon>
-            </small>
-
-            <div ngbDropdown placement="bottom-right">
-              <button id="dropdownBasic2" class="btn btn-link text-dark p-0 m-0" ngbDropdownToggle>
-                <fa-icon [icon]="['fas', 'cog']"></fa-icon>
-              </button>
-              <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-                <button ngbDropdownItem (click)="delete(n)">
-                  <fa-icon [icon]="['fas', 'trash']"></fa-icon>&nbsp;Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body mt-0 pt-1 ps-2">
-          <p class="">{{ n.description }}</p>
-          <a class="btn btn-outline-primary" [routerLink]="['post', slugify(n.title), n.id]">Read more</a>
-          <a class="btn btn-outline-primary" [routerLink]="['post', slugify(n.title), n.id, 'edit']">Edit</a>
-        </div>
+<div class="row">
+  <div class="col-12">
+    <div class="d-flex align-items-center flex-row">
+      <div>
+        <a class="btn btn-outline-primary me-1" [routerLink]="['post', 'new']">
+          <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+        </a>
       </div>
-      <ngb-pagination
-        *ngIf="posts && posts.page.totalPages > 1"
-        [page]="pageNumber"
-        [pageSize]="posts.page.size"
-        [maxSize]="5"
-        [collectionSize]="posts.page.totalElements"
-        (pageChange)="load($event)"
-      ></ngb-pagination>
-    </ng-container>
-    <ng-container *ngIf="!posts || posts.page.size === 0"> No content. </ng-container>
-  </div>
-  <div class="col-lg-3 col-12 order-lg-1 order-0">
-    <button class="btn btn-outline-primary btn-block mb-2" [routerLink]="['post', 'new']">
-      <fa-icon [icon]="['fas', 'plus']"></fa-icon>
-      Add post
-    </button>
-    <input
-      type="search"
-      [(ngModel)]="searchInput"
-      (ngModelChange)="search(null)"
-      placeholder="Search"
-      aria-label="Search"
-      class="form-control mb-2"
-    />
+
+      <input
+        type="search"
+        [(ngModel)]="searchInput"
+        (ngModelChange)="search(null)"
+        placeholder="Search"
+        aria-label="Search"
+        class="form-control"
+      />
+    </div>
+
     <ng-container *ngIf="tags">
-      <span
-        role="button"
-        class="badge p-1 me-1 mb-1"
-        (click)="search(t)"
-        [class.bg-success]="selectedTag !== t"
-        [class.bg-warning]="selectedTag === t"
-        *ngFor="let t of tags"
-        >#{{ t }}</span
-      >
+      <div class="d-block mt-1 mb-1">
+        <span
+          role="button"
+          class="badge p-1 fs-6 mt-1 me-1 mb-1"
+          (click)="search(t)"
+          [class.bg-success]="selectedTag !== t"
+          [class.bg-warning]="selectedTag === t"
+          *ngFor="let t of tags"
+          >#{{ t }}</span
+        >
+      </div>
     </ng-container>
+  </div>
+  <hr />
+  <div class="col-12">
+    <ng-container *ngIf="posts && posts.page.size > 0">
+      <table class="table table-bordered">
+        <tbody>
+          <tr *ngFor="let n of posts.content">
+            <td class="text-break">
+              <div class="d-flex justify-content-between">
+                <strong
+                  ><fa-icon *ngIf="!n.draft" [icon]="['fas', 'check-circle']" class="text-success me-1"></fa-icon
+                  >{{ n.title | titlecase }}</strong
+                >
+                <small class="text-muted">
+                  {{ n.updatedDate | date: 'dd/MM/yyyy' }}{{ n.draft ? ' (Draft)' : '' }}
+                </small>
+              </div>
+
+              <p class="mb-1">{{ n.description }}</p>
+            </td>
+            <td class="fit">
+              <div class="d-inline-block">
+                  <button  class="btn btn-link text-dark text-decoration-none" [routerLink]="['post', slugify(n.title), n.id]">
+                    <fa-icon [icon]="['fas', 'book-open']"></fa-icon>                  </button>
+                  <button  class="btn btn-link text-dark  text-decoration-none" [routerLink]="['post', slugify(n.title), n.id, 'edit']">
+                    <fa-icon [icon]="['fas', 'edit']"></fa-icon>                  </button>
+                  <button  class="btn btn-link text-dark  text-decoration-none" (click)="delete(n)">
+                    <fa-icon [icon]="['fas', 'trash']"></fa-icon>                  </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="d-flex justify-content-end">
+        <ngb-pagination
+          *ngIf="posts && posts.page.totalPages > 1"
+          [page]="pageNumber"
+          [pageSize]="posts.page.size"
+          [maxSize]="5"
+          [collectionSize]="posts.page.totalElements"
+          (pageChange)="load($event)"
+        ></ngb-pagination>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!posts || posts.page.size === 0"><span class="mt-2 mb-2">No content.</span></ng-container>
   </div>
 </div>

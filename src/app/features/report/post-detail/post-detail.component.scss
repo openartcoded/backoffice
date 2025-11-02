@@ -19,8 +19,11 @@
   background-color: #f8f9fa;
 }
 
-.cover {
+::ng-deep .cover {
   object-fit: cover;
+    object-position: center;
   width: 100%;
   height: 200px;
+    display: block;
+  
 }
