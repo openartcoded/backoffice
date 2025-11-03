@@ -27,7 +27,7 @@
     </form>
 
     <!-- List -->
-    <div style="max-height: 49.5vh" class="overflow-auto hidden-scroll" *ngIf="todos.length; else emptyList">
+    <div style="height: 86.5vh" class="overflow-auto hidden-scroll" *ngIf="todos.length; else emptyList">
       <ul class="list-group list-group-flush">
         <li *ngFor="let todo of todos" class="list-group-item bg-light-secondary" [class.opacity-50]="todo.done">
           <div class="d-flex justify-content-between align-items-center">

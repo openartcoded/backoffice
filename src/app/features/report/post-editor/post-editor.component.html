@@ -1,7 +1,7 @@
 <ng-container *ngIf="post">
   <app-title [title]="post.title | titlecase" />
 
-  <div style="height: 85vh; overflow-y: hidden">
+  <div class="container" style="height: 87vh; overflow-y: hidden">
     <form class="mt-2" [formGroup]="editorForm" (ngSubmit)="send()" *ngIf="editorForm">
       <div class="mb-2 d-flex justify-content-between">
         <a routerLink="/report" class="btn btn-outline-primary me-1">
@@ -11,7 +11,6 @@
 
         <button type="submit" class="btn btn-outline-primary" [disabled]="!editorForm.valid">Save</button>
       </div>
-      <hr />
       <ul ngbNav #nav="ngbNav" class="nav-tabs">
         <li ngbNavItem>
           <a ngbNavLink>Metadata</a>

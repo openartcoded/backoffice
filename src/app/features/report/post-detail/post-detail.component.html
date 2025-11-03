@@ -33,54 +33,56 @@
         </div>
       </div>
 
-      <div class="border rounded-0 shadow-sm p-3 mb-3">
+      <div class="border rounded-0 shadow-sm p-3 mb-3" *ngIf="post.content?.length">
         <markdown [data]="post.content"></markdown>
       </div>
 
-      <label class="fw-bold mt-2 mb-2 d-block">Attachments</label>
-      <ul class="list-group mb-3">
-        <li
-          *ngFor="let a of post.attachments"
-          class="list-group-item d-flex justify-content-between align-items-center flex-wrap"
-        >
-          <div class="d-flex align-items-center mb-2 mb-md-0">
-            <ng-template #previewThumb>
-              <app-image-loader
-                cssClass="m-0 p-0 img-fluid rounded"
-                *ngIf="a.transientThumbnail"
-                [image]="a.transientThumbnail"
-              />
-            </ng-template>
-            <button
-              type="button"
-              class="btn btn-link p-0 m-0 text-dark text-decoration-none ms-2"
-              [ngbTooltip]="previewThumb"
-              #btn="ngbTooltip"
-              (touchstart)="btn.open()"
-              (touchend)="btn.close()"
-              tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
-            >
-              <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
-            </button>
-            <span class="ms-1 text-break">{{ a.originalFilename | trim: 15 }}</span>
-          </div>
+      <ng-container *ngIf="post.attachments?.length">
+        <label class="fw-bold mt-2 mb-2 d-block">Attachments</label>
+        <ul class="list-group mb-3 rounded-0">
+          <li
+            *ngFor="let a of post.attachments"
+            class="list-group-item d-flex justify-content-between align-items-center flex-wrap"
+          >
+            <div class="d-flex align-items-center mb-2 mb-md-0">
+              <ng-template #previewThumb>
+                <app-image-loader
+                  cssClass="m-0 p-0 img-fluid rounded"
+                  *ngIf="a.transientThumbnail"
+                  [image]="a.transientThumbnail"
+                />
+              </ng-template>
+              <button
+                type="button"
+                class="btn btn-link p-0 m-0 text-dark text-decoration-none ms-2"
+                [ngbTooltip]="previewThumb"
+                #btn="ngbTooltip"
+                (touchstart)="btn.open()"
+                (touchend)="btn.close()"
+                tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
+              >
+                <fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+              </button>
+              <span class="ms-1 text-break">{{ a.originalFilename | trim: 15 }}</span>
+            </div>
 
-          <div class="d-flex justify-content-start gap-1">
-            <button class="btn btn-link p-0" *ngIf="isPdf(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
-              <fa-icon [icon]="['fas', 'file-pdf']" class="text-secondary"></fa-icon>
-            </button>
-            <button class="btn btn-link p-0" *ngIf="isXML(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
-              <fa-icon [icon]="['fas', 'file-code']" class="text-secondary"></fa-icon>
-            </button>
-            <button class="btn btn-link p-0" *ngIf="isImage(a)" (click)="$event.preventDefault(); openImageViewer(a)">
-              <fa-icon [icon]="['fas', 'file-image']" class="text-secondary"></fa-icon>
-            </button>
-            <button class="btn btn-link p-0" (click)="$event.preventDefault(); download(a)">
-              <fa-icon [icon]="['fas', 'download']" class="text-secondary"></fa-icon>
-            </button>
-          </div>
-        </li>
-      </ul>
+            <div class="d-flex justify-content-start gap-1">
+              <button class="btn btn-link p-0" *ngIf="isPdf(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
+                <fa-icon [icon]="['fas', 'file-pdf']" class="text-secondary"></fa-icon>
+              </button>
+              <button class="btn btn-link p-0" *ngIf="isXML(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
+                <fa-icon [icon]="['fas', 'file-code']" class="text-secondary"></fa-icon>
+              </button>
+              <button class="btn btn-link p-0" *ngIf="isImage(a)" (click)="$event.preventDefault(); openImageViewer(a)">
+                <fa-icon [icon]="['fas', 'file-image']" class="text-secondary"></fa-icon>
+              </button>
+              <button class="btn btn-link p-0" (click)="$event.preventDefault(); download(a)">
+                <fa-icon [icon]="['fas', 'download']" class="text-secondary"></fa-icon>
+              </button>
+            </div>
+          </li>
+        </ul>
+      </ng-container>
 
       <hr />
 
