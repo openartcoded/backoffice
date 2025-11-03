@@ -63,7 +63,7 @@
                 <th class="d-md-table-cell d-none">Price HVAT</th>
                 <th class="d-md-table-cell d-none fit">Files</th>
                 <th class="fit" *ngIf="hasRoleAdmin"></th>
-                <th class="text-center fit" *ngIf="!archived && hasRoleAdmin">
+                <th class="text-center fit" *ngIf="!archived && !bookmarked && hasRoleAdmin">
                   <input
                     type="checkbox"
                     class="form-check-input"
@@ -77,7 +77,7 @@
             </thead>
             <tbody>
               <tr class="bg-light">
-                <td *ngIf="!fees?.content?.length" colspan="7">No entries</td>
+                <td *ngIf="!fees?.content?.length" colspan="8">No entries</td>
               </tr>
               <ng-container *ngFor="let f of fees.content">
                 <tr role="button" (click)="openDetail(f)">
@@ -121,7 +121,7 @@
                       ><fa-icon [icon]="['fas', 'star']"
                     /></a>
                   </td>
-                  <td class="text-center fit" (click)="toggleSelectedRow(f, false, $event)" *ngIf="!archived">
+                  <td class="text-center fit" (click)="toggleSelectedRow(f, false, $event)" *ngIf="!archived && !bookmarked && hasRoleAdmin">
                     <input type="checkbox" class="form-check-input" aria-label="select" [checked]="isFeeSelected(f)" />
                   </td>
                 </tr>
@@ -129,7 +129,7 @@
             </tbody>
             <tfoot>
               <tr class="d-none d-md-table-row table-light">
-                <td colspan="7">
+                <td colspan="8">
                   <ng-container *ngFor="let t of tags">
                     @if (!t.hidden) {
                       <a class="btn btn-link pe-1" (click)="filterByTag(t)">

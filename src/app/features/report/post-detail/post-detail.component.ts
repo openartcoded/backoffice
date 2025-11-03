@@ -14,146 +14,150 @@ import { ImageViewerComponent } from '@shared/image-viewer/image-viewer.componen
 import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 
 @Component({
-  selector: 'app-post-detail',
-  templateUrl: './post-detail.component.html',
-  styleUrls: ['./post-detail.component.scss'],
-  standalone: false,
+    selector: 'app-post-detail',
+    templateUrl: './post-detail.component.html',
+    styleUrls: ['./post-detail.component.scss'],
+    standalone: false,
 })
 export class PostDetailComponent implements OnInit, AfterViewChecked {
-  post: Post;
-  cover?: FileUpload;
-  id: string;
+    post: Post;
+    cover?: FileUpload;
+    id: string;
 
-  ngAfterViewChecked() {
-    Prism.highlightAll();
-  }
-  constructor(
-    private activateRoute: ActivatedRoute,
-    private modalService: NgbModal,
-    private fileService: FileService,
-    private titleService: Title,
-    @Inject(DOCUMENT) private document: any,
-    private metaService: Meta,
-    private reportService: ReportService,
-  ) {}
-
-  ngOnInit(): void {
-    this.id = this.activateRoute.snapshot.params.id;
-    this.load();
-  }
-
-  async load() {
-    this.post = await firstValueFrom(this.reportService.getPostById(this.id));
-
-    if (this.post.coverId) {
-      this.cover = await firstValueFrom(this.fileService.findById(this.post.coverId));
+    ngAfterViewChecked() {
+        Prism.highlightAll();
     }
-    this.reloadAttachments();
+    constructor(
+        private activateRoute: ActivatedRoute,
+        private modalService: NgbModal,
+        private fileService: FileService,
+        private titleService: Title,
+        @Inject(DOCUMENT) private document: any,
+        private metaService: Meta,
+        private reportService: ReportService,
+    ) { }
 
-    this.updateMetas();
-  }
-
-  getCoverUrl() {
-    if (this.post.coverId) {
-      return this.fileService.getDownloadUrl(this.post.coverId);
+    ngOnInit(): void {
+        this.id = this.activateRoute.snapshot.params.id;
+        this.load();
     }
-    return '/assets/img/no-cover.jpg';
-  }
-  async reloadAttachments() {
-    let attachments = [];
-    if (!this.post.attachments) {
-      this.post.attachments = [];
-    }
-    if (this.post.attachmentIds?.length) {
-      attachments = await firstValueFrom(this.fileService.findByIds(this.post.attachmentIds));
-    }
-    for (const a of attachments) {
-      if (a.thumbnailId) {
-        a.transientThumbnail = await firstValueFrom(this.fileService.findById(a.thumbnailId));
-      }
-    }
-    this.post.attachments = attachments;
-  }
-  openPdfViewer(a: FileUpload) {
-    let ngbModalRef = this.modalService.open(PdfViewerComponent, {
-      size: 'xl',
-      scrollable: true,
-    });
-    ngbModalRef.componentInstance.pdf = a;
-    ngbModalRef.componentInstance.title = a?.originalFilename;
-  }
 
-  openImageViewer(a: FileUpload) {
-    let ngbModalRef = this.modalService.open(ImageViewerComponent, {
-      size: 'xl',
-      scrollable: true,
-    });
-    ngbModalRef.componentInstance.image = a;
-    ngbModalRef.componentInstance.title = a?.originalFilename;
-  }
-  isPdf(upl: FileUpload) {
-    return FileService.isPdf(upl?.contentType);
-  }
-  isXML(upl: FileUpload) {
-    return FileService.isXML(upl?.contentType);
-  }
-  isImage(upl: FileUpload) {
-    return FileService.isImage(upl?.contentType);
-  }
-  download(upl: FileUpload) {
-    this.fileService.download(upl);
-  }
+    async load() {
+        this.post = await firstValueFrom(this.reportService.getPostById(this.id));
 
-  generatePdf() {
-    this.reportService.generatePdf(this.post);
-  }
+        if (this.post.coverId) {
+            this.cover = await firstValueFrom(this.fileService.findById(this.post.coverId));
+        }
+        this.reloadAttachments();
 
-  private updateMetas() {
-    this.titleService.setTitle(this.post.title);
-    this.metaService.updateTag({
-      name: 'description',
-      content: this.post.description,
-    });
-    this.metaService.updateTag({
-      property: 'og:description',
-      content: this.post.description,
-    });
-    this.metaService.updateTag({
-      property: 'og:title',
-      content: this.post.title,
-    });
-    this.metaService.updateTag({
-      property: 'og:image',
-      content: this.getCoverUrl(),
-    });
-    this.metaService.updateTag({
-      property: 'twitter:description',
-      content: this.post.description,
-    });
-    this.metaService.updateTag({
-      property: 'twitter:title',
-      content: this.post.title,
-    });
-    this.metaService.updateTag({
-      property: 'twitter:image',
-      content: this.getCoverUrl(),
-    });
-    this.metaService.updateTag({
-      name: 'publish_date',
-      property: 'og:publish_date',
-      content: DateUtils.getIsoDateFromBackend(this.post.creationDate),
-    });
-    this.metaService.updateTag({
-      property: 'og:url',
-      content: this.document.location.href,
-    });
-    this.metaService.updateTag({
-      property: 'twitter:url',
-      content: this.document.location.href,
-    });
-    this.metaService.updateTag({
-      name: 'author',
-      content: 'Nordine Bittich',
-    });
-  }
+        this.updateMetas();
+    }
+
+    getCoverUrl() {
+        if (this.post.coverId) {
+            return this.fileService.getDownloadUrl(this.post.coverId);
+        }
+        return '/assets/img/no-cover.jpg';
+    }
+    async reloadAttachments() {
+        let attachments = [];
+        if (!this.post.attachments) {
+            this.post.attachments = [];
+        }
+        if (this.post.attachmentIds?.length) {
+            attachments = await firstValueFrom(this.fileService.findByIds(this.post.attachmentIds));
+        }
+        const thumbs = await firstValueFrom(this.fileService
+            .findByIds(attachments.map(u => u.thumbnailId)
+                .filter(u => u?.length), true));
+        for (const upload of attachments) {
+            if (upload.thumbnailId?.length) {
+                const thumb = thumbs.find(t => upload.thumbnailId === t.id);
+                upload.transientThumbnail = thumb;
+            }
+        }
+        this.post.attachments = attachments;
+    }
+    openPdfViewer(a: FileUpload) {
+        let ngbModalRef = this.modalService.open(PdfViewerComponent, {
+            size: 'xl',
+            scrollable: true,
+        });
+        ngbModalRef.componentInstance.pdf = a;
+        ngbModalRef.componentInstance.title = a?.originalFilename;
+    }
+
+    openImageViewer(a: FileUpload) {
+        let ngbModalRef = this.modalService.open(ImageViewerComponent, {
+            size: 'xl',
+            scrollable: true,
+        });
+        ngbModalRef.componentInstance.image = a;
+        ngbModalRef.componentInstance.title = a?.originalFilename;
+    }
+    isPdf(upl: FileUpload) {
+        return FileService.isPdf(upl?.contentType);
+    }
+    isXML(upl: FileUpload) {
+        return FileService.isXML(upl?.contentType);
+    }
+    isImage(upl: FileUpload) {
+        return FileService.isImage(upl?.contentType);
+    }
+    download(upl: FileUpload) {
+        this.fileService.download(upl);
+    }
+
+    generatePdf() {
+        this.reportService.generatePdf(this.post);
+    }
+
+    private updateMetas() {
+        this.titleService.setTitle(this.post.title);
+        this.metaService.updateTag({
+            name: 'description',
+            content: this.post.description,
+        });
+        this.metaService.updateTag({
+            property: 'og:description',
+            content: this.post.description,
+        });
+        this.metaService.updateTag({
+            property: 'og:title',
+            content: this.post.title,
+        });
+        this.metaService.updateTag({
+            property: 'og:image',
+            content: this.getCoverUrl(),
+        });
+        this.metaService.updateTag({
+            property: 'twitter:description',
+            content: this.post.description,
+        });
+        this.metaService.updateTag({
+            property: 'twitter:title',
+            content: this.post.title,
+        });
+        this.metaService.updateTag({
+            property: 'twitter:image',
+            content: this.getCoverUrl(),
+        });
+        this.metaService.updateTag({
+            name: 'publish_date',
+            property: 'og:publish_date',
+            content: DateUtils.getIsoDateFromBackend(this.post.creationDate),
+        });
+        this.metaService.updateTag({
+            property: 'og:url',
+            content: this.document.location.href,
+        });
+        this.metaService.updateTag({
+            property: 'twitter:url',
+            content: this.document.location.href,
+        });
+        this.metaService.updateTag({
+            name: 'author',
+            content: 'Nordine Bittich',
+        });
+    }
 }
