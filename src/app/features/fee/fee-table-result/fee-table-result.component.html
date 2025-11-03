@@ -121,7 +121,11 @@
                       ><fa-icon [icon]="['fas', 'star']"
                     /></a>
                   </td>
-                  <td class="text-center fit" (click)="toggleSelectedRow(f, false, $event)" *ngIf="!archived && !bookmarked && hasRoleAdmin">
+                  <td
+                    class="text-center fit"
+                    (click)="toggleSelectedRow(f, false, $event)"
+                    *ngIf="!archived && !bookmarked && hasRoleAdmin"
+                  >
                     <input type="checkbox" class="form-check-input" aria-label="select" [checked]="isFeeSelected(f)" />
                   </td>
                 </tr>
