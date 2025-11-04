@@ -281,6 +281,20 @@ export class EditPersonalInfoComponent implements OnInit {
         },
         [Validators.required, Validators.email],
       ),
+      emailHook: new UntypedFormControl(
+        {
+          value: accountant.emailHook,
+          disabled: !this.hasRoleAdmin,
+        },
+        [],
+      ),
+      expenseReceiveEmailHook: new UntypedFormControl(
+        {
+          value: accountant.expenseReceiveEmailHook,
+          disabled: !this.hasRoleAdmin,
+        },
+        [Validators.email],
+      ),
     });
   };
 
@@ -291,6 +305,8 @@ export class EditPersonalInfoComponent implements OnInit {
     const accountants = this.accountants?.controls?.map((c) => {
       return {
         firstName: c.get('firstName').value,
+        emailHook: c.get('emailHook').value,
+        expenseReceiveEmailHook: c.get('expenseReceiveEmailHook').value,
         lastName: c.get('lastName').value,
         phoneNumber: c.get('phoneNumber').value,
         email: c.get('email').value,

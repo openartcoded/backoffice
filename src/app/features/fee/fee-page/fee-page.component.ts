@@ -36,7 +36,7 @@ export class FeePageComponent implements OnInit {
     this.titleService.setTitle('Expenses');
     this.personalInfoService.me().subscribe((u) => {
       this.user = u;
-      this.activeId = this.route.snapshot.params.name || (!this.hasRoleAdmin ? 'processed' : 'bookmarks');
+      this.activeId = this.route.snapshot.params.name || (!this.hasRoleAdmin ? 'processed' : 'unprocessed');
     });
     this.personalInfoService.get().subscribe((p) => (this.demoMode = p.demoMode));
   }

@@ -51,9 +51,10 @@ export class UserMenuComponent implements OnInit {
     const personalInfo: PersonalInfo = await firstValueFrom(this.personalInfoService.get());
     const oldDemoMode = personalInfo.demoMode;
     const modal = this.modalService.open(EditPersonalInfoComponent, {
-      size: 'lg',
+      size: 'xl',
       backdrop: 'static',
       keyboard: false,
+      scrollable: true,
     });
     modal.componentInstance.user = this.user;
     modal.componentInstance.currentPersonalInfo = personalInfo;

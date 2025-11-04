@@ -299,7 +299,10 @@
                   </button>
                 </div>
                 <div class="bg-light p-2 mb-1" *ngIf="!accountants.controls.length">No Content.</div>
-                <div class="bg-light border border-gray p-2 mb-1" *ngFor="let _ of accountants.controls; index as i">
+                <div
+                  class="bg-light border border-gray p-2 mb-1"
+                  *ngFor="let accountantForm of accountants.controls; index as i"
+                >
                   <ng-container [formGroupName]="i">
                     <div class="mb-1 row">
                       <label class="col-sm-2 col-form-label" [for]="'firstName' + i">First Name</label>
@@ -327,6 +330,29 @@
                           class="form-control"
                           [id]="'phoneNumber' + i"
                           formControlName="phoneNumber"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        [id]="'email-hook-' + i"
+                        formControlName="emailHook"
+                      />
+                      <label class="form-check-label" [for]="'email-hook-' + i">With email hooks</label>
+                    </div>
+                    <div class="mb-1 row" *ngIf="accountantForm.get('emailHook').value">
+                      <label class="col-sm-2 col-form-label" [for]="'expense-email-hook-' + i"
+                        >Expense Processed Email Hook</label
+                      >
+                      <div class="col-sm-10">
+                        <input
+                          type="email"
+                          class="form-control"
+                          [id]="'expense-email-hook-' + i"
+                          formControlName="expenseReceiveEmailHook"
                         />
                       </div>
                     </div>

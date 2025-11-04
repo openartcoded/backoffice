@@ -22,3 +22,9 @@ textarea {
   resize: none;
   outline: none;
 }
+
+@media (max-width: 768px) {
+  .postit {
+    width: 45vw;
+  }
+}

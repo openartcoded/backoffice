@@ -27,4 +27,6 @@ export interface Accountant {
   lastName: string;
   email: string;
   phoneNumber?: string;
+  emailHook?: boolean;
+  expenseReceiveEmailHook?: string;
 }
