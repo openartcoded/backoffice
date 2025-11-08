@@ -52,55 +52,54 @@
                   [image]="a.transientThumbnail"
                 />
               </ng-template>
-                            <div class="p-0">
-                                                <fa-icon class="p-0" [icon]="['fas', 'info-circle']"></fa-icon>
-
-              <button
-                type="button"
-                class="btn btn-link p-0 m-0 text-dark text-decoration-none ms-2"
-                [ngbTooltip]="previewThumb"
-                #btn="ngbTooltip"
-                (touchstart)="btn.open()"
-                (touchend)="btn.close()"
-                tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
-              >
-              </button>
-              <a
-                class="btn btn-link text-decoration-none p-0 ms-1 text-break"
-                [title]="a.originalFilename"
-                (click)="download(a)"
-                >           
-                                    {{ a.originalFilename | trim: 30 }}
-</a>
-                                </div>
-            </div>
-<div >
-                                    <fa-icon *ngIf="isProcessed(a)" [icon]="['fas', 'check-circle']" class="me-1 text-success"></fa-icon>
-                                    <fa-icon *ngIf="!isProcessed(a)" [icon]="['fas', 'check-circle']" class="me-1 text-muted"></fa-icon>
-            <div ngbDropdown class="d-inline-block">
-              <button class="btn btn-link p-0" id="fileActionsDropdown" ngbDropdownToggle>
-                <fa-icon [icon]="['fas', 'ellipsis-v']" class="text-secondary"></fa-icon>
-              </button>
-
-              <div ngbDropdownMenu aria-labelledby="fileActionsDropdown">
-                <button ngbDropdownItem *ngIf="isPdf(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
-                  <fa-icon [icon]="['fas', 'file-pdf']" class="me-2 text-secondary"></fa-icon> View PDF
+              <div class="p-0">
+                <button
+                  type="button"
+                  class="btn btn-link p-0 m-0 text-dark text-decoration-none ms-2"
+                  [ngbTooltip]="previewThumb"
+                  #btn="ngbTooltip"
+                  (touchstart)="btn.open()"
+                  (touchend)="btn.close()"
+                  tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
+                >
+                  <fa-icon class="p-0 m-0" [icon]="['fas', 'info-circle']"></fa-icon>
                 </button>
-
-                <button ngbDropdownItem *ngIf="isXML(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
-                  <fa-icon [icon]="['fas', 'file-code']" class="me-2 text-secondary"></fa-icon> View XML
-                </button>
-
-                <button ngbDropdownItem *ngIf="isImage(a)" (click)="$event.preventDefault(); openImageViewer(a)">
-                  <fa-icon [icon]="['fas', 'file-image']" class="me-2 text-secondary"></fa-icon> View Image
-                </button>
-
-                <button ngbDropdownItem (click)="$event.preventDefault(); download(a)">
-                  <fa-icon [icon]="['fas', 'download']" class="me-2 text-secondary"></fa-icon> Download
-                </button>
+                <a
+                  class="btn btn-link text-decoration-none p-0 ms-1 text-break"
+                  [title]="a.originalFilename"
+                  (click)="download(a)"
+                >
+                  {{ a.originalFilename | trim: 30 }}
+                </a>
               </div>
             </div>
-                        </div>
+            <div>
+              <fa-icon *ngIf="isProcessed(a)" [icon]="['fas', 'check-circle']" class="me-1 text-success"></fa-icon>
+              <fa-icon *ngIf="!isProcessed(a)" [icon]="['fas', 'check-circle']" class="me-1 text-muted"></fa-icon>
+              <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-link p-0" id="fileActionsDropdown" ngbDropdownToggle>
+                  <fa-icon [icon]="['fas', 'ellipsis-v']" class="text-secondary"></fa-icon>
+                </button>
+
+                <div ngbDropdownMenu aria-labelledby="fileActionsDropdown">
+                  <button ngbDropdownItem *ngIf="isPdf(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
+                    <fa-icon [icon]="['fas', 'file-pdf']" class="me-2 text-secondary"></fa-icon> View PDF
+                  </button>
+
+                  <button ngbDropdownItem *ngIf="isXML(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
+                    <fa-icon [icon]="['fas', 'file-code']" class="me-2 text-secondary"></fa-icon> View XML
+                  </button>
+
+                  <button ngbDropdownItem *ngIf="isImage(a)" (click)="$event.preventDefault(); openImageViewer(a)">
+                    <fa-icon [icon]="['fas', 'file-image']" class="me-2 text-secondary"></fa-icon> View Image
+                  </button>
+
+                  <button ngbDropdownItem (click)="$event.preventDefault(); download(a)">
+                    <fa-icon [icon]="['fas', 'download']" class="me-2 text-secondary"></fa-icon> Download
+                  </button>
+                </div>
+              </div>
+            </div>
           </li>
         </ul>
       </ng-container>

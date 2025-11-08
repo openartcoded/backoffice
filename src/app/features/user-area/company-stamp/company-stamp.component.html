@@ -26,9 +26,11 @@
     <a #downloadLink></a>
   </div>
   <div class="mt-1 mb-1 ms-1 me-1">
-    <button class="w-100 btn btn-outline-primary flat shadow-sm" (click)="downloadImage()" *ngIf="!downloading">
+    <button class="w-100 mt-1 btn btn-outline-primary flat shadow-sm" (click)="downloadImage()" *ngIf="!downloading">
       Download
     </button>
-    <button class="w-100 btn btn-outline-primary flat shadow-sm" disabled *ngIf="downloading">Downloading...</button>
+    <button class="w-100 mt-1 btn btn-outline-primary flat shadow-sm" disabled *ngIf="downloading">
+      Downloading...
+    </button>
   </div>
 </ng-container>

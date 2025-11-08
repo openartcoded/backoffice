@@ -23,7 +23,7 @@ export class MostClickedMenuComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
   ngOnInit(): void {
-    this.subscription = this.settingsService.top5().subscribe((links) => {
+    this.subscription = this.settingsService.top3().subscribe((links) => {
       this.links = links;
     });
   }

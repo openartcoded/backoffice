@@ -1,16 +1,42 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Optional, Output } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { Fee } from '@core/models/fee';
 import { FileUpload } from '@core/models/file-upload';
 import { FeeService } from '@core/service/fee.service';
 import { FileService } from '@core/service/file.service';
 import { ToastService } from '@core/service/toast.service';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  NgbActiveModal,
+  NgbDropdownModule,
+  NgbModal,
+  NgbNavModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { ImageViewerComponent } from '@shared/image-viewer/image-viewer.component';
 import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
+import { AutosizeModule } from 'ngx-autosize';
+import { NgxFileDropModule } from 'ngx-file-drop';
+import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'app-fee-edit',
-  standalone: false,
+  standalone: true,
+  imports: [
+    NgbNavModule,
+    NgxFileDropModule,
+    SharedModule,
+    RouterModule,
+    FormsModule,
+    NgbDropdownModule,
+    CommonModule,
+    NgbTooltipModule,
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    AutosizeModule,
+  ],
   templateUrl: './fee-edit.component.html',
   styleUrl: './fee-edit.component.scss',
 })

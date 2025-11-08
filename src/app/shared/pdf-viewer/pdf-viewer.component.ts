@@ -5,6 +5,7 @@ import { FileService } from '@core/service/file.service';
 import { PdfService } from '@core/service/pdf.service';
 import { PersonalInfoService } from '@core/service/personal.info.service';
 import { User } from '@core/models/user';
+import { ControlVisibilityConfig, GroupVisibilityConfig } from 'ng2-pdfjs-viewer';
 
 @Component({
   selector: 'app-pdf-viewer',
@@ -13,6 +14,8 @@ import { User } from '@core/models/user';
   standalone: false,
 })
 export class PdfViewerComponent implements OnInit {
+  visibility: GroupVisibilityConfig = {};
+  cv: ControlVisibilityConfig = {};
   @Input()
   pdf: FileUpload;
   @Input()

@@ -22,7 +22,9 @@
         iframeBorder="0"
         *ngIf="pdf.contentType === 'application/pdf'"
         [pdfSrc]="pdfSrc"
-        [showSpinner]="true"
+        pagemode="none"
+        [groupVisibility]="visibility"
+        [controlVisibility]="cv"
         [theme]="'light'"
         [customCSS]="'h-100 w-100 bg-danger'"
       />

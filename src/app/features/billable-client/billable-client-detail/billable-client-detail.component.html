@@ -219,21 +219,29 @@
               <ul class="list-group" id="attachments">
                 <li class="list-group-item" *ngFor="let a of client.documents">
                   <div class="d-flex justify-content-between">
-                    <button class="btn btn-link text-break" (click)="download($event, a)">
+                    <button class="btn btn-link text-break" (click)="$event.preventDefault(); download($event, a)">
                       {{ a.originalFilename }}
                     </button>
                     <div class="btn-group">
-                      <button *ngIf="hasRoleAdmin" class="btn btn-link" (click)="removeDocument($event, a)">
+                      <button
+                        *ngIf="hasRoleAdmin"
+                        class="btn btn-link"
+                        (click)="$event.preventDefault(); removeDocument($event, a)"
+                      >
                         <fa-icon [icon]="['fas', 'times']" class="text-danger"></fa-icon>
                       </button>
-                      <button class="btn btn-link" *ngIf="isPdf(a)" (click)="openPdfViewer(a)">
+                      <button class="btn btn-link" *ngIf="isPdf(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
                         <fa-icon [icon]="['fas', 'file-pdf']" class="text-secondary"></fa-icon>
                       </button>
-                      <button class="btn btn-link" *ngIf="isImage(a)" (click)="openImageViewer(a)">
+                      <button
+                        class="btn btn-link"
+                        *ngIf="isImage(a)"
+                        (click)="$event.preventDefault(); openImageViewer(a)"
+                      >
                         <fa-icon [icon]="['fas', 'file-image']" class="text-secondary"></fa-icon>
                       </button>
 
-                      <button *ngIf="hasRoleAdmin" class="btn btn-link" (click)="sendMail(a)">
+                      <button *ngIf="hasRoleAdmin" class="btn btn-link" (click)="$event.preventDefault(); sendMail(a)">
                         <fa-icon [icon]="['fas', 'mail-bulk']"></fa-icon>
                       </button>
                     </div>

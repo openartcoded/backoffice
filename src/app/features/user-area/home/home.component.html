@@ -1,35 +1,48 @@
-<div class="h-90">
+<div>
   <ng-container *ngIf="user && personalInfo && loaded">
     <div class="d-lg-flex d-block mt-3" [class.blur-modal]="personalInfo.demoMode">
-      <div class="col-lg-2 bg-white shadow-sm mb-sm-auto pe-2 ps-2 me-1" *ngIf="hasRoleAdmin">
+      <div class="col-lg-2 bg-white shadow-sm mb-sm-auto pe-2 ps-2 me-1" style="height: 92vh" *ngIf="hasRoleAdmin">
         <ng-container *ngIf="hasRoleAdmin">
-          <div class=""><app-company-stamp /></div>
-          <hr />
+          <app-company-stamp />
+
+          <div class="d-flex flex-column" *ngIf="activeDossier">
+            <small class="text-muted fw-bold">Active Dossier</small>
+            <a routerLink="/dossier" class="btn btn-sm btn-light border border-gray text-danger pb-0">
+              <fa-icon class="fs-4 text-center" [icon]="['fas', 'folder']"></fa-icon>
+              <span class="ms-1 fw-bold">{{ activeDossier.name }}</span>
+            </a>
+          </div>
           <div class="d-block mt-2">
-                        <div class="d-flex flex-column justify-content-start" *ngIf="unpaidFees?.length">
+            <div class="d-flex flex-column justify-content-start" *ngIf="unpaidFees">
               <small class="text-muted fw-bold">Unpaid expenses</small>
-              <button class="btn btn-sm  border border-gray pb-0 mb-1" *ngFor="let f of unpaidFees" (click)="openFeeDetail(f)">
-                <span class="ms-1 fw-bold">{{ f.subject | trim:10 }}</span>
+              <button
+                class="btn btn-sm border border-gray mb-2 text-primary btn-light rounded-0 text-center"
+                *ngFor="let f of unpaidFees"
+                (click)="openFeeDetail(f)"
+              >
+                <span class="ms-1 fw-bold">{{ f.subject | trim: 20 }}</span>
               </button>
+              <p class="text-muted" *ngIf="!unpaidFees.length">No content</p>
             </div>
-            <hr />
+            <hr *ngIf="!unpaidFees?.length" />
+            <div class="d-flex flex-column justify-content-start" *ngIf="unprocessedInvoices">
+              <small class="text-muted fw-bold">Open invoices</small>
+              <button
+                class="btn btn-sm border border-gray mb-2 text-primary btn-light rounded-0 text-center"
+                *ngFor="let f of unprocessedInvoices"
+                (click)="openInvoiceDetail(f)"
+              >
+                <span class="ms-1 fw-bold">{{ f.id | trim: 20 }}</span>
+              </button>
+              <p class="text-muted" *ngIf="!unprocessedInvoices.length">No content</p>
+            </div>
+            <hr *ngIf="!unprocessedInvoices?.length" />
             <div class="d-flex flex-column">
               <small class="text-muted fw-bold">Most Clicked</small>
               <app-most-clicked-menu />
             </div>
-                          <hr />
-                          
 
-            <div class="d-flex flex-column" *ngIf="activeDossier">
-              <small class="text-muted fw-bold">Active Dossier</small>
-              <a routerLink="/dossier" class="btn btn-sm btn-light border border-gray text-danger pb-0">
-                <fa-icon class="fs-4 text-center" [icon]="['fas', 'folder']"></fa-icon>
-                <span class="ms-1 fw-bold">{{ activeDossier.name }}</span>
-              </a>
-            </div>
-
-          
-                        <hr/>
+            <hr />
             <div class="d-flex flex-column ms-auto">
               <small class="text-muted fw-bold">Next Tasks</small>
 

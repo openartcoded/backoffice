@@ -82,7 +82,10 @@
                 <li class="list-group-item" *ngFor="let a of fee.attachments">
                   <div class="d-flex justify-content-between">
                     <div>
-                      <button class="btn btn-link text-break" (click)="downloadAttachment($event, a)">
+                      <button
+                        class="btn btn-link text-break"
+                        (click)="$event.preventDefault(); downloadAttachment($event, a)"
+                      >
                         {{ a.originalFilename }}
                       </button>
                       <span class="badge badge-sm bg-warning text-dark" *ngIf="fee.paymentProofUploadId === a.id"
@@ -95,17 +98,21 @@
                         *ngIf="hasRoleAdmin"
                         class="btn btn-link"
                         [disabled]="fee.attachmentIds.length <= 1 || fee.archived"
-                        (click)="removeAttachment($event, a)"
+                        (click)="$event.preventDefault(); removeAttachment($event, a)"
                       >
                         <fa-icon [icon]="['fas', 'times']" class="text-danger"></fa-icon>
                       </button>
-                      <button class="btn btn-link" *ngIf="isPdf(a)" (click)="openPdfViewer(a)">
+                      <button class="btn btn-link" *ngIf="isPdf(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
                         <fa-icon [icon]="['fas', 'file-pdf']" class="text-secondary"></fa-icon>
                       </button>
-                      <button class="btn btn-link" *ngIf="isXML(a)" (click)="openPdfViewer(a)">
+                      <button class="btn btn-link" *ngIf="isXML(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
                         <fa-icon [icon]="['fas', 'file-code']" class="text-secondary"></fa-icon>
                       </button>
-                      <button class="btn btn-link" *ngIf="isImage(a)" (click)="openImageViewer(a)">
+                      <button
+                        class="btn btn-link"
+                        *ngIf="isImage(a)"
+                        (click)="$event.preventDefault(); openImageViewer(a)"
+                      >
                         <fa-icon [icon]="['fas', 'file-image']" class="text-secondary"></fa-icon>
                       </button>
                     </div>

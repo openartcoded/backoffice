@@ -36,18 +36,18 @@
                 type="button"
                 class="btn btn-link text-decoration-none"
                 [disabled]="!hasRoleAdmin"
-                (click)="markPaymentProof(a)"
+                (click)="$event.preventDefault(); markPaymentProof(a)"
               >
                 {{ fee.paymentProofUploadId === a.id ? '✔ Proof' : 'Proof' }}
               </button>
 
-              <button class="btn btn-link" *ngIf="isPdf(a)" (click)="openPdfViewer(a)">
+              <button class="btn btn-link" *ngIf="isPdf(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
                 <fa-icon [icon]="['fas', 'file-pdf']" class="text-secondary"></fa-icon>
               </button>
-              <button class="btn btn-link" *ngIf="isXML(a)" (click)="openPdfViewer(a)">
+              <button class="btn btn-link" *ngIf="isXML(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
                 <fa-icon [icon]="['fas', 'file-code']" class="text-secondary"></fa-icon>
               </button>
-              <button class="btn btn-link" *ngIf="isImage(a)" (click)="openImageViewer(a)">
+              <button class="btn btn-link" *ngIf="isImage(a)" (click)="$event.preventDefault(); openImageViewer(a)">
                 <fa-icon [icon]="['fas', 'file-image']" class="text-secondary"></fa-icon>
               </button>
             </div>

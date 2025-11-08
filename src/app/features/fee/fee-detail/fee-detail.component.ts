@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
-import { NgbActiveModal, NgbDropdownModule, NgbModal, NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbActiveModal,
+  NgbDropdownModule,
+  NgbModal,
+  NgbNavModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { Fee, FeeUpdatePriceRequest, Label } from '@core/models/fee';
 import { FileService } from '@core/service/file.service';
 import { FileUpload } from '@core/models/file-upload';
@@ -22,153 +28,161 @@ import { TagFormComponent } from '../tag-form/tag-form.component';
 import { UpdatePriceComponent } from '../update-price/update-price.component';
 
 @Component({
-    selector: 'app-fee-detail',
-    templateUrl: './fee-detail.component.html',
-    styleUrls: ['./fee-detail.component.scss'],
-    standalone: true,
-    imports: [NgbNavModule, NgxFileDropModule,
-        SharedModule,
-        RouterModule,
-        TagFormComponent, UpdatePriceComponent,
-        NgbDropdownModule,
-        CommonModule, NgbTooltipModule, FontAwesomeModule, ReactiveFormsModule, AutosizeModule]
+  selector: 'app-fee-detail',
+  templateUrl: './fee-detail.component.html',
+  styleUrls: ['./fee-detail.component.scss'],
+  standalone: true,
+  imports: [
+    NgbNavModule,
+    NgxFileDropModule,
+    SharedModule,
+    RouterModule,
+    TagFormComponent,
+    UpdatePriceComponent,
+    NgbDropdownModule,
+    CommonModule,
+    NgbTooltipModule,
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    AutosizeModule,
+  ],
 })
 export class FeeDetailComponent implements OnInit {
-    @Input()
-    fee: Fee;
-    @Input()
-    demoMode: boolean;
-    @Output()
-    feeUpdated: EventEmitter<Fee> = new EventEmitter<Fee>();
-    @Input()
-    user: User;
+  @Input()
+  fee: Fee;
+  @Input()
+  demoMode: boolean;
+  @Output()
+  feeUpdated: EventEmitter<Fee> = new EventEmitter<Fee>();
+  @Input()
+  user: User;
 
-    get hasRoleAdmin(): boolean {
-        return this.user.authorities.includes('ADMIN');
-    }
-    tags: Label[];
-    constructor(
-        @Optional() public activeModal: NgbActiveModal,
-        private feeService: FeeService,
-        private labelService: LabelService,
-        private modalService: NgbModal,
-        private toastService: ToastService,
-        private fileService: FileService,
-    ) { }
+  get hasRoleAdmin(): boolean {
+    return this.user.authorities.includes('ADMIN');
+  }
+  tags: Label[];
+  constructor(
+    @Optional() public activeModal: NgbActiveModal,
+    private feeService: FeeService,
+    private labelService: LabelService,
+    private modalService: NgbModal,
+    private toastService: ToastService,
+    private fileService: FileService,
+  ) {}
 
-    ngOnInit(): void {
-        this.load();
-    }
+  ngOnInit(): void {
+    this.load();
+  }
 
-    async load() {
-        if (!this.fee.attachments) {
-            this.fee.attachments = [];
-        }
-        const labels = await firstValueFrom(this.labelService.findAll());
-        for (const attachmentId of this.fee.attachmentIds) {
-            if (!this.fee.attachments?.some((a) => a.id === attachmentId)) {
-                const attachment = await firstValueFrom(this.fileService.findById(attachmentId));
-                this.fee.attachments.push(attachment);
-            }
-        }
-        this.fee.tagId = labels.find((l) => l.name === this.fee.tag)?.id;
-        this.tags = labels;
+  async load() {
+    if (!this.fee.attachments) {
+      this.fee.attachments = [];
     }
+    const labels = await firstValueFrom(this.labelService.findAll());
+    for (const attachmentId of this.fee.attachmentIds) {
+      if (!this.fee.attachments?.some((a) => a.id === attachmentId)) {
+        const attachment = await firstValueFrom(this.fileService.findById(attachmentId));
+        this.fee.attachments.push(attachment);
+      }
+    }
+    this.fee.tagId = labels.find((l) => l.name === this.fee.tag)?.id;
+    this.tags = labels;
+  }
 
-    downloadAttachment(evt: any, a: FileUpload) {
-        evt.stopPropagation();
-        this.fileService.download(a);
-    }
+  downloadAttachment(evt: any, a: FileUpload) {
+    evt.stopPropagation();
+    this.fileService.download(a);
+  }
 
-    getStyleForTag(f: Fee) {
-        const label = this.tags.find((l) => l.name === f.tag);
-        if (!label) {
-            console.log('no label found! weird...');
-            return { color: '#FFFFFF' };
-        }
-        return { color: label.colorHex };
+  getStyleForTag(f: Fee) {
+    const label = this.tags.find((l) => l.name === f.tag);
+    if (!label) {
+      console.log('no label found! weird...');
+      return { color: '#FFFFFF' };
     }
+    return { color: label.colorHex };
+  }
 
-    openEditModal() {
-        let ngbModalRef = this.modalService.open(FeeEditComponent, {
-            size: 'xl',
-            scrollable: true,
-        });
-        ngbModalRef.componentInstance.fee = this.fee;
-        ngbModalRef.componentInstance.demoMode = this.demoMode;
-        ngbModalRef.componentInstance.hasRoleAdmin = this.hasRoleAdmin;
-        ngbModalRef.componentInstance.feeUpdated.subscribe(async (f: Fee) => {
-            this.fee = f;
-            await this.load();
-            ngbModalRef.componentInstance.fee = this.fee;
-            this.feeUpdated.emit(f);
-        });
+  openEditModal() {
+    let ngbModalRef = this.modalService.open(FeeEditComponent, {
+      size: 'xl',
+      scrollable: true,
+    });
+    ngbModalRef.componentInstance.fee = this.fee;
+    ngbModalRef.componentInstance.demoMode = this.demoMode;
+    ngbModalRef.componentInstance.hasRoleAdmin = this.hasRoleAdmin;
+    ngbModalRef.componentInstance.feeUpdated.subscribe(async (f: Fee) => {
+      this.fee = f;
+      await this.load();
+      ngbModalRef.componentInstance.fee = this.fee;
+      this.feeUpdated.emit(f);
+    });
+  }
+  removeAttachment($event: MouseEvent, a: FileUpload) {
+    $event.stopPropagation();
+    if (!this.hasRoleAdmin) {
+      return;
     }
-    removeAttachment($event: MouseEvent, a: FileUpload) {
-        $event.stopPropagation();
-        if (!this.hasRoleAdmin) {
-            return;
-        }
-        this.feeService.removeAttachment(this.fee.id, a.id).subscribe((f) => {
-            this.feeUpdated.emit(f);
-            this.fee = f;
-            this.load();
-            this.toastService.showSuccess(`Attachment ${a.id} removed`);
-        });
-    }
+    this.feeService.removeAttachment(this.fee.id, a.id).subscribe((f) => {
+      this.feeUpdated.emit(f);
+      this.fee = f;
+      this.load();
+      this.toastService.showSuccess(`Attachment ${a.id} removed`);
+    });
+  }
 
-    openPdfViewer(a: FileUpload) {
-        let ngbModalRef = this.modalService.open(PdfViewerComponent, {
-            size: 'xl',
-            scrollable: true,
-        });
-        ngbModalRef.componentInstance.pdf = a;
-        ngbModalRef.componentInstance.title = a?.originalFilename;
-    }
+  openPdfViewer(a: FileUpload) {
+    let ngbModalRef = this.modalService.open(PdfViewerComponent, {
+      size: 'xl',
+      scrollable: true,
+    });
+    ngbModalRef.componentInstance.pdf = a;
+    ngbModalRef.componentInstance.title = a?.originalFilename;
+  }
 
-    openImageViewer(a: FileUpload) {
-        let ngbModalRef = this.modalService.open(ImageViewerComponent, {
-            size: 'xl',
-            scrollable: true,
-        });
-        ngbModalRef.componentInstance.image = a;
-        ngbModalRef.componentInstance.title = a?.originalFilename;
-    }
-    isPdf(upl: FileUpload) {
-        return FileService.isPdf(upl?.contentType);
-    }
-    isXML(upl: FileUpload) {
-        return FileService.isXML(upl?.contentType);
-    }
-    isImage(upl: FileUpload) {
-        return FileService.isImage(upl?.contentType);
-    }
+  openImageViewer(a: FileUpload) {
+    let ngbModalRef = this.modalService.open(ImageViewerComponent, {
+      size: 'xl',
+      scrollable: true,
+    });
+    ngbModalRef.componentInstance.image = a;
+    ngbModalRef.componentInstance.title = a?.originalFilename;
+  }
+  isPdf(upl: FileUpload) {
+    return FileService.isPdf(upl?.contentType);
+  }
+  isXML(upl: FileUpload) {
+    return FileService.isXML(upl?.contentType);
+  }
+  isImage(upl: FileUpload) {
+    return FileService.isImage(upl?.contentType);
+  }
 
-    updatePrice(request: FeeUpdatePriceRequest) {
-        if (!this.hasRoleAdmin) {
-            return;
-        }
-        this.feeService.updatePrice(request.id, request.priceHVAT, request.vat).subscribe((f) => {
-            this.fee = f;
-            this.load();
-            this.feeUpdated.emit(this.fee);
-            this.toastService.showSuccess(`Price updated`);
-        });
+  updatePrice(request: FeeUpdatePriceRequest) {
+    if (!this.hasRoleAdmin) {
+      return;
     }
+    this.feeService.updatePrice(request.id, request.priceHVAT, request.vat).subscribe((f) => {
+      this.fee = f;
+      this.load();
+      this.feeUpdated.emit(this.fee);
+      this.toastService.showSuccess(`Price updated`);
+    });
+  }
 
-    updateTag(fee: Fee, $event: Label) {
-        if (!this.hasRoleAdmin) {
-            return;
-        }
-        this.feeService.updateTag([fee.id], $event).subscribe((data) => {
-            if (data?.length !== 1) {
-                console.error('response not equals to 1!!');
-            }
-            this.fee = data[0];
-
-            this.load();
-            this.feeUpdated.emit(this.fee);
-            this.toastService.showSuccess(`Tag updated`);
-        });
+  updateTag(fee: Fee, $event: Label) {
+    if (!this.hasRoleAdmin) {
+      return;
     }
+    this.feeService.updateTag([fee.id], $event).subscribe((data) => {
+      if (data?.length !== 1) {
+        console.error('response not equals to 1!!');
+      }
+      this.fee = data[0];
+
+      this.load();
+      this.feeUpdated.emit(this.fee);
+      this.toastService.showSuccess(`Tag updated`);
+    });
+  }
 }
