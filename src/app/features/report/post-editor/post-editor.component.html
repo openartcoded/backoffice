@@ -182,29 +182,63 @@
                         tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
                       >
                         <fa-icon [icon]="['fas', 'info-circle']"></fa-icon></button
-                      ><span>&nbsp;{{ a.originalFilename }}</span>
-                    </div>
-                    <div class="btn-group">
-                      <button class="btn btn-link" *ngIf="isPdf(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
-                        <fa-icon [icon]="['fas', 'file-pdf']" class="text-secondary"></fa-icon>
-                      </button>
-                      <button class="btn btn-link" *ngIf="isXML(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
-                        <fa-icon [icon]="['fas', 'file-code']" class="text-secondary"></fa-icon>
-                      </button>
-                      <button
-                        class="btn btn-link"
-                        *ngIf="isImage(a)"
-                        (click)="$event.preventDefault(); openImageViewer(a)"
+                      ><a class="btn btn-link p-0 text-decoration-none text-break" (click)="download(a)"
+                        >&nbsp;{{ a.originalFilename | trim:30 }}</a
                       >
-                        <fa-icon [icon]="['fas', 'file-image']" class="text-secondary"></fa-icon>
-                      </button>
-                      <button class="btn btn-link" (click)="$event.preventDefault(); download(a)">
-                        <fa-icon [icon]="['fas', 'download']" class="text-secondary"></fa-icon>
-                      </button>
+                    </div>
 
-                      <button class="btn btn-link" (click)="deleteAttachment($event, a)">
-                        <fa-icon [icon]="['fas', 'trash']" class="text-danger"></fa-icon>
-                      </button>
+                    <div class="d-lg-flex align-items-center justify-content-start">
+                      <div class="form-check form-check-inline d-none d-lg-block">
+                        <label class="form-check-label" [for]="'att_' + a.id">Processed</label>
+
+                        <input
+                          [id]="'att_' + a.id"
+                          type="checkbox"
+                          class="form-check-input me-2"
+                          title="Toggle processed state"
+                          [checked]="isProcessed(a)"
+                          (change)="toggleAttachmentProcess(a)"
+                        />
+                      </div>
+
+                      <div ngbDropdown class="btn-group">
+                        <button
+                          class="btn btn-link dropdown-toggle text-secondary"
+                          ngbDropdownToggle
+                          type="button"
+                          aria-expanded="false"
+                        >
+                          <fa-icon [icon]="['fas', 'ellipsis-v']"></fa-icon>
+                        </button>
+
+                        <div ngbDropdownMenu class="shadow-sm border-0 p-1">
+                          <button ngbDropdownItem *ngIf="isXML(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
+                            <fa-icon [icon]="['fas', 'file-code']" class="text-secondary me-1"></fa-icon>
+                            View XML
+                          </button>
+
+                          <button
+                            ngbDropdownItem
+                            *ngIf="isImage(a)"
+                            (click)="$event.preventDefault(); openImageViewer(a)"
+                          >
+                            <fa-icon [icon]="['fas', 'file-image']" class="text-secondary me-1"></fa-icon>
+                            View Image
+                          </button>
+
+                          <button ngbDropdownItem (click)="$event.preventDefault(); download(a)">
+                            <fa-icon [icon]="['fas', 'download']" class="text-secondary me-1"></fa-icon>
+                            Download
+                          </button>
+
+                          <div class="dropdown-divider"></div>
+
+                          <button ngbDropdownItem (click)="deleteAttachment($event, a)" class="text-danger">
+                            <fa-icon [icon]="['fas', 'trash']" class="me-1"></fa-icon>
+                            Delete
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </li>
                 </ul>

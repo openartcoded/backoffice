@@ -9,6 +9,7 @@ export interface Post {
   content?: string;
   creationDate?: Date;
   attachmentIds?: string[];
+  processedAttachmentIds?: string[];
   attachments?: FileUpload[];
   updatedDate?: Date;
   draft?: boolean;

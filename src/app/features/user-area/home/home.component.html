@@ -6,11 +6,20 @@
           <div class=""><app-company-stamp /></div>
           <hr />
           <div class="d-block mt-2">
+                        <div class="d-flex flex-column justify-content-start" *ngIf="unpaidFees?.length">
+              <small class="text-muted fw-bold">Unpaid expenses</small>
+              <button class="btn btn-sm  border border-gray pb-0 mb-1" *ngFor="let f of unpaidFees" (click)="openFeeDetail(f)">
+                <span class="ms-1 fw-bold">{{ f.subject | trim:10 }}</span>
+              </button>
+            </div>
+            <hr />
             <div class="d-flex flex-column">
               <small class="text-muted fw-bold">Most Clicked</small>
               <app-most-clicked-menu />
             </div>
-            <hr />
+                          <hr />
+                          
+
             <div class="d-flex flex-column" *ngIf="activeDossier">
               <small class="text-muted fw-bold">Active Dossier</small>
               <a routerLink="/dossier" class="btn btn-sm btn-light border border-gray text-danger pb-0">
@@ -19,7 +28,8 @@
               </a>
             </div>
 
-            <hr />
+          
+                        <hr/>
             <div class="d-flex flex-column ms-auto">
               <small class="text-muted fw-bold">Next Tasks</small>
 

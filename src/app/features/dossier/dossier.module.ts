@@ -12,20 +12,20 @@ import { AutosizeModule } from 'ngx-autosize';
 import { DossierImportFormComponent } from './dossier-import-form/dossier-import-form.component';
 
 @NgModule({
-  declarations: [DossierPageComponent, DossierTableResultComponent, DossierFormComponent, DossierImportFormComponent],
-  imports: [
-    CommonModule,
-    SharedModule,
-    DossierRoutingModule,
-    NgbNavModule,
-    FontAwesomeModule,
-    ReactiveFormsModule,
-    FormsModule,
-    NgbPaginationModule,
-    AutosizeModule,
-    NgbTooltipModule,
-    NgbDropdownModule,
-  ],
-  providers: [{ provide: LOCALE_ID, useValue: 'de' }],
+    declarations: [DossierPageComponent, DossierTableResultComponent, DossierImportFormComponent],
+    imports: [
+        CommonModule,
+        SharedModule,
+        DossierRoutingModule,
+        NgbNavModule,
+        FontAwesomeModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NgbPaginationModule,
+        AutosizeModule,
+        NgbTooltipModule,
+        NgbDropdownModule,
+    ],
+    providers: [{ provide: LOCALE_ID, useValue: 'de' }],
 })
-export class DossierModule {}
+export class DossierModule { }

@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Optional, Output } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Dossier, TvaAdvancePayment } from '@core/models/dossier';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDropdownModule, NgbModal, NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Fee, Label } from '@core/models/fee';
 import { FeeService } from '@core/service/fee.service';
-import { formatDate } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { Invoice } from '@core/models/invoice';
 import { InvoiceService } from '@core/service/invoice.service';
 import { FeeDetailComponent } from '@feature/fee/fee-detail/fee-detail.component';
@@ -18,12 +18,23 @@ import { AdministrativeDocument } from '@core/models/administrative-document';
 import { DocumentEditorComponent } from '@feature/administrative-document/document-editor/document-editor.component';
 import { FileService } from '@core/service/file.service';
 import { User } from '@core/models/user';
+import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AutosizeModule } from 'ngx-autosize';
+import { NgxFileDropModule } from 'ngx-file-drop';
+import { SharedModule } from '@shared/shared.module';
 
 @Component({
     selector: 'app-dossier-form',
     templateUrl: './dossier-form.component.html',
     styleUrls: ['./dossier-form.component.scss'],
-    standalone: false,
+    standalone: true,
+    imports: [NgbNavModule, NgxFileDropModule,
+        SharedModule,
+        FormsModule,
+        RouterModule,
+        NgbDropdownModule,
+        CommonModule, NgbTooltipModule, FontAwesomeModule, ReactiveFormsModule, AutosizeModule]
 })
 export class DossierFormComponent implements OnInit, OnDestroy {
     dossierUpdatedSubscription: Subscription;
@@ -105,11 +116,11 @@ export class DossierFormComponent implements OnInit, OnDestroy {
         await this.loadFees();
         await this.loadInvoices();
         await this.loadDocuments();
-
     }
 
     async loadFees() {
-        let ftv = 0, ftev = 0;
+        let ftv = 0,
+            ftev = 0;
         if (this.dossier?.feeIds?.length) {
             const fees = await firstValueFrom(this.feeService.findByIds(this.dossier.feeIds));
 
@@ -136,7 +147,8 @@ export class DossierFormComponent implements OnInit, OnDestroy {
     }
 
     async loadInvoices() {
-        let vt = 0, itev = 0;
+        let vt = 0,
+            itev = 0;
 
         if (this.dossier?.invoiceIds?.length) {
             const invoices = await firstValueFrom(this.invoiceService.findByIds(this.dossier.invoiceIds));
@@ -325,8 +337,9 @@ export class DossierFormComponent implements OnInit, OnDestroy {
     }
 
     openFeeDetail(f: Fee) {
-        const modalRef = this.modalService.open(FeeDetailComponent, { size: 'xl' });
+        const modalRef = this.modalService.open(FeeDetailComponent, { size: 'xl', scrollable: true });
         modalRef.componentInstance.user = this.user;
+        modalRef.componentInstance.demoMode = this.demoMode;
         modalRef.componentInstance.fee = f;
     }
 

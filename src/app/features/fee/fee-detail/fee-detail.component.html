@@ -1,4 +1,4 @@
-<ng-container *ngIf="fee && tags">
+@if (fee && tags) {
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">
       <fa-icon *ngIf="fee.tag" [icon]="['fas', 'circle']" [ngStyle]="getStyleForTag(fee)"></fa-icon>&nbsp;{{
@@ -146,4 +146,4 @@
       <div [ngbNavOutlet]="nav"></div>
     </form>
   </div>
-</ng-container>
+}

@@ -48,6 +48,12 @@ export class ReportService {
     files.forEach((file) => formData.append('files', file));
     return this.http.post<Post>(`${this.basePath}/add-attachment`, formData);
   }
+  toggleProcessAttachment(postId: string, attachmentId: string): Observable<Post> {
+    return this.http.post<Post>(
+      `${this.basePath}/toggle-process-attachment?id=${postId}&attachmentId=${attachmentId}`,
+      {},
+    );
+  }
   removeAttachment(postId: string, attachmentId: string): Observable<Post> {
     return this.http.post<Post>(`${this.basePath}/remove-attachment?id=${postId}&attachmentId=${attachmentId}`, {});
   }

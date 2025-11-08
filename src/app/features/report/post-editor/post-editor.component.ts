@@ -285,7 +285,22 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
   download(upl: FileUpload) {
     this.fileService.download(upl);
   }
-
+  isProcessed(a: FileUpload) {
+    return this.post.processedAttachmentIds?.includes(a.id);
+  }
+  toggleAttachmentProcess(a: FileUpload) {
+    this.reportService.toggleProcessAttachment(this.post.id, a.id).subscribe({
+      next: (p: Post) => {
+        this.toastService.showSuccess(
+          this.post.processedAttachmentIds?.includes(a.id) ? 'Attachment unprocessed' : 'Attachment processed',
+        );
+        this.post.attachmentIds = p.attachmentIds;
+        this.post.processedAttachmentIds = p.processedAttachmentIds;
+        this.reloadAttachments();
+      },
+      error: () => this.toastService.showDanger('Failed to toggle attachment state'),
+    });
+  }
   uploadAttachment() {
     if (!this.post?.id || !this.selectedFiles?.length) return;
     this.uploading = true;
