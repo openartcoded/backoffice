@@ -42,9 +42,10 @@
           <tr *ngFor="let n of posts.content">
             <td class="text-break">
               <div class="d-flex justify-content-between">
-                <strong
+                <a class="btn btn-link text-decoration-none fw-bold p-0 m-0"                   [routerLink]="['post', slugify(n.title), n.id]"
+
                   ><fa-icon *ngIf="!n.draft" [icon]="['fas', 'check-circle']" class="text-success me-1"></fa-icon
-                  >{{ n.title | titlecase }}</strong
+                  >{{ n.title | titlecase }}</a
                 >
                 <small class="text-muted">
                   {{ n.updatedDate | date: 'dd/MM/yyyy' }}{{ n.draft ? ' (Draft)' : '' }}
