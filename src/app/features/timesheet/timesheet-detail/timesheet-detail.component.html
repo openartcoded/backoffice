@@ -3,7 +3,7 @@
     [uppercase]="true"
     [title]="
       'Timesheet ' +
-      (timesheet.monthEnum?.toString() | trim: 3) +
+      (timesheet.monthEnum?.toString() | trim: 3:false) +
       '/' +
       timesheet.year +
       (timesheet.clientName ? ' (' + timesheet.clientName + ')' : '')
@@ -116,7 +116,7 @@
                     [ngClass]="getTagForPeriodType(period.periodType).color"
                   ></fa-icon>
                 </span>
-                {{ period.dayOfWeek?.toString() | trim: 3 }}
+                {{ period.dayOfWeek?.toString() | trim: 3:false }}
               </td>
               <td>{{ period.date | date: 'dd/MM/yyyy' }}</td>
               <td class="d-md-table-cell d-none">{{ period.morningStartTime | date: 'HH:mm' }}</td>

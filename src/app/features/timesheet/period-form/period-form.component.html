@@ -11,7 +11,7 @@
 <ng-container *ngIf="period && componentType === 'modal'">
   <div class="modal-header" *ngIf="activeModal">
     <span class="modal-title text-break">
-      {{ period.date | date: 'dd/MM/yyyy' }} - {{ period.dayOfWeek?.toString() | trim: 3 }}
+      {{ period.date | date: 'dd/MM/yyyy' }} - {{ period.dayOfWeek?.toString() | trim: 3:false }}
     </span>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal?.dismiss('Cross click')"></button>
   </div>
