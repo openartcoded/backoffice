@@ -14,306 +14,303 @@ import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 import { ImageViewerComponent } from '@shared/image-viewer/image-viewer.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
-  selector: 'app-post-editor',
-  templateUrl: './post-editor.component.html',
-  styleUrls: ['./post-editor.component.scss'],
-  standalone: false,
+    selector: 'app-post-editor',
+    templateUrl: './post-editor.component.html',
+    styleUrls: ['./post-editor.component.scss'],
+    standalone: false,
 })
 export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked {
-  private lastState: any = null;
-  deleteAttachment($event, f: FileUpload) {
-    $event.preventDefault();
-    this.reportService.removeAttachment(this.post.id, f.id).subscribe((p) => {
-      this.post.attachmentIds = p.attachmentIds;
-      this.reloadAttachments();
-      this.toastService.showSuccess('Attachment removed');
-    });
-  }
-  post: Post;
-  uploading = false;
-  saving = false;
-  selectedFiles?: File[] = [];
+    private lastState: any = null;
+    deleteAttachment($event, f: FileUpload) {
+        $event.preventDefault();
+        this.reportService.removeAttachment(this.post.id, f.id).subscribe((p) => {
+            this.post.attachmentIds = p.attachmentIds;
+            this.reloadAttachments();
+            this.toastService.showSuccess('Attachment removed');
+        });
+    }
+    post: Post;
+    uploading = false;
+    saving = false;
+    selectedFiles?: File[] = [];
 
-  autosave: Subscription;
-  @ViewChild('editor') editor!: ElementRef<HTMLTextAreaElement>;
-  public editorForm: UntypedFormGroup;
-  url: any;
-  insertTable() {
-    const textarea = this.editor.nativeElement;
-    const tableTemplate = `
+    autosave: Subscription;
+    @ViewChild('editor') editor!: ElementRef<HTMLTextAreaElement>;
+    public editorForm: UntypedFormGroup;
+    url: any;
+    insertTable() {
+        const textarea = this.editor.nativeElement;
+        const tableTemplate = `
 | Header 1 | Header 2 | Header 3 |
 |----------|----------|----------|
 | Row1Col1 | Row1Col2 | Row1Col3 |
 | Row2Col1 | Row2Col2 | Row2Col3 |
 `;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const text = textarea.value;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
 
-    textarea.value = text.substring(0, start) + tableTemplate + text.substring(end);
+        textarea.value = text.substring(0, start) + tableTemplate + text.substring(end);
 
-    const cursorPos = start + tableTemplate.length;
-    textarea.setSelectionRange(cursorPos, cursorPos);
-    textarea.focus();
-  }
-  wrapSelection(before: string, after: string = '') {
-    const textarea = this.editor.nativeElement;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const currentValue = this.htmlContent?.value || '';
-    const selectedText = currentValue.slice(start, end);
-
-    const newValue = currentValue.slice(0, start) + before + selectedText + after + currentValue.slice(end);
-    this.htmlContent?.patchValue(newValue);
-
-    setTimeout(() => {
-      textarea.selectionStart = start + before.length;
-      textarea.selectionEnd = end + before.length;
-      textarea.focus();
-    });
-  }
-
-  insertLink() {
-    const textarea = this.editor.nativeElement;
-    const linkTemplate = `[Link Text](https://example.com)`;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const text = textarea.value;
-
-    // Insert link at cursor
-    textarea.value = text.substring(0, start) + linkTemplate + text.substring(end);
-
-    // Move cursor inside the brackets for easier editing
-    const cursorPos = start + 1;
-    textarea.setSelectionRange(cursorPos, cursorPos + 9); // selects "Link Text"
-    textarea.focus();
-  }
-  insertAtCursor(text: string) {
-    const textarea = this.editor.nativeElement;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const currentValue = this.htmlContent?.value || '';
-
-    const newValue = currentValue.slice(0, start) + text + currentValue.slice(end);
-    this.htmlContent?.patchValue(newValue);
-
-    setTimeout(() => {
-      textarea.selectionStart = textarea.selectionEnd = start + text.length;
-      textarea.focus();
-    });
-  }
-  constructor(
-    private formBuilder: UntypedFormBuilder,
-    private reportService: ReportService,
-    private toastService: ToastService,
-    private modalService: NgbModal,
-    private activateRoute: ActivatedRoute,
-    private fileService: FileService,
-  ) {}
-  ngAfterViewChecked() {
-    Prism.highlightAll();
-  }
-
-  async reloadAttachments() {
-    let attachments = [];
-    if (!this.post.attachments) {
-      this.post.attachments = [];
+        const cursorPos = start + tableTemplate.length;
+        textarea.setSelectionRange(cursorPos, cursorPos);
+        textarea.focus();
     }
-    if (this.post.attachmentIds?.length) {
-      attachments = await firstValueFrom(this.fileService.findByIds(this.post.attachmentIds));
+    wrapSelection(before: string, after: string = '') {
+        const textarea = this.editor.nativeElement;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const currentValue = this.htmlContent?.value || '';
+        const selectedText = currentValue.slice(start, end);
+
+        const newValue = currentValue.slice(0, start) + before + selectedText + after + currentValue.slice(end);
+        this.htmlContent?.patchValue(newValue);
+
+        setTimeout(() => {
+            textarea.selectionStart = start + before.length;
+            textarea.selectionEnd = end + before.length;
+            textarea.focus();
+        });
     }
-    const thumbs = await firstValueFrom(
-      this.fileService.findByIds(
-        attachments.map((u) => u.thumbnailId).filter((u) => u?.length),
-        true,
-      ),
-    );
-    for (const upload of attachments) {
-      if (upload.thumbnailId?.length) {
-        const thumb = thumbs.find((t) => upload.thumbnailId === t.id);
-        upload.transientThumbnail = thumb;
-      }
+
+    insertLink() {
+        const textarea = this.editor.nativeElement;
+        const linkTemplate = `[Link Text](https://example.com)`;
+
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+
+        // Insert link at cursor
+        textarea.value = text.substring(0, start) + linkTemplate + text.substring(end);
+
+        // Move cursor inside the brackets for easier editing
+        const cursorPos = start + 1;
+        textarea.setSelectionRange(cursorPos, cursorPos + 9); // selects "Link Text"
+        textarea.focus();
     }
-    this.post.attachments = attachments;
-  }
-  async ngOnInit() {
-    const id = this.activateRoute.snapshot.params.id;
-    if (id) this.post = await firstValueFrom(this.reportService.getPostById(id));
-    else this.post = await firstValueFrom(this.reportService.newPost());
-    this.reloadAttachments();
-    this.editorForm = this.createFormGroup(this.post);
-    const secondsCounter = interval(10000).pipe(skip(1));
-    this.lastState = JSON.stringify({
-      id: this.post.id,
-      content: this.htmlContent.value,
-      author: this.editorForm.get('author').value,
-      tags: this.editorForm.get('tags').value,
-      draft: this.editorForm.get('draft').value,
-      title: this.title.value,
-      cover: this.cover,
-      description: this.editorForm.get('description').value,
-    });
-    this.autosave = secondsCounter.subscribe((_) => this.save());
-  }
+    insertAtCursor(text: string) {
+        const textarea = this.editor.nativeElement;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const currentValue = this.htmlContent?.value || '';
 
-  get htmlContent() {
-    return this.editorForm.get('htmlContent');
-  }
+        const newValue = currentValue.slice(0, start) + text + currentValue.slice(end);
+        this.htmlContent?.patchValue(newValue);
 
-  get title() {
-    return this.editorForm.get('title');
-  }
-
-  createFormGroup(post: Post): UntypedFormGroup {
-    if (post.coverId) {
-      this.url = this.fileService.getPublicDownloadUrl(post.coverId);
+        setTimeout(() => {
+            textarea.selectionStart = textarea.selectionEnd = start + text.length;
+            textarea.focus();
+        });
     }
-    return this.formBuilder.group({
-      htmlContent: new UntypedFormControl(post.content, [Validators.required]),
-      author: new UntypedFormControl(post.author, [Validators.required]),
-      title: new UntypedFormControl(post.title, [Validators.required]),
-      description: new UntypedFormControl(post.description, [Validators.required]),
-      id: new UntypedFormControl(post.id, [Validators.required]),
-      tags: new UntypedFormControl(post.tags || [], []),
-      draft: new UntypedFormControl(post.draft, []),
-      cover: new UntypedFormControl(null, []),
-    });
-  }
-
-  get cover(): File {
-    return this.editorForm.get('cover').value;
-  }
-
-  set cover(file: File) {
-    this.editorForm.get('cover').patchValue(file);
-  }
-
-  drop($event: NgxFileDropEntry[]) {
-    for (const droppedFile of $event) {
-      const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
-      fileEntry.file((file: File) => {
-        this.cover = file;
-        let reader = new FileReader();
-        reader.onload = (event: any) => {
-          this.url = event.target.result;
-        };
-        reader.onerror = (event: any) => {
-          console.log('File could not be read: ' + event.target.error.code);
-        };
-        reader.readAsDataURL(file);
-      });
+    constructor(
+        private formBuilder: UntypedFormBuilder,
+        private reportService: ReportService,
+        private toastService: ToastService,
+        private modalService: NgbModal,
+        private activateRoute: ActivatedRoute,
+        private fileService: FileService,
+    ) { }
+    ngAfterViewChecked() {
+        Prism.highlightAll();
     }
-  }
 
-  async save(
-    callback = (args: any) => {
-      console.log('saving...');
-    },
-  ) {
-    let formData = new FormData();
-    let oldState = {
-      id: this.post.id,
-      content: this.htmlContent.value,
-      author: this.editorForm.get('author').value,
-      tags: this.editorForm.get('tags').value,
-      draft: this.editorForm.get('draft').value,
-      title: this.title.value,
-      cover: this.cover,
-      description: this.editorForm.get('description').value,
-    };
-    formData.append('id', this.post.id);
-    formData.append('content', this.htmlContent.value);
-    formData.append('author', this.editorForm.get('author').value);
-    formData.append('tags', this.editorForm.get('tags').value);
-    formData.append('draft', this.editorForm.get('draft').value);
-    formData.append('title', this.title.value);
-    formData.append('cover', this.cover);
-    formData.append('description', this.editorForm.get('description').value);
-    let formDataJson = JSON.stringify(oldState);
-    if (formDataJson === this.lastState) {
-      return;
+    async reloadAttachments() {
+        let attachments = [];
+        if (!this.post.attachments) {
+            this.post.attachments = [];
+        }
+        if (this.post.attachmentIds?.length) {
+            attachments = await firstValueFrom(this.fileService.findByIds(this.post.attachmentIds));
+        }
+        // this could be refactored 2025-11-09 11:34
+        const thumbs = attachments.map((u) => u.thumbnailId).filter((u) => u?.length)
+            .map((id) => { return { id } as FileUpload });
+        for (const upload of attachments) {
+            if (upload.thumbnailId?.length) {
+                const thumb = thumbs.find((t) => upload.thumbnailId === t.id);
+                upload.transientThumbnail = thumb;
+            }
+        }
+        this.post.attachments = attachments;
     }
-    let res = await firstValueFrom(this.reportService.save(formData));
-    callback(res);
-    this.lastState = formDataJson;
-    this.toastService.showSuccess('Report saved');
-  }
-
-  send() {
-    this.save(() => {
-      // this.editorForm.reset();
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.autosave.unsubscribe();
-  }
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      this.selectedFiles = Array.from(input.files);
-    }
-  }
-  openPdfViewer(a: FileUpload) {
-    let ngbModalRef = this.modalService.open(PdfViewerComponent, {
-      size: 'xl',
-      scrollable: true,
-    });
-    ngbModalRef.componentInstance.pdf = a;
-    ngbModalRef.componentInstance.title = a?.originalFilename;
-  }
-
-  openImageViewer(a: FileUpload) {
-    let ngbModalRef = this.modalService.open(ImageViewerComponent, {
-      size: 'xl',
-      scrollable: true,
-    });
-    ngbModalRef.componentInstance.image = a;
-    ngbModalRef.componentInstance.title = a?.originalFilename;
-  }
-  isPdf(upl: FileUpload) {
-    return FileService.isPdf(upl?.contentType);
-  }
-  isXML(upl: FileUpload) {
-    return FileService.isXML(upl?.contentType);
-  }
-  isImage(upl: FileUpload) {
-    return FileService.isImage(upl?.contentType);
-  }
-  download(upl: FileUpload) {
-    this.fileService.download(upl);
-  }
-  isProcessed(a: FileUpload) {
-    return this.post.processedAttachmentIds?.includes(a.id);
-  }
-  toggleAttachmentProcess(a: FileUpload) {
-    this.reportService.toggleProcessAttachment(this.post.id, a.id).subscribe({
-      next: (p: Post) => {
-        this.toastService.showSuccess(
-          this.post.processedAttachmentIds?.includes(a.id) ? 'Attachment unprocessed' : 'Attachment processed',
-        );
-        this.post.attachmentIds = p.attachmentIds;
-        this.post.processedAttachmentIds = p.processedAttachmentIds;
+    async ngOnInit() {
+        const id = this.activateRoute.snapshot.params.id;
+        if (id) this.post = await firstValueFrom(this.reportService.getPostById(id));
+        else this.post = await firstValueFrom(this.reportService.newPost());
         this.reloadAttachments();
-      },
-      error: () => this.toastService.showDanger('Failed to toggle attachment state'),
-    });
-  }
-  uploadAttachment() {
-    if (!this.post?.id || !this.selectedFiles?.length) return;
-    this.uploading = true;
+        this.editorForm = this.createFormGroup(this.post);
+        const secondsCounter = interval(10000).pipe(skip(1));
+        this.lastState = JSON.stringify({
+            id: this.post.id,
+            content: this.htmlContent.value,
+            author: this.editorForm.get('author').value,
+            tags: this.editorForm.get('tags').value,
+            draft: this.editorForm.get('draft').value,
+            title: this.title.value,
+            cover: this.cover,
+            description: this.editorForm.get('description').value,
+        });
+        this.autosave = secondsCounter.subscribe((_) => this.save());
+    }
 
-    this.reportService.addAttachment(this.post.id, this.selectedFiles).subscribe({
-      next: (p: Post) => {
-        this.post.attachmentIds = p.attachmentIds;
-        this.reloadAttachments();
-        this.toastService.showSuccess('Attachment uploaded');
-        this.selectedFiles = [];
-      },
-      error: () => this.toastService.showDanger('Upload failed'),
-      complete: () => (this.uploading = false),
-    });
-  }
+    get htmlContent() {
+        return this.editorForm.get('htmlContent');
+    }
+
+    get title() {
+        return this.editorForm.get('title');
+    }
+
+    createFormGroup(post: Post): UntypedFormGroup {
+        if (post.coverId) {
+            this.url = this.fileService.getPublicDownloadUrl(post.coverId);
+        }
+        return this.formBuilder.group({
+            htmlContent: new UntypedFormControl(post.content, [Validators.required]),
+            author: new UntypedFormControl(post.author, [Validators.required]),
+            title: new UntypedFormControl(post.title, [Validators.required]),
+            description: new UntypedFormControl(post.description, [Validators.required]),
+            id: new UntypedFormControl(post.id, [Validators.required]),
+            tags: new UntypedFormControl(post.tags || [], []),
+            draft: new UntypedFormControl(post.draft, []),
+            cover: new UntypedFormControl(null, []),
+        });
+    }
+
+    get cover(): File {
+        return this.editorForm.get('cover').value;
+    }
+
+    set cover(file: File) {
+        this.editorForm.get('cover').patchValue(file);
+    }
+
+    drop($event: NgxFileDropEntry[]) {
+        for (const droppedFile of $event) {
+            const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+            fileEntry.file((file: File) => {
+                this.cover = file;
+                let reader = new FileReader();
+                reader.onload = (event: any) => {
+                    this.url = event.target.result;
+                };
+                reader.onerror = (event: any) => {
+                    console.log('File could not be read: ' + event.target.error.code);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    }
+
+    async save(
+        callback = (args: any) => {
+            console.log('saving...');
+        },
+    ) {
+        let formData = new FormData();
+        let oldState = {
+            id: this.post.id,
+            content: this.htmlContent.value,
+            author: this.editorForm.get('author').value,
+            tags: this.editorForm.get('tags').value,
+            draft: this.editorForm.get('draft').value,
+            title: this.title.value,
+            cover: this.cover,
+            description: this.editorForm.get('description').value,
+        };
+        formData.append('id', this.post.id);
+        formData.append('content', this.htmlContent.value);
+        formData.append('author', this.editorForm.get('author').value);
+        formData.append('tags', this.editorForm.get('tags').value);
+        formData.append('draft', this.editorForm.get('draft').value);
+        formData.append('title', this.title.value);
+        formData.append('cover', this.cover);
+        formData.append('description', this.editorForm.get('description').value);
+        let formDataJson = JSON.stringify(oldState);
+        if (formDataJson === this.lastState) {
+            return;
+        }
+        let res = await firstValueFrom(this.reportService.save(formData));
+        callback(res);
+        this.lastState = formDataJson;
+        this.toastService.showSuccess('Report saved');
+    }
+
+    send() {
+        this.save(() => {
+            // this.editorForm.reset();
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.autosave.unsubscribe();
+    }
+    onFileSelected(event: Event) {
+        const input = event.target as HTMLInputElement;
+        if (input.files?.length) {
+            this.selectedFiles = Array.from(input.files);
+        }
+    }
+    openPdfViewer(a: FileUpload) {
+        let ngbModalRef = this.modalService.open(PdfViewerComponent, {
+            size: 'xl',
+            scrollable: true,
+        });
+        ngbModalRef.componentInstance.pdf = a;
+        ngbModalRef.componentInstance.title = a?.originalFilename;
+    }
+
+    openImageViewer(a: FileUpload) {
+        let ngbModalRef = this.modalService.open(ImageViewerComponent, {
+            size: 'xl',
+            scrollable: true,
+        });
+        ngbModalRef.componentInstance.image = a;
+        ngbModalRef.componentInstance.title = a?.originalFilename;
+    }
+    isPdf(upl: FileUpload) {
+        return FileService.isPdf(upl?.contentType);
+    }
+    isXML(upl: FileUpload) {
+        return FileService.isXML(upl?.contentType);
+    }
+    isImage(upl: FileUpload) {
+        return FileService.isImage(upl?.contentType);
+    }
+    download(upl: FileUpload) {
+        this.fileService.download(upl);
+    }
+    isProcessed(a: FileUpload) {
+        return this.post.processedAttachmentIds?.includes(a.id);
+    }
+    toggleAttachmentProcess(a: FileUpload) {
+        this.reportService.toggleProcessAttachment(this.post.id, a.id).subscribe({
+            next: (p: Post) => {
+                this.toastService.showSuccess(
+                    this.post.processedAttachmentIds?.includes(a.id) ? 'Attachment unprocessed' : 'Attachment processed',
+                );
+                this.post.attachmentIds = p.attachmentIds;
+                this.post.processedAttachmentIds = p.processedAttachmentIds;
+                this.reloadAttachments();
+            },
+            error: () => this.toastService.showDanger('Failed to toggle attachment state'),
+        });
+    }
+    uploadAttachment() {
+        if (!this.post?.id || !this.selectedFiles?.length) return;
+        this.uploading = true;
+
+        this.reportService.addAttachment(this.post.id, this.selectedFiles).subscribe({
+            next: (p: Post) => {
+                this.post.attachmentIds = p.attachmentIds;
+                this.reloadAttachments();
+                this.toastService.showSuccess('Attachment uploaded');
+                this.selectedFiles = [];
+            },
+            error: () => this.toastService.showDanger('Upload failed'),
+            complete: () => (this.uploading = false),
+        });
+    }
 }
