@@ -1,7 +1,7 @@
 <ng-container *ngIf="post">
   <app-title [title]="post.title | titlecase" />
 
-  <div class="container" style="height: 87vh; overflow-y: hidden">
+  <div class="row" style="height: 87vh; overflow-y: hidden">
     <form class="mt-2" [formGroup]="editorForm" (ngSubmit)="send()" *ngIf="editorForm">
       <div class="mb-2 d-flex justify-content-between">
         <a routerLink="/report" class="btn btn-outline-primary me-1">
@@ -43,16 +43,23 @@
                 dropZoneLabel="Drop files here"
                 (onFileDrop)="drop($event)"
                 dropZoneClassName="flat bg-light d-block"
+                class="d-flex align-items-start mt-2"
                 [accept]="'image/*'"
                 [multiple]="false"
               >
                 <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                  <button id="sd" class="btn btn-primary me-1" type="button" (click)="openFileSelector()" *ngIf="!url">
+                  <button id="sd" class="btn btn-transparent me-1" type="button" (click)="openFileSelector()">
+                    <img
+                      *ngIf="url"
+                      alt="Cover"
+                      [src]="url"
+                      class="img-responsive rounded-5 me-1"
+                      width="100px"
+                      height="100px"
+                    />
+
                     <fa-icon [icon]="['fas', 'upload']"></fa-icon>
                   </button>
-                  <a *ngIf="url" (click)="openFileSelector()" class="border-0">
-                    <img alt="Cover" [src]="url" class="img-fluid" width="100px" height="100px" />
-                  </a>
                 </ng-template>
               </ngx-file-drop>
             </div>
@@ -69,52 +76,52 @@
           <ng-template ngbNavContent>
             <div class="d-flex justify-content-start">
               <div class="col-5 border-end shadow-sm me-2" style="height: 73.9vh; overflow-y: scroll">
-                <div class="d-flex justify-content-start bg-light p-1 pt-2 pb-2">
+                <div class="d-flex justify-content-start bg-light p-1 pt-2 pb-2 border-bottom">
                   <button
                     type="button"
-                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
                     (click)="wrapSelection('**', '**')"
                   >
                     Bold
                   </button>
                   <button
                     type="button"
-                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
                     (click)="wrapSelection('_', '_')"
                   >
                     Italic
                   </button>
                   <button
                     type="button"
-                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
                     (click)="wrapSelection('`', '`')"
                   >
                     Inline Code
                   </button>
                   <button
                     type="button"
-                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
                     (click)="insertAtCursor('- ')"
                   >
                     List Item
                   </button>
                   <button
                     type="button"
-                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
                     (click)="wrapSelection('> ', '')"
                   >
                     Blockquote
                   </button>
                   <button
                     type="button"
-                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
                     (click)="insertLink()"
                   >
                     Link
                   </button>
                   <button
                     type="button"
-                    class="btn bg-white text-muted btn-outline-secondary me-1"
+                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
                     (click)="insertTable()"
                   >
                     Table
@@ -137,8 +144,10 @@
           </ng-template>
         </li>
         <li ngbNavItem>
+
           <a ngbNavLink>Attachments</a>
           <ng-template ngbNavContent>
+
             <div class="d-flex flex-column">
               <div>
                 <div *ngIf="!post.attachments?.length" class="text-muted p-2">No attachments.</div>
@@ -156,9 +165,12 @@
                   </button>
                 </div>
               </div>
-              <label class="fw-bold mt-2 mb-2">Attachments</label>
 
               <div style="height: 56vh; overflow-y: scroll">
+                                
+                            <div class="d-flex justify-content-end align-items-center">
+                                  <button class="btn btn-warning mt-2 mb-2 " (click)="$event.preventDefault();downloadBulk(post.attachments)">Download all</button>
+                            </div>
                 <ul class="list-group mt-2">
                   <li
                     *ngFor="let a of post.attachments"
@@ -173,6 +185,7 @@
                     </ng-template>
                     <div>
                       <button
+                        [disabled]="!a?.transientThumbnail"
                         type="button"
                         class="p-0 m-0 text-start btn btn-link text-dark text-decoration-none"
                         [ngbTooltip]="previewThumb"

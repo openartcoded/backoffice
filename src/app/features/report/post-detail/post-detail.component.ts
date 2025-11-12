@@ -61,6 +61,9 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
         }
         return '/assets/img/no-cover.jpg';
     }
+    async downloadBulk(attachments: FileUpload[]) {
+        await this.fileService.downloadBulk(attachments.map(a => a.id));
+    }
     async reloadAttachments() {
         let attachments = [];
         if (!this.post.attachments) {
@@ -71,8 +74,12 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
         }
 
         // this could be refactored 2025-11-09 11:34
-        const thumbs = attachments.map((u) => u.thumbnailId).filter((u) => u?.length)
-            .map((id) => { return { id } as FileUpload });
+        const thumbs = attachments
+            .map((u) => u.thumbnailId)
+            .filter((u) => u?.length)
+            .map((id) => {
+                return { id } as FileUpload;
+            });
         for (const upload of attachments) {
             if (upload.thumbnailId?.length) {
                 const thumb = thumbs.find((t) => upload.thumbnailId === t.id);

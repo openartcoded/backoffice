@@ -13,6 +13,7 @@ import { FileUpload } from '@core/models/file-upload';
 import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 import { ImageViewerComponent } from '@shared/image-viewer/image-viewer.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
     selector: 'app-post-editor',
     templateUrl: './post-editor.component.html',
@@ -111,6 +112,7 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
         private modalService: NgbModal,
         private activateRoute: ActivatedRoute,
         private fileService: FileService,
+        private domSanitizationService: DomSanitizer,
     ) { }
     ngAfterViewChecked() {
         Prism.highlightAll();
@@ -125,8 +127,12 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
             attachments = await firstValueFrom(this.fileService.findByIds(this.post.attachmentIds));
         }
         // this could be refactored 2025-11-09 11:34
-        const thumbs = attachments.map((u) => u.thumbnailId).filter((u) => u?.length)
-            .map((id) => { return { id } as FileUpload });
+        const thumbs = attachments
+            .map((u) => u.thumbnailId)
+            .filter((u) => u?.length)
+            .map((id) => {
+                return { id } as FileUpload;
+            });
         for (const upload of attachments) {
             if (upload.thumbnailId?.length) {
                 const thumb = thumbs.find((t) => upload.thumbnailId === t.id);
@@ -140,7 +146,7 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
         if (id) this.post = await firstValueFrom(this.reportService.getPostById(id));
         else this.post = await firstValueFrom(this.reportService.newPost());
         this.reloadAttachments();
-        this.editorForm = this.createFormGroup(this.post);
+        this.editorForm = await this.createFormGroup(this.post);
         const secondsCounter = interval(10000).pipe(skip(1));
         this.lastState = JSON.stringify({
             id: this.post.id,
@@ -162,11 +168,18 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
     get title() {
         return this.editorForm.get('title');
     }
-
-    createFormGroup(post: Post): UntypedFormGroup {
+    private async loadCover(post: Post) {
         if (post.coverId) {
-            this.url = this.fileService.getPublicDownloadUrl(post.coverId);
+            const link = await firstValueFrom(this.fileService.toDownloadLink(this.fileService.getDownloadUrl(post.coverId)));
+            this.url = this.domSanitizationService.bypassSecurityTrustUrl(link.href);
         }
+    }
+
+    async downloadBulk(attachments: FileUpload[]) {
+        await this.fileService.downloadBulk(attachments.map(a => a.id));
+    }
+    async createFormGroup(post: Post) {
+        await this.loadCover(post);
         return this.formBuilder.group({
             htmlContent: new UntypedFormControl(post.content, [Validators.required]),
             author: new UntypedFormControl(post.author, [Validators.required]),

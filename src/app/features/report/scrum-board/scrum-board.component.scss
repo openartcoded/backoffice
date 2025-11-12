@@ -1,43 +1,46 @@
-.column .card .card-body {
-  white-space: nowrap;
-  height: 67.5vh;
-  overflow-y: scroll;
-}
-.postit-container .postit {
-  flex: 1 1 200px; /* grow, shrink, base width */
-  max-width: 250px; /* optional max width */
-}
+/* Shared post-it look */
 .postit {
-  width: 25%;
-  height: 20%;
-
+  width: 180px;
   background-color: #feffca;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  resize: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.add-postit {
-  width: 10%;
-  cursor: pointer;
-}
-
-textarea {
+/* Make textarea consistent */
+.postit textarea {
   width: 100%;
-  height: 100%;
+  height: 120px;
   resize: none;
   outline: none;
+  border: none;
+  background: transparent;
+  font-size: 0.875rem;
+  padding: 0.5rem;
 }
 
+/* Footer like in first component */
+.postit .d-flex.align-items-center.justify-content-between {
+  padding: 0.25rem 0.5rem;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  font-size: 0.75rem;
+}
+
+/* Mobile adjustments */
 @media (max-width: 768px) {
   .postit {
-    width: 100%;
+    width: 150px;
+    min-width: 150px;
+  }
+
+  .postit textarea {
+    height: 100px;
   }
 }
-.column.drag-over {
-  border: 2px dashed #007bff;
-  background-color: #e6f0ff;
-}
 
-.drag:hover {
-  cursor: pointer;
+
+.column .card .card-body {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 67.5vh;
 }

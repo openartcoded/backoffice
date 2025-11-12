@@ -1,9 +1,12 @@
-<img [hidden]="!isLoading" [width]="300" [className]="cssClass" [src]="loader" />
+<img *ngIf="isLoading && !thumbnailSrc" [width]="300" [className]="cssClass" [src]="loader" />
+
+<img *ngIf="thumbnailSrc && !isImageLoaded" [width]="300" [className]="cssClass" [src]="thumbnailSrc" />
+
 <img
   [src]="imageSrc"
   [width]="300"
   [className]="cssClass"
-  [ngStyle]="{ visibility: isLoading ? 'hidden' : '' }"
+  class="fade-in"
   (load)="hideLoader()"
   (error)="hideLoader()"
 />

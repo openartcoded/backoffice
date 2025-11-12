@@ -52,6 +52,7 @@
                       </div></span
                     >
                     <button
+                      [disabled]="!ad.attachment?.transientThumbnail"
                       type="button"
                       class="p-0 m-0 text-start btn btn-link text-dark"
                       [ngbTooltip]="previewThumb"

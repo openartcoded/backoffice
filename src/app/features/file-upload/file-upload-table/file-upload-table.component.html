@@ -43,6 +43,7 @@
                     <div class="d-flex justify-content-between">
                       <span>{{ upl?.originalFilename | trim: 40 }}</span>
                       <button
+                        [disabled]="!upl?.transientThumbnail"
                         type="button"
                         class="p-0 m-0 text-start btn btn-link text-dark"
                         [ngbTooltip]="previewThumb"

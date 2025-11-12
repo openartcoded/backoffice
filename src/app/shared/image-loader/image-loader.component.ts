@@ -15,22 +15,40 @@ export class ImageLoaderComponent implements OnInit {
   @Input() cssClass: string;
 
   imageSrc: any;
-  isLoading: boolean;
+  thumbnailSrc: any;
+  isLoading: boolean = true;
+  isImageLoaded: boolean = false;
 
   constructor(
     private fileService: FileService,
     private domSanitizationService: DomSanitizer,
   ) {}
 
-  hideLoader() {
-    this.isLoading = false;
+  ngOnInit(): void {
+    this.loadThumbnailIfAvailable();
   }
 
-  ngOnInit(): void {
-    this.isLoading = true;
+  private loadThumbnailIfAvailable() {
+    if (this.image.thumbnailId) {
+      this.fileService
+        .toDownloadLink(this.fileService.getDownloadUrl(this.image.thumbnailId))
+        .subscribe((thumbLink) => {
+          this.thumbnailSrc = this.domSanitizationService.bypassSecurityTrustUrl(thumbLink.href);
+          this.loadMainImage();
+        });
+    } else {
+      this.loadMainImage();
+    }
+  }
+
+  private loadMainImage() {
     this.fileService.toDownloadLink(this.fileService.getDownloadUrl(this.image.id)).subscribe((link) => {
       this.imageSrc = this.domSanitizationService.bypassSecurityTrustUrl(link.href);
-      this.isLoading = false;
     });
+  }
+
+  hideLoader() {
+    this.isLoading = false;
+    this.isImageLoaded = true;
   }
 }

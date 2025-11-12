@@ -17,14 +17,13 @@
           </button>
         </div>
 
-        <div class="card-body drag hidden-scroll d-flex flex-wrap" [formArrayName]="column">
+        <div class="card-body drag d-flex flex-wrap" [formArrayName]="column">
           <div
             *ngFor="let control of getColumnControls(column); let i = index"
             [formGroupName]="i"
             class="card flat postit p-2 mb-2 me-2 shadow-sm"
             draggable="true"
             (dragstart)="onDragStart($event, control)"
-            style="width: 100%; max-width: 250px"
           >
             <input type="hidden" formControlName="id" />
             <textarea

@@ -42,8 +42,9 @@
           <tr *ngFor="let n of posts.content">
             <td class="text-break">
               <div class="d-flex justify-content-between">
-                <a class="btn btn-link text-decoration-none fw-bold p-0 m-0"                   [routerLink]="['post', slugify(n.title), n.id]"
-
+                <a
+                  class="btn btn-link text-decoration-none fw-bold p-0 m-0"
+                  [routerLink]="['post', slugify(n.title), n.id]"
                   ><fa-icon *ngIf="!n.draft" [icon]="['fas', 'check-circle']" class="text-success me-1"></fa-icon
                   >{{ n.title | titlecase }}</a
                 >
