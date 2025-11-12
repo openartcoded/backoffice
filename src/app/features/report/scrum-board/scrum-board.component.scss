@@ -4,7 +4,7 @@
   background-color: #feffca;
   border: 1px solid rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* Make textarea consistent */
@@ -22,7 +22,7 @@
 /* Footer like in first component */
 .postit .d-flex.align-items-center.justify-content-between {
   padding: 0.25rem 0.5rem;
-  border-top: 1px solid rgba(0,0,0,0.05);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
   font-size: 0.75rem;
 }
 
@@ -37,7 +37,6 @@
     height: 100px;
   }
 }
-
 
 .column .card .card-body {
   overflow-y: scroll;

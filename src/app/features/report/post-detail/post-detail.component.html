@@ -31,17 +31,18 @@
         <div class="card-body">
           {{ post.description }}
         </div>
-                <div class="card-footer bg-transparent">
-        <span class="badge bg-success flat text-light me-1 mb-1 fs-6" *ngFor="let t of post.tags">#{{ t }}</span>
-
-                </div>
+        <div class="card-footer bg-transparent">
+          <span class="badge bg-success flat text-light me-1 mb-1 fs-6" *ngFor="let t of post.tags">#{{ t }}</span>
+        </div>
       </div>
-<ng-container *ngIf="post.attachments?.length">
-                 <div class="d-flex justify-content-between align-items-center mt-2 mb-2 ">
-                            <label class="fw-bold d-block">Attachments</label>
+      <ng-container *ngIf="post.attachments?.length">
+        <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
+          <label class="fw-bold d-block">Attachments</label>
 
-                                  <button class="btn btn-warning " (click)="$event.preventDefault();downloadBulk(post.attachments)">Download all</button>
-                            </div>
+          <button class="btn btn-warning" (click)="$event.preventDefault(); downloadBulk(post.attachments)">
+            Download all
+          </button>
+        </div>
         <ul class="list-group mb-3 rounded-0">
           <li
             *ngFor="let a of post.attachments"
@@ -109,13 +110,11 @@
 
       <hr />
 
-
       <div class="border rounded-0 shadow-sm p-3 mb-3" *ngIf="post.content?.length">
         <markdown [data]="post.content"></markdown>
       </div>
 
-            <div>
-      </div>
+      <div></div>
     </article>
   </div>
 </ng-container>

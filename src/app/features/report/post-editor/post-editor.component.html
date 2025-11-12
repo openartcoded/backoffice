@@ -144,10 +144,8 @@
           </ng-template>
         </li>
         <li ngbNavItem>
-
           <a ngbNavLink>Attachments</a>
           <ng-template ngbNavContent>
-
             <div class="d-flex flex-column">
               <div>
                 <div *ngIf="!post.attachments?.length" class="text-muted p-2">No attachments.</div>
@@ -167,10 +165,14 @@
               </div>
 
               <div style="height: 56vh; overflow-y: scroll">
-                                
-                            <div class="d-flex justify-content-end align-items-center">
-                                  <button class="btn btn-warning mt-2 mb-2 " (click)="$event.preventDefault();downloadBulk(post.attachments)">Download all</button>
-                            </div>
+                <div class="d-flex justify-content-end align-items-center">
+                  <button
+                    class="btn btn-warning mt-2 mb-2"
+                    (click)="$event.preventDefault(); downloadBulk(post.attachments)"
+                  >
+                    Download all
+                  </button>
+                </div>
                 <ul class="list-group mt-2">
                   <li
                     *ngFor="let a of post.attachments"
