@@ -18,102 +18,123 @@
     </div>
 
     <article class="mt-3">
-      <div class="card flat shadow-sm mb-3">
-        <div
-          class="card-header bg-light rounded-0 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center"
-        >
-          <h4 class="mb-2 mb-md-0">
-            <fa-icon *ngIf="!post.draft" [icon]="['fas', 'check-circle']" class="text-success me-1"></fa-icon>
-            {{ post.title | titlecase }}
-          </h4>
-          <small class="text-muted">Last updated: {{ post.updatedDate | date: 'dd/MM/yyyy HH:mm' }}</small>
-        </div>
-        <div class="card-body">
-          {{ post.description }}
-        </div>
-        <div class="card-footer bg-transparent">
-          <span class="badge bg-success flat text-light me-1 mb-1 fs-6" *ngFor="let t of post.tags">#{{ t }}</span>
-        </div>
-      </div>
-      <ng-container *ngIf="post.attachments?.length">
-        <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
-          <label class="fw-bold d-block">Attachments</label>
-
-          <button class="btn btn-warning" (click)="$event.preventDefault(); downloadBulk(post.attachments)">
-            Download all
-          </button>
-        </div>
-        <ul class="list-group mb-3 rounded-0">
-          <li
-            *ngFor="let a of post.attachments"
-            class="list-group-item d-flex justify-content-between align-items-center"
-          >
-            <div class="mb-2 mb-md-0">
-              <ng-template #previewThumb>
-                <app-image-loader
-                  cssClass="m-0 p-0 img-fluid rounded"
-                  *ngIf="a.transientThumbnail"
-                  [image]="a.transientThumbnail"
-                />
-              </ng-template>
-              <div class="p-0">
-                <button
-                  type="button"
-                  class="btn btn-link p-0 m-0 text-dark text-decoration-none"
-                  [ngbTooltip]="previewThumb"
-                  #btn="ngbTooltip"
-                  (touchstart)="btn.open()"
-                  (touchend)="btn.close()"
-                  tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
-                >
-                  <fa-icon class="p-0 m-0" [icon]="['fas', 'info-circle']"></fa-icon>
-                </button>
-             
-                                <a class="btn btn-link p-0 text-decoration-none ms-1 text-break" (click)="download(a)">
-  <abbr [title]="a.originalFilename">
-    {{ a.originalFilename | trim: 30 }}
-  </abbr>
-</a>
+      <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem>
+          <a ngbNavLink>Metadata</a>
+          <ng-template ngbNavContent>
+            <div class="card flat shadow-sm mb-3">
+              <div
+                class="card-header bg-light rounded-0 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center"
+              >
+                <h4 class="mb-2 mb-md-0">
+                  <fa-icon *ngIf="!post.draft" [icon]="['fas', 'check-circle']" class="text-success me-1"></fa-icon>
+                  {{ post.title | titlecase }}
+                </h4>
+                <small class="text-muted">Last updated: {{ post.updatedDate | date: 'dd/MM/yyyy HH:mm' }}</small>
+              </div>
+              <div class="card-body">
+                {{ post.description }}
+              </div>
+              <div class="card-footer bg-transparent">
+                <span class="badge bg-success flat text-light me-1 mb-1 fs-6" *ngFor="let t of post.tags">#{{ t }}</span>
               </div>
             </div>
-            <div>
-              <fa-icon *ngIf="isProcessed(a)" [icon]="['fas', 'check-circle']" class="me-1 text-success"></fa-icon>
-              <fa-icon *ngIf="!isProcessed(a)" [icon]="['fas', 'check-circle']" class="me-1 text-muted"></fa-icon>
-              <div ngbDropdown class="d-inline-block">
-                <button class="btn btn-link p-0" id="fileActionsDropdown" ngbDropdownToggle>
-                  <fa-icon [icon]="['fas', 'ellipsis-v']" class="text-secondary"></fa-icon>
-                </button>
+          </ng-template>
+        </li>
+        <li ngbNavItem *ngIf="post.content?.length">
+          <a ngbNavLink>Content</a>
+          <ng-template ngbNavContent>
+            <div class="border rounded-0 shadow-sm p-3 mb-3">
+              <markdown [data]="post.content"></markdown>
+            </div>
+          </ng-template>
+        </li>
+        <li ngbNavItem *ngIf="post.attachments?.length">
+          <a ngbNavLink>Attachments</a>
+          <ng-template ngbNavContent>
+            <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
+              <label class="fw-bold d-block">Attachments</label>
 
-                <div ngbDropdownMenu aria-labelledby="fileActionsDropdown">
-                  <button ngbDropdownItem *ngIf="isPdf(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
-                    <fa-icon [icon]="['fas', 'file-pdf']" class="me-2 text-secondary"></fa-icon> View PDF
-                  </button>
-
-                  <button ngbDropdownItem *ngIf="isXML(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
-                    <fa-icon [icon]="['fas', 'file-code']" class="me-2 text-secondary"></fa-icon> View XML
-                  </button>
-
-                  <button ngbDropdownItem *ngIf="isImage(a)" (click)="$event.preventDefault(); openImageViewer(a)">
-                    <fa-icon [icon]="['fas', 'file-image']" class="me-2 text-secondary"></fa-icon> View Image
-                  </button>
-
-                  <button ngbDropdownItem (click)="$event.preventDefault(); download(a)">
-                    <fa-icon [icon]="['fas', 'download']" class="me-2 text-secondary"></fa-icon> Download
-                  </button>
+              <button class="btn btn-warning" (click)="$event.preventDefault(); downloadBulk(post.attachments)">
+                Download all
+              </button>
+            </div>
+            <ul class="list-group mb-3 rounded-0">
+              <li
+                *ngFor="let a of post.attachments"
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <div class="mb-2 mb-md-0">
+                  <ng-template #previewThumb>
+                    <app-image-loader
+                      cssClass="m-0 p-0 img-fluid rounded"
+                      *ngIf="a.transientThumbnail"
+                      [image]="a.transientThumbnail"
+                    />
+                  </ng-template>
+                  <div class="p-0">
+                    <button
+                      type="button"
+                      class="btn btn-link p-0 m-0 text-dark text-decoration-none"
+                      [ngbTooltip]="previewThumb"
+                      #btn="ngbTooltip"
+                      (touchstart)="btn.open()"
+                      (touchend)="btn.close()"
+                      tooltipClass="m-0 p-0 opacity-100 bg-transparent border flat shadow-sm"
+                    >
+                      <fa-icon class="p-0 m-0" [icon]="['fas', 'info-circle']"></fa-icon>
+                    </button>
+                 
+                    <a class="btn btn-link p-0 text-decoration-none ms-1 text-break" (click)="download(a)">
+                      <abbr [title]="a.originalFilename">
+                        {{ a.originalFilename | trim: 30 }}
+                      </abbr>
+                    </a>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </ng-container>
+                <div>
+                  <fa-icon *ngIf="isProcessed(a)" [icon]="['fas', 'check-circle']" class="me-1 text-success"></fa-icon>
+                  <fa-icon *ngIf="!isProcessed(a)" [icon]="['fas', 'check-circle']" class="me-1 text-muted"></fa-icon>
+                  <div ngbDropdown class="btn-group">
+                    <button
+                      class="btn btn-link dropdown-toggle text-secondary"
+                      ngbDropdownToggle
+                      type="button"
+                      aria-expanded="false"
+                    >
+                      <fa-icon [icon]="['fas', 'ellipsis-v']"></fa-icon>
+                    </button>
+                    <div ngbDropdownMenu class="shadow-sm border-0 p-1">
+                      <button ngbDropdownItem *ngIf="isPdf(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
+                        <fa-icon [icon]="['fas', 'file-pdf']" class="text-secondary me-1"></fa-icon>
+                        View PDF
+                      </button>
+                      <button ngbDropdownItem *ngIf="isXML(a)" (click)="$event.preventDefault(); openPdfViewer(a)">
+                        <fa-icon [icon]="['fas', 'file-code']" class="text-secondary me-1"></fa-icon>
+                        View XML
+                      </button>
+                      <button
+                        ngbDropdownItem
+                        *ngIf="isImage(a)"
+                        (click)="$event.preventDefault(); openImageViewer(a)"
+                      >
+                        <fa-icon [icon]="['fas', 'file-image']" class="text-secondary me-1"></fa-icon>
+                        View Image
+                      </button>
+                      <button ngbDropdownItem (click)="$event.preventDefault(); download(a)">
+                        <fa-icon [icon]="['fas', 'download']" class="text-secondary me-1"></fa-icon>
+                        Download
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </ng-template>
+        </li>
+      </ul>
+      <div class="m-2" [ngbNavOutlet]="nav"></div>
 
-      <hr />
-
-      <div class="border rounded-0 shadow-sm p-3 mb-3" *ngIf="post.content?.length">
-        <markdown [data]="post.content"></markdown>
-      </div>
-
-      <div></div>
     </article>
   </div>
 </ng-container>
