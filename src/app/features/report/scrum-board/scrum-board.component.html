@@ -7,7 +7,7 @@
       (dragover)="onDragOver($event, column)"
       [class.drag-over]="draggedColumn === column"
     >
-      <div class="card mb-2 shadow-sm flat">
+      <div class="card mb-2 shadow-sm flat" style="height: 76.4vh">
         <div class="card-header d-flex justify-content-center align-items-center">
           <span class="text-capitalize fs-5">
             {{ column === 'IN_PROGRESS' ? 'In Progress' : (column | titlecase) }}
@@ -17,18 +17,18 @@
           </button>
         </div>
 
-        <div class="card-body drag d-flex flex-wrap" [formArrayName]="column">
-          <div
+                <div class="card-body drag d-flex flex-wrap align-items-start"  [formArrayName]="column">
+                    <div
             *ngFor="let control of getColumnControls(column); let i = index"
             [formGroupName]="i"
-            class="card flat postit p-2 mb-2 me-2 shadow-sm"
+            class=" flat postit p-2 mb-2 me-2 shadow-sm"
             draggable="true"
             (dragstart)="onDragStart($event, control)"
           >
             <input type="hidden" formControlName="id" />
             <textarea
               formControlName="note"
-              class="form-control flat mb-1"
+              class="form-control no-focus hidden-scroll flat mb-1"
               rows="6"
               placeholder="New postIt..."
             ></textarea>

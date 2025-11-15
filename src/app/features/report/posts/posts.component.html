@@ -45,11 +45,14 @@
                 <a
                   class="btn btn-link text-decoration-none fw-bold p-0 m-0"
                   [routerLink]="['post', slugify(n.title), n.id]"
-                  ><fa-icon *ngIf="!n.draft" [icon]="['fas', 'check-circle']" class="text-success me-1"></fa-icon
+                  ><fa-icon *ngIf="n.status ==='DONE'" [icon]="['fas', 'check-circle']" class="text-success me-1"></fa-icon
                   >{{ n.title | titlecase }}</a
                 >
                 <small class="text-muted">
-                  {{ n.updatedDate | date: 'dd/MM/yyyy' }}{{ n.draft ? ' (Draft)' : '' }}
+                  {{ n.updatedDate | date: 'dd/MM/yyyy' }}
+<span class="d-lg-inline-block d-none" *ngIf="n.status === 'IN_PROGRESS'"> ⏳</span>
+<span class="d-lg-inline-block d-none" *ngIf="n.status === 'PENDING'"> 🕗</span>
+<span class="d-lg-inline-block d-none" *ngIf="n.status === 'DONE'"> ✅</span>
                 </small>
               </div>
 
