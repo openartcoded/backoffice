@@ -68,13 +68,12 @@
                 >
                   <fa-icon class="p-0 m-0" [icon]="['fas', 'info-circle']"></fa-icon>
                 </button>
-                <a
-                  class="btn btn-link text-decoration-none p-0 ms-1 text-break"
-                  [title]="a.originalFilename"
-                  (click)="download(a)"
-                >
-                  {{ a.originalFilename | trim: 30 }}
-                </a>
+             
+                                <a class="btn btn-link p-0 text-decoration-none ms-1 text-break" (click)="download(a)">
+  <abbr [title]="a.originalFilename">
+    {{ a.originalFilename | trim: 30 }}
+  </abbr>
+</a>
               </div>
             </div>
             <div>
