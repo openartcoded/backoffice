@@ -7,42 +7,40 @@ import { PostEditorComponent } from './post-editor/post-editor.component';
 import { PostsPageComponent } from './posts-page/posts-page.component';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: PostsPageComponent,
-        canActivate: [AuthGuard, RoleGuard],
-        data: { expectedRole: ['ADMIN'] },
-    },
-    {
-        path: 'post/new',
-        component: PostEditorComponent,
-        canActivate: [AuthGuard, RoleGuard],
-        data: { expectedRole: ['ADMIN'] },
-    },
-    {
-        path: 'post/:title/:id/edit',
-        component: PostEditorComponent,
-        canActivate: [AuthGuard, RoleGuard],
-        data: { expectedRole: ['ADMIN'] },
-    },
-    {
-        path: 'post/:title/:id',
-        component: PostDetailComponent,
-        canActivate: [AuthGuard, RoleGuard],
-        data: { expectedRole: ['ADMIN'] },
-    },
-    {
-        path: ':name',
-        component: PostsPageComponent,
-        canActivate: [AuthGuard, RoleGuard],
-        data: { expectedRole: ['ADMIN', 'REGULATOR_OR_ACCOUNTANT'] },
-    },
-
-
+  {
+    path: '',
+    component: PostsPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: ['ADMIN'] },
+  },
+  {
+    path: 'post/new',
+    component: PostEditorComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: ['ADMIN'] },
+  },
+  {
+    path: 'post/:title/:id/edit',
+    component: PostEditorComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: ['ADMIN'] },
+  },
+  {
+    path: 'post/:title/:id',
+    component: PostDetailComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: ['ADMIN'] },
+  },
+  {
+    path: ':name',
+    component: PostsPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: ['ADMIN', 'REGULATOR_OR_ACCOUNTANT'] },
+  },
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class ReportRoutingModule { }
+export class ReportRoutingModule {}

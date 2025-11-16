@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-2 col-12 mb-lg-0 mb-2">
-    <div class="card  rounded-0  hidden-scroll" style="height: 76vh">
+    <div class="card rounded-0 hidden-scroll" style="height: 76vh">
       <div class="card-header bg-transparent d-flex align-items-center flex-row">
         <div>
           <a class="btn btn-outline-primary me-1" [routerLink]="['post', 'new']">
@@ -71,7 +71,7 @@
               <div class="d-inline-block">
                 <a
                   class="btn btn-link"
-                  (click)="$event.preventDefault();toggleBookmark($event, n)"
+                  (click)="$event.preventDefault(); toggleBookmark($event, n)"
                   [class.text-muted]="!n.bookmarked"
                   [class.text-warning]="n.bookmarked"
                   ><fa-icon [icon]="['fas', 'star']"

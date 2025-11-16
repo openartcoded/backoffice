@@ -43,7 +43,12 @@
                   ></fa-icon>
                   {{ post.title | titlecase }}
                 </h4>
-                <small class="text-muted">Last updated: {{ post.updatedDate | date: 'dd/MM/yyyy HH:mm' }}</small>
+                <div>
+                  <button (click)="$event.preventDefault(); generatePdf()" class="btn btn-link">
+                    <fa-icon [icon]="['fas', 'file-pdf']" class="text-muted me-1"></fa-icon>
+                  </button>
+                  <small class="text-muted">Last updated: {{ post.updatedDate | date: 'dd/MM/yyyy HH:mm' }}</small>
+                </div>
               </div>
               <div class="card-body">
                 {{ post.description }}
@@ -148,7 +153,7 @@
           </ng-template>
         </li>
       </ul>
-      <div class="m-2" [ngbNavOutlet]="nav"></div>
+      <div class="p-0 mt-1" [ngbNavOutlet]="nav"></div>
     </article>
   </div>
 </ng-container>
