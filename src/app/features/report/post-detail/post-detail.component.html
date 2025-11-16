@@ -55,7 +55,7 @@
             <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
               <label class="fw-bold d-block">Attachments</label>
 
-              <button class="btn btn-warning" (click)="$event.preventDefault(); downloadBulk(post.attachments)">
+              <button [disabled]="!post.attachments?.length" class="btn btn-warning" (click)="$event.preventDefault(); downloadBulk(post.attachments)">
                 Download all
               </button>
             </div>

@@ -175,6 +175,7 @@
               <div style="height: 96vh; overflow-y: scroll">
                 <div class="d-flex justify-content-end align-items-center">
                   <button
+                                    [disabled]="!post.attachments?.length"
                     class="btn btn-warning mt-2 mb-2"
                     (click)="$event.preventDefault(); downloadBulk(post.attachments)"
                   >
@@ -194,6 +195,7 @@
                       />
                     </ng-template>
                     <div>
+
                       <button
                         [disabled]="!a?.transientThumbnail"
                         type="button"
@@ -241,6 +243,8 @@
                             <fa-icon [icon]="['fas', 'file-code']" class="text-secondary me-1"></fa-icon>
                             View XML
                           </button>
+ 
+
 
                           <button
                             ngbDropdownItem
