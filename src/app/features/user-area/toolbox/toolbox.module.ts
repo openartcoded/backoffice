@@ -9,19 +9,20 @@ import { RdfModule } from './rdf/rdf.module';
 import { Base64UtilsModule } from './base64utils/base64utils.module';
 import { QrcodeComponent } from './qrcode/qrcode.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RandomPasswordComponent } from './randompassword/random-password.component';
 
 @NgModule({
-  declarations: [ToolboxContainerComponent, QrcodeComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    DateUtilsModule,
-    PathfinderModule,
-    RdfModule,
-    Base64UtilsModule,
-    SharedModule,
-    NgbNavModule,
-  ],
-  exports: [ToolboxContainerComponent, QrcodeComponent],
+    declarations: [ToolboxContainerComponent, QrcodeComponent, RandomPasswordComponent],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        DateUtilsModule,
+        PathfinderModule,
+        RdfModule,
+        Base64UtilsModule,
+        SharedModule,
+        NgbNavModule,
+    ],
+    exports: [ToolboxContainerComponent, QrcodeComponent],
 })
-export class ToolBoxModule {}
+export class ToolBoxModule { }
