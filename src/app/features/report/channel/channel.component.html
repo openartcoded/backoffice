@@ -65,17 +65,24 @@
                 {{ formatTimestamp(message.creationDate) }}
               </small>
 
-              <button
-                *ngIf="isOwnMessage(message)"
-                type="button"
-                class="btn btn-link btn-sm p-0 ms-2 opacity-75"
-                [ngClass]="{ 'text-muted': isOwnMessage(message) }"
-                (click)="deleteMessage(message)"
-                title="Delete message"
-              >
-                <fa-icon [icon]="['fas', 'trash']" size="xs"></fa-icon>
-              </button>
-              <fa-icon [icon]="['fas', 'check']" size="xs" *ngIf="message.read && message.emailFrom !== user.email" />
+              <div>
+                <button
+                  *ngIf="isOwnMessage(message)"
+                  type="button"
+                  class="btn btn-link btn-sm p-0 ms-2 opacity-75"
+                  [ngClass]="{ 'text-muted': isOwnMessage(message) }"
+                  (click)="deleteMessage(message)"
+                  title="Delete message"
+                >
+                  <fa-icon [icon]="['fas', 'trash']" size="xs"></fa-icon>
+                </button>
+                <fa-icon
+                  class="ms-1"
+                  [icon]="['fas', 'check']"
+                  size="xs"
+                  *ngIf="message.read && message.emailFrom === user.email"
+                />
+              </div>
             </div>
           </div>
         </div>
