@@ -13,125 +13,138 @@
       </div>
       <ul ngbNav #nav="ngbNav" class="nav-tabs">
         <li ngbNavItem>
-          <a ngbNavLink>Metadata</a>
-          <ng-template ngbNavContent>
-            <div class="mb-1">
-              <label class="col-form-label" for="title">Title</label>
-              <input type="text" class="form-control" id="title" formControlName="title" placeholder="Title" />
-            </div>
-            <div class="mb-1">
-              <label class="col-form-label" for="author">Author</label>
-              <input type="text" class="form-control" id="author" formControlName="author" placeholder="Author" />
-            </div>
-                                    <div class="mb-1">
-
-              <label class="col-form-label" for="status">Status</label>
-                        <select class="form-select" formControlName="status" id="status">
-  <option value="IN_PROGRESS">⏳ In progress</option>
-  <option value="PENDING">🕗 Pending</option>
-  <option value="DONE">✅ Done</option>
-</select>
-                            </div>
-            <div class="mb-1">
-              <label class="col-form-label" for="description">Description</label>
-              <textarea
-                [rows]="8"
-                class="form-control resize-none"
-                id="description"
-                formControlName="description"
-                placeholder="Description"
-              ></textarea>
-            </div>
-            <div class="mb-1">
-              <label for="tags">Tags</label>
-              <p-chips id="tags" formControlName="tags" separator=","></p-chips>
-            </div>
-            <div class="mb-1">
-              <label for="sd">Cover image</label>
-              <ngx-file-drop
-                dropZoneLabel="Drop files here"
-                (onFileDrop)="drop($event)"
-                dropZoneClassName="flat bg-light d-block"
-                class="d-flex align-items-start mt-2"
-                [accept]="'image/*'"
-                [multiple]="false"
-              >
-                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                  <button id="sd" class="btn btn-transparent me-1" type="button" (click)="openFileSelector()">
-                    <img
-                      *ngIf="url"
-                      alt="Cover"
-                      [src]="url"
-                      class="img-responsive rounded-5 me-1"
-                      width="100px"
-                      height="100px"
-                    />
-
-                    <fa-icon [icon]="['fas', 'upload']"></fa-icon>
-                  </button>
-                </ng-template>
-              </ngx-file-drop>
-            </div>
-            
-
-
+  <a ngbNavLink>Metadata</a>
+  <ng-template ngbNavContent>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label" for="title">Title</label>
+        <input type="text" class="form-control" id="title" formControlName="title" placeholder="Title" />
+      </div>
+      
+      <div class="col-md-6">
+        <label class="form-label" for="author">Author</label>
+        <input type="text" class="form-control" id="author" formControlName="author" placeholder="Author" />
+      </div>
+      
+      <div class="col-12">
+        <label class="form-label" for="tags">Tags</label>
+        <p-chips id="tags" formControlName="tags" separator=","></p-chips>
+      </div>
+      
+            <div class="col-md-6">
+        <label class="form-label" for="priority">Priority</label>
+        <select class="form-select" formControlName="priority" id="priority">
+          <option value="LOW">🟦 Low</option>
+          <option value="MEDIUM">🟨 Medium</option>
+          <option value="HIGH">🟧 High</option>
+          <option value="URGENT">🟥 Urgent</option>
+        </select>
+      </div>
+      
+      <div class="col-md-6">
+        <label class="form-label" for="status">Status</label>
+        <select class="form-select" formControlName="status" id="status">
+          <option value="DRAFT">📝 Draft</option>
+          <option value="IN_PROGRESS">⏳ In progress</option>
+          <option value="PENDING">🕗 Pending</option>
+          <option value="DONE">✅ Done</option>
+          <option value="CANCELLED">❌ Cancelled</option>
+        </select>
+      </div>
+      
+      <div class="col-12">
+        <label class="form-label" for="description">Description</label>
+        <textarea
+          [rows]="8"
+          class="form-control resize-none"
+          id="description"
+          formControlName="description"
+          placeholder="Description"
+        ></textarea>
+      </div>
+                            <div class="col-12">
+        <label class="form-label" for="sd">Cover image</label>
+        <ngx-file-drop
+          dropZoneLabel="Drop files here"
+          (onFileDrop)="drop($event)"
+          dropZoneClassName="flat bg-transparent d-block"
+          class="d-flex align-items-start"
+          [accept]="'image/*'"
+          [multiple]="false"
+        >
+          <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+            <button id="sd" class="btn btn-transparent me-1" type="button" (click)="openFileSelector()">
+              <img
+                alt="Cover"
+                [src]="url|| '/assets/img/no-cover.jpg'"
+                class="img-responsive rounded-5 me-1"
+                width="100px"
+                height="100px"
+              />
+              <fa-icon [icon]="['fas', 'upload']"></fa-icon>
+            </button>
           </ng-template>
-        </li>
-        <li ngbNavItem>
+        </ngx-file-drop>
+      </div>
+      
+
+    </div>
+  </ng-template>
+</li>        <li ngbNavItem>
           <a ngbNavLink>Editor</a>
 
           <ng-template ngbNavContent>
-                                        <div class="d-flex w-100 justify-content-start bg-light p-1 pt-2 pb-2 border-bottom">
-                  <button
-                    type="button"
-                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                    (click)="wrapSelection('**', '**')"
-                  >
-                    Bold
-                  </button>
-                  <button
-                    type="button"
-                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                    (click)="wrapSelection('_', '_')"
-                  >
-                    Italic
-                  </button>
-                  <button
-                    type="button"
-                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                    (click)="wrapSelection('`', '`')"
-                  >
-                    Inline Code
-                  </button>
-                  <button
-                    type="button"
-                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                    (click)="insertAtCursor('- ')"
-                  >
-                    List Item
-                  </button>
-                  <button
-                    type="button"
-                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                    (click)="wrapSelection('> ', '')"
-                  >
-                    Blockquote
-                  </button>
-                  <button
-                    type="button"
-                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                    (click)="insertLink()"
-                  >
-                    Link
-                  </button>
-                  <button
-                    type="button"
-                    class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                    (click)="insertTable()"
-                  >
-                    Table
-                  </button>
-                </div>
+            <div class="d-flex w-100 justify-content-start bg-light p-1 pt-2 pb-2 border-bottom">
+              <button
+                type="button"
+                class="btn bg-white flat text-muted btn-outline-secondary me-1"
+                (click)="wrapSelection('**', '**')"
+              >
+                Bold
+              </button>
+              <button
+                type="button"
+                class="btn bg-white flat text-muted btn-outline-secondary me-1"
+                (click)="wrapSelection('_', '_')"
+              >
+                Italic
+              </button>
+              <button
+                type="button"
+                class="btn bg-white flat text-muted btn-outline-secondary me-1"
+                (click)="wrapSelection('`', '`')"
+              >
+                Inline Code
+              </button>
+              <button
+                type="button"
+                class="btn bg-white flat text-muted btn-outline-secondary me-1"
+                (click)="insertAtCursor('- ')"
+              >
+                List Item
+              </button>
+              <button
+                type="button"
+                class="btn bg-white flat text-muted btn-outline-secondary me-1"
+                (click)="wrapSelection('> ', '')"
+              >
+                Blockquote
+              </button>
+              <button
+                type="button"
+                class="btn bg-white flat text-muted btn-outline-secondary me-1"
+                (click)="insertLink()"
+              >
+                Link
+              </button>
+              <button
+                type="button"
+                class="btn bg-white flat text-muted btn-outline-secondary me-1"
+                (click)="insertTable()"
+              >
+                Table
+              </button>
+            </div>
 
             <div class="d-flex justify-content-start">
               <div class="col-7 shadow-sm me-2" style="height: 73.9vh; overflow-y: scroll">
@@ -156,9 +169,8 @@
           <ng-template ngbNavContent>
             <div class="d-flex flex-column">
               <div>
-                <div *ngIf="!post.attachments?.length" class="text-muted p-2">No attachments.</div>
 
-                <label class="fw-bold mb-2 mt-2">New attachment</label>
+                <label class="fw-bold mt-2">New attachment</label>
                 <div class="bg-light border mt-2 p-2">
                   <input type="file" multiple (change)="onFileSelected($event)" class="form-control mb-2" />
                   <button
@@ -172,10 +184,11 @@
                 </div>
               </div>
 
+                <div *ngIf="!post.attachments?.length" class="text-muted p-2">No attachments.</div>
               <div style="height: 96vh; overflow-y: scroll">
                 <div class="d-flex justify-content-end align-items-center">
                   <button
-                                    [disabled]="!post.attachments?.length"
+                    [disabled]="!post.attachments?.length"
                     class="btn btn-warning mt-2 mb-2"
                     (click)="$event.preventDefault(); downloadBulk(post.attachments)"
                   >
@@ -195,7 +208,6 @@
                       />
                     </ng-template>
                     <div>
-
                       <button
                         [disabled]="!a?.transientThumbnail"
                         type="button"
@@ -208,10 +220,10 @@
                       >
                         <fa-icon [icon]="['fas', 'info-circle']"></fa-icon></button
                       ><a class="btn btn-link p-0 text-decoration-none text-break" (click)="download(a)">
-  <abbr [title]="a.originalFilename">
-    {{ a.originalFilename | trim: 30 }}
-  </abbr>
-</a>
+                        <abbr [title]="a.originalFilename">
+                          {{ a.originalFilename | trim: 30 }}
+                        </abbr>
+                      </a>
                     </div>
 
                     <div class="d-lg-flex align-items-center justify-content-start">
@@ -243,8 +255,6 @@
                             <fa-icon [icon]="['fas', 'file-code']" class="text-secondary me-1"></fa-icon>
                             View XML
                           </button>
- 
-
 
                           <button
                             ngbDropdownItem

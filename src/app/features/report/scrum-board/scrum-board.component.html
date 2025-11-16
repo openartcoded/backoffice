@@ -17,11 +17,11 @@
           </button>
         </div>
 
-                <div class="card-body drag d-flex flex-wrap align-items-start"  [formArrayName]="column">
-                    <div
+        <div class="card-body drag d-flex flex-wrap align-items-start" [formArrayName]="column">
+          <div
             *ngFor="let control of getColumnControls(column); let i = index"
             [formGroupName]="i"
-            class=" flat postit p-2 mb-2 me-2 shadow-sm"
+            class="flat postit p-2 mb-2 me-2 shadow-sm"
             draggable="true"
             (dragstart)="onDragStart($event, control)"
           >

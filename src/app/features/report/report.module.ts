@@ -19,8 +19,9 @@ import { ChipsModule } from 'primeng/chips';
 import { MarkdownModule } from 'ngx-markdown';
 import { AutosizeModule } from 'ngx-autosize';
 import { ScrumBoardComponent } from './scrum-board/scrum-board.component';
+import { PostsPageComponent } from './posts-page/posts-page.component';
 @NgModule({
-  declarations: [PostsComponent, PostEditorComponent, PostDetailComponent, ScrumBoardComponent],
+  declarations: [PostsComponent, PostEditorComponent, PostDetailComponent, ScrumBoardComponent, PostsPageComponent],
   exports: [],
   imports: [
     CommonModule,

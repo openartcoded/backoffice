@@ -28,6 +28,10 @@ export class ReportService {
     return this.http.post<Post>(`${this.basePath}/new-post`, {});
   }
 
+  toggleBookmarked(id: string) {
+    return this.http.post<void>(`${this.basePath}/toggle-bookmarked?id=${id}`, {});
+  }
+
   delete(post: Post): Observable<any> {
     return this.http.delete<any>(`${this.basePath}?id=${post.id}`);
   }
@@ -36,12 +40,6 @@ export class ReportService {
     return this.http.get<string[]>(`${this.basePath}/tags`);
   }
 
-  publicSearch(criteria: PostSearchCriteria, page: number, pageSize: number): Observable<Page<Post>> {
-    return this.http.post<Page<Post>>(
-      `${this.basePath}/public-search?page=${page}&size=${pageSize}&sort=updatedDate,DESC`,
-      criteria,
-    );
-  }
   addAttachment(postId: string, files: File[]): Observable<Post> {
     let formData = new FormData();
     formData.append('id', postId);
@@ -70,10 +68,6 @@ export class ReportService {
 
   getPostById(id: string): Observable<Post> {
     return this.http.post<Post>(`${this.basePath}/post-by-id?id=${id}`, {});
-  }
-
-  getPublicPostById(id: string, title: string): Observable<Post> {
-    return this.http.get<Post>(`${this.basePath}/post/${title}/${id}`);
   }
 
   getLatest(): Observable<Post[]> {

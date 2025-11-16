@@ -1,7 +1,7 @@
 /* Shared post-it look */
 .postit {
   width: 180px;
-        height: 180px;
+  height: 180px;
 
   background-color: #feffca;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -41,7 +41,7 @@
 }
 
 .column .card .card-body {
-  overflow-y: auto;  
-    overflow-x: hidden;
-    align-content: flex-start !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  align-content: flex-start !important;
 }

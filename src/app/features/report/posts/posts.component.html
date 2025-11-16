@@ -1,41 +1,45 @@
-<app-title title="Activity Report" [uppercase]="true"></app-title>
-
 <div class="row">
-  <div class="col-12">
-    <div class="d-flex align-items-center flex-row">
-      <div>
-        <a class="btn btn-outline-primary me-1" [routerLink]="['post', 'new']">
-          <fa-icon [icon]="['fas', 'plus']"></fa-icon>
-        </a>
-      </div>
+  <div class="col-lg-2 col-12 mb-lg-0 mb-2">
+    <div class="card  rounded-0  hidden-scroll" style="height: 76vh">
+      <div class="card-header bg-transparent d-flex align-items-center flex-row">
+        <div>
+          <a class="btn btn-outline-primary me-1" [routerLink]="['post', 'new']">
+            <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+          </a>
+        </div>
 
-      <input
-        type="search"
-        [(ngModel)]="searchInput"
-        (ngModelChange)="search(null)"
-        placeholder="Search"
-        aria-label="Search"
-        class="form-control"
-      />
-    </div>
-    <hr />
-    <ng-container *ngIf="tags">
-      <label class="fw-bold">Filter by tag</label>
-      <div class="d-block mt-1 mb-1">
-        <span
-          role="button"
-          class="badge p-1 fs-6 mt-1 me-1 mb-1"
-          (click)="search(t)"
-          [class.bg-success]="selectedTag !== t"
-          [class.bg-warning]="selectedTag === t"
-          *ngFor="let t of tags"
-          >#{{ t }}</span
-        >
+        <input
+          type="search"
+          [(ngModel)]="searchInput"
+          (ngModelChange)="search(null)"
+          placeholder="Search"
+          aria-label="Search"
+          class="form-control no-focus"
+        />
       </div>
-    </ng-container>
+      <ul class="list-group">
+        <li class="list-group-item border-0 border-bottom rounded-0" *ngIf="tags">
+          <label class="fw-bold mt-1">Filter by tag</label>
+          <div class="d-block mt-1 mb-1">
+            <span
+              role="button"
+              class="badge p-1 fs-6 mt-1 me-1 mb-1"
+              (click)="search(t)"
+              [class.bg-success]="selectedTag !== t"
+              [class.bg-warning]="selectedTag === t"
+              *ngFor="let t of tags"
+              >#{{ t }}</span
+            >
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
-  <hr />
-  <div class="col-12">
+
+  <div class="col-lg-10 col-12">
+    <ng-container *ngIf="!posts?.content?.length">
+      <p>No content</p>
+    </ng-container>
     <ng-container *ngIf="posts && posts.page.size > 0">
       <table class="table table-bordered">
         <tbody>
@@ -45,21 +49,33 @@
                 <a
                   class="btn btn-link text-decoration-none fw-bold p-0 m-0"
                   [routerLink]="['post', slugify(n.title), n.id]"
-                  ><fa-icon *ngIf="n.status ==='DONE'" [icon]="['fas', 'check-circle']" class="text-success me-1"></fa-icon
-                  >{{ n.title | titlecase }}</a
                 >
-                <small class="text-muted">
-                  {{ n.updatedDate | date: 'dd/MM/yyyy' }}
-<span class="d-lg-inline-block d-none" *ngIf="n.status === 'IN_PROGRESS'"> ⏳</span>
-<span class="d-lg-inline-block d-none" *ngIf="n.status === 'PENDING'"> 🕗</span>
-<span class="d-lg-inline-block d-none" *ngIf="n.status === 'DONE'"> ✅</span>
-                </small>
+                  <span class="me-1" *ngIf="n.priority === 'LOW'">🟦</span>
+                  <span class="me-1" *ngIf="n.priority === 'MEDIUM'">🟨</span>
+                  <span class="me-1" *ngIf="n.priority === 'HIGH'">🟧</span>
+                  <span class="me-1" *ngIf="n.priority === 'URGENT'">🟥</span>
+                  <span class="me-1" *ngIf="n.status === 'DRAFT'"> 📝</span>
+                  <span class="me-1" *ngIf="n.status === 'IN_PROGRESS'"> ⏳</span>
+                  <span class="me-1" *ngIf="n.status === 'PENDING'"> 🕗</span>
+                  <span class="me-1" *ngIf="n.status === 'DONE'"> ✅</span>
+                  <span class="me-1" *ngIf="n.status === 'CANCELLED'"> ❌</span>
+                  {{ n.title | titlecase }}</a
+                >
+
+                <small class="text-muted">{{ n.updatedDate | date: 'dd/MM/yyyy' }}</small>
               </div>
 
-              <p class="mb-1">{{ n.description }}</p>
+              <p class="mt-1">{{ n.description }}</p>
             </td>
             <td class="fit">
               <div class="d-inline-block">
+                <a
+                  class="btn btn-link"
+                  (click)="$event.preventDefault();toggleBookmark($event, n)"
+                  [class.text-muted]="!n.bookmarked"
+                  [class.text-warning]="n.bookmarked"
+                  ><fa-icon [icon]="['fas', 'star']"
+                /></a>
                 <button
                   class="btn btn-link text-dark text-decoration-none"
                   [routerLink]="['post', slugify(n.title), n.id]"

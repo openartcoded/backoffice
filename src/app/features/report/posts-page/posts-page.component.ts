@@ -6,12 +6,12 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-document-main-page',
-  templateUrl: './document-main-page.component.html',
+  selector: 'app-posts-page',
   standalone: false,
-  styleUrl: './document-main-page.component.scss',
+  templateUrl: './posts-page.component.html',
+  styleUrl: './posts-page.component.scss',
 })
-export class DocumentMainPageComponent {
+export class PostsPageComponent {
   activeId: string;
   fullScreen: boolean;
   user: User;
