@@ -2,7 +2,7 @@ import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild }
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { FileService } from '@core/service/file.service';
 import { map, skip } from 'rxjs/operators';
-import { Post } from '@core/models/post';
+import { Channel, Post } from '@core/models/post';
 import { ReportService } from '@core/service/report.service';
 import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { firstValueFrom, interval, Subscription } from 'rxjs';
@@ -16,7 +16,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { SlugifyPipe } from '@core/pipe/slugify-pipe';
-import { AuthService } from '@core/service/auth.service';
+import { User } from '@core/models/user';
+import { PersonalInfoService } from '@core/service/personal.info.service';
 @Component({
     selector: 'app-post-editor',
     templateUrl: './post-editor.component.html',
@@ -38,6 +39,8 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
     saving = false;
     selectedFiles?: File[] = [];
 
+    channel: Channel;
+    user: User;
     autosave: Subscription;
     @ViewChild('editor') editor!: ElementRef<HTMLTextAreaElement>;
     public editorForm: UntypedFormGroup;
@@ -110,7 +113,7 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
     }
     constructor(
         private formBuilder: UntypedFormBuilder,
-        private authService: AuthService,
+        private personalInfoService: PersonalInfoService,
         private location: Location,
         private reportService: ReportService,
         private toastService: ToastService,
@@ -146,6 +149,14 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
         }
         this.post.attachments = attachments;
     }
+
+
+    updateChannel(c: Channel) {
+        this.channel = c;
+    }
+    get unReadMessagesCount() {
+        return this.channel?.messages?.filter(m => m.emailFrom !== this.user.email && !m.read)?.length || 0;
+    }
     async ngOnInit() {
         const id = this.activateRoute.snapshot.params.id;
         if (id) this.post = await firstValueFrom(this.reportService.getPostById(id));
@@ -154,6 +165,8 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
             this.location.replaceState(`/report/post/${new SlugifyPipe().transform(this.post.title)}/${this.post.id}/edit`);
         }
 
+        this.channel = await firstValueFrom(this.reportService.getChannel(this.post.id));
+        this.user = await firstValueFrom(this.personalInfoService.me());
         this.reloadAttachments();
         this.editorForm = await this.createFormGroup(this.post);
         const secondsCounter = interval(30000).pipe(skip(1));

@@ -1,0 +1,148 @@
+<div class="border mt-1 d-flex flex-column h-100">
+  <!-- Subscribe Section (if not subscribed) -->
+  <div *ngIf="!isSubscribed" class="text-center p-4">
+    <div class="mb-3">
+      <fa-icon [icon]="['fas', 'comment']" size="3x" class="text-muted"></fa-icon>
+    </div>
+    <h5>Join the Discussion</h5>
+    <p class="text-muted">Subscribe to participate in this channel</p>
+    <button class="btn btn-primary" (click)="$event.preventDefault(); subscribe()" [disabled]="loading">
+      {{ loading ? 'Subscribing...' : 'Subscribe' }}
+    </button>
+  </div>
+
+  <ng-container *ngIf="isSubscribed">
+    <div #messageContainer class="messages-container flex-grow-1 p-3 overflow-auto" style="height: 61.2vh">
+      <div *ngIf="!messages?.length" class="text-center text-muted py-5">
+        <fa-icon [icon]="['fas', 'inbox']" size="2x" class="mb-2"></fa-icon>
+        <p>No messages yet. Start the conversation!</p>
+      </div>
+
+      <div
+        *ngFor="let message of messages"
+        class="message-wrapper mb-3"
+        [ngClass]="{ 'own-message': isOwnMessage(message), 'other-message': !isOwnMessage(message) }"
+      >
+        <div class="d-flex" [ngClass]="{ 'justify-content-end': isOwnMessage(message) }">
+          <div
+            class="message-bubble p-2 px-3 rounded-3 shadow-sm"
+            [ngClass]="{ 'bg-light-warning text-muted': isOwnMessage(message), 'bg-light': !isOwnMessage(message) }"
+            style="max-width: 70%"
+          >
+            <!-- Sender Name (for other messages) -->
+            <div class="small fw-bold mb-1">
+              {{ message?.emailFrom }}
+            </div>
+
+            <!-- Message Text -->
+            <div class="message-text" style="white-space: pre-wrap; word-break: break-word">
+            </div>
+
+            <div *ngIf="message.attachments?.length" class="mt-2">
+              <div
+                *ngFor="let attachment of message.attachments"
+                class="attachment-item mb-1 p-2 rounded"
+                [ngClass]="{ 'bg-white bg-opacity-25': isOwnMessage(message), 'bg-white': !isOwnMessage(message) }"
+              >
+                <a
+                  class="text-decoration-none d-flex align-items-center"
+                  [ngClass]="'text-dark'"
+                  (click)="downloadAttachment(attachment)"
+                  style="cursor: pointer"
+                >
+                  <fa-icon [icon]="getAttachmentIcon(attachment)" class="me-2"></fa-icon>
+                  <span class="small text-truncate" style="max-width: 200px">
+                    {{ attachment.originalFilename }}
+                  </span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Timestamp and Delete -->
+            <div class="d-flex align-items-center justify-content-between mt-1">
+              <small class="message-time opacity-75">
+                {{ formatTimestamp(message.creationDate) }}
+              </small>
+
+              <button
+                *ngIf="isOwnMessage(message)"
+                type="button"
+                class="btn btn-link btn-sm p-0 ms-2 opacity-75"
+                [ngClass]="{ 'text-muted': isOwnMessage(message) }"
+                (click)="deleteMessage(message)"
+                title="Delete message"
+              >
+                <fa-icon [icon]="['fas', 'trash']" size="xs"></fa-icon>
+
+              </button>
+               <fa-icon [icon]="['fas', 'check']" size="xs" *ngIf="message.read && message.emailFrom !== user.email"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="border-top bg-light p-3">
+      <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+        <div *ngIf="selectedFiles?.length" class="selected-files mb-2">
+          <div class="d-flex flex-wrap gap-2">
+            <div *ngFor="let file of selectedFiles; let i = index" class="badge bg-secondary d-flex align-items-center">
+              <span class="text-truncate" style="max-width: 150px">{{ file.name }}</span>
+              <button
+                type="button"
+                class="btn-close btn-close-white ms-2"
+                (click)="removeFile(i)"
+                style="font-size: 0.65rem"
+              ></button>
+            </div>
+          </div>
+        </div>
+        <ngx-file-drop
+          dropZoneLabel="Drop files here"
+          (onFileDrop)="drop($event)"
+          dropZoneClassName="flat bg-transparent d-block"
+          [multiple]="true"
+          class="d-block w-100"
+        >
+          <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+            <div class="d-flex justify-content-between w-100 align-items-center">
+              <!-- Attach Button -->
+              <button
+                type="button"
+                class="btn btn-outline-secondary me-2"
+                (click)="openFileSelector()"
+                title="Attach files"
+                style="flex-shrink: 0"
+              >
+                <fa-icon [icon]="['fas', 'paperclip']"></fa-icon>
+              </button>
+              <!-- Textarea -->
+              <textarea
+                #messageInput
+                formControlName="message"
+                class="form-control resize-none"
+                placeholder="Type a message..."
+                rows="2"
+                style="flex: 1"
+                (keypress)="handleKeyPress($event)"
+              >
+              </textarea>
+              <!-- Send Button -->
+              <button
+                type="submit"
+                class="btn btn-primary ms-2"
+                [disabled]="(!messageForm.valid && !selectedFiles?.length) || uploading"
+                style="flex-shrink: 0"
+              >
+                <fa-icon [icon]="['fas', uploading ? 'spinner' : 'paper-plane']"> </fa-icon>
+              </button>
+            </div>
+          </ng-template>
+        </ngx-file-drop>
+
+        <small class="text-muted">Enter to send, Shift+Enter for new line</small>
+      </form>
+    </div>
+  </ng-container>
+</div>

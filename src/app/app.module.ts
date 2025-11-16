@@ -24,6 +24,7 @@ import {
   faBookOpen,
   faBuilding,
   faCalendarAlt,
+  faComment,
   faChartLine,
   faCheck,
   faCheckCircle,
@@ -100,6 +101,10 @@ import {
   faArrowRotateBackward,
   faFileInvoice,
   faFileCircleXmark,
+  faPaperclip,
+  faPaperPlane,
+  faSpinner,
+  faInbox,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
@@ -176,6 +181,10 @@ export class AppModule {
       faArrowLeft,
       faIdCard,
       faAddressBook,
+      faPaperclip,
+      faPaperPlane,
+      faSpinner,
+      faInbox,
       faFileCode,
       faBold,
       faListOl,
@@ -185,7 +194,7 @@ export class AppModule {
       faArrowsSplitUpAndLeft,
       faCalendar,
       faFileInvoice,
-
+      faComment,
       faPhone,
       faFileInvoiceDollar,
       faBirthdayCake,

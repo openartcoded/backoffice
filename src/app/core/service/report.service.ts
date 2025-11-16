@@ -1,80 +1,100 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Post, PostItType, PostSearchCriteria } from '@core/models/post';
+import { Channel, Message, Post, PostItType, PostSearchCriteria } from '@core/models/post';
 import { PostIt } from '@core/models/postit';
 import { Page } from '@core/models/page';
 import { FileService } from '@core/service/file.service';
 import { ConfigInitService } from '@init/config-init.service';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ReportService {
-  basePath: string;
-  constructor(
-    private http: HttpClient,
-    private configService: ConfigInitService,
-    private fileService: FileService,
-  ) {
-    this.basePath = `${this.configService.getConfig()['BACKEND_URL']}/api/report`;
-  }
+    basePath: string;
+    constructor(
+        private http: HttpClient,
+        private configService: ConfigInitService,
+        private fileService: FileService,
+    ) {
+        this.basePath = `${this.configService.getConfig()['BACKEND_URL']}/api/report`;
+    }
 
-  save(formData: FormData): Observable<Post> {
-    return this.http.post<Post>(`${this.basePath}/submit`, formData, {});
-  }
+    save(formData: FormData): Observable<Post> {
+        return this.http.post<Post>(`${this.basePath}/submit`, formData, {});
+    }
 
-  newPost(): Observable<Post> {
-    return this.http.post<Post>(`${this.basePath}/new-post`, {});
-  }
+    newPost(): Observable<Post> {
+        return this.http.post<Post>(`${this.basePath}/new-post`, {});
+    }
 
-  toggleBookmarked(id: string) {
-    return this.http.post<void>(`${this.basePath}/toggle-bookmarked?id=${id}`, {});
-  }
+    toggleBookmarked(id: string) {
+        return this.http.post<void>(`${this.basePath}/toggle-bookmarked?id=${id}`, {});
+    }
 
-  delete(post: Post): Observable<any> {
-    return this.http.delete<any>(`${this.basePath}?id=${post.id}`);
-  }
+    delete(post: Post): Observable<any> {
+        return this.http.delete<any>(`${this.basePath}?id=${post.id}`);
+    }
 
-  getTags(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.basePath}/tags`);
-  }
+    getTags(): Observable<string[]> {
+        return this.http.get<string[]>(`${this.basePath}/tags`);
+    }
 
-  addAttachment(postId: string, files: File[]): Observable<Post> {
-    let formData = new FormData();
-    formData.append('id', postId);
-    files.forEach((file) => formData.append('files', file));
-    return this.http.post<Post>(`${this.basePath}/add-attachment`, formData);
-  }
-  toggleProcessAttachment(postId: string, attachmentId: string): Observable<Post> {
-    return this.http.post<Post>(
-      `${this.basePath}/toggle-process-attachment?id=${postId}&attachmentId=${attachmentId}`,
-      {},
-    );
-  }
-  removeAttachment(postId: string, attachmentId: string): Observable<Post> {
-    return this.http.post<Post>(`${this.basePath}/remove-attachment?id=${postId}&attachmentId=${attachmentId}`, {});
-  }
-  adminSearch(criteria: PostSearchCriteria, page: number, pageSize: number): Observable<Page<Post>> {
-    return this.http.post<Page<Post>>(
-      `${this.basePath}/admin-search?page=${page}&size=${pageSize}&sort=updatedDate,DESC`,
-      criteria,
-    );
-  }
+    addAttachment(postId: string, files: File[]): Observable<Post> {
+        let formData = new FormData();
+        formData.append('id', postId);
+        files.forEach((file) => formData.append('files', file));
+        return this.http.post<Post>(`${this.basePath}/add-attachment`, formData);
+    }
+    toggleProcessAttachment(postId: string, attachmentId: string): Observable<Post> {
+        return this.http.post<Post>(
+            `${this.basePath}/toggle-process-attachment?id=${postId}&attachmentId=${attachmentId}`,
+            {},
+        );
+    }
+    removeAttachment(postId: string, attachmentId: string): Observable<Post> {
+        return this.http.post<Post>(`${this.basePath}/remove-attachment?id=${postId}&attachmentId=${attachmentId}`, {});
+    }
+    adminSearch(criteria: PostSearchCriteria, page: number, pageSize: number): Observable<Page<Post>> {
+        return this.http.post<Page<Post>>(
+            `${this.basePath}/admin-search?page=${page}&size=${pageSize}&sort=updatedDate,DESC`,
+            criteria,
+        );
+    }
+    subscribe(channelId: string): Observable<Channel> {
+        return this.http.post<Channel>(`${this.basePath}/channel/subscribe?id=${channelId}`, {});
+    }
 
-  updatePostIts(id: string, postIts: { todos: PostIt[]; inProgress: PostIt[]; done: PostIt[] }): Observable<Post> {
-    return this.http.post<Post>(`${this.basePath}/update-post-it?id=${id}`, postIts);
-  }
+    setChannelToRead(postId: string): Observable<Channel> {
+        return this.http.post<Channel>(`${this.basePath}/channel/read?id=${postId}`, {});
+    }
+    postMessage(postId: string, message: string, files: File[]): Observable<Message> {
+        const formData = new FormData();
+        formData.append('id', postId);
+        formData.append('message', message);
+        files.forEach((file) => formData.append('files', file));
+        return this.http.post<Message>(`${this.basePath}/channel/post`, formData);
+    }
 
-  getPostById(id: string): Observable<Post> {
-    return this.http.post<Post>(`${this.basePath}/post-by-id?id=${id}`, {});
-  }
+    deleteMessage(postId: string, messageId: string): Observable<void> {
+        return this.http.delete<void>(`${this.basePath}/channel/message?id=${postId}&messageId=${messageId}`);
+    }
+    updatePostIts(id: string, postIts: { todos: PostIt[]; inProgress: PostIt[]; done: PostIt[] }): Observable<Post> {
+        return this.http.post<Post>(`${this.basePath}/update-post-it?id=${id}`, postIts);
+    }
 
-  getLatest(): Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.basePath}/latest`);
-  }
+    getChannel(correlationId: string): Observable<Channel> {
+        return this.http.post<Channel>(`${this.basePath}/channel/get?id=${correlationId}`, {});
+    }
+    getPostById(id: string): Observable<Post> {
+        return this.http.post<Post>(`${this.basePath}/post-by-id?id=${id}`, {});
+    }
 
-  generatePdf(post: Post) {
-    this.fileService.downloadLink(`${this.basePath}/generate-pdf?id=${post.id}`);
-  }
+    getLatest(): Observable<Post[]> {
+        return this.http.get<Post[]>(`${this.basePath}/latest`);
+    }
+
+    generatePdf(post: Post) {
+        this.fileService.downloadLink(`${this.basePath}/generate-pdf?id=${post.id}`);
+    }
 }

@@ -16,12 +16,31 @@ export interface Post {
   updatedDate?: Date;
   coverId?: string;
   tags?: string[];
+  channelId?: string;
   status?: PostStatus;
   todos?: PostIt[];
   inProgress?: PostIt[];
   done?: PostIt[];
 }
 
+export interface Channel {
+  id: string;
+  subscribers: string[];
+  messages: Message[];
+  creationDate: Date;
+  correlationId?: string;
+  updatedDate?: Date;
+}
+
+export interface Message {
+  id?: string;
+  creationDate?: Date;
+  emailFrom?: string;
+  content?: string;
+  attachmentIds?: string[];
+  attachments?: FileUpload[];
+  read?: boolean;
+}
 export type PostItType = 'TODOS' | 'IN_PROGRESS' | 'DONE';
 
 export interface PostSearchCriteria {

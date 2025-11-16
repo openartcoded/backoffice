@@ -20,8 +20,16 @@ import { MarkdownModule } from 'ngx-markdown';
 import { AutosizeModule } from 'ngx-autosize';
 import { ScrumBoardComponent } from './scrum-board/scrum-board.component';
 import { PostsPageComponent } from './posts-page/posts-page.component';
+import { ChannelComponent } from './channel/channel.component';
 @NgModule({
-  declarations: [PostsComponent, PostEditorComponent, PostDetailComponent, ScrumBoardComponent, PostsPageComponent],
+  declarations: [
+    PostsComponent,
+    PostEditorComponent,
+    PostDetailComponent,
+    ScrumBoardComponent,
+    PostsPageComponent,
+    ChannelComponent,
+  ],
   exports: [],
   imports: [
     CommonModule,

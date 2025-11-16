@@ -31,12 +31,6 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { expectedRole: ['ADMIN'] },
   },
-  {
-    path: ':name',
-    component: PostsPageComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: { expectedRole: ['ADMIN', 'REGULATOR_OR_ACCOUNTANT'] },
-  },
 ];
 
 @NgModule({

@@ -8,7 +8,7 @@
           <fa-icon [icon]="['fas', 'arrow-left']"></fa-icon>
           Back
         </a>
-
+        <p>Edited by {{ user?.email }}</p>
         <button type="submit" class="btn btn-outline-primary" [disabled]="!editorForm.valid">Save</button>
       </div>
       <ul ngbNav #nav="ngbNav" class="nav-tabs">
@@ -288,6 +288,12 @@
           <a ngbNavLink>Tasks</a>
           <ng-template ngbNavContent>
             <app-scrum-board *ngIf="post" [post]="post" />
+          </ng-template>
+        </li>
+        <li ngbNavItem *ngIf="user && channel">
+          <a ngbNavLink>Channel <span class="badge  rounded-4 align-middle" [class.text-muted]="unReadMessagesCount === 0" [class.bg-light]="unReadMessagesCount === 0" [class.bg-danger]="unReadMessagesCount > 0">{{unReadMessagesCount}}</span></a>
+          <ng-template ngbNavContent>
+            <app-channel (onChannelRefreshed)="updateChannel($event)"  [user]="user" [post]="post" />
           </ng-template>
         </li>
       </ul>
