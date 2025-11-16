@@ -32,39 +32,38 @@
             >
           </div>
         </li>
-                <li class="list-group-item border-0 border-bottom rounded-0">
-                              <label class="fw-bold mt-1">Filter by priority</label>
+        <li class="list-group-item border-0 border-bottom rounded-0">
+          <label class="fw-bold mt-1">Filter by priority</label>
 
-  <select
-    [(ngModel)]="priorityFilter"
-    (ngModelChange)="search(null)"
-    class="form-control no-focus mb-2"
-    aria-label="Filter by priority"
-  >
-    <option [ngValue]="null" selected>--- Select ---</option>
-    <option value="LOW">🟦 Low</option>
-    <option value="MEDIUM">🟨 Medium</option>
-    <option value="HIGH">🟧 High</option>
-    <option value="URGENT">🟥 Urgent</option>
-  </select>
-</li>
-                                <li class="list-group-item border-0 border-bottom rounded-0">
-
-                              <label class="fw-bold mt-1">Filter by status</label>
-  <select
-    [(ngModel)]="statusFilter"
-    (ngModelChange)="search(null)"
-    class="form-control no-focus"
-    aria-label="Filter by status"
-  >
-    <option [ngValue]="null" selected>--- Select ---</option>
-    <option value="DRAFT">📝 Draft</option>
-    <option value="IN_PROGRESS">⏳ In progress</option>
-    <option value="PENDING">🕗 Pending</option>
-    <option value="DONE">✅ Done</option>
-    <option value="CANCELLED">❌ Cancelled</option>
-  </select>
-</li>
+          <select
+            [(ngModel)]="priorityFilter"
+            (ngModelChange)="search(null)"
+            class="form-control no-focus mb-2"
+            aria-label="Filter by priority"
+          >
+            <option [ngValue]="null" selected>--- Select ---</option>
+            <option value="LOW">🟦 Low</option>
+            <option value="MEDIUM">🟨 Medium</option>
+            <option value="HIGH">🟧 High</option>
+            <option value="URGENT">🟥 Urgent</option>
+          </select>
+        </li>
+        <li class="list-group-item border-0 border-bottom rounded-0">
+          <label class="fw-bold mt-1">Filter by status</label>
+          <select
+            [(ngModel)]="statusFilter"
+            (ngModelChange)="search(null)"
+            class="form-control no-focus"
+            aria-label="Filter by status"
+          >
+            <option [ngValue]="null" selected>--- Select ---</option>
+            <option value="DRAFT">📝 Draft</option>
+            <option value="IN_PROGRESS">⏳ In progress</option>
+            <option value="PENDING">🕗 Pending</option>
+            <option value="DONE">✅ Done</option>
+            <option value="CANCELLED">❌ Cancelled</option>
+          </select>
+        </li>
       </ul>
     </div>
   </div>

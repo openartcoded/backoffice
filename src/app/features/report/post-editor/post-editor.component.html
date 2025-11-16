@@ -1,7 +1,7 @@
 <ng-container *ngIf="post">
   <app-title [title]="post.title | titlecase" />
 
-  <div class="row ps-5 pe-5   shadow-sm" style="height: 88vh; overflow-y: hidden">
+  <div class="row ps-5 pe-5 shadow-sm" style="height: 88vh; overflow-y: hidden">
     <form class="mt-2" [formGroup]="editorForm" (ngSubmit)="send()" *ngIf="editorForm">
       <div class="mb-2 d-flex justify-content-between">
         <a routerLink="/report" class="btn btn-outline-primary me-1">
@@ -167,9 +167,8 @@
           <ng-template ngbNavContent>
             <div class="d-flex flex-column">
               <div>
-                                
                 <div class="d-flex justify-content-between align-items-center">
-                                                    <label class="fw-bold mt-2">New attachment</label>
+                  <label class="fw-bold mt-2">New attachment</label>
 
                   <button
                     [disabled]="!post.attachments?.length"
@@ -193,8 +192,7 @@
               </div>
 
               <div *ngIf="!post.attachments?.length" class="text-muted p-2">No attachments.</div>
-              <div style="height: 63vh;overflow-y: scroll">
-               
+              <div style="height: 63vh; overflow-y: scroll">
                 <ul class="list-group rounded-0 mt-2">
                   <li
                     *ngFor="let a of post.attachments"
@@ -293,9 +291,18 @@
           </ng-template>
         </li>
         <li ngbNavItem *ngIf="user && channel">
-          <a ngbNavLink>Channel <span class="badge  rounded-4 align-middle" [class.text-muted]="unReadMessagesCount === 0" [class.bg-light]="unReadMessagesCount === 0" [class.bg-danger]="unReadMessagesCount > 0">{{unReadMessagesCount}}</span></a>
+          <a ngbNavLink
+            >Channel
+            <span
+              class="badge rounded-4 align-middle"
+              [class.text-muted]="unReadMessagesCount === 0"
+              [class.bg-light]="unReadMessagesCount === 0"
+              [class.bg-danger]="unReadMessagesCount > 0"
+              >{{ unReadMessagesCount }}</span
+            ></a
+          >
           <ng-template ngbNavContent>
-            <app-channel (onChannelRefreshed)="updateChannel($event)"  [user]="user" [post]="post" />
+            <app-channel (onChannelRefreshed)="updateChannel($event)" [user]="user" [post]="post" />
           </ng-template>
         </li>
       </ul>

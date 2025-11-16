@@ -36,7 +36,7 @@
 
             <!-- Message Text -->
             <div class="message-text" style="white-space: pre-wrap; word-break: break-word">
-                            {{message?.content}}
+              {{ message?.content }}
             </div>
 
             <div *ngIf="message.attachments?.length" class="mt-2">
@@ -74,9 +74,8 @@
                 title="Delete message"
               >
                 <fa-icon [icon]="['fas', 'trash']" size="xs"></fa-icon>
-
               </button>
-               <fa-icon [icon]="['fas', 'check']" size="xs" *ngIf="message.read && message.emailFrom !== user.email"/>
+              <fa-icon [icon]="['fas', 'check']" size="xs" *ngIf="message.read && message.emailFrom !== user.email" />
             </div>
           </div>
         </div>
