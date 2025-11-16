@@ -12,7 +12,7 @@
   </div>
 
   <ng-container *ngIf="isSubscribed">
-    <div #messageContainer class="messages-container flex-grow-1 p-3 overflow-auto" style="height: 61.2vh">
+    <div #messageContainer class="messages-container flex-grow-1 p-3 overflow-auto" style="height: 44.2vh">
       <div *ngIf="!messages?.length" class="text-center text-muted py-5">
         <fa-icon [icon]="['fas', 'inbox']" size="2x" class="mb-2"></fa-icon>
         <p>No messages yet. Start the conversation!</p>
@@ -36,6 +36,7 @@
 
             <!-- Message Text -->
             <div class="message-text" style="white-space: pre-wrap; word-break: break-word">
+                            {{message?.content}}
             </div>
 
             <div *ngIf="message.attachments?.length" class="mt-2">
@@ -46,13 +47,13 @@
               >
                 <a
                   class="text-decoration-none d-flex align-items-center"
-                  [ngClass]="'text-dark'"
+                  [ngClass]="'text-muted'"
                   (click)="downloadAttachment(attachment)"
                   style="cursor: pointer"
                 >
                   <fa-icon [icon]="getAttachmentIcon(attachment)" class="me-2"></fa-icon>
                   <span class="small text-truncate" style="max-width: 200px">
-                    {{ attachment.originalFilename }}
+                    <u>{{ attachment.originalFilename }}</u>
                   </span>
                 </a>
               </div>

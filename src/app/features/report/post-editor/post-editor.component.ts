@@ -275,6 +275,7 @@ export class PostEditorComponent implements OnInit, OnDestroy, AfterViewChecked 
         callback(res);
         this.post = res;
         this.lastState = formDataJson;
+        await this.reloadAttachments();
         this.toastService.showSuccess('Report saved');
     }
 

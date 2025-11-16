@@ -5,7 +5,6 @@
       Back
     </a>
 
-    <hr />
 
     <div class="text-center mb-3">
       <app-image-loader [image]="cover" *ngIf="cover" cssClass="border shadow-sm cover rounded-0" alt="Cover image" />
@@ -150,6 +149,12 @@
                 </div>
               </li>
             </ul>
+          </ng-template>
+        </li>
+                  <li ngbNavItem *ngIf="user && channel">
+          <a ngbNavLink>Channel <span class="badge  rounded-4 align-middle" [class.text-muted]="unReadMessagesCount === 0" [class.bg-light]="unReadMessagesCount === 0" [class.bg-danger]="unReadMessagesCount > 0">{{unReadMessagesCount}}</span></a>
+          <ng-template ngbNavContent>
+            <app-channel (onChannelRefreshed)="updateChannel($event)"  [user]="user" [post]="post" />
           </ng-template>
         </li>
       </ul>
