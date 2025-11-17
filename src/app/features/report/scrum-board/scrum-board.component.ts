@@ -44,7 +44,7 @@ export class ScrumBoardComponent implements OnInit, OnDestroy {
       inProgress: this.getColumnControls('IN_PROGRESS').map((g) => this.extractPostIt(g)),
       done: this.getColumnControls('DONE').map((g) => this.extractPostIt(g)),
     });
-    const secondsCounter = interval(5000).pipe(skip(1));
+    const secondsCounter = interval(60000).pipe(skip(1));
     this.autosave = secondsCounter.subscribe((_) => {
       this.updateFullBoard();
     });

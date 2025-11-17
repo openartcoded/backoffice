@@ -37,6 +37,68 @@
         </div>
       </ng-template>
     </li>
+        
+    <li ngbNavItem="drafts">
+      <a ngbNavLink>📝 Draft</a>
+      <ng-template ngbNavContent>
+        <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+          <ng-component
+            [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Draft' }"
+          ></ng-component>
+
+          <div class="d-block" *ngIf="user">
+            <app-posts [disableStatusFilter]="true" statusFilter="DRAFT" />
+          </div>
+        </div>
+      </ng-template>
+    </li>
+         <li ngbNavItem="inProgress">
+      <a ngbNavLink>⏳ In progress</a>
+      <ng-template ngbNavContent>
+        <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+          <ng-component
+            [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'IN_PROGRESS' }"
+          ></ng-component>
+
+          <div class="d-block" *ngIf="user">
+            <app-posts [disableStatusFilter]="true" statusFilter="IN_PROGRESS" />
+          </div>
+        </div>
+      </ng-template>
+    </li>
+        <li ngbNavItem="pending">
+      <a ngbNavLink>🕗 Pending</a>
+      <ng-template ngbNavContent>
+        <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+          <ng-component
+            [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Pending' }"
+          ></ng-component>
+
+          <div class="d-block" *ngIf="user">
+            <app-posts [disableStatusFilter]="true" statusFilter="PENDING" />
+          </div>
+        </div>
+      </ng-template>
+    </li>
+        
+        <li ngbNavItem="done">
+      <a ngbNavLink>✅ Done</a>
+      <ng-template ngbNavContent>
+        <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
+          <ng-component
+            [ngTemplateOutlet]="fullScreenTemplate"
+            [ngTemplateOutletContext]="{ title: 'Done' }"
+          ></ng-component>
+
+          <div class="d-block" *ngIf="user">
+            <app-posts [disableStatusFilter]="true" statusFilter="DONE" />
+          </div>
+        </div>
+      </ng-template>
+    </li>
   </ul>
   <div [ngbNavOutlet]="nav"></div>
 </ng-container>

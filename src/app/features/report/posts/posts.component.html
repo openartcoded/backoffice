@@ -36,21 +36,23 @@
           <label class="fw-bold mt-1">Filter by priority</label>
 
           <select
+            [disabled]="disablePriorityFilter"
             [(ngModel)]="priorityFilter"
             (ngModelChange)="search(null)"
             class="form-control no-focus mb-2"
             aria-label="Filter by priority"
           >
             <option [ngValue]="null" selected>--- Select ---</option>
-            <option value="LOW">🟦 Low</option>
-            <option value="MEDIUM">🟨 Medium</option>
-            <option value="HIGH">🟧 High</option>
-            <option value="URGENT">🟥 Urgent</option>
+            <option value="LOW">🔵 Low</option>
+            <option value="MEDIUM">🟡 Medium</option>
+            <option value="HIGH">🟠 High</option>
+            <option value="URGENT">🔴 Urgent</option>
           </select>
         </li>
         <li class="list-group-item border-0 border-bottom rounded-0">
           <label class="fw-bold mt-1">Filter by status</label>
           <select
+            [disabled]="disableStatusFilter"
             [(ngModel)]="statusFilter"
             (ngModelChange)="search(null)"
             class="form-control no-focus"
@@ -75,17 +77,44 @@
     <ng-container *ngIf="posts && posts.page.size > 0">
       <table class="table table-bordered">
         <tbody>
+
           <tr *ngFor="let n of posts.content">
-            <td class="text-break">
+            <td class="fit">
+              <div class="d-inline-block">
+                <a
+                  class="btn btn-link p-1"
+                  (click)="$event.preventDefault(); toggleBookmark($event, n)"
+                  [class.text-muted]="!n.bookmarked"
+                  [class.text-warning]="n.bookmarked"
+                  ><fa-icon [icon]="['fas', 'star']"
+                /></a>
+                <button
+                  class="btn btn-link text-dark text-decoration-none p-1"
+                  [routerLink]="['post', slugify(n.title), n.id]"
+                >
+                  <fa-icon [icon]="['fas', 'book-open']"></fa-icon>
+                </button>
+                <button
+                  class="btn btn-link text-dark text-decoration-none p-1"
+                  [routerLink]="['post', slugify(n.title), n.id, 'edit']"
+                >
+                  <fa-icon [icon]="['fas', 'edit']"></fa-icon>
+                </button>
+                <button class="btn btn-link text-dark text-decoration-none p-1" (click)="delete(n)">
+                  <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                </button>
+              </div>
+            </td>
+                        <td class="text-break">
               <div class="d-flex justify-content-between">
                 <a
                   class="btn btn-link text-decoration-none fw-bold p-0 m-0"
                   [routerLink]="['post', slugify(n.title), n.id]"
                 >
-                  <span class="me-1" *ngIf="n.priority === 'LOW'">🟦</span>
-                  <span class="me-1" *ngIf="n.priority === 'MEDIUM'">🟨</span>
-                  <span class="me-1" *ngIf="n.priority === 'HIGH'">🟧</span>
-                  <span class="me-1" *ngIf="n.priority === 'URGENT'">🟥</span>
+                  <span class="me-1" *ngIf="n.priority === 'LOW'">🔵</span>
+                  <span class="me-1" *ngIf="n.priority === 'MEDIUM'">🟡</span>
+                  <span class="me-1" *ngIf="n.priority === 'HIGH'">🟠</span>
+                  <span class="me-1" *ngIf="n.priority === 'URGENT'">🔴</span>
                   <span class="me-1" *ngIf="n.status === 'DRAFT'"> 📝</span>
                   <span class="me-1" *ngIf="n.status === 'IN_PROGRESS'"> ⏳</span>
                   <span class="me-1" *ngIf="n.status === 'PENDING'"> 🕗</span>
@@ -99,32 +128,7 @@
 
               <p class="mt-1">{{ n.description }}</p>
             </td>
-            <td class="fit">
-              <div class="d-inline-block">
-                <a
-                  class="btn btn-link"
-                  (click)="$event.preventDefault(); toggleBookmark($event, n)"
-                  [class.text-muted]="!n.bookmarked"
-                  [class.text-warning]="n.bookmarked"
-                  ><fa-icon [icon]="['fas', 'star']"
-                /></a>
-                <button
-                  class="btn btn-link text-dark text-decoration-none"
-                  [routerLink]="['post', slugify(n.title), n.id]"
-                >
-                  <fa-icon [icon]="['fas', 'book-open']"></fa-icon>
-                </button>
-                <button
-                  class="btn btn-link text-dark text-decoration-none"
-                  [routerLink]="['post', slugify(n.title), n.id, 'edit']"
-                >
-                  <fa-icon [icon]="['fas', 'edit']"></fa-icon>
-                </button>
-                <button class="btn btn-link text-dark text-decoration-none" (click)="delete(n)">
-                  <fa-icon [icon]="['fas', 'trash']"></fa-icon>
-                </button>
-              </div>
-            </td>
+            
           </tr>
         </tbody>
       </table>
