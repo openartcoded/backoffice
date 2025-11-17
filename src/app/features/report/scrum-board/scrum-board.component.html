@@ -7,7 +7,7 @@
       (dragover)="onDragOver($event, column)"
       [class.drag-over]="draggedColumn === column"
     >
-      <div class="card mb-2 shadow-sm flat" [style]="'height: '+ height || '76.4vh'">
+      <div class="card mb-2 shadow-sm flat" [style]="'height: ' + height || '76.4vh'">
         <div class="card-header d-flex justify-content-center align-items-center">
           <span class="text-capitalize fs-5">
             {{ column === 'IN_PROGRESS' ? 'In Progress' : (column | titlecase) }}

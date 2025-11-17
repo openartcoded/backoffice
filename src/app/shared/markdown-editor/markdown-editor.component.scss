@@ -3,15 +3,14 @@
   min-height: 300px;
 }
 
-
 ::ng-deep .editor-toolbar {
   border: 0;
   border-radius: 0;
   background-color: #f8f9fa;
   border-bottom: 1px dashed #a4adb5;
-   top: 0px;
+  top: 0px;
   position: sticky;
-  z-index: 10
+  z-index: 10;
 }
 ::ng-deep .editor-toolbar button {
   color: #6c757d;
@@ -23,11 +22,10 @@
 }
 ::ng-deep .editor-statusbar {
   border-top: 1px dashed #a4adb5;
-     bottom: 0px;
+  bottom: 0px;
   position: sticky;
   z-index: 10000;
   background-color: white;
-
 }
 ::ng-deep .editor-toolbar button.active {
   color: black;

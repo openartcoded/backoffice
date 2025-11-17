@@ -134,18 +134,17 @@
             </tr>
           </tbody>
         </table>
-                <div class="d-flex justify-content-end mt-1">
-        <ngb-pagination
-          *ngIf="posts && posts.page.totalPages > 1"
-          [page]="pageNumber"
-          [pageSize]="posts.page.size"
-          [maxSize]="5"
-          [collectionSize]="posts.page.totalElements"
-          (pageChange)="load($event)"
-        ></ngb-pagination>
+        <div class="d-flex justify-content-end mt-1">
+          <ngb-pagination
+            *ngIf="posts && posts.page.totalPages > 1"
+            [page]="pageNumber"
+            [pageSize]="posts.page.size"
+            [maxSize]="5"
+            [collectionSize]="posts.page.totalElements"
+            (pageChange)="load($event)"
+          ></ngb-pagination>
+        </div>
       </div>
-      </div>
-      
     </ng-container>
 
     <ng-container *ngIf="!posts || posts.page.size === 0"><span class="mt-2 mb-2">No content.</span></ng-container>
