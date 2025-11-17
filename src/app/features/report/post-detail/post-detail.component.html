@@ -34,11 +34,7 @@
                   <span class="me-1" *ngIf="post.status === 'PENDING'">🕗</span>
                   <span class="me-1" *ngIf="post.status === 'DONE'">✅</span>
                   <span class="me-1" *ngIf="post.status === 'CANCELLED'">❌</span>
-                  <fa-icon
-                    *ngIf="post?.status === 'DONE'"
-                    [icon]="['fas', 'check-circle']"
-                    class="text-success me-1"
-                  ></fa-icon>
+                  
                   {{ post.title | titlecase }}
                 </h4>
                 <div>
@@ -48,7 +44,7 @@
                   <small class="text-muted">Last updated: {{ post.updatedDate | date: 'dd/MM/yyyy HH:mm' }}</small>
                 </div>
               </div>
-              <div class="card-body">
+              <div class="card-body text-ws-break">
                 {{ post.description }}
               </div>
               <div class="card-footer bg-transparent">
