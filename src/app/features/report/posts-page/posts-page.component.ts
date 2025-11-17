@@ -1,8 +1,10 @@
 import { Component, HostListener } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { PostStatus, UnreadMessagesCounter } from '@core/models/post';
 import { User } from '@core/models/user';
 import { PersonalInfoService } from '@core/service/personal.info.service';
+import { ReportService } from '@core/service/report.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -16,6 +18,7 @@ export class PostsPageComponent {
   fullScreen: boolean;
   user: User;
   demoMode: boolean;
+  unreadCounters: UnreadMessagesCounter[];
   get hasRoleAdmin(): boolean {
     return this.user.authorities.includes('ADMIN');
   }
@@ -27,6 +30,7 @@ export class PostsPageComponent {
   constructor(
     public route: ActivatedRoute,
     private personalInfoService: PersonalInfoService,
+    private reportService: ReportService,
     private modalService: NgbModal,
     private titleService: Title,
   ) {}
@@ -38,5 +42,15 @@ export class PostsPageComponent {
       this.activeId = this.route.snapshot.params.name || 'home';
     });
     this.personalInfoService.get().subscribe((p) => (this.demoMode = p.demoMode));
+    this.reportService.unreadCount().subscribe((u) => (this.unreadCounters = u));
+  }
+
+  getCounterForStatus(ps: PostStatus) {
+    return (
+      this.unreadCounters
+        ?.filter((u) => u.status === ps && this.user?.email === u.subscriber)
+        ?.map((u) => u.counter)
+        ?.reduce((sum, u) => sum + u, 0) ?? 0
+    );
   }
 }

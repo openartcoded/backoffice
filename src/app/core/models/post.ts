@@ -7,6 +7,7 @@ export interface Post {
   id?: string;
   title: string;
   priority?: Priority;
+  dueDate?: Date;
   bookmarked?: boolean;
   content?: string;
   creationDate?: Date;
@@ -31,7 +32,30 @@ export interface Channel {
   correlationId?: string;
   updatedDate?: Date;
 }
+export interface UnreadMessagesCounter {
+  status: PostStatus;
+  subscriber: string;
+  counter: number;
+}
+export function getDueDateEmoji(status: PostStatus, due?: Date | string): string {
+  if (!due || status === 'DONE' || status === 'CANCELLED') {
+    return '👍 On track';
+  }
+  const dueDate = new Date(due);
+  const today = new Date();
+  const timeDiff = dueDate.getTime() - today.getTime();
+  const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
+  if (daysDiff < 0) {
+    return '⛔ ' + Math.abs(daysDiff) + ' days overdue';
+  } else if (daysDiff === 0) {
+    return '🔶 Last day before due date!';
+  } else if (daysDiff <= 5) {
+    return '⚠️ ' + daysDiff + ' days left before due date';
+  } else {
+    return daysDiff + ' days left before due date';
+  }
+}
 export interface Message {
   id?: string;
   creationDate?: Date;

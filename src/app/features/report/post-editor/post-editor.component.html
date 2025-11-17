@@ -14,6 +14,9 @@
         <li ngbNavItem>
           <a ngbNavLink>Metadata</a>
           <ng-template ngbNavContent>
+            <div class="alert alert-primary mt-1" role="alert">
+              {{ getDueDateStatusLine(post.status, post.dueDate) }}
+            </div>
             <div class="row mt-2">
               <div class="col-md-6">
                 <label class="form-label fw-bold" for="title">Title</label>
@@ -25,11 +28,15 @@
                 <input type="text" class="form-control" id="author" formControlName="author" placeholder="Author" />
               </div>
 
-              <div class="col-12">
+              <div class="col-6">
                 <label class="form-label fw-bold" for="tags">Tags</label>
                 <p-chips id="tags" formControlName="tags" separator=","></p-chips>
               </div>
 
+              <div class="col-6">
+                <label class="form-label fw-bold" for="dueDate">Due Date</label>
+                <input type="datetime-local" class="form-control" id="dueDate" formControlName="dueDate" />
+              </div>
               <div class="col-md-6">
                 <label class="form-label fw-bold" for="priority">Priority</label>
                 <select class="form-select" formControlName="priority" id="priority">

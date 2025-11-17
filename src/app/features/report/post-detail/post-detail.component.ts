@@ -51,9 +51,13 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
   }
   async load() {
     this.post = await firstValueFrom(this.reportService.getPostById(this.id));
-
-    this.channel = await firstValueFrom(this.reportService.getChannel(this.post.id));
     this.user = await firstValueFrom(this.personalInfoService.me());
+
+    let channel = await firstValueFrom(this.reportService.getChannel(this.post.id));
+    if (!channel.subscribers.includes(this.user.email)) {
+      channel = await firstValueFrom(this.reportService.subscribe(this.post.id));
+    }
+    this.channel = channel;
     if (this.post.coverId) {
       this.cover = await firstValueFrom(this.fileService.findById(this.post.coverId));
     }

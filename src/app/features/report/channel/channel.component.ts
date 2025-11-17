@@ -58,7 +58,8 @@ export class ChannelComponent implements OnInit, OnDestroy {
       this.startAutoRefresh();
       // set to read
       setTimeout(async () => {
-        await firstValueFrom(this.reportService.setChannelToRead(this.post.id));
+        this.channel = await firstValueFrom(this.reportService.setChannelToRead(this.post.id));
+        this.onChannelRefreshed.emit(this.channel);
       }, 5000);
     }
   }

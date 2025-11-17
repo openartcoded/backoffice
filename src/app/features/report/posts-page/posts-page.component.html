@@ -9,7 +9,7 @@
 <ng-container *ngIf="user">
   <ul [activeId]="activeId" ngbNav #nav="ngbNav" class="nav-tabs">
     <li ngbNavItem="home">
-      <a ngbNavLink>Search</a>
+      <a ngbNavLink routerLink="/report/home">Search</a>
       <ng-template ngbNavContent>
         <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
           <ng-component
@@ -22,8 +22,11 @@
         </div>
       </ng-template>
     </li>
+
     <li ngbNavItem="bookmarks">
-      <a ngbNavLink><fa-icon [classList]="'text-warning'" [icon]="['fas', 'star']" />Bookmarks</a>
+      <a ngbNavLink routerLink="/report/bookmarks"
+        ><fa-icon [classList]="'text-warning'" [icon]="['fas', 'star']" />Bookmarks</a
+      >
       <ng-template ngbNavContent>
         <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
           <ng-component
@@ -37,9 +40,20 @@
         </div>
       </ng-template>
     </li>
-        
+
     <li ngbNavItem="drafts">
-      <a ngbNavLink>📝 Draft</a>
+      <a ngbNavLink routerLink="/report/drafts"
+        >📝 Draft
+        <span
+          *ngIf="unreadCounters"
+          class="badge rounded-4 align-middle"
+          [class.text-muted]="getCounterForStatus('DRAFT') === 0"
+          [class.bg-light]="getCounterForStatus('DRAFT') === 0"
+          [class.bg-danger]="getCounterForStatus('DRAFT') > 0"
+        >
+          {{ getCounterForStatus('DRAFT') }}
+        </span></a
+      >
       <ng-template ngbNavContent>
         <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
           <ng-component
@@ -53,8 +67,19 @@
         </div>
       </ng-template>
     </li>
-         <li ngbNavItem="inProgress">
-      <a ngbNavLink>⏳ In progress</a>
+    <li ngbNavItem="in-progress">
+      <a ngbNavLink routerLink="/report/in-progress"
+        >⏳ In progress
+        <span
+          *ngIf="unreadCounters"
+          class="badge rounded-4 align-middle"
+          [class.text-muted]="getCounterForStatus('IN_PROGRESS') === 0"
+          [class.bg-light]="getCounterForStatus('IN_PROGRESS') === 0"
+          [class.bg-danger]="getCounterForStatus('IN_PROGRESS') > 0"
+        >
+          {{ getCounterForStatus('IN_PROGRESS') }}
+        </span>
+      </a>
       <ng-template ngbNavContent>
         <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
           <ng-component
@@ -68,8 +93,19 @@
         </div>
       </ng-template>
     </li>
-        <li ngbNavItem="pending">
-      <a ngbNavLink>🕗 Pending</a>
+    <li ngbNavItem="pending">
+      <a ngbNavLink routerLink="/report/pending"
+        >🕗 Pending
+        <span
+          *ngIf="unreadCounters"
+          class="badge rounded-4 align-middle"
+          [class.text-muted]="getCounterForStatus('PENDING') === 0"
+          [class.bg-light]="getCounterForStatus('PENDING') === 0"
+          [class.bg-danger]="getCounterForStatus('PENDING') > 0"
+        >
+          {{ getCounterForStatus('PENDING') }}
+        </span>
+      </a>
       <ng-template ngbNavContent>
         <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
           <ng-component
@@ -83,9 +119,20 @@
         </div>
       </ng-template>
     </li>
-        
-        <li ngbNavItem="done">
-      <a ngbNavLink>✅ Done</a>
+
+    <li ngbNavItem="done">
+      <a ngbNavLink routerLink="/report/done"
+        >✅ Done
+        <span
+          *ngIf="unreadCounters"
+          class="badge rounded-4 align-middle"
+          [class.text-muted]="getCounterForStatus('DONE') === 0"
+          [class.bg-light]="getCounterForStatus('DONE') === 0"
+          [class.bg-danger]="getCounterForStatus('DONE') > 0"
+        >
+          {{ getCounterForStatus('DONE') }}
+        </span></a
+      >
       <ng-template ngbNavContent>
         <div [class.fullscreen]="fullScreen" [class.p-3]="fullScreen">
           <ng-component

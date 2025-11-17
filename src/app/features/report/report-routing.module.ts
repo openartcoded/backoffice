@@ -14,6 +14,12 @@ const routes: Routes = [
     data: { expectedRole: ['ADMIN'] },
   },
   {
+    path: ':name',
+    component: PostsPageComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: ['ADMIN', 'REGULATOR_OR_ACCOUNTANT'] },
+  },
+  {
     path: 'post/new',
     component: PostEditorComponent,
     canActivate: [AuthGuard, RoleGuard],
