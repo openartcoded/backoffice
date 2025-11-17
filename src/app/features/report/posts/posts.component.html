@@ -127,7 +127,7 @@
                 </div>
 
                 <p class="mt-2 bg-light p-1 text-ws-break">
-                  <i>{{ n.description }}</i>
+                  <i>{{ n.description || 'N/A' }}</i>
                 </p>
                 <small class="text-muted">{{ getDueDateStatusLine(n.status, n.dueDate) }}</small>
               </td>

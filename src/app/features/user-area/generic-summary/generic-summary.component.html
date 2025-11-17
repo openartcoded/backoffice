@@ -17,6 +17,18 @@
             ngbAccordion
             class="me-2 shadow-sm border-gray accordion-flush ms-2 main-viewport hidden-scroll"
           >
+ <div ngbAccordionItem="news" [collapsed]="false" *ngIf="user && hasRoleAdmin">
+              <div ngbAccordionHeader *ngIf="news">
+                <button ngbAccordionButton class="p-2">What's new</button>
+              </div>
+              <div ngbAccordionCollapse>
+                <div ngbAccordionBody class="p-1 bg">
+                                    <div class="overflow-auto"  style="height:40vh">
+                            <markdown [data]="news" />
+                                    </div>
+                </div>
+              </div>
+            </div>
             <div ngbAccordionItem="postits" [collapsed]="false" *ngIf="user && hasRoleAdmin">
               <div ngbAccordionHeader>
                 <button ngbAccordionButton class="bg-light p-2">Post it</button>
