@@ -12,17 +12,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RandomPasswordComponent } from './randompassword/random-password.component';
 
 @NgModule({
-    declarations: [ToolboxContainerComponent, QrcodeComponent, RandomPasswordComponent],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        DateUtilsModule,
-        PathfinderModule,
-        RdfModule,
-        Base64UtilsModule,
-        SharedModule,
-        NgbNavModule,
-    ],
-    exports: [ToolboxContainerComponent, QrcodeComponent],
+  declarations: [ToolboxContainerComponent, QrcodeComponent, RandomPasswordComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    DateUtilsModule,
+    PathfinderModule,
+    RdfModule,
+    Base64UtilsModule,
+    SharedModule,
+    NgbNavModule,
+  ],
+  exports: [ToolboxContainerComponent, QrcodeComponent],
 })
-export class ToolBoxModule { }
+export class ToolBoxModule {}
