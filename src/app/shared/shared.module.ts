@@ -24,6 +24,7 @@ import { AutoFocusDirective } from './directives/auto-focus.directive';
 import { CopyToClipboardComponent } from './copy-to-clipboard/copy-to-clipboard.component';
 import { ScrollToBottomDirective } from './directives/scroll-to-bottom.directive';
 import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownEditorComponent } from './markdown-editor/markdown-editor.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { MarkdownModule } from 'ngx-markdown';
     TitleComponent,
     SlugifyPipe,
     SortPipe,
+    MarkdownEditorComponent,
     PdfViewerComponent,
     CopyToClipboardComponent,
     ImageViewerComponent,
@@ -57,7 +59,7 @@ import { MarkdownModule } from 'ngx-markdown';
     StopPropagationDirective,
     ScrollToBottomDirective,
     TrimPipe,
-
+    MarkdownEditorComponent,
     BytesToHumanPipe,
     AutoFocusDirective,
   ],

@@ -103,7 +103,11 @@ export class FeeEditComponent {
         this.feeUpdated.emit(f);
         this.selectedFile = undefined;
       },
-      error: () => this.toastService.showDanger('Upload failed'),
+      error: () => {
+        this.toastService.showDanger('Upload failed. Try with less attachments');
+        this.selectedFile = undefined;
+        this.uploading = false;
+      },
       complete: () => (this.uploading = false),
     });
   }

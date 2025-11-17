@@ -1,5 +1,5 @@
 <ng-container *ngIf="post">
-  <div class="container py-3">
+  <div class="container overflow-y-scroll py-3">
     <a routerLink="/report" class="btn btn-outline-primary mb-3">
       <fa-icon [icon]="['fas', 'arrow-left']" class="me-1"></fa-icon>
       Back
@@ -20,7 +20,7 @@
         <li ngbNavItem>
           <a ngbNavLink>Metadata</a>
           <ng-template ngbNavContent>
-            <div class="card flat shadow-sm mb-3">
+            <div class="card flat shadow-sm mb-3"  style="height: 58vh; overflow-y: scroll">
               <div
                 class="card-header bg-light rounded-0 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center"
               >
@@ -58,15 +58,19 @@
         <li ngbNavItem *ngIf="post.content?.length">
           <a ngbNavLink>Content</a>
           <ng-template ngbNavContent>
-            <div class="border rounded-0 shadow-sm p-3 mb-3">
+            <div class="border rounded-0 shadow-sm p-3 mb-3"   style="height: 58vh; overflow-y: scroll">
               <markdown [data]="post.content"></markdown>
             </div>
           </ng-template>
         </li>
         <li ngbNavItem *ngIf="post.attachments?.length">
           <a ngbNavLink>Attachments</a>
+
+
           <ng-template ngbNavContent>
-            <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
+                            <div   style="height: 58vh; overflow-y: scroll">
+
+            <div class="d-flex justify-content-between align-items-center mt-2 mb-2"  >
               <label class="fw-bold d-block">Attachments</label>
 
               <button
@@ -144,7 +148,8 @@
                 </div>
               </li>
             </ul>
-          </ng-template>
+          </div>
+                    </ng-template>
         </li>
         <li ngbNavItem *ngIf="user && channel">
           <a ngbNavLink
@@ -164,7 +169,11 @@
         <li ngbNavItem>
           <a ngbNavLink>Tasks</a>
           <ng-template ngbNavContent>
-            <app-scrum-board *ngIf="post" [post]="post" />
+                        <div class="hidden-scroll">
+
+
+            <app-scrum-board *ngIf="post" [post]="post" height="57vh" />
+                        </div>
           </ng-template>
         </li>
       </ul>

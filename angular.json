@@ -50,6 +50,7 @@
                             "node_modules/primeicons/primeicons.css",
                             "node_modules/@zazuko/yasgui/build/yasgui.min.css",
                             "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                            "node_modules/easymde/dist/easymde.min.css",
                             "node_modules/prismjs/themes/prism.css",
                             "src/styles.scss"
                         ],

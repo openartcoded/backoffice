@@ -12,3 +12,5 @@
 - Quality of life improvements
 - Password generator in home > toolbox
 - News module
+- New markdown editor on reports (easyMde)
+- New default font

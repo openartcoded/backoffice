@@ -1,7 +1,7 @@
 <ng-container *ngIf="post">
   <app-title [title]="post.title | titlecase" />
 
-  <div class="row ps-5 pe-5 shadow-sm" style="height: 88vh; overflow-y: hidden">
+  <div class="row ps-1 pe-2 border-0" style="height: 87vh; overflow-y: hidden">
     <form class="mt-2" [formGroup]="editorForm" (ngSubmit)="send()" *ngIf="editorForm">
       <div class="mb-2 d-flex justify-content-between">
         <a routerLink="/report" class="btn btn-outline-primary me-1">
@@ -14,7 +14,7 @@
         <li ngbNavItem>
           <a ngbNavLink>Metadata</a>
           <ng-template ngbNavContent>
-            <div class="alert alert-primary mt-1" role="alert">
+            <div class="alert rounded-0 alert-primary mt-1" role="alert">
               {{ getDueDateStatusLine(post.status, post.dueDate) }}
             </div>
             <div class="row mt-2">
@@ -99,73 +99,13 @@
           <a ngbNavLink>Editor</a>
 
           <ng-template ngbNavContent>
-            <div class="d-flex w-100 justify-content-start bg-light p-1 pt-2 pb-2 border-bottom">
-              <button
-                type="button"
-                class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                (click)="wrapSelection('**', '**')"
+            <div class="col-12 shadow-sm me-2" style="height: 75.9vh; overflow-y: scroll">
+              <app-markdown-editor
+                *ngIf="editorForm"
+                [initialValue]="editorForm.get('htmlContent')?.value"
+                (contentChange)="onMarkdownChange($event)"
               >
-                Bold
-              </button>
-              <button
-                type="button"
-                class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                (click)="wrapSelection('_', '_')"
-              >
-                Italic
-              </button>
-              <button
-                type="button"
-                class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                (click)="wrapSelection('`', '`')"
-              >
-                Inline Code
-              </button>
-              <button
-                type="button"
-                class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                (click)="insertAtCursor('- ')"
-              >
-                List Item
-              </button>
-              <button
-                type="button"
-                class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                (click)="wrapSelection('> ', '')"
-              >
-                Blockquote
-              </button>
-              <button
-                type="button"
-                class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                (click)="insertLink()"
-              >
-                Link
-              </button>
-              <button
-                type="button"
-                class="btn bg-white flat text-muted btn-outline-secondary me-1"
-                (click)="insertTable()"
-              >
-                Table
-              </button>
-            </div>
-
-            <div class="d-flex justify-content-start">
-              <div class="col-7 shadow-sm me-2" style="height: 73.9vh; overflow-y: scroll">
-                <textarea
-                  appAutoFocus
-                  autosize
-                  formControlName="htmlContent"
-                  #editor
-                  class="form-control border-0 bg-white no-focus resize-none hidden-scroll"
-                  [rows]="33"
-                  [placeholder]="'your text here'"
-                ></textarea>
-              </div>
-              <div class="col" style="height: 73.9vh; overflow-y: scroll">
-                <markdown [data]="htmlContent.value" />
-              </div>
+              </app-markdown-editor>
             </div>
           </ng-template>
         </li>

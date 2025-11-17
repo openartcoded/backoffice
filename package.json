@@ -37,6 +37,7 @@
         "ace-builds": "^1.33.0",
         "angular-plotly.js": "^5.2.2",
         "bootstrap": "^5.3.3",
+        "easymde": "^2.20.0",
         "html2canvas": "^1.4.1",
         "jsonpath-plus": "6.0.1",
         "keycloak-angular": "^19.0.2",
