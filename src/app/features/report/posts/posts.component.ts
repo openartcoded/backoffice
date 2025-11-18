@@ -1,6 +1,13 @@
 import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { Page } from '@core/models/page';
-import { getDueDateEmoji, Post, PostSearchCriteria, PostStatus, Priority } from '@core/models/post';
+import {
+  getDueDateEmoji,
+  Post,
+  PostSearchCriteria,
+  PostStatus,
+  Priority,
+  UnreadMessagesCounter,
+} from '@core/models/post';
 import { ReportService } from '@core/service/report.service';
 import { FileService } from '@core/service/file.service';
 import { SlugifyPipe } from '@core/pipe/slugify-pipe';
@@ -8,6 +15,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { WindowRefService } from '@core/service/window.service';
 import { isPlatformBrowser } from '@angular/common';
 import { ToastService } from '@core/service/toast.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-posts',
@@ -35,6 +43,8 @@ export class PostsComponent implements OnInit {
   searchCriteria: PostSearchCriteria = {};
   @Input()
   bookmarked?: boolean = null;
+
+  unreadCounters: UnreadMessagesCounter[];
   constructor(
     private reportService: ReportService,
     private titleService: Title,
@@ -69,7 +79,14 @@ export class PostsComponent implements OnInit {
         event - 1,
         this.defaultPageSize,
       )
-      .subscribe((data) => (this.posts = data));
+      .subscribe(async (data) => {
+        const posts = data;
+        for (const p of posts.content) {
+          const count = await firstValueFrom(this.reportService.singleUnreadCount(p.id));
+          p.unreadCount = count;
+        }
+        this.posts = posts;
+      });
   }
 
   get pageNumber() {

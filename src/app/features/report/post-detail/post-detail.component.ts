@@ -70,7 +70,7 @@ export class PostDetailComponent implements OnInit, AfterViewChecked {
     if (this.post.coverId) {
       return this.fileService.getDownloadUrl(this.post.coverId);
     }
-    return '/assets/img/no-cover.jpg';
+    return '/assets/img/no-cover.png';
   }
   async downloadBulk(attachments: FileUpload[]) {
     await this.fileService.downloadBulk(attachments.map((a) => a.id));

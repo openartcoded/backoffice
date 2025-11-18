@@ -1,3 +1,12 @@
+#### 2026.5.5
+
+- BUG expense: Set tag prevent default
+- Style BUG: tasks in report was not taking the full width
+- Allow calling feeRepository from Graal.js
+- remove dead code in post editor
+- Add a message counter for each visible posts in post table
+- ask politely to change the cover
+
 #### 2026.5.4
 
 - Add PDF Generation for reports (view detail, next to the updated date)

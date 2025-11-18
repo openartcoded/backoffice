@@ -5,6 +5,7 @@ export interface Post {
   author?: string;
   description: string;
   id?: string;
+  unreadCount?: number;
   title: string;
   priority?: Priority;
   dueDate?: Date;

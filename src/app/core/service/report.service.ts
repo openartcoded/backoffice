@@ -67,6 +67,9 @@ export class ReportService {
   unreadCount(): Observable<UnreadMessagesCounter[]> {
     return this.http.post<UnreadMessagesCounter[]>(`${this.basePath}/channel/unread-count`, {});
   }
+  singleUnreadCount(postId: string): Observable<number> {
+    return this.http.post<number>(`${this.basePath}/channel/single-unread-count?id=${postId}`, {});
+  }
   setChannelToRead(postId: string): Observable<Channel> {
     return this.http.post<Channel>(`${this.basePath}/channel/read?id=${postId}`, {});
   }

@@ -42,7 +42,7 @@
         >
           <div class="d-flex justify-content-between">
             <span>{{ date | date: 'dd/MM/yyyy' }}</span>
-            <span class="badge bg-warning text-dark rounded-circle" *ngIf="date.getTime() === currentDate?.getTime()">
+            <span class="badge bg-warning text-dark rounded-5" *ngIf="date.getTime() === currentDate?.getTime()">
               {{ filteredReminderTasks.length }}
             </span>
           </div>
@@ -55,7 +55,7 @@
         >
           <div class="d-flex justify-content-between">
             <span>Show all</span>
-            <span class="badge bg-info text-dark rounded-circle" *ngIf="!currentDate">
+            <span class="badge bg-info text-dark rounded-5" *ngIf="!currentDate">
               {{ filteredReminderTasks.length }}
             </span>
           </div>

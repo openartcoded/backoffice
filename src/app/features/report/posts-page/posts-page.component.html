@@ -46,7 +46,7 @@
         >📝 Draft
         <span
           *ngIf="unreadCounters"
-          class="badge rounded-4 align-middle"
+          class="badge rounded-4 align-items-center"
           [class.text-muted]="getCounterForStatus('DRAFT') === 0"
           [class.bg-light]="getCounterForStatus('DRAFT') === 0"
           [class.bg-danger]="getCounterForStatus('DRAFT') > 0"
@@ -72,7 +72,7 @@
         >⏳ In progress
         <span
           *ngIf="unreadCounters"
-          class="badge rounded-4 align-middle"
+          class="badge rounded-4 align-items-center"
           [class.text-muted]="getCounterForStatus('IN_PROGRESS') === 0"
           [class.bg-light]="getCounterForStatus('IN_PROGRESS') === 0"
           [class.bg-danger]="getCounterForStatus('IN_PROGRESS') > 0"
@@ -98,7 +98,7 @@
         >🕗 Pending
         <span
           *ngIf="unreadCounters"
-          class="badge rounded-4 align-middle"
+          class="badge rounded-4 align-items-center"
           [class.text-muted]="getCounterForStatus('PENDING') === 0"
           [class.bg-light]="getCounterForStatus('PENDING') === 0"
           [class.bg-danger]="getCounterForStatus('PENDING') > 0"
@@ -125,7 +125,7 @@
         >✅ Done
         <span
           *ngIf="unreadCounters"
-          class="badge rounded-4 align-middle"
+          class="badge rounded-4 align-items-center"
           [class.text-muted]="getCounterForStatus('DONE') === 0"
           [class.bg-light]="getCounterForStatus('DONE') === 0"
           [class.bg-danger]="getCounterForStatus('DONE') > 0"

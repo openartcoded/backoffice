@@ -15,7 +15,11 @@
       </select>
     </div>
     <div class="d-flex justify-content-end" *ngIf="hasRoleAdmin">
-      <button (click)="submit()" class="btn btn-primary mt-1 me-1" [disabled]="!selectedTag || isDisabled">
+      <button
+        (click)="$event.preventDefault(); submit()"
+        class="btn btn-primary mt-1 me-1"
+        [disabled]="!selectedTag || isDisabled"
+      >
         <fa-icon [icon]="['fas', 'check']"></fa-icon>
         Set
       </button>

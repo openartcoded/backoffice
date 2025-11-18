@@ -111,17 +111,26 @@
                     class="btn btn-link text-decoration-none fw-bold p-0 m-0"
                     [routerLink]="['/report', 'post', slugify(n.title), n.id]"
                   >
-                    <span class="me-1" *ngIf="n.priority === 'LOW'">🔵</span>
-                    <span class="me-1" *ngIf="n.priority === 'MEDIUM'">🟡</span>
-                    <span class="me-1" *ngIf="n.priority === 'HIGH'">🟠</span>
-                    <span class="me-1" *ngIf="n.priority === 'URGENT'">🔴</span>
-                    <span class="me-1" *ngIf="n.status === 'DRAFT'"> 📝</span>
-                    <span class="me-1" *ngIf="n.status === 'IN_PROGRESS'"> ⏳</span>
-                    <span class="me-1" *ngIf="n.status === 'PENDING'"> 🕗</span>
-                    <span class="me-1" *ngIf="n.status === 'DONE'"> ✅</span>
-                    <span class="me-1" *ngIf="n.status === 'CANCELLED'"> ❌</span>
-                    {{ n.title | titlecase }}</a
-                  >
+                    <span
+                      *ngIf="n.unreadCount"
+                      class="badge rounded-5 align-items-center me-1"
+                      [class.text-muted]="n.unreadCount === 0"
+                      [class.bg-light]="n.unreadCount === 0"
+                      [class.bg-danger]="n.unreadCount > 0"
+                    >
+                      {{ n.unreadCount }}
+                    </span>
+                    <span class="align-items-center me-1" *ngIf="n.priority === 'LOW'">🔵</span>
+                    <span class="align-items-center me-1" *ngIf="n.priority === 'MEDIUM'">🟡</span>
+                    <span class="align-items-center me-1" *ngIf="n.priority === 'HIGH'">🟠</span>
+                    <span class="align-items-center me-1" *ngIf="n.priority === 'URGENT'">🔴</span>
+                    <span class="align-items-center me-1" *ngIf="n.status === 'DRAFT'"> 📝</span>
+                    <span class="align-items-center me-1" *ngIf="n.status === 'IN_PROGRESS'"> ⏳</span>
+                    <span class="align-items-center me-1" *ngIf="n.status === 'PENDING'"> 🕗</span>
+                    <span class="align-items-center me-1" *ngIf="n.status === 'DONE'"> ✅</span>
+                    <span class="align-items-center me-1" *ngIf="n.status === 'CANCELLED'"> ❌</span>
+                    {{ n.title | titlecase }}
+                  </a>
 
                   <small class="text-muted">{{ n.updatedDate | date: 'dd/MM/yyyy' }}</small>
                 </div>

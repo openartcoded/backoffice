@@ -82,7 +82,7 @@
                     <button id="sd" class="btn btn-transparent me-1" type="button" (click)="openFileSelector()">
                       <img
                         alt="Cover"
-                        [src]="url || '/assets/img/no-cover.jpg'"
+                        [src]="url || '/assets/img/no-cover.png'"
                         class="img-responsive rounded-5 me-1"
                         width="100px"
                         height="100px"
@@ -234,14 +234,14 @@
         <li ngbNavItem>
           <a ngbNavLink>Tasks</a>
           <ng-template ngbNavContent>
-            <app-scrum-board *ngIf="post" [post]="post" />
+            <app-scrum-board *ngIf="post" [post]="post" height="57vh" />
           </ng-template>
         </li>
         <li ngbNavItem *ngIf="user && channel">
           <a ngbNavLink
             >Channel
             <span
-              class="badge rounded-4 align-middle"
+              class="badge rounded-4 align-items-center"
               [class.text-muted]="unReadMessagesCount === 0"
               [class.bg-light]="unReadMessagesCount === 0"
               [class.bg-danger]="unReadMessagesCount > 0"

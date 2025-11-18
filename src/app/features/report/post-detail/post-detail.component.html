@@ -10,7 +10,7 @@
       <img
         class="border shadow-sm cover rounded-0"
         *ngIf="!cover"
-        src="/assets/img/no-cover.jpg"
+        src="/assets/img/no-cover.png"
         alt="No cover available"
       />
     </div>
@@ -161,7 +161,7 @@
           <a ngbNavLink
             >Channel
             <span
-              class="badge rounded-4 align-middle"
+              class="badge rounded-4 align-items-center"
               [class.text-muted]="unReadMessagesCount === 0"
               [class.bg-light]="unReadMessagesCount === 0"
               [class.bg-danger]="unReadMessagesCount > 0"
