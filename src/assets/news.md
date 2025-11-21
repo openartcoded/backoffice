@@ -1,3 +1,7 @@
+#### 2026.5.6
+
+- Fix channel notification notification
+
 #### 2026.5.5
 
 - BUG expense: Set tag prevent default
