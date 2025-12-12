@@ -12,6 +12,8 @@ export interface MailJob {
   updatedDate?: Date;
   sent: boolean;
   sendingDate?: Date;
+  markedFailed?: boolean;
+  markedFailedMessage?: string;
   to: string[];
   subject: string;
   body: string;

@@ -125,16 +125,29 @@
                 <fa-icon [icon]="['fas', 'paperclip']"></fa-icon>
               </button>
               <!-- Textarea -->
-              <textarea
-                #messageInput
-                formControlName="message"
-                class="form-control resize-none"
-                placeholder="Type a message..."
-                rows="2"
-                style="flex: 1"
-                (keypress)="handleKeyPress($event)"
-              >
-              </textarea>
+              <div class="d-flex flex-column flex-grow-1 w-100">
+                <textarea
+                  #messageInput
+                  formControlName="message"
+                  class="form-control resize-none"
+                  placeholder="Type a message..."
+                  rows="2"
+                  style="flex: 1"
+                  (keypress)="handleKeyPress($event)"
+                >
+                </textarea>
+                <div class="">
+                  <span class="bg-white me-1" style="cursor: pointer" (click)="addEmoji('👍')">👍</span>
+                  <span class="bg-white me-1" style="cursor: pointer" (click)="addEmoji('👏')">👏</span>
+                  <span class="bg-white me-1" style="cursor: pointer" (click)="addEmoji('😂')">😂</span>
+                  <span class="bg-white me-1" style="cursor: pointer" (click)="addEmoji('🙂')">🙂</span>
+                  <span class="bg-white me-1" style="cursor: pointer" (click)="addEmoji('🤔')">🤔</span>
+                  <span class="bg-white me-1" style="cursor: pointer" (click)="addEmoji('✅')">✅</span>
+                  <span class="bg-white me-1" style="cursor: pointer" (click)="addEmoji('❌')">❌</span>
+                  <span class="bg-white me-1" style="cursor: pointer" (click)="addEmoji('🎉')">🎉</span>
+                </div>
+              </div>
+
               <!-- Send Button -->
               <button
                 type="submit"

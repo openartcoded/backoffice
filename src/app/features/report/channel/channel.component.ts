@@ -82,6 +82,9 @@ export class ChannelComponent implements OnInit, OnDestroy {
     }
   }
 
+  addEmoji(c: string) {
+    this.messageForm?.get('message').patchValue((this.messageForm?.get('message')?.value || '') + c);
+  }
   async loadMessages(reloadChan = true) {
     if (reloadChan) {
       const channel = await firstValueFrom(this.reportService.getChannel(this.post.id));

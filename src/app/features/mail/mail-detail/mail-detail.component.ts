@@ -73,6 +73,8 @@ export class MailDetailComponent implements OnInit {
       mailSubject: new UntypedFormControl({ value: this.mail.subject, disabled: this.mail.sent }, []),
       mailTos: new UntypedFormControl({ value: this.mail.to, disabled: this.mail.sent }, []),
       sent: new UntypedFormControl({ value: this.mail.sent, disabled: true }, []),
+      markedFailed: new UntypedFormControl({ value: this.mail.markedFailed, disabled: true }, []),
+      markedFailedMessage: new UntypedFormControl({ value: this.mail.markedFailedMessage, disabled: true }, []),
       mailBody: new UntypedFormControl({ value: this.mail.body, disabled: this.mail.sent }, []),
       creationDate: new UntypedFormControl(
         {

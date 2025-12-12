@@ -18,7 +18,11 @@
         />
       </div>
       <ul class="list-group">
-        <li class="list-group-item border-0 border-bottom rounded-0" *ngIf="tags">
+        <li
+          class="list-group-item border-0 border-bottom rounded-0"
+          *ngIf="tags"
+          style="max-height: 50vh; overflow-y: auto"
+        >
           <label class="fw-bold mt-1">Filter by tag</label>
           <div class="d-block mt-1 mb-1">
             <span

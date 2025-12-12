@@ -1,6 +1,14 @@
+#### 2026.5.7
+
+- automatically subscribe when a new report is created
+- missing space between <generic-summary/> and tasks on mobile
+- if mail job fails, mark it as failed
+- fix tags taking too much space in report page
+- add simple emojis
+
 #### 2026.5.6
 
-- Fix channel notification notification
+- Fix channel notification
 
 #### 2026.5.5
 
