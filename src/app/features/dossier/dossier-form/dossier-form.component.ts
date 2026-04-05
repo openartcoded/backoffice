@@ -206,7 +206,7 @@ export class DossierFormComponent implements OnInit, OnDestroy {
       dossierDescription: new UntypedFormControl(
         { value: this.dossier.description, disabled: !this.hasRoleAdmin || this.dossier.closed },
         [Validators.maxLength(2048)],
-      ), 
+      ),
       comment: new UntypedFormControl(
         { value: this.dossier.comment, disabled: !this.hasRoleAdmin || this.dossier.closed },
         [Validators.maxLength(4096)],
