@@ -23,6 +23,7 @@ export interface Dossier {
   imported?: boolean;
   importedDate?: Date;
   bookmarked?: boolean;
+  comment?: string; // 20260405 add a comment to a dossier
 }
 
 export interface TvaAdvancePayment {

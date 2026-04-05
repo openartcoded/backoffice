@@ -205,7 +205,11 @@ export class DossierFormComponent implements OnInit, OnDestroy {
       ),
       dossierDescription: new UntypedFormControl(
         { value: this.dossier.description, disabled: !this.hasRoleAdmin || this.dossier.closed },
-        [Validators.maxLength(1024)],
+        [Validators.maxLength(2048)],
+      ), 
+      comment: new UntypedFormControl(
+        { value: this.dossier.comment, disabled: !this.hasRoleAdmin || this.dossier.closed },
+        [Validators.maxLength(4096)],
       ),
       creationDate: new UntypedFormControl(
         {
@@ -277,6 +281,7 @@ export class DossierFormComponent implements OnInit, OnDestroy {
       }),
       name: this.dossierForm.controls.dossierName.value,
       description: this.dossierForm.controls.dossierDescription.value,
+      comment: this.dossierForm.controls.comment.value,
     });
     //this.dossierForm.reset();
     //this.advancePayments.reset();

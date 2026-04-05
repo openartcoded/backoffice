@@ -1,3 +1,10 @@
+#### 2026.5.8
+
+- fix peppol consuming file before it's download
+- fix mobile main page (stick left menu)
+- skip peppol generation for customers not using peppol
+- add a comment to a dossier
+
 #### 2026.5.7
 
 - automatically subscribe when a new report is created

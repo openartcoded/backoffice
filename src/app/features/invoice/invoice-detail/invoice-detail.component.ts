@@ -205,6 +205,10 @@ export class InvoiceDetailComponent implements OnInit {
         { value: this.invoice.uploadedManually, disabled: !this.hasRoleAdmin || this.invoice.locked },
         [],
       ),
+      skipPeppol: new UntypedFormControl(
+        { value: this.invoice.skipPeppol, disabled: !this.hasRoleAdmin || this.invoice.locked },
+        [],
+      ),
       logicalDelete: new UntypedFormControl({ value: this.invoice.logicalDelete, disabled: true }, []),
       billToVatNumber: new UntypedFormControl(
         {
@@ -251,6 +255,9 @@ export class InvoiceDetailComponent implements OnInit {
     return this.invoiceForm.get('uploadedManually').value;
   }
 
+  get skipPeppol(): boolean {
+    return this.invoiceForm.get('skipPeppol').value;
+  }
   get logicalDelete(): boolean {
     return this.invoiceForm.get('logicalDelete').value;
   }
@@ -349,6 +356,7 @@ export class InvoiceDetailComponent implements OnInit {
       dateOfInvoice: DateUtils.getDateFromInput(this.invoiceForm.get('dateOfInvoice').value),
       taxRate: this.invoiceForm.get('taxRate').value,
       uploadedManually: this.uploadedManually,
+      skipPeppol: this.skipPeppol,
       billTo: {
         vatNumber: this.invoiceForm.get('billToVatNumber').value,
         clientName: this.invoiceForm.get('billToClientName').value,
