@@ -23,6 +23,8 @@ export class MailDetailComponent implements OnInit {
   @Output()
   update: EventEmitter<MailJob> = new EventEmitter<MailJob>();
 
+  @Output()
+  retry: EventEmitter<MailJob> = new EventEmitter<MailJob>();
   mailForm: UntypedFormGroup;
   uploads: FileUpload[];
   constructor(
@@ -100,6 +102,10 @@ export class MailDetailComponent implements OnInit {
     });
   }
 
+  retryMail($event) {
+    $event.preventDefault();
+    this.retry.emit(this.mail);
+  }
   send() {
     this.mail.subject = this.mailForm.get('mailSubject').value;
     this.mail.body = this.mailForm.get('mailBody').value;

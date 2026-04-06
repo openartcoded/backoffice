@@ -25,7 +25,9 @@ export class MailService {
   update(job: MailJob): Observable<MailJob> {
     return this.http.post<MailJob>(`${this.basePath}/update`, job);
   }
-
+  retry(job: MailJob): Observable<MailJob> {
+    return this.http.post<MailJob>(`${this.basePath}/retry`, job);
+  }
   delete(id: string): Observable<any> {
     const url = `${this.basePath}/delete?id=${id}`;
     return this.http.delete<any>(url, {});

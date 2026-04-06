@@ -55,13 +55,16 @@ export class MailPageComponent implements OnInit {
     modalRef.componentInstance.demoMode = this.demoMode;
     modalRef.componentInstance.update.subscribe((m: MailJob) => {
       this.mailService.update(m).subscribe(() => {
-        modalRef.close();
         this.toastService.showSuccess('Mail job updated');
-
         this.load();
       });
     });
-
+    modalRef.componentInstance.retry.subscribe((m: MailJob) => {
+      this.mailService.retry(m).subscribe(() => {
+        this.toastService.showSuccess('Will retry send mail');
+        this.load();
+      });
+    });
     modalRef.componentInstance.mail = mail;
   }
   delete($event: any, m: MailJob) {
