@@ -1,3 +1,8 @@
+#### 2026.5.9
+
+- retry send mail
+- timesheet page: automatically set a day as holiday
+
 #### 2026.5.8
 
 - fix peppol consuming file before it's download

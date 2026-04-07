@@ -16,7 +16,7 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
   standalone: false,
 })
 export class MailPageComponent implements OnInit {
-  pageSize: number = 5;
+  pageSize: number = 10;
   mails: Page<MailJob>;
   fullScreen: boolean;
 

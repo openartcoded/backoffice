@@ -141,7 +141,12 @@ export class PeriodFormComponent implements OnInit {
       this.autocomplete();
     }
   }
-
+  autoSetHoliday($event?: any) {
+    $event?.stopPropagation();
+    this.autocomplete($event);
+    this.form.get('periodType').patchValue(PeriodType[PeriodType.AUTHORIZED_HOLIDAYS]);
+    this.send();
+  }
   autocompleteAndSave($event?: any) {
     $event?.stopPropagation();
     this.autocomplete($event);
