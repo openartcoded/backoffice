@@ -142,7 +142,14 @@
       <div [ngbNavOutlet]="nav"></div>
       <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary" [disabled]="!mailForm.valid || mail.sent">Submit</button>
-        <button type="button" class="ms-1 btn btn-warning" [disabled]="mail.sent || !mail.markedFailed" (click)="retryMail($event)" >Retry</button>
+        <button
+          type="button"
+          class="ms-1 btn btn-warning"
+          [disabled]="mail.sent || !mail.markedFailed"
+          (click)="retryMail($event)"
+        >
+          Retry
+        </button>
       </div>
     </form>
   </div>
