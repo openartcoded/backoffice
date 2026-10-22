@@ -102,7 +102,10 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     const clients = await firstValueFrom(this.billableClientService.findAll());
     const templates = await firstValueFrom(this.invoiceService.listTemplates());
     const invoice = await firstValueFrom(this.invoiceService.findById(this.timesheet.invoiceId));
+    const user = await firstValueFrom(this.personalInfoService.me());
     const ref = this.modalService.open(InvoiceDetailComponent, { size: 'xl' });
+    ref.componentInstance.user = user;
+    ref.componentInstance.demoMode = this.demoMode;
     ref.componentInstance.clients = clients;
     ref.componentInstance.invoice = invoice;
     ref.componentInstance.templates = templates;
