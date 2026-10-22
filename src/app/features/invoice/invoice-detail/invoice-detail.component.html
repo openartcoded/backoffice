@@ -382,6 +382,17 @@
                         </select>
                       </div>
                     </div>
+                    <div class="mb-1 row" *ngIf="currentRates.length">
+                      <label class="col-sm-2 col-form-label" [for]="'rateId' + i">Client rate</label>
+                      <div class="col-sm-10">
+                        <select class="form-select" formControlName="rateId" [id]="'rateId' + i">
+                          <option [ngValue]="null">Custom</option>
+                          <option *ngFor="let r of currentRates; index as k" [ngValue]="r.id">
+                            {{ rateOptionLabel(r, k) }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
                     <div class="mb-1 row">
                       <label class="col-sm-2 col-form-label" [for]="'rate' + i">Rate</label>
                       <div class="col-sm-10">

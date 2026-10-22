@@ -36,6 +36,19 @@ export interface BillableClient {
   defaultWorkingDays: DefaultWorkingDay[];
 }
 
+/**
+ * Rates of a client. A client not migrated yet (only the legacy rate/rateType) is exposed as a single default rate.
+ */
+export function getClientRates(client?: BillableClient): ClientRate[] {
+  if (client?.rates?.length) {
+    return client.rates;
+  }
+  if (client?.rate != null && client?.rateType != null) {
+    return [{ id: 'default', rate: client.rate, rateType: client.rateType }];
+  }
+  return [];
+}
+
 export function getAllDays(): { name: string; value: string }[] {
   return [
     {

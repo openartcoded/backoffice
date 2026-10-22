@@ -19,7 +19,7 @@ import { RateType } from '@core/models/common';
 import { FileSystemFileEntry, NgxFileDropEntry, NgxFileDropModule } from 'ngx-file-drop';
 import moment from 'moment';
 import { DateUtils } from '@core/utils/date-utils';
-import { BillableClient } from '@core/models/billable-client';
+import { BillableClient, ClientRate, getClientRates } from '@core/models/billable-client';
 import { FileService } from '@core/service/file.service';
 import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 import { firstValueFrom } from 'rxjs';
@@ -78,6 +78,9 @@ export class InvoiceDetailComponent implements OnInit {
   onSaveInvoice: EventEmitter<InvoiceForm> = new EventEmitter<InvoiceForm>();
 
   invoiceForm: UntypedFormGroup;
+
+  /** rates of the selected client, each row of the invoice table can pick one */
+  currentRates: ClientRate[] = [];
 
   constructor(
     @Optional() public activeModal: NgbActiveModal,
@@ -153,6 +156,7 @@ export class InvoiceDetailComponent implements OnInit {
     });
   }
   createFormGroup(): UntypedFormGroup {
+    this.currentRates = getClientRates(this.clients?.find((c) => c.name === this.invoice.billTo?.clientName));
     return this.formBuilder.group({
       invoiceNumber: new UntypedFormControl(
         { value: this.invoice.invoiceNumber, disabled: true /* always disabled, coming from backend */ },
@@ -303,13 +307,62 @@ export class InvoiceDetailComponent implements OnInit {
     return !this.hasRoleAdmin || this.invoice.locked;
   }
 
-  private createInvoiceRowForm(table: Partial<InvoiceRow>): UntypedFormGroup {
+  private matchRate(row: { rate?: number; rateType?: any }): ClientRate | undefined {
+    return this.currentRates.find(
+      (r) => Number(r.rate) === Number(row.rate) && String(r.rateType) === String(row.rateType),
+    );
+  }
+
+  /** replaces the label of the previously applied rate by the one of the new rate in the description (nature) */
+  private withRateLabel(nature: string | undefined, previousLabel?: string, label?: string): string {
+    let base = nature ?? '';
+    if (previousLabel) {
+      if (base.endsWith(` - ${previousLabel}`)) {
+        base = base.slice(0, -(previousLabel.length + 3));
+      } else if (base === previousLabel) {
+        base = '';
+      }
+    }
+    if (!label) {
+      return base;
+    }
+    return base ? `${base} - ${label}` : label;
+  }
+
+  /**
+   * Applies a rate of the client to a row: rate, rate type and the label (if any) in the description.
+   * When baseNature is given, it replaces the description (before adding the label).
+   */
+  private applyRate(group: UntypedFormGroup, rate?: ClientRate, baseNature?: string): void {
+    const opts = { emitEvent: false };
+    const previousLabel = baseNature !== undefined ? undefined : group.get('appliedLabel').value;
+    const nature = baseNature !== undefined ? baseNature : group.get('nature').value;
+    group.get('rate').setValue(rate?.rate, opts);
+    group.get('rateType').setValue(rate?.rateType, opts);
+    group.get('rateId').setValue(rate?.id ?? null, opts);
+    group.get('nature').setValue(this.withRateLabel(nature, previousLabel, rate?.label), opts);
+    group.get('appliedLabel').setValue(rate?.label ?? null, opts);
+  }
+
+  rateOptionLabel(r: ClientRate, index: number): string {
+    const label = r.label ? `${r.label} - ` : '';
+    return `${label}${r.rate}€/${r.rateType?.toString().toLowerCase()}${index === 0 ? ' (default)' : ''}`;
+  }
+
+  private createInvoiceRowForm(
+    table: Partial<InvoiceRow> & { rateId?: string | null; appliedLabel?: string },
+  ): UntypedFormGroup {
     const period = table.period
       ? moment(table.period, 'MM/yyyy').format('YYYY-MM')
       : moment(new Date()).format('YYYY-MM');
     const disabled = this.rowsReadOnly;
+    // the rate select shows the client's rate matching the row, "custom" when none matches
+    const matched = this.matchRate(table);
+    const rateId = table.rateId !== undefined ? table.rateId : (matched?.id ?? null);
+    const appliedLabel =
+      table.appliedLabel ?? (matched?.label && table.nature?.endsWith(` - ${matched.label}`) ? matched.label : null);
 
-    return new UntypedFormGroup({
+    const group = new UntypedFormGroup({
       nature: new UntypedFormControl({ value: table.nature, disabled }, [Validators.required]),
       period: new UntypedFormControl({ value: period, disabled }, [Validators.required]),
       projectName: new UntypedFormControl({ value: table.projectName, disabled }, [Validators.required]),
@@ -317,7 +370,26 @@ export class InvoiceDetailComponent implements OnInit {
       rateType: new UntypedFormControl({ value: table.rateType, disabled }, [Validators.required]),
       amount: new UntypedFormControl({ value: table.amount, disabled }, [Validators.required, Validators.min(1)]),
       amountType: new UntypedFormControl({ value: table.amountType, disabled }, [Validators.required]),
+      // only used by the form, not sent to the backend
+      rateId: new UntypedFormControl({ value: rateId, disabled }),
+      appliedLabel: new UntypedFormControl({ value: appliedLabel, disabled }),
     });
+
+    // choosing a rate updates the row automatically
+    group.get('rateId').valueChanges.subscribe((id) => {
+      const rate = this.currentRates.find((r) => r.id === id);
+      if (rate) {
+        this.applyRate(group, rate);
+      }
+    });
+    // typing a rate by hand selects the matching client rate, or "custom"
+    const resync = () => {
+      const rate = this.matchRate({ rate: group.get('rate').value, rateType: group.get('rateType').value });
+      group.get('rateId').setValue(rate?.id ?? null, { emitEvent: false });
+    };
+    group.get('rate').valueChanges.subscribe(resync);
+    group.get('rateType').valueChanges.subscribe(resync);
+    return group;
   }
 
   createInvoiceTable(): UntypedFormGroup[] {
@@ -350,6 +422,8 @@ export class InvoiceDetailComponent implements OnInit {
           nature: last.get('nature').value,
           rate: last.get('rate').value,
           rateType: last.get('rateType').value,
+          rateId: last.get('rateId').value,
+          appliedLabel: last.get('appliedLabel').value,
           amountType: last.get('amountType').value,
           period: last.get('period').value ? moment(last.get('period').value, 'YYYY-MM').format('MM/yyyy') : undefined,
         }
@@ -426,11 +500,12 @@ export class InvoiceDetailComponent implements OnInit {
     this.invoiceForm.get('billToEmailAddress').patchValue(client?.emailAddress);
     this.invoiceForm.get('maxDaysToPay').patchValue(client?.maxDaysToPay);
     this.invoiceForm.get('taxRate').patchValue(client?.taxRate);
-    this.invoiceTableForm.controls.forEach((c) => {
+    this.currentRates = getClientRates(client);
+    this.invoiceTableForm.controls.forEach((c, i) => {
       c.get('projectName').patchValue(client?.projectName);
-      c.get('rateType').patchValue(client?.rateType);
-      c.get('rate').patchValue(client?.rate);
-      c.get('nature').patchValue(client?.nature);
+      // each row gets its own rate: first row the default rate, second row the second rate, ...
+      // (the default rate when the client has fewer rates). It can be changed with the select of the row.
+      this.applyRate(c as UntypedFormGroup, this.currentRates[i] ?? this.currentRates[0], client?.nature ?? '');
     });
   }
 }
