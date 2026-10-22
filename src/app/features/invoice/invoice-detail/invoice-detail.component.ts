@@ -299,49 +299,69 @@ export class InvoiceDetailComponent implements OnInit {
     }
   }
 
-  createInvoiceTable(): UntypedFormGroup[] {
-    let convertInvoiceRowToForm = (table) => {
-      const period = table.period
-        ? moment(table.period, 'MM/yyyy').format('YYYY-MM')
-        : moment(new Date()).format('YYYY-MM');
+  private get rowsReadOnly(): boolean {
+    return !this.hasRoleAdmin || this.invoice.locked;
+  }
 
-      return new UntypedFormGroup({
-        nature: new UntypedFormControl({ value: table.nature, disabled: !this.hasRoleAdmin || this.invoice.locked }, [
-          Validators.required,
-        ]),
-        period: new UntypedFormControl({ value: period, disabled: !this.hasRoleAdmin || this.invoice.locked }, [
-          Validators.required,
-        ]),
-        projectName: new UntypedFormControl(
-          { value: table.projectName, disabled: !this.hasRoleAdmin || this.invoice.locked },
-          [Validators.required],
-        ),
-        rate: new UntypedFormControl({ value: table.rate, disabled: !this.hasRoleAdmin || this.invoice.locked }, [
-          Validators.required,
-        ]),
-        rateType: new UntypedFormControl(
-          { value: table.rateType, disabled: !this.hasRoleAdmin || this.invoice.locked },
-          [Validators.required],
-        ),
-        amount: new UntypedFormControl({ value: table.amount, disabled: !this.hasRoleAdmin || this.invoice.locked }, [
-          Validators.required,
-          Validators.min(1),
-        ]),
-        amountType: new UntypedFormControl(
-          { value: table.amountType, disabled: !this.hasRoleAdmin || this.invoice.locked },
-          [Validators.required],
-        ),
-      });
-    };
-    let arr = this.invoice?.invoiceTable?.length
-      ? this.invoice?.invoiceTable
-      : [
-          {
-            rateType: RateType.HOURS,
-            amountType: RateType.DAYS,
-          },
-        ];
-    return arr.map(convertInvoiceRowToForm);
+  private createInvoiceRowForm(table: Partial<InvoiceRow>): UntypedFormGroup {
+    const period = table.period
+      ? moment(table.period, 'MM/yyyy').format('YYYY-MM')
+      : moment(new Date()).format('YYYY-MM');
+    const disabled = this.rowsReadOnly;
+
+    return new UntypedFormGroup({
+      nature: new UntypedFormControl({ value: table.nature, disabled }, [Validators.required]),
+      period: new UntypedFormControl({ value: period, disabled }, [Validators.required]),
+      projectName: new UntypedFormControl({ value: table.projectName, disabled }, [Validators.required]),
+      rate: new UntypedFormControl({ value: table.rate, disabled }, [Validators.required]),
+      rateType: new UntypedFormControl({ value: table.rateType, disabled }, [Validators.required]),
+      amount: new UntypedFormControl({ value: table.amount, disabled }, [Validators.required, Validators.min(1)]),
+      amountType: new UntypedFormControl({ value: table.amountType, disabled }, [Validators.required]),
+    });
+  }
+
+  createInvoiceTable(): UntypedFormGroup[] {
+    const defaultRow = { rateType: RateType.HOURS, amountType: RateType.DAYS } as InvoiceRow;
+    // a new invoice starts with two rows sharing the same template
+    const rows = this.invoice?.invoiceTable?.length
+      ? this.invoice.invoiceTable
+      : [defaultRow, { ...defaultRow } as InvoiceRow];
+    return rows.map((row) => this.createInvoiceRowForm(row));
+  }
+
+  get canEditRows(): boolean {
+    return !this.rowsReadOnly;
+  }
+
+  /**
+   * Adds a row using the previous row as template (nature, project, rate, types, period),
+   * the amount is left empty. The rate of each row can then be adjusted independently.
+   */
+  addRow(): void {
+    if (!this.canEditRows) {
+      return;
+    }
+    const last = this.invoiceTableForm.length
+      ? (this.invoiceTableForm.at(this.invoiceTableForm.length - 1) as UntypedFormGroup)
+      : undefined;
+    const template = last
+      ? {
+          projectName: last.get('projectName').value,
+          nature: last.get('nature').value,
+          rate: last.get('rate').value,
+          rateType: last.get('rateType').value,
+          amountType: last.get('amountType').value,
+          period: last.get('period').value ? moment(last.get('period').value, 'YYYY-MM').format('MM/yyyy') : undefined,
+        }
+      : { rateType: RateType.HOURS, amountType: RateType.DAYS };
+    this.invoiceTableForm.push(this.createInvoiceRowForm(template));
+  }
+
+  removeRow(index: number): void {
+    if (!this.canEditRows || this.invoiceTableForm.length <= 1) {
+      return;
+    }
+    this.invoiceTableForm.removeAt(index);
   }
 
   send() {
