@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
 import { PeriodType, TimesheetPeriod, TimesheetSettings } from '@core/models/timesheet';
+import { ClientRate } from '@core/models/billable-client';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TimesheetService } from '@core/service/timesheet.service';
@@ -34,6 +35,10 @@ export class PeriodFormComponent implements OnInit {
   timesheetClosed: boolean;
   @Input()
   student: boolean;
+
+  /** rates of the client, the first one is the default */
+  @Input()
+  rates: ClientRate[] = [];
 
   form: UntypedFormGroup;
 
@@ -93,7 +98,27 @@ export class PeriodFormComponent implements OnInit {
         [],
       ),
       projectName: new UntypedFormControl({ value: this.period.projectName, disabled: this.timesheetClosed }, []),
+      rateId: new UntypedFormControl({ value: this.initialRateId(), disabled: this.timesheetClosed }, []),
     });
+  }
+
+  /** a row without rate (or with a rate that no longer exists) uses the default rate of the client */
+  private initialRateId(): string | null {
+    const rates = this.rates ?? [];
+    if (this.period.rateId && rates.some((r) => r.id === this.period.rateId)) {
+      return this.period.rateId;
+    }
+    return rates[0]?.id ?? this.period.rateId ?? null;
+  }
+
+  get hasSeveralRates(): boolean {
+    return (this.rates?.length ?? 0) > 1;
+  }
+
+  rateLabel(r: ClientRate, index: number): string {
+    const type = r.rateType?.toString().toLowerCase();
+    const label = r.label ? `${r.label} - ` : '';
+    return `${label}${r.rate}€/${type}${index === 0 ? ' (default)' : ''}`;
   }
 
   get periodTypes() {
@@ -121,6 +146,7 @@ export class PeriodFormComponent implements OnInit {
     this.period.afternoonEndTime = transformHours(this.form.controls.afternoonEndTime.value);
     this.period.periodType = this.form.controls.periodType.value;
     this.period.projectName = this.form.controls.projectName.value;
+    this.period.rateId = this.form.controls.rateId.value ?? undefined;
     this.period.shortDescription = this.form.controls.shortDescription.value;
     this.timesheetService.saveOrUpdatePeriod(this.timesheetId, this.period).subscribe((p) => {
       this.period = p;

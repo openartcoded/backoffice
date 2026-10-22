@@ -93,6 +93,12 @@
           <option *ngFor="let pt of periodTypes" [ngValue]="periodTypeClass[pt]">{{ periodTypeClass[pt] }}</option>
         </select>
       </div>
+      <div class="mb-2" *ngIf="hasSeveralRates">
+        <label for="rateId">Rate</label>
+        <select class="form-select" id="rateId" formControlName="rateId">
+          <option *ngFor="let r of rates; index as i" [ngValue]="r.id">{{ rateLabel(r, i) }}</option>
+        </select>
+      </div>
       <div class="mb-2">
         <label for="projectName">Project Name</label>
         <input type="text" class="form-control" id="projectName" formControlName="projectName" />

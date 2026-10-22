@@ -1,6 +1,13 @@
 import { RateType } from './common';
 import { FileUpload } from './file-upload';
 
+export interface ClientRate {
+  id?: string;
+  label?: string;
+  rate?: number;
+  rateType?: RateType;
+}
+
 export interface BillableClient {
   id?: string;
   maxDaysToPay?: number;
@@ -10,6 +17,8 @@ export interface BillableClient {
   taxRate?: number;
   nature?: string;
   rateType?: RateType;
+  /** one or many rates, the first one is the default */
+  rates?: ClientRate[];
   projectName?: string;
   vatNumber?: string;
   address?: string;

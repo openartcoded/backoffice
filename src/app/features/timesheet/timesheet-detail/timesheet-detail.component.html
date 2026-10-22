@@ -97,6 +97,7 @@
               <th class="fit d-md-table-cell d-none">Afternoon Start</th>
               <th class="fit d-md-table-cell d-none">Afternoon End</th>
               <th class="fit">Duration</th>
+              <th class="fit" *ngIf="clientRates.length > 1">Rate</th>
               <th class="fit"></th>
             </tr>
           </thead>
@@ -127,6 +128,7 @@
                 {{ period.durationInHours }}h
               </td>
               <td *ngIf="period.duration < 0" class="fit bg-danger text-white">ERROR</td>
+              <td class="fit" *ngIf="clientRates.length > 1">{{ isWorkday(period) ? getRateLabel(period) : '' }}</td>
               <td class="fit p-0">
                 <app-period-form
                   [student]="timesheet.student"
@@ -141,7 +143,7 @@
               </td>
             </tr>
             <tr *ngIf="!periods?.length">
-              <td colspan="8">No result</td>
+              <td colspan="9">No result</td>
             </tr>
           </tbody>
         </table>

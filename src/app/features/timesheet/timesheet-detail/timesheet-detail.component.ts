@@ -21,7 +21,7 @@ import { WindowRefService } from '@core/service/window.service';
 import { TimesheetSettingsComponent } from '../timesheet-settings/timesheet-settings.component';
 import { BillableClientService } from '@core/service/billable-client.service';
 import { ToastService } from '@core/service/toast.service';
-import { ContractStatus } from '@core/models/billable-client';
+import { ClientRate, ContractStatus } from '@core/models/billable-client';
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { MailContextType, MailRequest } from '@core/models/mail';
 import { MailService } from '@core/service/mail.service';
@@ -37,6 +37,8 @@ import { PersonalInfoService } from '@core/service/personal.info.service';
 export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   timesheet: Timesheet;
   timesheetSettings: TimesheetSettings;
+  /** rates of the client of the timesheet, the first one is the default */
+  clientRates: ClientRate[] = [];
   id: string;
   demoMode: boolean;
 
@@ -86,6 +88,7 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     ref.componentInstance.student = this.timesheet.student;
     ref.componentInstance.timesheetId = this.timesheet.id;
     ref.componentInstance.settings = this.timesheetSettings;
+    ref.componentInstance.rates = this.clientRates;
     ref.componentInstance.timesheetClosed = this.timesheet.closed;
     ref.dismissed.subscribe((_value) => {
       this.load();
@@ -223,7 +226,28 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     this.timesheetService.findById(this.id).subscribe((ts) => {
       this.timesheet = ts;
       this.timesheetSettings = this.timesheet.settings;
+      this.loadClientRates();
     });
+  }
+
+  private loadClientRates() {
+    this.billableClientService.findAll().subscribe((clients) => {
+      const client = clients.find((c) => c.id === this.timesheet?.clientId);
+      this.clientRates = client?.rates?.length
+        ? client.rates
+        : client?.rate
+          ? [{ rate: client.rate, rateType: client.rateType }]
+          : [];
+    });
+  }
+
+  /** label of the rate chosen for a row, only shown when the client has several rates */
+  getRateLabel(period: TimesheetPeriod): string {
+    const rate = this.clientRates.find((r) => r.id === period.rateId) ?? this.clientRates[0];
+    if (!rate) {
+      return '';
+    }
+    return rate.label || `${rate.rate}€/${rate.rateType?.toString().toLowerCase()}`;
   }
 
   handle(_events: ArtcodedNotification[]) {

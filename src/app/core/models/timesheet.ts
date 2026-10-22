@@ -27,6 +27,8 @@ export interface TimesheetPeriod {
   readonly durationInHours?: string;
   shortDescription?: string;
   projectName?: string;
+  /** id of the client's rate chosen for this row, empty means the default rate of the client */
+  rateId?: string;
   morningStartTime?: Date;
   morningEndTime?: Date;
   afternoonStartTime?: Date;

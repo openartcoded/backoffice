@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { BillableClient, ContractStatus, getAllDays } from '@core/models/billable-client';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { BillableClient, ClientRate, ContractStatus, getAllDays } from '@core/models/billable-client';
 import { RateType } from '@core/models/common';
 import { FileUpload } from '@core/models/file-upload';
 import { MailContextType, MailRequest } from '@core/models/mail';
@@ -14,6 +14,9 @@ import { ImageViewerComponent } from '@shared/image-viewer/image-viewer.componen
 import { MailFormComponent } from '@shared/mail-form/mail-form.component';
 import { PdfViewerComponent } from '@shared/pdf-viewer/pdf-viewer.component';
 import { firstValueFrom } from 'rxjs';
+
+// the backend sends/expects the name of the enum ('DAYS'), which is what the select options use
+const DEFAULT_RATE_TYPE = RateType[RateType.DAYS] as unknown as RateType;
 
 @Component({
   selector: 'app-billable-client-detail',
@@ -101,10 +104,7 @@ export class BillableClientDetailComponent implements OnInit {
         { value: this.client?.defaultWorkingDays, disabled: !this.hasRoleAdmin },
         [Validators.required],
       ),
-      rate: new UntypedFormControl({ value: this.client?.rate, disabled: !this.hasRoleAdmin }, [Validators.required]),
-      rateType: new UntypedFormControl({ value: this.client?.rateType, disabled: !this.hasRoleAdmin }, [
-        Validators.required,
-      ]),
+      rates: new UntypedFormArray(this.initialRates().map((r) => this.createRateForm(r))),
 
       startDate: new UntypedFormControl(
         {
@@ -125,6 +125,57 @@ export class BillableClientDetailComponent implements OnInit {
       ]),
       phoneNumber: new UntypedFormControl({ value: this.client?.phoneNumber, disabled: !this.hasRoleAdmin }, []),
     });
+  }
+
+  /**
+   * The rates of the client. Clients not migrated yet only have the legacy rate/rateType,
+   * it then becomes the first (default) rate.
+   */
+  private initialRates(): ClientRate[] {
+    if (this.client?.rates?.length) {
+      return this.client.rates;
+    }
+    return [{ rate: this.client?.rate, rateType: this.client?.rateType ?? DEFAULT_RATE_TYPE }];
+  }
+
+  private createRateForm(r: ClientRate): UntypedFormGroup {
+    const disabled = !this.hasRoleAdmin;
+    return new UntypedFormGroup({
+      id: new UntypedFormControl({ value: r.id, disabled }),
+      label: new UntypedFormControl({ value: r.label, disabled }, [Validators.maxLength(100)]),
+      rate: new UntypedFormControl({ value: r.rate, disabled }, [Validators.required, Validators.min(0)]),
+      rateType: new UntypedFormControl({ value: r.rateType, disabled }, [Validators.required]),
+    });
+  }
+
+  get ratesForm(): UntypedFormArray {
+    return this.clientForm.get('rates') as UntypedFormArray;
+  }
+
+  addRate(): void {
+    if (!this.hasRoleAdmin) {
+      return;
+    }
+    const last = this.ratesForm.length ? this.ratesForm.at(this.ratesForm.length - 1).value : undefined;
+    // a new rate has no id yet (given by the backend), the rate type of the previous one is kept
+    this.ratesForm.push(this.createRateForm({ rateType: last?.rateType ?? DEFAULT_RATE_TYPE }));
+  }
+
+  removeRate(index: number): void {
+    if (!this.hasRoleAdmin || this.ratesForm.length <= 1) {
+      return;
+    }
+    this.ratesForm.removeAt(index);
+  }
+
+  /** the first rate is the default one */
+  makeDefaultRate(index: number): void {
+    if (!this.hasRoleAdmin || index <= 0 || index >= this.ratesForm.length) {
+      return;
+    }
+    const ctrl = this.ratesForm.at(index);
+    this.ratesForm.removeAt(index);
+    this.ratesForm.insert(0, ctrl);
   }
 
   get startDate(): string {
@@ -156,6 +207,12 @@ export class BillableClientDetailComponent implements OnInit {
     if (!this.hasRoleAdmin) {
       return;
     }
+    const rates: ClientRate[] = this.ratesForm.controls.map((c) => ({
+      id: c.get('id').value || undefined,
+      label: c.get('label').value?.trim() || undefined,
+      rate: c.get('rate').value,
+      rateType: c.get('rateType').value,
+    }));
     this.onSaveClient.emit({
       id: this.client?.id,
       vatNumber: this.clientForm.get('vatNumber').value,
@@ -169,8 +226,10 @@ export class BillableClientDetailComponent implements OnInit {
       emailAddress: this.clientForm.get('emailAddress').value,
       phoneNumber: this.clientForm.get('phoneNumber').value,
       projectName: this.clientForm.get('projectName').value,
-      rate: this.clientForm.get('rate').value,
-      rateType: this.clientForm.get('rateType').value,
+      rates,
+      // legacy fields mirror the default (first) rate
+      rate: rates[0]?.rate,
+      rateType: rates[0]?.rateType,
       contractStatus: this.clientForm.get('contractStatus').value,
       maxDaysToPay: this.clientForm.get('maxDaysToPay').value,
       defaultWorkingDays: this.clientForm.get('defaultWorkingDays').value,
