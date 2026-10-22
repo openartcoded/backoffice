@@ -42,6 +42,21 @@ export class TimesheetService {
     return this.http.post<TimesheetPeriod>(this.basePath + '/save-period?id=' + timesheetId, period);
   }
 
+  /** changes ONLY the rate of a period, allowed even when the timesheet is released */
+  public updatePeriodRate(timesheetId: string, periodId: string, rateId?: string): Observable<TimesheetPeriod> {
+    const id = encodeURIComponent(timesheetId);
+    let url = `${this.basePath}/period-rate?id=${id}&periodId=${encodeURIComponent(periodId)}`;
+    if (rateId) {
+      url += `&rateId=${encodeURIComponent(rateId)}`;
+    }
+    return this.http.post<TimesheetPeriod>(url, {});
+  }
+
+  /** total of the timesheet so far, based on the rate chosen on each row */
+  public estimateTotal(timesheetId: string): Observable<number> {
+    return this.http.get<number>(`${this.basePath}/estimate-total?id=${encodeURIComponent(timesheetId)}`);
+  }
+
   public closeTimesheet(timesheetId: string): Observable<void> {
     return this.http.post<void>(this.basePath + '/close?id=' + timesheetId, {});
   }

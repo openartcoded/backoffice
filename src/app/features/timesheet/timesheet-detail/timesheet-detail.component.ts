@@ -39,6 +39,9 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
   timesheetSettings: TimesheetSettings;
   /** rates of the client of the timesheet, the first one is the default */
   clientRates: ClientRate[] = [];
+  /** total of the timesheet so far, based on the rate of each row. Null when there is nothing to invoice */
+  totalSoFar: number | null = null;
+  savingRate = false;
   id: string;
   demoMode: boolean;
 
@@ -227,7 +230,16 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
       this.timesheet = ts;
       this.timesheetSettings = this.timesheet.settings;
       this.loadClientRates();
+      this.loadTotal();
     });
+  }
+
+  private loadTotal() {
+    if (!this.timesheet?.clientId || this.timesheet.student) {
+      this.totalSoFar = null;
+      return;
+    }
+    this.timesheetService.estimateTotal(this.timesheet.id).subscribe((total) => (this.totalSoFar = total));
   }
 
   private loadClientRates() {
@@ -241,13 +253,41 @@ export class TimesheetDetailComponent implements OnInit, OnApplicationEvent {
     });
   }
 
-  /** label of the rate chosen for a row, only shown when the client has several rates */
-  getRateLabel(period: TimesheetPeriod): string {
+  /** the rate chosen for a row, a row without rate (or with a removed one) uses the default (first) rate */
+  selectedRateId(period: TimesheetPeriod): string | undefined {
     const rate = this.clientRates.find((r) => r.id === period.rateId) ?? this.clientRates[0];
-    if (!rate) {
-      return '';
+    return rate?.id;
+  }
+
+  rateLabel(r: ClientRate, index: number): string {
+    const type = r.rateType?.toString().toLowerCase();
+    const label = r.label ? `${r.label} - ` : '';
+    return `${label}${r.rate}€/${type}${index === 0 ? ' (default)' : ''}`;
+  }
+
+  /** a rate can't be changed anymore once the invoice has been generated from the timesheet */
+  get rateLocked(): boolean {
+    return this.savingRate || !!this.timesheet?.invoiceId;
+  }
+
+  /** changes ONLY the rate of the row, also works when the timesheet is released */
+  changeRate(period: TimesheetPeriod, rateId: string) {
+    if (this.rateLocked || rateId === this.selectedRateId(period)) {
+      return;
     }
-    return rate.label || `${rate.rate}€/${rate.rateType?.toString().toLowerCase()}`;
+    this.savingRate = true;
+    this.timesheetService.updatePeriodRate(this.timesheet.id, period.id, rateId).subscribe({
+      next: (updated) => {
+        period.rateId = updated.rateId;
+        this.savingRate = false;
+        this.loadTotal();
+      },
+      error: () => {
+        this.savingRate = false;
+        this.toastService.showDanger('Could not update the rate');
+        this.load(); // put the select back to what is stored
+      },
+    });
   }
 
   handle(_events: ArtcodedNotification[]) {

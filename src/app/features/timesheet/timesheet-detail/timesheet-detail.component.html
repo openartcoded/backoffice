@@ -61,7 +61,13 @@
     </div>
   </div>
   <div class="d-flex justify-content-end pb-2">
-    <strong>{{ timesheet.numberOfWorkingDays }} working days, {{ timesheet.numberOfHoursWorked }}h</strong>
+    <strong
+      >{{ timesheet.numberOfWorkingDays }} working days, {{ timesheet.numberOfHoursWorked }}h<ng-container
+        *ngIf="totalSoFar !== null && clientRates.length > 0"
+      >
+        ({{ totalSoFar | number: '1.2-2' }}€)</ng-container
+      ></strong
+    >
   </div>
   <div class="row mb-2" [class.blur-modal]="demoMode">
     <div class="col-lg-3 d-md-inline-block col-12 mb-4">
@@ -97,7 +103,7 @@
               <th class="fit d-md-table-cell d-none">Afternoon Start</th>
               <th class="fit d-md-table-cell d-none">Afternoon End</th>
               <th class="fit">Duration</th>
-              <th class="fit" *ngIf="clientRates.length > 1">Rate</th>
+              <th  *ngIf="clientRates.length > 1">Rate</th>
               <th class="fit"></th>
             </tr>
           </thead>
@@ -128,7 +134,23 @@
                 {{ period.durationInHours }}h
               </td>
               <td *ngIf="period.duration < 0" class="fit bg-danger text-white">ERROR</td>
-              <td class="fit" *ngIf="clientRates.length > 1">{{ isWorkday(period) ? getRateLabel(period) : '' }}</td>
+              <td class="py-0 align-middle" *ngIf="clientRates.length > 1" (click)="$event.stopPropagation()">
+                <select
+                  *ngIf="isWorkday(period)"
+                  class="form-select form-select-sm"
+                  [disabled]="rateLocked"
+                  [title]="timesheet.invoiceId ? 'An invoice was generated, the rate cannot be changed' : ''"
+                  (change)="changeRate(period, $any($event.target).value)"
+                >
+                  <option
+                    *ngFor="let r of clientRates; index as i"
+                    [value]="r.id"
+                    [selected]="r.id === selectedRateId(period)"
+                  >
+                    {{ rateLabel(r, i) }}
+                  </option>
+                </select>
+              </td>
               <td class="fit p-0">
                 <app-period-form
                   [student]="timesheet.student"
