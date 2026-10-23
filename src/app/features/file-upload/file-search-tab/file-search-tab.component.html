@@ -1,0 +1,48 @@
+<section class="p-3  " aria-label="Fuzzy file search">
+  <form (ngSubmit)="submit()" class="mb-3">
+    <label for="fuzzyFileQuery" class="form-label">Search inside uploaded files (fuzzy matching)</label>
+    <div class="input-group">
+      <input id="fuzzyFileQuery" name="fuzzyFileQuery" class="form-control" type="search"
+             [(ngModel)]="query" maxlength="4096" placeholder="e.g. invioce" autocomplete="off" />
+      <button class="btn btn-primary" type="submit" [disabled]="loading || !query.trim()">Search</button>
+    </div>
+  </form>
+
+  <div *ngIf="loading" class="alert alert-info" role="status">Searching files…</div>
+  <div *ngIf="error" class="alert alert-danger" role="alert">{{ error }}</div>
+  <div *ngIf="searched && !loading && !error && hits.length === 0" class="alert alert-secondary" role="status">
+    No matches found.
+  </div>
+
+  <div *ngIf="hits.length > 0" class="search-results" aria-live="polite">
+    <article *ngFor="let hit of hits" class="search-result card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-1 text-break">
+          <a *ngIf="hit.upload; else unresolvedTitle" href="#" (click)="$event.preventDefault(); download(hit)"
+             [attr.aria-label]="'Download ' + (hit.upload.originalFilename || hit.fileName)">
+            {{ hit.upload.originalFilename || hit.fileName }}
+          </a>
+          <ng-template #unresolvedTitle><span>{{ hit.fileName }}</span></ng-template>
+        </h5>
+        <div class="text-muted small mb-2">
+          <span *ngIf="hit.sheet">{{ hit.sheet }}</span>
+          <span *ngIf="hit.position"> · {{ hit.position }}</span>
+          <span *ngIf="hit.upload"> · Click title to download</span>
+          <span *ngIf="!hit.upload"> · Download unavailable</span>
+        </div>
+        <p class="card-text search-snippet text-break mb-1">{{ snippet(hit) || 'No preview available' }}</p>
+        <button *ngIf="isLong(hit)" type="button" class="btn btn-link btn-sm p-0"
+                (click)="toggleExpanded(hit)" [attr.aria-expanded]="hit.expanded">
+          {{ hit.expanded ? 'Read less' : 'Read more' }}
+        </button>
+        <p *ngIf="hit.context" class="text-muted small text-break mt-2 mb-0">{{ hit.context }}</p>
+      </div>
+    </article>
+  </div>
+  <nav *ngIf="searched && !error && (page > 0 || hits.length === pageSize)" aria-label="Fuzzy search pages"
+       class="d-flex align-items-center justify-content-between">
+    <button type="button" class="btn btn-outline-secondary" (click)="previous()" [disabled]="page === 0 || loading">Previous</button>
+    <span>Page {{ page + 1 }}</span>
+    <button type="button" class="btn btn-outline-secondary" (click)="next()" [disabled]="hits.length < pageSize || loading">Next</button>
+  </nav>
+</section>

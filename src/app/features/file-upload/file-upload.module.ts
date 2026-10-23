@@ -15,8 +15,9 @@ import {
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileUploadSearchFormComponent } from './file-upload-search-form/file-upload-search-form.component';
 import { FileUploadPageComponent } from './file-upload-page/file-upload-page.component';
+import { FileSearchTabComponent } from './file-search-tab/file-search-tab.component';
 @NgModule({
-  declarations: [FileUploadTableComponent, FileUploadSearchFormComponent, FileUploadPageComponent],
+  declarations: [FileUploadTableComponent, FileUploadSearchFormComponent, FileUploadPageComponent, FileSearchTabComponent],
   imports: [
     CommonModule,
     SharedModule,

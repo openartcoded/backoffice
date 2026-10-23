@@ -24,6 +24,13 @@
       </ng-template>
     </li>
 
+    <li ngbNavItem="fuzzy-search">
+      <a ngbNavLink routerLink="/file-upload/fuzzy-search">Fuzzy search</a>
+      <ng-template ngbNavContent>
+        <app-file-search-tab></app-file-search-tab>
+      </ng-template>
+    </li>
+
     <li ngbNavItem="bookmarks">
       <a ngbNavLink routerLink="/file-upload/bookmarks"
         ><fa-icon [classList]="'text-warning'" [icon]="['fas', 'star']" />Bookmarks</a
