@@ -1,28 +1,64 @@
-
-<section class="p-3  " aria-label="Fuzzy file search">
- <form (ngSubmit)="submit()" class="p-2">
+<section class="p-3" aria-label="Fuzzy file search">
+  <form (ngSubmit)="submit()" class="p-2">
     <div class="input-group">
-      <input id="fuzzyFileQuery" name="fuzzyFileQuery" class="form-control" type="search"
-             [(ngModel)]="query" maxlength="4096" placeholder="e.g. invioce" autocomplete="off" />
+      <input
+        id="fuzzyFileQuery"
+        name="fuzzyFileQuery"
+        class="form-control"
+        type="search"
+        [(ngModel)]="query"
+        maxlength="4096"
+        placeholder="e.g. invioce"
+        autocomplete="off"
+      />
       <button class="btn btn-primary" type="submit" [disabled]="loading || !query.trim()">Search</button>
     </div>
   </form>
-  <section  aria-label="File ingestion statistics">
+  <section aria-label="File ingestion statistics">
     <div class="p-2">
       <div *ngIf="statsError" class="alert alert-warning" role="alert">{{ statsError }}</div>
       <div *ngIf="statsLoading && !stats" role="status">Loading indexing statistics…</div>
       <ng-container *ngIf="stats as info">
         <div class="row row-cols-2 row-cols-md-4 g-2 mb-2">
-          <div class="col"><div class="border rounded p-3 h-100"><div class="text-muted small">Discovered</div><strong class="fs-4">{{ info.discovered }}</strong></div></div>
-          <div class="col"><div class="border rounded p-3 h-100"><div class="text-muted small">Indexed</div><strong class="fs-4 text-success">{{ info.indexed }}</strong></div></div>
-          <div class="col"><div class="border rounded p-3 h-100"><div class="text-muted small">Skipped</div><strong class="fs-4" [class.text-danger]="info.skipped > 0">{{ info.skipped }}</strong></div></div>
-          <div class="col"><div class="border rounded p-3 h-100"><div class="text-muted small">Pending</div><strong class="fs-4">{{ info.pending }}</strong></div></div>
+          <div class="col">
+            <div class="border rounded p-3 h-100">
+              <div class="text-muted small">Discovered</div>
+              <strong class="fs-4">{{ info.discovered }}</strong>
+            </div>
+          </div>
+          <div class="col">
+            <div class="border rounded p-3 h-100">
+              <div class="text-muted small">Indexed</div>
+              <strong class="fs-4 text-success">{{ info.indexed }}</strong>
+            </div>
+          </div>
+          <div class="col">
+            <div class="border rounded p-3 h-100">
+              <div class="text-muted small">Skipped</div>
+              <strong class="fs-4" [class.text-danger]="info.skipped > 0">{{ info.skipped }}</strong>
+            </div>
+          </div>
+          <div class="col">
+            <div class="border rounded p-3 h-100">
+              <div class="text-muted small">Pending</div>
+              <strong class="fs-4">{{ info.pending }}</strong>
+            </div>
+          </div>
         </div>
-        <button *ngIf="info.skipped > 0" type="button" class="btn btn-link btn-sm px-0"
-                (click)="showSkipped = !showSkipped" [attr.aria-expanded]="showSkipped">
+        <button
+          *ngIf="info.skipped > 0"
+          type="button"
+          class="btn btn-link btn-sm px-0"
+          (click)="showSkipped = !showSkipped"
+          [attr.aria-expanded]="showSkipped"
+        >
           {{ showSkipped ? 'Hide skipped files' : 'Show skipped files (' + info.skipped + ')' }}
         </button>
-        <div *ngIf="showSkipped && info.skipped > 0" class="mt-2 bg-light p-2 border-1" style="max-height: 18rem; overflow-y: auto">
+        <div
+          *ngIf="showSkipped && info.skipped > 0"
+          class="mt-2 bg-light p-2 border-1"
+          style="max-height: 18rem; overflow-y: auto"
+        >
           <ul class="list-group list-group-flush">
             <li *ngFor="let file of skippedFiles" class="list-group-item px-0">
               <div class="text-break fw-medium">{{ file.name }}</div>
@@ -34,8 +70,6 @@
     </div>
   </section>
 
- 
-
   <div *ngIf="error" class="alert alert-danger" role="alert">{{ error }}</div>
   <div *ngIf="searched && !loading && !error && hits.length === 0" class="alert alert-secondary" role="status">
     No matches found.
@@ -45,11 +79,17 @@
     <article *ngFor="let hit of hits; trackBy: trackHit" class="search-result card mb-3 shadow-sm">
       <div class="card-body">
         <h5 class="card-title mb-1 text-break">
-          <a *ngIf="hit.upload; else unresolvedTitle" href="#" (click)="$event.preventDefault(); download(hit)"
-             [attr.aria-label]="'Download ' + (hit.upload.originalFilename || hit.fileName)">
+          <a
+            *ngIf="hit.upload; else unresolvedTitle"
+            href="#"
+            (click)="$event.preventDefault(); download(hit)"
+            [attr.aria-label]="'Download ' + (hit.upload.originalFilename || hit.fileName)"
+          >
             {{ hit.upload.originalFilename || hit.fileName }}
           </a>
-          <ng-template #unresolvedTitle><span>{{ hit.fileName }}</span></ng-template>
+          <ng-template #unresolvedTitle
+            ><span>{{ hit.fileName }}</span></ng-template
+          >
         </h5>
         <div class="text-muted small mb-2">
           <span *ngIf="hit.sheet">{{ hit.sheet }}</span>
@@ -58,17 +98,39 @@
           <span *ngIf="!hit.upload"> · Download unavailable</span>
         </div>
         <p class="card-text search-snippet text-break mb-1">{{ snippet(hit) || 'No preview available' }}</p>
-        <button *ngIf="isLong(hit)" type="button" class="btn btn-link btn-sm p-0"
-                (click)="toggleExpanded(hit)" [attr.aria-expanded]="hit.expanded">
+        <button
+          *ngIf="isLong(hit)"
+          type="button"
+          class="btn btn-link btn-sm p-0"
+          (click)="toggleExpanded(hit)"
+          [attr.aria-expanded]="hit.expanded"
+        >
           {{ hit.expanded ? 'Read less' : 'Read more' }}
         </button>
         <p *ngIf="hit.context" class="text-muted small text-break mt-2 mb-0">{{ hit.context }}</p>
       </div>
     </article>
   </div>
-  <nav *ngIf="searched && !error && (page > 0 || hits.length === pageSize)" aria-label="Fuzzy search pages"
-       class="d-flex align-items-center justify-content-center">
-    <button type="button" class="btn btn-outline-secondary me-1" (click)="previous()" [disabled]="page === 0 || loading">Previous</button>
-    <button type="button" class="btn btn-outline-secondary" (click)="next()" [disabled]="hits.length < pageSize || loading">Next</button>
+  <nav
+    *ngIf="searched && !error && (page > 0 || hits.length === pageSize)"
+    aria-label="Fuzzy search pages"
+    class="d-flex align-items-center justify-content-center"
+  >
+    <button
+      type="button"
+      class="btn btn-outline-secondary me-1"
+      (click)="previous()"
+      [disabled]="page === 0 || loading"
+    >
+      Previous
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="next()"
+      [disabled]="hits.length < pageSize || loading"
+    >
+      Next
+    </button>
   </nav>
 </section>

@@ -17,7 +17,12 @@ import { FileUploadSearchFormComponent } from './file-upload-search-form/file-up
 import { FileUploadPageComponent } from './file-upload-page/file-upload-page.component';
 import { FileSearchTabComponent } from './file-search-tab/file-search-tab.component';
 @NgModule({
-  declarations: [FileUploadTableComponent, FileUploadSearchFormComponent, FileUploadPageComponent, FileSearchTabComponent],
+  declarations: [
+    FileUploadTableComponent,
+    FileUploadSearchFormComponent,
+    FileUploadPageComponent,
+    FileSearchTabComponent,
+  ],
   imports: [
     CommonModule,
     SharedModule,

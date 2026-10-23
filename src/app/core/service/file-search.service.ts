@@ -31,7 +31,10 @@ export interface FileSearchStats {
 export class FileSearchService {
   private readonly url: string;
 
-  constructor(private http: HttpClient, config: ConfigInitService) {
+  constructor(
+    private http: HttpClient,
+    config: ConfigInitService,
+  ) {
     this.url = `${config.getConfig()['BACKEND_URL']}/api/file-search`;
   }
 
