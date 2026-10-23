@@ -1,8 +1,8 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { catchError, finalize, forkJoin, map, of, Subscription, switchMap } from 'rxjs';
 import { FileService } from '@core/service/file.service';
 import { FileUpload } from '@core/models/file-upload';
-import { FileSearchHit, FileSearchService } from '@core/service/file-search.service';
+import { FileSearchHit, FileSearchService, FileSearchStats } from '@core/service/file-search.service';
 
 interface DisplayHit {
   fileName: string;
@@ -19,19 +19,51 @@ interface DisplayHit {
   standalone: false,
   templateUrl: './file-search-tab.component.html',
 })
-export class FileSearchTabComponent implements OnDestroy {
+export class FileSearchTabComponent implements OnInit, OnDestroy {
   query = '';
   submittedQuery = '';
   page = 0; // Rust search endpoint uses zero-based offsets.
-  readonly pageSize = 3;
+  readonly pageSize = 2;
   readonly snippetLength = 250;
   hits: DisplayHit[] = [];
   loading = false;
   searched = false;
   error = '';
+  stats: FileSearchStats | null = null;
+  statsLoading = false;
+  statsError = '';
+  showSkipped = false;
+  private statsRequest?: Subscription;
   private request?: Subscription;
 
   constructor(private searchService: FileSearchService, private fileService: FileService) {}
+
+  ngOnInit(): void {
+    this.refreshStats();
+  }
+
+  get skippedFiles(): { name: string; reason: string }[] {
+    if (!this.stats) return [];
+    return Object.entries(this.stats.files ?? {})
+      .filter(([, entry]) => entry.status === 'skipped')
+      .map(([name, entry]) => ({ name, reason: entry.reason || 'No reason provided' }));
+  }
+
+  refreshStats(): void {
+    this.statsRequest?.unsubscribe();
+    this.statsLoading = true;
+    this.statsError = '';
+    this.statsRequest = this.searchService.stats().pipe(
+      finalize(() => (this.statsLoading = false)),
+    ).subscribe({
+      next: (stats) => {
+        this.stats = stats;
+      },
+      error: () => {
+        this.statsError = 'Unable to load ingestion statistics.';
+      },
+    });
+  }
 
   // The index currently stores filenames, not upload IDs. Resolve only exact UUID
   // filenames through the authenticated upload API; never assume a filename is an ID.
@@ -97,7 +129,7 @@ export class FileSearchTabComponent implements OnDestroy {
       this.request?.unsubscribe();
       this.loading = false;
       this.searched = false;
-      this.hits = [];
+      this.hits= [];
       this.error = '';
       return;
     }
@@ -108,7 +140,7 @@ export class FileSearchTabComponent implements OnDestroy {
     this.request?.unsubscribe();
     this.loading = true;
     this.error = '';
-    this.hits = [];
+    // Keep the current cards mounted while the next page is loading.
     this.searched = true;
     this.request = this.searchService.search(this.submittedQuery, this.page, this.pageSize)
       .pipe(
@@ -130,6 +162,7 @@ export class FileSearchTabComponent implements OnDestroy {
       .subscribe({
         next: (hits) => (this.hits = hits),
         error: (err) => {
+          this.hits = [];
           this.error = err.status === 502 || err.status === 503
             ? 'File search is currently unavailable.'
             : err.message === 'Unexpected response from file-search.'
@@ -153,5 +186,6 @@ export class FileSearchTabComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.request?.unsubscribe();
+    this.statsRequest?.unsubscribe();
   }
 }
