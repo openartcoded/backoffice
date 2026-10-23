@@ -93,6 +93,10 @@ export class FileSearchTabComponent implements OnInit, OnDestroy {
     if (hit.upload) this.fileService.download(hit.upload);
   }
 
+  trackHit(_index: number, hit: DisplayHit): string {
+    return `${hit.fileName}|${hit.sheet}|${hit.position}|${hit.content}`;
+  }
+
   toggleExpanded(hit: DisplayHit): void {
     hit.expanded = !hit.expanded;
   }
@@ -129,7 +133,7 @@ export class FileSearchTabComponent implements OnInit, OnDestroy {
       this.request?.unsubscribe();
       this.loading = false;
       this.searched = false;
-      this.hits= [];
+      this.hits = [];
       this.error = '';
       return;
     }
@@ -140,7 +144,7 @@ export class FileSearchTabComponent implements OnInit, OnDestroy {
     this.request?.unsubscribe();
     this.loading = true;
     this.error = '';
-    // Keep the current cards mounted while the next page is loading.
+    // Keep the previous page visible until the new results have arrived.
     this.searched = true;
     this.request = this.searchService.search(this.submittedQuery, this.page, this.pageSize)
       .pipe(

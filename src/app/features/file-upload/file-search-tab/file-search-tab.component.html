@@ -36,14 +36,13 @@
 
  
 
-  <div *ngIf="loading" class="text-muted small px-2" role="status" aria-live="polite">Searching files…</div>
   <div *ngIf="error" class="alert alert-danger" role="alert">{{ error }}</div>
   <div *ngIf="searched && !loading && !error && hits.length === 0" class="alert alert-secondary" role="status">
     No matches found.
   </div>
 
-  <div *ngIf="hits.length > 0" class="search-results p-2" aria-live="polite">
-    <article *ngFor="let hit of hits" class="search-result card mb-3 shadow-sm">
+  <div *ngIf="hits.length > 0" class="search-results p-2">
+    <article *ngFor="let hit of hits; trackBy: trackHit" class="search-result card mb-3 shadow-sm">
       <div class="card-body">
         <h5 class="card-title mb-1 text-break">
           <a *ngIf="hit.upload; else unresolvedTitle" href="#" (click)="$event.preventDefault(); download(hit)"
